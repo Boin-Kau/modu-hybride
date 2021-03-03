@@ -3,10 +3,13 @@ import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
 import { createBrowserHistory } from 'history';
 
 import AppLayout from './containers/layout';
+import BottomNav from './containers/bottomNav';
 
 function App() {
 
   const history = createBrowserHistory();
+
+  console.log(history)
 
 
   return (
@@ -16,6 +19,8 @@ function App() {
         <Switch>
           <Route path="/" component={AppLayout} />
         </Switch>
+
+        <BottomNav></BottomNav>
       </Router>
     </RootWrap>
   );

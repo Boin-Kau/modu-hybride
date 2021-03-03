@@ -9,16 +9,60 @@ import icon_party_def from "../assets/icon_party_def.svg";
 import icon_my_page_def from "../assets/icon_my_page_def.svg";
 
 
-const BottomNav = ({ path }) => {
+const BottomNav = () => {
 
-    console.log(path);
+    const pathname = window.location.pathname;
+
+    const [iconMain, setIconMain] = useState(false);
+    const [iconParty, setIconParty] = useState(false);
+    const [iconInfo, setIconInfo] = useState(false);
+
+
+    useEffect(() => {
+        switch (pathname) {
+            case '/main':
+                setIconMain(true);
+                break;
+            case '/party':
+                setIconParty(true);
+                break;
+            case '/info':
+                setIconInfo(true);
+                break;
+            default:
+                break;
+        }
+    })
+
+
+    const onClickLink = useCallback((path) => {
+
+        setIconMain(false);
+        setIconParty(false);
+        setIconInfo(false);
+
+        switch (path) {
+            case '/main':
+                setIconMain(true);
+                break;
+            case '/party':
+                setIconParty(true);
+                break;
+            case '/info':
+                setIconInfo(true);
+                break;
+            default:
+                break;
+        }
+
+    }, [iconMain, iconParty, iconInfo]);
 
     return (
         <>
             <BottomNavWrap>
                 <BottomNavItem>
-                    <Link to="/main">
-                        {path.pathname == '/main' ?
+                    <Link to="/main" onClick={() => onClickLink("/main")}>
+                        {iconMain ?
                             <BottomNavIcon src={icon_main_fill} /> :
                             <BottomNavIcon src={icon_main_def} />
                         }
@@ -26,18 +70,19 @@ const BottomNav = ({ path }) => {
                 </BottomNavItem>
                 <BottomNavTemp></BottomNavTemp>
                 <BottomNavItem>
-                    <Link to="/party">
-                        {path.pathname == '/party' ?
+                    <Link to="/party" onClick={() => onClickLink("/patry")}>
+                        {iconParty ?
                             <BottomNavIcon src={icon_party_fill} /> :
                             <BottomNavIcon src={icon_party_def} />
-                        }
-                    </Link>
+                        }                    </Link>
                 </BottomNavItem>
                 <BottomNavTemp></BottomNavTemp>
                 <BottomNavItem>
-                    <Link to="/info">
-                        <BottomNavIcon src={icon_my_page_def} />
-                    </Link>
+                    <Link to="/info" onClick={() => onClickLink("/info")}>
+                        {iconInfo ?
+                            <BottomNavIcon src={icon_my_page_def} /> :
+                            <BottomNavIcon src={icon_my_page_def} />
+                        }                    </Link>
                 </BottomNavItem>
 
             </BottomNavWrap>
