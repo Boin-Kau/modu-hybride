@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { PageTransProvider } from './contexts/pageTransContext';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <PageTransProvider>
     <App />
-  </React.StrictMode>,
+  </PageTransProvider>
+  ,
   document.getElementById('root')
 );
 

@@ -5,7 +5,7 @@ const Info = () => {
 
     return (
         <>
-            <div>MyInfo</div>
+            <div className="page" style={{ backgroundColor: "green" }}>MyInfo</div>
 
         </>
     )

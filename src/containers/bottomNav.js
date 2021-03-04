@@ -1,6 +1,8 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useContext, useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { PageTransContext } from '../contexts/pageTransContext';
+
 
 import icon_main_fill from "../assets/icon_main_fill.svg";
 import icon_main_def from "../assets/icon_main_def.svg";
@@ -8,14 +10,53 @@ import icon_party_fill from "../assets/icon_party_fill.svg";
 import icon_party_def from "../assets/icon_party_def.svg";
 import icon_my_page_def from "../assets/icon_my_page_def.svg";
 
+const getGnb = () => {
+    return [
+        {
+            to: '/main',
+            name: 'main'
+        },
+        {
+            to: '/party',
+            name: 'party'
+        },
+        {
+            to: '/info',
+            name: 'info'
+        }
+    ]
+}
 
+const getTransDirection = (gnb, gnbIndex) => {
+    let pageDirection = 'trans toRight'
+    const matched = gnb.find(menu => menu.to === window.location.pathname)
+    let matchedIndex = gnb.indexOf(matched)
+
+    if (matchedIndex === -1) {
+        matchedIndex = 1
+    }
+
+    if (gnbIndex !== matchedIndex) {
+        if (gnbIndex >= matchedIndex) {
+            pageDirection = 'trans toRight'
+        } else {
+            pageDirection = 'trans toLeft'
+        }
+    }
+
+    return pageDirection
+}
 const BottomNav = () => {
+
+    const { setPageTrans } = useContext(PageTransContext)
 
     const pathname = window.location.pathname;
 
     const [iconMain, setIconMain] = useState(false);
     const [iconParty, setIconParty] = useState(false);
     const [iconInfo, setIconInfo] = useState(false);
+
+    const gnb = getGnb();
 
 
     useEffect(() => {
@@ -34,14 +75,15 @@ const BottomNav = () => {
         }
     })
 
-
-    const onClickLink = useCallback((path) => {
+    const handleOnClick = (index) => {
+        const direction = getTransDirection(gnb, index)
+        setPageTrans(direction)
 
         setIconMain(false);
         setIconParty(false);
         setIconInfo(false);
 
-        switch (path) {
+        switch (gnb[index].to) {
             case '/main':
                 setIconMain(true);
                 break;
@@ -54,14 +96,16 @@ const BottomNav = () => {
             default:
                 break;
         }
-
-    }, [iconMain, iconParty, iconInfo]);
+    }
 
     return (
         <>
             <BottomNavWrap>
                 <BottomNavItem>
-                    <Link to="/main" onClick={() => onClickLink("/main")}>
+                    <Link
+                        key={`gnb-1`}
+                        to="/main"
+                        onClick={() => handleOnClick(0)}>
                         {iconMain ?
                             <BottomNavIcon src={icon_main_fill} /> :
                             <BottomNavIcon src={icon_main_def} />
@@ -70,7 +114,10 @@ const BottomNav = () => {
                 </BottomNavItem>
                 <BottomNavTemp></BottomNavTemp>
                 <BottomNavItem>
-                    <Link to="/party" onClick={() => onClickLink("/patry")}>
+                    <Link
+                        key={`gnb-2`}
+                        to="/party"
+                        onClick={() => handleOnClick(1)}>
                         {iconParty ?
                             <BottomNavIcon src={icon_party_fill} /> :
                             <BottomNavIcon src={icon_party_def} />
@@ -78,7 +125,10 @@ const BottomNav = () => {
                 </BottomNavItem>
                 <BottomNavTemp></BottomNavTemp>
                 <BottomNavItem>
-                    <Link to="/info" onClick={() => onClickLink("/info")}>
+                    <Link
+                        key={`gnb-3`}
+                        to="/info"
+                        onClick={() => handleOnClick(2)}>
                         {iconInfo ?
                             <BottomNavIcon src={icon_my_page_def} /> :
                             <BottomNavIcon src={icon_my_page_def} />

@@ -6,7 +6,7 @@ const Party = () => {
 
     return (
         <>
-            <div>Pary</div>
+            <div className="page" style={{ backgroundColor: "blue" }}>Pary</div>
 
         </>
     )
