@@ -121,7 +121,8 @@ const BottomNav = () => {
                         {iconParty ?
                             <BottomNavIcon src={icon_party_fill} /> :
                             <BottomNavIcon src={icon_party_def} />
-                        }                    </Link>
+                        }
+                    </Link>
                 </BottomNavItem>
                 <BottomNavTemp></BottomNavTemp>
                 <BottomNavItem>
@@ -132,7 +133,8 @@ const BottomNav = () => {
                         {iconInfo ?
                             <BottomNavIcon src={icon_my_page_def} /> :
                             <BottomNavIcon src={icon_my_page_def} />
-                        }                    </Link>
+                        }
+                    </Link>
                 </BottomNavItem>
 
             </BottomNavWrap>
@@ -162,6 +164,9 @@ const BottomNavWrap = styled.div`
 
 const BottomNavItem = styled.div`
     position: relative;
+
+    width:3.125rem;
+    text-align:center;
 `;
 
 const BottomNavIcon = styled.img`
