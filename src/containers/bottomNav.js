@@ -145,7 +145,7 @@ const BottomNav = () => {
 
 const BottomNavWrap = styled.div`
 
-    z-index:10;
+    z-index:50;
 
     position:fixed;
 

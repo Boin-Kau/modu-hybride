@@ -9,12 +9,15 @@ import styled from "styled-components";
 
 import backgroundImg from '../../assets/group-2.svg'
 import BottomCard from './bottomCard';
+import TopCard from './topCard';
+import ConsumCard from './consumCard';
+
 
 const CardStyle = {
-    zIndex: 50,
     height: '100vh',
     backgroundColor: '#f7f7f7',
-    borderRadius: "0.4375rem"
+    borderRadius: "0.4375rem",
+    boxShadow: "0 0 0.25rem 0.0625rem #eeb102"
 }
 
 const BottomChildOpenStyle = {
@@ -126,11 +129,13 @@ const Main = () => {
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundImage: `url(${backgroundImg})` }}>
 
                 <div>
-                    <div style={{ height: "60vh", border: "1px solid red" }}>
-                        <div ref={titleDivbRef} style={{ height: "128px", border: "1px solid red" }}>이것은 내용물 여기까지만 슬라이드가 올라와야함 !!</div>
+                    <div ref={titleDivbRef}>
+                        <TopCard />
                     </div>
+
+                    <ConsumCard></ConsumCard>
                 </div>
-                <div style={{ flexGrow: "1", flexBasis: "0" }}>
+                <div style={{ flexGrow: "1", flexBasis: "0", zIndex: "20" }}>
                     <animated.div ref={bottomDivbRef} {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
                         <TitleWrap>
                             <div>구독내역</div>
@@ -174,9 +179,7 @@ const TitleWrap = styled.div`
 `;
 
 const BottomChildWrap = styled.div`
-
-
-    height: 26rem;
+    height: 500px;
     border: 1px solid black;
     overflow-y: scroll;
 `;
