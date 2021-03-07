@@ -9,6 +9,8 @@ import icon_main_def from "../assets/icon_main_def.svg";
 import icon_party_fill from "../assets/icon_party_fill.svg";
 import icon_party_def from "../assets/icon_party_def.svg";
 import icon_my_page_def from "../assets/icon_my_page_def.svg";
+import icon_my_page_fill from "../assets/icon_my_page_fill.svg";
+
 
 const getGnb = () => {
     return [
@@ -131,7 +133,7 @@ const BottomNav = () => {
                         to="/info"
                         onClick={() => handleOnClick(2)}>
                         {iconInfo ?
-                            <BottomNavIcon src={icon_my_page_def} /> :
+                            <BottomNavIcon src={icon_my_page_fill} /> :
                             <BottomNavIcon src={icon_my_page_def} />
                         }
                     </Link>
