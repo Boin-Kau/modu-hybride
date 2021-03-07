@@ -105,7 +105,7 @@ const BottomCard = () => {
     ];
 
     useEffect(() => {
-        console.log("hihi");
+
     }, [])
 
 

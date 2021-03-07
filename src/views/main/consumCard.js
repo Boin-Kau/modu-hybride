@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from "styled-components";
+import Fade from 'react-reveal/Fade';
 
 import icon_arrow from "../../assets/icon-arrow.svg";
 
@@ -8,36 +9,36 @@ import icon_chain_front_right from "../../assets/group-6.svg";
 import icon_chain_back_left from "../../assets/stroke-1-copy-6.svg";
 import icon_chain_back_right from "../../assets/stroke-1-copy-5.svg";
 
-const ConsumCard = () => {
+const ConsumCard = ({ stateManager }) => {
 
-    const test = () => {
-        console.log("hihi");
-    }
+    const { analysisPageOpen } = stateManager;
 
     return (
-        <ConsumCardWrap>
-            <TitleWrap>
-                <div>소비분석</div>
-                <div style={{ flexGrow: "1" }}></div>
-                <div onClick={test}>
-                    전체보기
+        <>
+            <ConsumCardWrap>
+                <TitleWrap>
+                    <div>소비분석</div>
+                    <div style={{ flexGrow: "1" }}></div>
+                    <div onClick={analysisPageOpen}>
+                        전체보기
                 <img src={icon_arrow} style={{ marginLeft: "0.3125rem" }} />
-                </div>
-            </TitleWrap>
+                    </div>
+                </TitleWrap>
 
-            <ContentWrap>
-                <ConsumListWrap>
-                    <TextMiddle style={{ textAlign: "center", color: "rgba(49, 49, 49,0.25)" }}>등록된 구독내역이 없습니다</TextMiddle>
-                </ConsumListWrap>
-                <img src={icon_chain_front_left} style={{ position: "absolute", top: "3.5rem", left: "1.25rem", zIndex: "15" }} />
-                <img src={icon_chain_back_left} style={{ position: "absolute", top: "3.5rem", left: "1.5625rem", zIndex: "5" }} />
-                <img src={icon_chain_back_right} style={{ position: "absolute", top: "3.5rem", right: "1.5625rem", zIndex: "5" }} />
-                <img src={icon_chain_front_right} style={{ position: "absolute", top: "3.5rem", right: "1.25rem", zIndex: "15" }} />
-                <ConsumCompareWrap>
-                </ConsumCompareWrap>
-            </ContentWrap>
+                <ContentWrap>
+                    <ConsumListWrap>
+                        <TextMiddle style={{ textAlign: "center", color: "rgba(49, 49, 49,0.25)" }}>등록된 구독내역이 없습니다</TextMiddle>
+                    </ConsumListWrap>
+                    <img src={icon_chain_front_left} style={{ position: "absolute", top: "3.5rem", left: "1.25rem", zIndex: "15" }} />
+                    <img src={icon_chain_back_left} style={{ position: "absolute", top: "3.5rem", left: "1.5625rem", zIndex: "5" }} />
+                    <img src={icon_chain_back_right} style={{ position: "absolute", top: "3.5rem", right: "1.5625rem", zIndex: "5" }} />
+                    <img src={icon_chain_front_right} style={{ position: "absolute", top: "3.5rem", right: "1.25rem", zIndex: "15" }} />
+                    <ConsumCompareWrap>
+                    </ConsumCompareWrap>
+                </ContentWrap>
 
-        </ConsumCardWrap>
+            </ConsumCardWrap>
+        </>
     )
 };
 

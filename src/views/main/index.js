@@ -5,6 +5,7 @@ import { useSpring, animated } from 'react-spring'
 import { useGesture } from 'react-with-gesture'
 
 import styled from "styled-components";
+import Fade from 'react-reveal/Fade';
 
 
 import backgroundImg from '../../assets/group-2.svg'
@@ -12,6 +13,7 @@ import BottomCard from './bottomCard';
 import TopCard from './topCard';
 import ConsumCard from './consumCard';
 
+import AnalysisPage from './analysisPage';
 
 const CardStyle = {
     height: '100vh',
@@ -28,6 +30,9 @@ const BottomChildCloseStyle = {
 }
 
 const Main = () => {
+
+    const [openAnalyWrapStatus, setOpenAnalyWrapStatus] = useState(false);
+    const [openAnalyStatus, setOpenAnalyStatus] = useState(false);
 
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
@@ -123,6 +128,21 @@ const Main = () => {
 
     })
 
+
+
+    //소비분석 페이지
+    const analysisPageOpen = () => {
+        setOpenAnalyWrapStatus(true);
+        setOpenAnalyStatus(true);
+    }
+    const analysisPageClose = () => {
+        setOpenAnalyStatus(false);
+
+        setTimeout(() => {
+            setOpenAnalyWrapStatus(false);
+        }, 300)
+    }
+
     return (
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundImage: `url(${backgroundImg})` }}>
@@ -132,7 +152,7 @@ const Main = () => {
                         <TopCard />
                     </div>
 
-                    <ConsumCard></ConsumCard>
+                    <ConsumCard stateManager={{ analysisPageOpen }}></ConsumCard>
                 </div>
                 <div style={{ flexGrow: "1", flexBasis: "0", zIndex: "20" }}>
                     <animated.div ref={bottomDivbRef} {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
@@ -149,6 +169,14 @@ const Main = () => {
                 </div>
 
             </div>
+            <div style={openAnalyWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openAnalyStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                        <AnalysisPage stateManager={{ analysisPageClose }}></AnalysisPage>
+                    </div>
+                </Fade>
+            </div>
+
 
         </>
     )
