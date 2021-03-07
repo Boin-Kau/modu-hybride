@@ -29,12 +29,12 @@ const TopCard = () => {
 };
 
 const TopCardWrap = styled.div`
-    border:1px solid red;
-    padding: 0.875rem 0.875rem 1.5rem 1.25rem;
+    /* border:1px solid red; */
+    padding: 2.375rem 0.875rem 1.5rem 1.25rem;
 `;
 
 const TitleWrap = styled.div`
-    border:1px solid red;
+    /* border:1px solid red; */
 
     display: flex;
     position: relative;
@@ -43,7 +43,7 @@ const TitleWrap = styled.div`
 `;
 
 const PriceWrap = styled.div`
-    border:1px solid red;
+    /* border:1px solid red; */
     position: relative;
 
     height: 2.8125rem;

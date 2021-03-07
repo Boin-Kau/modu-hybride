@@ -114,7 +114,6 @@ const Main = () => {
 
 
             if (!down) {
-                console.log("hihi")
                 isBottomViewOpen = true;
                 isScrollParent = false;
                 setIsScrollChild(true);
@@ -142,26 +141,9 @@ const Main = () => {
                             <div style={{ position: "absolute", top: "50%", right: "20px", transform: "translate(0, -50%)" }}>+</div>
                         </TitleWrap>
 
-
-
                         <BottomChildWrap ref={bottomChildDivbRef} style={isScrollChild ? BottomChildOpenStyle : BottomChildCloseStyle}>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-                            <h1>컴포넌트</h1>
-
+                            <BottomCard />
+                            <div style={{ height: "1.25rem" }}></div>
                         </BottomChildWrap>
                     </animated.div>
                 </div>
@@ -175,12 +157,12 @@ const Main = () => {
 
 const TitleWrap = styled.div`
     position:relative;
-    padding:10px 20px 10px 20px;
+    padding:0.9375rem 1.25rem 0.5rem 1.25rem;
 `;
 
 const BottomChildWrap = styled.div`
-    height: 500px;
-    border: 1px solid black;
+    height: 26.25rem;
+    /* border: 1px solid black; */
     overflow-y: scroll;
 `;
 
