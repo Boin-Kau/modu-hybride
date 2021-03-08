@@ -66,42 +66,7 @@ const BottomCard = () => {
             title: "멜론",
             category: "음악",
             price: "8,690원"
-        },
-        // {
-        //     id: 4,
-        //     logoImg: "https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg",
-        //     title: "멜론",
-        //     category: "음악",
-        //     price: "8,690원"
-        // },
-        // {
-        //     id: 5,
-        //     logoImg: "https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg",
-        //     title: "멜론",
-        //     category: "음악",
-        //     price: "8,690원"
-        // },
-        // {
-        //     id: 6,
-        //     logoImg: "https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg",
-        //     title: "멜론",
-        //     category: "음악",
-        //     price: "8,690원"
-        // },
-        // {
-        //     id: 7,
-        //     logoImg: "https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg",
-        //     title: "멜론",
-        //     category: "음악",
-        //     price: "8,690원"
-        // },
-        // {
-        //     id: 8,
-        //     logoImg: "https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg",
-        //     title: "멜론",
-        //     category: "음악",
-        //     price: "8,690원"
-        // }
+        }
     ];
 
     useEffect(() => {
