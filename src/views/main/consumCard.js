@@ -63,11 +63,15 @@ const ConsumCard = ({ stateManager }) => {
         <>
             <ConsumCardWrap>
                 <TitleWrap>
-                    <div>소비분석</div>
+                    <div style={{ position: "relative", width: "6.25rem", fontSize: "0.875rem" }}>
+                        <TextMiddle>소비분석</TextMiddle>
+                    </div>
                     <div style={{ flexGrow: "1" }}></div>
-                    <div onClick={analysisPageOpen}>
-                        전체보기
-                <img src={icon_arrow} style={{ marginLeft: "0.3125rem" }} />
+                    <div onClick={analysisPageOpen} style={{ position: "relative", width: "6.25rem", fontSize: "0.6875rem", opacity: "0.4" }}>
+                        <TextMiddle style={{ textAlign: "right" }}>
+                            전체보기
+                        <img src={icon_arrow} style={{ marginLeft: "0.3125rem" }} />
+                        </TextMiddle>
                     </div>
                 </TitleWrap>
 
@@ -83,7 +87,7 @@ const ConsumCard = ({ stateManager }) => {
                                     }
                                 </div>
                                 :
-                                <TextMiddle style={{ textAlign: "center", color: "rgba(49, 49, 49,0.25)" }}>등록된 구독내역이 없습니다</TextMiddle>
+                                <TextMiddle style={{ textAlign: "center", opacity: "0.25" }}>등록된 구독내역이 없습니다</TextMiddle>
                         }
                     </ConsumListWrap>
                     <img src={icon_chain_front_left} style={{ position: "absolute", bottom: "3.4rem", left: "1.25rem", zIndex: "15" }} />
