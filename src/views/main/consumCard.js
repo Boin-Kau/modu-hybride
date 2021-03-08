@@ -9,6 +9,9 @@ import icon_chain_front_right from "../../assets/group-6.svg";
 import icon_chain_back_left from "../../assets/stroke-1-copy-6.svg";
 import icon_chain_back_right from "../../assets/stroke-1-copy-5.svg";
 
+import icon_triangle_up from "../../assets/triangle.svg";
+
+
 const ConsumCard = ({ stateManager }) => {
 
     const { analysisPageOpen } = stateManager;
@@ -34,6 +37,26 @@ const ConsumCard = ({ stateManager }) => {
                     <img src={icon_chain_back_right} style={{ position: "absolute", top: "3.5rem", right: "1.5625rem", zIndex: "5" }} />
                     <img src={icon_chain_front_right} style={{ position: "absolute", top: "3.5rem", right: "1.25rem", zIndex: "15" }} />
                     <ConsumCompareWrap>
+
+                        <div style={{ flexGrow: "1", display: "flex", margin: "0 0.8125rem 0 0.8125rem" }}>
+                            <div style={{ position: "relative", width: "3.9375rem", fontSize: "0.8125rem" }}>
+                                <TextMiddle>
+                                    저번달 대비
+                                </TextMiddle>
+                            </div>
+                            <div style={{ flexGrow: "1", flexBasis: "0" }}></div>
+                            <div style={{ position: "relative", width: "1.25rem" }}>
+                                <TextMiddle>
+                                    <img src={icon_triangle_up} />
+                                </TextMiddle>
+                            </div>
+                            <div style={{ position: "relative", width: "4.5rem", fontSize: "1.25rem" }}>
+                                <TextMiddle>
+                                    5,000원
+                                </TextMiddle>
+                            </div>
+                        </div>
+
                     </ConsumCompareWrap>
                 </ContentWrap>
 
@@ -71,6 +94,8 @@ const ConsumListWrap = styled.div`
 const ConsumCompareWrap = styled.div`
     z-index:10;
 
+    display:flex;
+
     position:relative;
     height:3.9375rem;
 
@@ -86,8 +111,8 @@ const ConsumCompareWrap = styled.div`
 
 const TextMiddle = styled.div`
     position:absolute;
-    top:50%;
-    transform:translate(0,-50%);
+    top:55%;
+    transform:translate(0,-55%);
 
     width:100%;
 

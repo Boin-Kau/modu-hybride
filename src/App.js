@@ -17,7 +17,7 @@ function App() {
 
   let { pageTrans } = useContext(PageTransContext)
 
-  const classNames = {
+  const PageTransStyle = {
     appear: `${pageTrans} appear`,
     appearActive: `${pageTrans} appear active`,
     appearDone: `${pageTrans} appear done`,
@@ -37,7 +37,7 @@ function App() {
         <Route
           render={({ location }) => (
             <TransitionGroup className='transitionGroup'>
-              <CSSTransition key={location.pathname} classNames={classNames} timeout={1000}>
+              <CSSTransition key={location.pathname} classNames={PageTransStyle} timeout={1000}>
                 <Switch location={location}>
                   <Route path="/" component={AppLayout} />
                 </Switch>

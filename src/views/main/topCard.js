@@ -30,7 +30,7 @@ const TopCard = () => {
 
 const TopCardWrap = styled.div`
     /* border:1px solid red; */
-    padding: 2.375rem 0.875rem 1.5rem 1.25rem;
+    padding: 0.875rem 0.875rem 1.5rem 1.25rem;
 `;
 
 const TitleWrap = styled.div`
