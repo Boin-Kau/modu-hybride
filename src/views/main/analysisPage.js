@@ -1,19 +1,31 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from "styled-components";
+
+import { useDispatch, useSelector } from "react-redux";
+import { AnalyPageWrapCloseAction, AnalyPageCloseAction } from "../../reducers/main";
 
 import icon_back from "../../assets/icon-back-arrow.svg";
 import duck_img from "../../assets/group-61@3x.png";
 import duck_none_img from "../../assets/duck-none.svg";
 
 
-const AnalysisPage = ({ stateManager }) => {
+const AnalysisPage = () => {
 
-    const { analysisPageClose } = stateManager;
+    const dispatch = useDispatch();
+
+    const closeAnalyPage = useCallback(() => {
+        dispatch(AnalyPageCloseAction);
+
+        setTimeout(() => {
+            dispatch(AnalyPageWrapCloseAction);
+        }, 300)
+    }, []);
+
 
 
     return (
         <PageWrap>
-            <HeaderWrap onClick={analysisPageClose}>
+            <HeaderWrap onClick={closeAnalyPage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>

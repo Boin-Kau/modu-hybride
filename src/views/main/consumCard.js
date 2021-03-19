@@ -1,6 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from "styled-components";
-import Fade from 'react-reveal/Fade';
+
+import { useDispatch, useSelector } from "react-redux";
+import { AnalyPageWrapOpenAction, AnalyPageOpenAction } from "../../reducers/main";
+
 
 import icon_arrow from "../../assets/icon-arrow.svg";
 
@@ -31,9 +34,15 @@ const ConsumContent = ({ data }) => {
     )
 };
 
-const ConsumCard = ({ stateManager }) => {
+const ConsumCard = () => {
 
-    const { analysisPageOpen } = stateManager;
+    const dispatch = useDispatch();
+
+    const openAnalyPage = useCallback(() => {
+        dispatch(AnalyPageWrapOpenAction);
+        dispatch(AnalyPageOpenAction);
+    }, []);
+
 
     const testArray = [
         {
@@ -67,7 +76,7 @@ const ConsumCard = ({ stateManager }) => {
                         <TextMiddle>소비분석</TextMiddle>
                     </div>
                     <div style={{ flexGrow: "1" }}></div>
-                    <div onClick={analysisPageOpen} style={{ position: "relative", width: "6.25rem", fontSize: "0.6875rem", opacity: "0.4" }}>
+                    <div onClick={openAnalyPage} style={{ position: "relative", width: "6.25rem", fontSize: "0.6875rem", opacity: "0.4" }}>
                         <TextMiddle style={{ textAlign: "right" }}>
                             전체보기
                         <img src={icon_arrow} style={{ marginLeft: "0.3125rem" }} />
