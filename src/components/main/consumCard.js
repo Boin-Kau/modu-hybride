@@ -13,6 +13,7 @@ import icon_chain_back_left from "../../assets/stroke-1-copy-6.svg";
 import icon_chain_back_right from "../../assets/stroke-1-copy-5.svg";
 
 import icon_triangle_up from "../../assets/triangle.svg";
+import { TextMiddle } from '../../styled/shared';
 
 
 
@@ -183,15 +184,6 @@ const ConsumCompareWrap = styled.div`
     border-radius:0.4375rem;
 
     box-shadow: 0 0 0.25rem 0.0625rem #eeb102;
-
-`;
-
-const TextMiddle = styled.div`
-    position:absolute;
-    top:55%;
-    transform:translate(0,-55%);
-
-    width:100%;
 
 `;
 

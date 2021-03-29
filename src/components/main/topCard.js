@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 
 import icon_alarm from "../../assets/icon-alarm-new.svg";
+import { TextMiddle } from '../../styled/shared';
 
 
 const TopCard = () => {
@@ -48,12 +49,6 @@ const PriceWrap = styled.div`
 
     height: 2.8125rem;
     font-size:1.875rem;
-`;
-
-const TextMiddle = styled.div`
-    position:absolute;
-    top:50%;
-    transform:translate(0,-50%);
 `;
 
 export default TopCard;

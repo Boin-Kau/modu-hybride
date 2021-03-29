@@ -76,7 +76,7 @@ const BottomCard = () => {
 
 
     return (
-        <>
+        <div style={{ border: "1px solid #f7f7f7" }}>
             {
                 testArray.length != 0 ?
                     testArray.map((list, index) => {
@@ -84,7 +84,7 @@ const BottomCard = () => {
                     }) :
                     <div>없어요 !</div>
             }
-        </>
+        </div>
     )
 };
 

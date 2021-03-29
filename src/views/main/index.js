@@ -11,11 +11,11 @@ import Fade from 'react-reveal/Fade';
 
 
 import backgroundImg from '../../assets/group-2.svg'
-import BottomCard from './bottomCard';
-import TopCard from './topCard';
-import ConsumCard from './consumCard';
+import BottomCard from '../../components/main/bottomCard';
+import TopCard from '../../components/main/topCard';
+import ConsumCard from '../../components/main/consumCard';
 
-import AnalysisPage from './analysisPage';
+import AnalysisPage from './analysis';
 
 const CardStyle = {
     height: '100vh',
