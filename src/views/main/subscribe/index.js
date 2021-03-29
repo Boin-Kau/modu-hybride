@@ -2,38 +2,40 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { AnalyPageWrapCloseAction, AnalyPageCloseAction } from "../../../reducers/main";
+import { SubscribePageCloseAction, SubscribePageWrapCloseAction } from "../../../reducers/main";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
-import MainCard from '../../../components/main/analysis/mainCard';
 
 import { TextMiddle } from '../../../styled/shared';
 
 
-const AnalysisPage = () => {
+const SubscribePage = () => {
 
     const dispatch = useDispatch();
 
-    const closeAnalyPage = useCallback(() => {
-        dispatch(AnalyPageCloseAction);
+    const closeSubscribePage = useCallback(() => {
+        console.log("hihi")
+
+        dispatch(SubscribePageCloseAction);
 
         setTimeout(() => {
-            dispatch(AnalyPageWrapCloseAction);
+            dispatch(SubscribePageWrapCloseAction);
         }, 300)
     }, []);
 
 
-
     return (
         <PageWrap>
-            <HeaderWrap onClick={closeAnalyPage}>
+            <HeaderWrap onClick={closeSubscribePage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
 
-                <TextMiddle>소비분석</TextMiddle>
+                <TextMiddle>구독 내역 추가</TextMiddle>
             </HeaderWrap>
-            <MainCard />
+            <MainWrap>
+                hihi
+            </MainWrap>
         </PageWrap>
     )
 };
@@ -57,5 +59,18 @@ const HeaderWrap = styled.div`
     
     box-shadow: 0 0 0.25rem 0.0625rem #efefef;
 `;
+const MainWrap = styled.div`
+    border:1px solid red;
+    position:absolute;
+    top:2.5625rem;
+    left:0;
+    right:0;
+    bottom:0;
 
-export default AnalysisPage;
+    overflow-y:scroll;
+
+    /* border:1px solid red; */
+    padding:1.25rem;
+`;
+
+export default SubscribePage;

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 import clamp from 'lodash-es/clamp'
 import { useSpring, animated } from 'react-spring'
@@ -16,6 +16,8 @@ import TopCard from '../../components/main/topCard';
 import ConsumCard from '../../components/main/consumCard';
 
 import AnalysisPage from './analysis';
+import SubscribePage from './subscribe';
+import { SubscribePageWrapOpenAction, SubscribePageOpenAction } from '../../reducers/main';
 
 const CardStyle = {
     height: '100vh',
@@ -33,7 +35,15 @@ const BottomChildCloseStyle = {
 
 const Main = () => {
 
-    const { openAnalyPageWrapStatus, openAnalyPageStatus } = useSelector(state => state.main);
+    const {
+        openAnalyPageWrapStatus,
+        openAnalyPageStatus,
+        openSubscribePageWrapStatus,
+        openSubscribePageStatus
+    } = useSelector(state => state.main);
+
+    console.log(openSubscribePageWrapStatus);
+    console.log(openSubscribePageStatus)
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
@@ -128,6 +138,16 @@ const Main = () => {
 
     })
 
+
+    //구독등록 페이지 열기
+    const dispatch = useDispatch();
+
+    const openSubscribePage = useCallback(() => {
+        console.log("hihihihii")
+        dispatch(SubscribePageWrapOpenAction);
+        dispatch(SubscribePageOpenAction);
+    }, []);
+
     return (
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundImage: `url(${backgroundImg})` }}>
@@ -143,7 +163,7 @@ const Main = () => {
                     <animated.div ref={bottomDivbRef} {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
                         <TitleWrap>
                             <div>구독내역</div>
-                            <div style={{ position: "absolute", top: "50%", right: "20px", transform: "translate(0, -50%)" }}>+</div>
+                            <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "20px", transform: "translate(0, -50%)" }}>+</div>
                         </TitleWrap>
 
                         <BottomChildWrap ref={bottomChildDivbRef} style={isScrollChild ? BottomChildOpenStyle : BottomChildCloseStyle}>
@@ -154,10 +174,21 @@ const Main = () => {
                 </div>
 
             </div>
+
+            {/* 소비분석 페이지 */}
             <div style={openAnalyPageWrapStatus ? { display: "block" } : { display: "none" }}>
                 <Fade right when={openAnalyPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <AnalysisPage />
+                    </div>
+                </Fade>
+            </div>
+
+            {/* 구독 등록 페이지 */}
+            <div style={openSubscribePageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openSubscribePageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                        <SubscribePage />
                     </div>
                 </Fade>
             </div>

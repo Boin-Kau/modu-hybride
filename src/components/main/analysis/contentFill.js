@@ -7,8 +7,6 @@ import Fade from 'react-reveal/Fade';
 
 const ItemDetail = ({ data }) => {
 
-    console.log("test1")
-
     return (
         <>
             <ItemDetailWrap>
@@ -30,9 +28,6 @@ const ItemDetail = ({ data }) => {
 
 const Item = ({ data }) => {
 
-    console.log("test2")
-
-    console.log(data.itemList);
     const itemList = data.itemList;
 
     const [openStatus, setOpenStatus] = useState(false);
