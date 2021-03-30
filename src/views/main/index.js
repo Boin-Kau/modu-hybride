@@ -17,7 +17,7 @@ import ConsumCard from '../../components/main/consumCard';
 
 import AnalysisPage from './analysis';
 import SubscribePage from './subscribe';
-import { SubscribePageWrapOpenAction, SubscribePageOpenAction } from '../../reducers/main';
+import { SubscribePageWrapOpenAction, SubscribePageOpenAction } from '../../reducers/main/subscribe';
 
 const CardStyle = {
     height: '100vh',
@@ -37,10 +37,18 @@ const Main = () => {
 
     const {
         openAnalyPageWrapStatus,
-        openAnalyPageStatus,
+        openAnalyPageStatus
+    } = useSelector(state => state.main.analysis);
+
+    const {
         openSubscribePageWrapStatus,
         openSubscribePageStatus
-    } = useSelector(state => state.main);
+    } = useSelector(state => state.main.subscribe);
+
+    const test = useSelector(state => state);
+
+    console.log(test);
+
 
     console.log(openSubscribePageWrapStatus);
     console.log(openSubscribePageStatus)

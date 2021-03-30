@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { AnalyPageWrapCloseAction, AnalyPageCloseAction } from "../../../reducers/main";
+import { AnalyPageWrapCloseAction, AnalyPageCloseAction } from "../../../reducers/main/analysis";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import MainCard from '../../../components/main/analysis/mainCard';

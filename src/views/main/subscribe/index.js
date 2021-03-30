@@ -2,7 +2,11 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { SubscribePageCloseAction, SubscribePageWrapCloseAction } from "../../../reducers/main";
+import { SubscribePageCloseAction, SubscribePageWrapCloseAction } from "../../../reducers/main/subscribe";
+
+
+import Fade from 'react-reveal/Fade';
+
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
 
@@ -11,6 +15,8 @@ import icon_plus from "../../../assets/icon-plus.svg";
 
 
 import { TextMiddle } from '../../../styled/shared';
+import AnalysisPage from '../analysis';
+import SearchPage from './search';
 
 
 const SubscribePage = () => {
@@ -29,59 +35,69 @@ const SubscribePage = () => {
 
 
     return (
-        <PageWrap>
-            <HeaderWrap>
-                <div onClick={closeSubscribePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-                    <img src={icon_back}></img>
-                </div>
-                <TextMiddle>구독 내역 추가</TextMiddle>
-                <div style={{ zIndex: "10", position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}>
-                    <img src={icon_back}></img>
-                </div>
-            </HeaderWrap>
-            <MainWrap>
-                <CategoryTapWrap>
-                    <CategoryTapItem>전체</CategoryTapItem>
-                    <CategoryTapItem style={{ top: "10px", color: "rgba(0,0,0,0.2)" }}>카테고리</CategoryTapItem>
-                </CategoryTapWrap>
-                <ItemListWrap>
-                    <div>
-                        {/* 직접입력 */}
-                        <ItemWrap style={{ border: "none" }}>
-                            <ItemImgWrap>
-                                <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
-                            </ItemImgWrap>
-                            <ItemTitleWrap>
-                                <TextMiddle>
-                                    직접 입력하기
-                                </TextMiddle>
-                            </ItemTitleWrap>
-                            <ItemIconWrap>
-                                <ItemIcon src={icon_plus}></ItemIcon>
-                            </ItemIconWrap>
-                        </ItemWrap>
-
-                        {/* 그외 리스트 */}
-                        <ItemWrap>
-                            <ItemImgWrap>
-                                <img src={"https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg"} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
-                            </ItemImgWrap>
-                            <ItemTitleWrap>
-                                <TextMiddle>
-                                    <TextMiddle>
-                                        멜론
-                                </TextMiddle>
-                                </TextMiddle>
-                            </ItemTitleWrap>
-                            <ItemIconWrap>
-                                <ItemIconMin />
-                            </ItemIconWrap>
-                        </ItemWrap>
+        <>
+            <PageWrap>
+                <HeaderWrap>
+                    <div onClick={closeSubscribePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_back}></img>
                     </div>
-                    {/* <div>카테고리 나누기</div> */}
-                </ItemListWrap>
-            </MainWrap>
-        </PageWrap>
+                    <TextMiddle>구독 내역 추가</TextMiddle>
+                    <div style={{ zIndex: "10", position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_back}></img>
+                    </div>
+                </HeaderWrap>
+                <MainWrap>
+                    <CategoryTapWrap>
+                        <CategoryTapItem>전체</CategoryTapItem>
+                        <CategoryTapItem style={{ top: "10px", color: "rgba(0,0,0,0.2)" }}>카테고리</CategoryTapItem>
+                    </CategoryTapWrap>
+                    <ItemListWrap>
+                        <div>
+                            {/* 직접입력 */}
+                            <ItemWrap style={{ border: "none" }}>
+                                <ItemImgWrap>
+                                    <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
+                                </ItemImgWrap>
+                                <ItemTitleWrap>
+                                    <TextMiddle>
+                                        직접 입력하기
+                                </TextMiddle>
+                                </ItemTitleWrap>
+                                <ItemIconWrap>
+                                    <ItemIcon src={icon_plus}></ItemIcon>
+                                </ItemIconWrap>
+                            </ItemWrap>
+
+                            {/* 그외 리스트 */}
+                            <ItemWrap>
+                                <ItemImgWrap>
+                                    <img src={"https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg"} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
+                                </ItemImgWrap>
+                                <ItemTitleWrap>
+                                    <TextMiddle>
+                                        <TextMiddle>
+                                            멜론
+                                </TextMiddle>
+                                    </TextMiddle>
+                                </ItemTitleWrap>
+                                <ItemIconWrap>
+                                    <ItemIconMin />
+                                </ItemIconWrap>
+                            </ItemWrap>
+                        </div>
+                        {/* <div>카테고리 나누기</div> */}
+                    </ItemListWrap>
+                </MainWrap>
+            </PageWrap>
+
+            {/* <div style={true ? { display: "block" } : { display: "none" }}>
+                <Fade right when={true} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                        <SearchPage />
+                    </div>
+                </Fade>
+            </div> */}
+        </>
     )
 };
 

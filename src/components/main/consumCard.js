@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { AnalyPageWrapOpenAction, AnalyPageOpenAction } from "../../reducers/main";
+import { AnalyPageWrapOpenAction, AnalyPageOpenAction } from "../../reducers/main/analysis";
 
 
 import icon_arrow from "../../assets/icon-arrow.svg";
