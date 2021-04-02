@@ -9,6 +9,7 @@ import Fade from 'react-reveal/Fade';
 
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
+import icon_search from "../../../assets/icon-search.svg";
 
 import icon_sub_ect from "../../../assets/icon-sub-ect.svg";
 import icon_plus from "../../../assets/icon-plus.svg";
@@ -17,11 +18,38 @@ import icon_plus from "../../../assets/icon-plus.svg";
 import { TextMiddle } from '../../../styled/shared';
 import AnalysisPage from '../analysis';
 import SearchPage from './search';
+import { SearchPageWrapOpenAction, SearchPageOpenAction } from '../../../reducers/main/search';
+import { EnrollmentPageWrapOpenAction, EnrollmentPageOpenAction } from '../../../reducers/main/enrollment';
+
+import EnrollmentPage from './enrollment';
 
 
 const SubscribePage = () => {
 
+    const {
+        openSearchPageWrapStatus,
+        openSearchPageStatus
+    } = useSelector(state => state.main.search);
+
+    const {
+        openEnrollmentPageWrapStatus,
+        openEnrollmentPageStatus
+    } = useSelector(state => state.main.enrollment);
+
     const dispatch = useDispatch();
+
+
+    const openSearchPage = useCallback(() => {
+        console.log("hihihihii")
+        dispatch(SearchPageWrapOpenAction);
+        dispatch(SearchPageOpenAction);
+    }, []);
+
+    const openEnrollmentPage = useCallback(() => {
+        console.log("hihihihii")
+        dispatch(EnrollmentPageWrapOpenAction);
+        dispatch(EnrollmentPageOpenAction);
+    }, []);
 
     const closeSubscribePage = useCallback(() => {
         console.log("hihi")
@@ -42,8 +70,8 @@ const SubscribePage = () => {
                         <img src={icon_back}></img>
                     </div>
                     <TextMiddle>구독 내역 추가</TextMiddle>
-                    <div style={{ zIndex: "10", position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}>
-                        <img src={icon_back}></img>
+                    <div onClick={openSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_search}></img>
                     </div>
                 </HeaderWrap>
                 <MainWrap>
@@ -63,7 +91,7 @@ const SubscribePage = () => {
                                         직접 입력하기
                                 </TextMiddle>
                                 </ItemTitleWrap>
-                                <ItemIconWrap>
+                                <ItemIconWrap onClick={openEnrollmentPage}>
                                     <ItemIcon src={icon_plus}></ItemIcon>
                                 </ItemIconWrap>
                             </ItemWrap>
@@ -90,13 +118,21 @@ const SubscribePage = () => {
                 </MainWrap>
             </PageWrap>
 
-            {/* <div style={true ? { display: "block" } : { display: "none" }}>
-                <Fade right when={true} duration={300}>
+            <div style={openSearchPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openSearchPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <SearchPage />
                     </div>
                 </Fade>
-            </div> */}
+            </div>
+
+            <div style={openEnrollmentPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openEnrollmentPageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                        <EnrollmentPage />
+                    </div>
+                </Fade>
+            </div>
         </>
     )
 };

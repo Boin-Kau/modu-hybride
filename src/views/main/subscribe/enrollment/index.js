@@ -7,32 +7,32 @@ import { useDispatch, useSelector } from "react-redux";
 import icon_back from "../../../../assets/icon-back-arrow.svg";
 
 import { TextMiddle } from '../../../../styled/shared';
-import { SearchPageCloseAction, SearchPageWrapCloseAction } from '../../../../reducers/main/search';
+import { EnrollmentPageCloseAction, EnrollmentPageWrapCloseAction } from '../../../../reducers/main/enrollment';
 
 
-const SearchPage = () => {
+const EnrollmentPage = () => {
 
     const dispatch = useDispatch();
 
-    const closeSearchPage = () => {
+    const closeEnrollmentPage = () => {
         console.log("hihi")
 
-        dispatch(SearchPageCloseAction);
+        dispatch(EnrollmentPageCloseAction);
 
         setTimeout(() => {
-            dispatch(SearchPageWrapCloseAction);
+            dispatch(EnrollmentPageWrapCloseAction);
         }, 300)
     };
 
     return (
         <PageWrap>
             <HeaderWrap>
-                <div onClick={closeSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                <div onClick={closeEnrollmentPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
-                <TextMiddle>검색창</TextMiddle>
+                <TextMiddle>직접 입력하기</TextMiddle>
             </HeaderWrap>
-            <div>검색페이지</div>
+            <div>등록 페이지</div>
 
         </PageWrap>
     )
@@ -59,4 +59,4 @@ const HeaderWrap = styled.div`
     box-shadow: 0 0 0.25rem 0.0625rem #efefef;
 `;
 
-export default SearchPage;
+export default EnrollmentPage;

@@ -45,14 +45,6 @@ const Main = () => {
         openSubscribePageStatus
     } = useSelector(state => state.main.subscribe);
 
-    const test = useSelector(state => state);
-
-    console.log(test);
-
-
-    console.log(openSubscribePageWrapStatus);
-    console.log(openSubscribePageStatus)
-
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
     let isScrollParent = true;
