@@ -120,7 +120,7 @@ const SubscribePage = () => {
 
             <div style={openSearchPageWrapStatus ? { display: "block" } : { display: "none" }}>
                 <Fade right when={openSearchPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
                         <SearchPage />
                     </div>
                 </Fade>
