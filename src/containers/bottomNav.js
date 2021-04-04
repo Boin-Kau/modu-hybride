@@ -54,6 +54,8 @@ const BottomNav = () => {
 
     const pathname = window.location.pathname;
 
+    console.log(pathname)
+
     const [iconMain, setIconMain] = useState(false);
     const [iconParty, setIconParty] = useState(false);
     const [iconInfo, setIconInfo] = useState(false);
@@ -102,44 +104,46 @@ const BottomNav = () => {
 
     return (
         <>
-            <BottomNavWrap>
-                <BottomNavItem>
-                    <Link
-                        key={`gnb-1`}
-                        to="/main"
-                        onClick={() => handleOnClick(0)}>
-                        {iconMain ?
-                            <BottomNavIcon src={icon_main_fill} /> :
-                            <BottomNavIcon src={icon_main_def} />
-                        }
-                    </Link>
-                </BottomNavItem>
-                <BottomNavTemp></BottomNavTemp>
-                <BottomNavItem>
-                    <Link
-                        key={`gnb-2`}
-                        to="/party"
-                        onClick={() => handleOnClick(1)}>
-                        {iconParty ?
-                            <BottomNavIcon src={icon_party_fill} /> :
-                            <BottomNavIcon src={icon_party_def} />
-                        }
-                    </Link>
-                </BottomNavItem>
-                <BottomNavTemp></BottomNavTemp>
-                <BottomNavItem>
-                    <Link
-                        key={`gnb-3`}
-                        to="/info"
-                        onClick={() => handleOnClick(2)}>
-                        {iconInfo ?
-                            <BottomNavIcon src={icon_my_page_fill} /> :
-                            <BottomNavIcon src={icon_my_page_def} />
-                        }
-                    </Link>
-                </BottomNavItem>
+            {(pathname != '/' && pathname != '/login') &&
+                <BottomNavWrap>
+                    <BottomNavItem>
+                        <Link
+                            key={`gnb-1`}
+                            to="/main"
+                            onClick={() => handleOnClick(0)}>
+                            {iconMain ?
+                                <BottomNavIcon src={icon_main_fill} /> :
+                                <BottomNavIcon src={icon_main_def} />
+                            }
+                        </Link>
+                    </BottomNavItem>
+                    <BottomNavTemp></BottomNavTemp>
+                    <BottomNavItem>
+                        <Link
+                            key={`gnb-2`}
+                            to="/party"
+                            onClick={() => handleOnClick(1)}>
+                            {iconParty ?
+                                <BottomNavIcon src={icon_party_fill} /> :
+                                <BottomNavIcon src={icon_party_def} />
+                            }
+                        </Link>
+                    </BottomNavItem>
+                    <BottomNavTemp></BottomNavTemp>
+                    <BottomNavItem>
+                        <Link
+                            key={`gnb-3`}
+                            to="/info"
+                            onClick={() => handleOnClick(2)}>
+                            {iconInfo ?
+                                <BottomNavIcon src={icon_my_page_fill} /> :
+                                <BottomNavIcon src={icon_my_page_def} />
+                            }
+                        </Link>
+                    </BottomNavItem>
 
-            </BottomNavWrap>
+                </BottomNavWrap>
+            }
         </>
     );
 };

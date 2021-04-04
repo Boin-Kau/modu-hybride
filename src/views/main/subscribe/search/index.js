@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
 
-
+import icon_search_none from "../../../../assets/icon-search-none.svg";
 import icon_back from "../../../../assets/icon-back-arrow.svg";
 
 import { TextMiddle } from '../../../../styled/shared';
@@ -33,7 +33,7 @@ const SearchPage = () => {
 
                 <SearchInputWrap>
                     <SearchIconWrap>
-                        <SearchIcon src={icon_back} />
+                        <SearchIcon src={icon_search_none} />
                     </SearchIconWrap>
 
                     <SearchInput placeholder="찾는 구독 서비스 검색"></SearchInput>
@@ -139,7 +139,6 @@ const SearchInputWrap = styled.div`
 
 const SearchIconWrap = styled.div`
     position:relative;
-
     width:2.25rem;
 `;
 const SearchIcon = styled.img`
@@ -149,9 +148,9 @@ const SearchIcon = styled.img`
     height:0.8125rem;
 
     top:50%;
-    left:50%;
+    left:60%;
 
-    transform:translate(-50%,-50%);
+    transform:translate(-60%,-50%);
 `;
 
 const SearchInput = styled.input`
