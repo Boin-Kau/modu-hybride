@@ -26,6 +26,10 @@ import EnrollmentPage from './enrollment';
 
 const SubscribePage = () => {
 
+    //import
+    const dispatch = useDispatch();
+
+    //store
     const {
         openSearchPageWrapStatus,
         openSearchPageStatus
@@ -36,7 +40,9 @@ const SubscribePage = () => {
         openEnrollmentPageStatus
     } = useSelector(state => state.main.enrollment);
 
-    const dispatch = useDispatch();
+    //state
+    const [totalMenuStatus, setTotalMenuStatus] = useState(true);
+    const [categoryMenuStatus, setcategoryMenuStatus] = useState(false);
 
 
     const openSearchPage = useCallback(() => {
@@ -63,7 +69,16 @@ const SubscribePage = () => {
 
 
     const onClickMenu = (type) => {
-        console.log("hihi");
+        console.log(type);
+
+        if (type == 'total') {
+            setTotalMenuStatus(true);
+            setcategoryMenuStatus(false);
+        }
+        else {
+            setTotalMenuStatus(false);
+            setcategoryMenuStatus(true);
+        }
     }
 
 
@@ -81,8 +96,8 @@ const SubscribePage = () => {
                 </HeaderWrap>
                 <MainWrap>
                     <CategoryTapWrap>
-                        <CategoryTapItem>전체</CategoryTapItem>
-                        <CategoryTapItem style={{ top: "10px", color: "rgba(0,0,0,0.2)" }}>카테고리</CategoryTapItem>
+                        <CategoryTapItem selectedStatus={totalMenuStatus} onClick={() => onClickMenu('total')}>전체</CategoryTapItem>
+                        <CategoryTapItem selectedStatus={categoryMenuStatus} onClick={() => onClickMenu('category')}>카테고리</CategoryTapItem>
                     </CategoryTapWrap>
                     <ItemListWrap>
                         <div>
@@ -184,7 +199,7 @@ const CategoryTapWrap = styled.div`
 const CategoryTapItem = styled.div`
 
     position: relative;
-    /* top:10px; */
+
     border-top-right-radius:0.4375rem;
     border-top-left-radius:0.4375rem;
 
@@ -196,7 +211,13 @@ const CategoryTapItem = styled.div`
     background-color : #f7f7f7;
 
     font-size:0.875rem;
-    color:#313131;
+
+    /* 애니메이션 적용 */
+    transition: top 100ms ease-in-out;
+
+    top : ${props => props.selectedStatus ? '0' : '0.625rem'};
+    color : ${props => props.selectedStatus ? '#313131' : 'rgba(0,0,0,0.2)'};
+
 `;
 
 const ItemListWrap = styled.div`
