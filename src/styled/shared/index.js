@@ -43,7 +43,7 @@ export const LoginButton = styled.div`
 
     border-radius:0.375rem;
 
-    background-color:#e3e3e3;
+    background-color: ${props => props.pageConfirmStatus ? '#ffca17' : '#e3e3e3'};
 `;
 
 export const TextMiddle = styled.div`

@@ -62,6 +62,11 @@ const SubscribePage = () => {
     }, []);
 
 
+    const onClickMenu = (type) => {
+        console.log("hihi");
+    }
+
+
     return (
         <>
             <PageWrap>

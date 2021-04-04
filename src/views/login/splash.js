@@ -8,6 +8,7 @@ const Splash = () => {
 
     setTimeout(() => {
         history.push('/login');
+        // window.location.href = '/main';
     }, 100)
 
     return (
