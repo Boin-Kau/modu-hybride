@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="195" height="45" viewBox="0 0 195 45">
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g opacity=".659" transform="translate(-83 -434) translate(83 434)">
+                    <rect width="195" height="45" fill="#FFF" rx="4"/>
+                    <rect width="31.154" height="31.154" x="8.077" y="6.923" fill="#E3E3E3" fill-rule="nonzero" rx="4"/>
+                    <path fill="#E3E3E3" fill-rule="nonzero" d="M48.462 13.846H79.616V19.615000000000002H48.462zM161.538 13.846H182.30700000000002V19.615000000000002H161.538zM48.462 26.538H118.84700000000001V32.307H48.462z"/>
+                </g>
+                <text fill="#FFF" font-family="SpoqaHanSans-Bold, SpoqaHanSans" font-size="20" font-weight="bold" transform="translate(-83 -434) translate(83 434)">
+                    <tspan x="19.5" y="30.5">? </tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
