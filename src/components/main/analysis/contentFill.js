@@ -74,7 +74,10 @@ const Item = ({ data }) => {
 
 const ContentFill = ({ data }) => {
 
-    console.log(data)
+    useEffect(() => {
+        console.log(data)
+
+    }, [])
 
     return (
         <>

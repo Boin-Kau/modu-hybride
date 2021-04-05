@@ -18,6 +18,7 @@ import ConsumCard from '../../components/main/consumCard';
 import AnalysisPage from './analysis';
 import SubscribePage from './subscribe';
 import { SubscribePageWrapOpenAction, SubscribePageOpenAction } from '../../reducers/main/subscribe';
+import EnrollmentRevisePage from './subscribe/enrollment/revise';
 
 const CardStyle = {
     height: '100vh',
@@ -44,6 +45,11 @@ const Main = () => {
         openSubscribePageWrapStatus,
         openSubscribePageStatus
     } = useSelector(state => state.main.subscribe);
+
+    const {
+        openEnrollmentRevisePageWrapStatus,
+        openEnrollmentRevisePageStatus
+    } = useSelector(state => state.main.enrollmentRevise);
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
@@ -189,6 +195,15 @@ const Main = () => {
                 <Fade right when={openSubscribePageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <SubscribePage />
+                    </div>
+                </Fade>
+            </div>
+
+            {/* 구독 수정 페이지 */}
+            <div style={openEnrollmentRevisePageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openEnrollmentRevisePageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                        <EnrollmentRevisePage />
                     </div>
                 </Fade>
             </div>
