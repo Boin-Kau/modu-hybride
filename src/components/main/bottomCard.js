@@ -92,12 +92,12 @@ const BottomContent = ({ data }) => {
                             </div>
                             <div style={{ flexGrow: "1" }}></div>
                         </DetailButton>
-                        <DetailButton revise>
+                        <DetailButton onClick={openRevisePage} revise>
                             <div style={{ flexGrow: "1" }}></div>
                             <div style={{ position: "relative", width: "0.75rem", marginRight: "0.3125rem" }}>
                                 <img src={icon_edit} style={{ position: "absolute", top: "50%", left: "0", transform: "translate(0,-50%)", width: "0.75rem", height: "1.0625rem" }} />
                             </div>
-                            <div onClick={openRevisePage} style={{ position: "relative" }}>
+                            <div style={{ position: "relative" }}>
                                 <div style={{ marginTop: "0.125rem" }}>수정하기</div>
                             </div>
                             <div style={{ flexGrow: "1" }}></div>

@@ -21,7 +21,6 @@ const ItemDetail = ({ data }) => {
                     <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.price + "원"}</div>
                 </div>
             </ItemDetailWrap>
-
         </>
     )
 };
