@@ -14,11 +14,11 @@ const ItemDetail = ({ data }) => {
                     <img src={data.logoImg} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", textAlign: "left" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.title}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem" }}>{data.category}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{data.title}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: "0.3", lineHeight: "1.375rem" }}>{data.category}</div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.price + "원"}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{data.price + "원"}</div>
                 </div>
             </ItemDetailWrap>
         </>
@@ -131,7 +131,7 @@ const ItemDetailWrap = styled.div`
     display:flex;
 
     margin: 0.75rem 0.4375rem 0 0.4375rem;
-    background-color:#ffffff;
+    background-color:#f7f7f7;
 
     border-radius:0.4375rem;
 
@@ -140,6 +140,7 @@ const ItemDetailWrap = styled.div`
     box-shadow: 0 0 0.25rem 0.0625rem #efefef;
 
     font-size:0.8125rem;
+    color:#313131;
 `;
 
 export default ContentFill;
