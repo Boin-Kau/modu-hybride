@@ -49,155 +49,170 @@ const EnrollmentRevisePage = () => {
                 <TextMiddle>플랫폼 이름</TextMiddle>
                 <SaveButton onClick={onClickRevise}>저장</SaveButton>
             </HeaderWrap>
+
             <ContentWrap>
 
-                {/* 플랫폼 썸네일 */}
-                <div style={{ margin: "1.875rem 0", textAlign: "center" }}>
-                    <img src={"https://play-lh.googleusercontent.com/TBRwjS_qfJCSj1m7zZB93FnpJM5fSpMA_wUlFDLxWAb45T9RmwBvQd5cWR5viJJOhkI"} style={{ width: "4.25rem", height: "4.25rem", borderRadius: "0.375rem" }} />
-                </div>
+                <SectionTitle>기본 정보</SectionTitle>
+                <SectionWrap>
 
-                {/* 플랫폼 이름 */}
-                <TitleWrap>구독 서비스명</TitleWrap>
-                <ItemWrap>
-                    <InputWrap>플랫폼 이름</InputWrap>
-                </ItemWrap>
+                    {/* 플랫폼 썸네일 */}
+                    <div style={{ margin: "1.125rem 0 0.9375rem 0", textAlign: "center" }}>
+                        <img src={"https://play-lh.googleusercontent.com/TBRwjS_qfJCSj1m7zZB93FnpJM5fSpMA_wUlFDLxWAb45T9RmwBvQd5cWR5viJJOhkI"} style={{ width: "4.25rem", height: "4.25rem", borderRadius: "0.375rem" }} />
+                    </div>
 
-                {/* 결제금액 */}
-                <TitleWrap>
-                    <div style={{ marginRight: "0.5rem" }}>결제 금액</div>
-                    <div style={{ fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 최종 결제금액으로 입력해주세요.</div>
-                </TitleWrap>
-                <ItemWrap>
-                    <InputWrap style={{ flexGrow: "1", flexBasis: "0", marginRight: "0.3125rem" }}>
-                        <Input type="number" placeholder="결제금액을 입력하세요"></Input>
-                    </InputWrap>
-                    <InputWrap style={{ flexGrow: "0", }}>
-                        <div style={{ marginRight: "2.8125rem" }}>￦</div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                </ItemWrap>
+                    {/* 플랫폼 이름 */}
+                    <TitleWrap>구독 서비스명</TitleWrap>
+                    <ItemWrap>
+                        <InputWrap>플랫폼 이름</InputWrap>
+                    </ItemWrap>
 
-                {/* 파티 정보 */}
-                <TitleWrap>
-                    <div>파티 정보</div>
-                </TitleWrap>
-                <div style={{ display: "flex", margin: "0.1875rem 0 0.5rem 0" }}>
-                    <PartyIconWrap isParty={true}>
-                        <PartyIcon src={icon_check} />
-                    </PartyIconWrap>
-                    <PartyText>
-                        파티 중인 구독 서비스입니다.
+                    {/* 결제금액 */}
+                    <TitleWrap>
+                        <div style={{ marginRight: "0.5rem" }}>결제 금액</div>
+                        <div style={{ fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 최종 결제금액으로 입력해주세요.</div>
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap style={{ flexGrow: "1", flexBasis: "0", marginRight: "0.3125rem" }}>
+                            <Input type="number" placeholder="결제금액을 입력하세요"></Input>
+                        </InputWrap>
+                        <InputWrap style={{ flexGrow: "0", }}>
+                            <div style={{ marginRight: "2.8125rem" }}>￦</div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                    </ItemWrap>
+
+                    {/* 카테고리 */}
+                    <TitleWrap>
+                        <div>카테고리</div>
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap>
+                            <div>OTT</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                    </ItemWrap>
+
+                    {/* 맴버십 종류 */}
+                    <TitleWrap>
+                        <div>맴버십 종류</div>
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap>
+                            <div>프리미엄 요금제</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                    </ItemWrap>
+
+                </SectionWrap>
+
+                <SectionTitle>결제 정보</SectionTitle>
+                <SectionWrap>
+
+                    {/* 결제주기 */}
+                    <TitleWrap>
+                        <div>결제주기</div>
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap style={{ marginRight: "0.3125rem" }}>
+                            <div>1</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                        <InputWrap>
+                            <div>달</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                    </ItemWrap>
+
+                    {/* 마지막 결제일 */}
+                    <TitleWrap>
+                        <div>마지막 결제일</div>
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap style={{ marginRight: "0.3125rem" }}>
+                            <div>2020</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                        <InputWrap style={{ marginRight: "0.3125rem" }}>
+                            <div>5</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                        <InputWrap>
+                            <div>6</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                    </ItemWrap>
+                </SectionWrap>
+
+                <SectionTitle>세부 정보</SectionTitle>
+                <SectionWrap>
+
+                    {/* 파티 정보 */}
+                    <TitleWrap>
+                        <div>파티 정보</div>
+                    </TitleWrap>
+                    <div style={{ display: "flex", margin: "0.1875rem 0 0.5rem 0" }}>
+                        <PartyIconWrap isParty={true}>
+                            <PartyIcon src={icon_check} />
+                        </PartyIconWrap>
+                        <PartyText>
+                            파티 중인 구독 서비스입니다.
                     </PartyText>
-                </div>
-                <ItemWrap>
-                    <InputWrap>
-                        <div>넷플릭스 / 4인 파티 / 3,625원 결제</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                </ItemWrap>
+                    </div>
+                    <ItemWrap>
+                        <InputWrap>
+                            <div>넷플릭스 / 4인 파티 / 3,625원 결제</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                    </ItemWrap>
 
-                {/* 카테고리 */}
-                <TitleWrap>
-                    <div>카테고리</div>
-                </TitleWrap>
-                <ItemWrap>
-                    <InputWrap>
-                        <div>OTT</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                </ItemWrap>
+                    {/* 체험 기간 */}
+                    <TitleWrap>
+                        <div>체험 기간</div>
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap style={{ marginRight: "0.3125rem" }}>
+                            <div>없음</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                        <InputWrap isBlocked={true}>
+                            <div>없음</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
+                    </ItemWrap>
 
-                {/* 맴버십 종류 */}
-                <TitleWrap>
-                    <div>맴버십 종류</div>
-                </TitleWrap>
-                <ItemWrap>
-                    <InputWrap>
-                        <div>프리미엄 요금제</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                </ItemWrap>
-
-                {/* 체험 기간 */}
-                <TitleWrap>
-                    <div>체험 기간</div>
-                </TitleWrap>
-                <ItemWrap>
-                    <InputWrap style={{ marginRight: "0.3125rem" }}>
-                        <div>없음</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                    <InputWrap isBlocked={true}>
-                        <div>없음</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                </ItemWrap>
-
-                {/* 결제주기 */}
-                <TitleWrap>
-                    <div>결제주기</div>
-                </TitleWrap>
-                <ItemWrap>
-                    <InputWrap style={{ marginRight: "0.3125rem" }}>
-                        <div>1</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                    <InputWrap>
-                        <div>달</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                </ItemWrap>
-
-                {/* 마지막 결제일 */}
-                <TitleWrap>
-                    <div>마지막 결제일</div>
-                </TitleWrap>
-                <ItemWrap>
-                    <InputWrap style={{ marginRight: "0.3125rem" }}>
-                        <div>2020</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                    <InputWrap style={{ marginRight: "0.3125rem" }}>
-                        <div>5</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                    <InputWrap>
-                        <div>6</div>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div>
-                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                        </div>
-                    </InputWrap>
-                </ItemWrap>
+                </SectionWrap>
 
                 <DeleteButtonWrap>
                     <div style={{ flexGrow: "1" }}></div>
@@ -248,7 +263,6 @@ const SaveButton = styled.div`
 
 
 const ContentWrap = styled.div`
-
     position:absolute;
     top:2.5625rem;
     left:0;
@@ -260,5 +274,20 @@ const ContentWrap = styled.div`
     padding:0 1.25rem 1.25rem 1.25rem;
 
 `;
+
+const SectionTitle = styled.div`
+    margin:1.25rem 0 0.8125rem 0;
+
+    font-size:1.0625rem;
+    color:#313131;
+`;
+const SectionWrap = styled.div`
+    padding: 0 0.9375rem 1.125rem 0.9375rem;
+    border:1px solid #ffffff;
+    border-radius: 0.4375rem;
+    box-shadow: 0 0 0.25rem 0.0625rem #efefef;
+    background-color: #ffffff;
+`;
+
 
 export default EnrollmentRevisePage;

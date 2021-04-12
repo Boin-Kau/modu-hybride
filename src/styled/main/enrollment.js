@@ -78,7 +78,7 @@ export const PartyText = styled.div`
 
 export const DeleteButtonWrap = styled.div`
     display:flex;
-    margin-top:3.1875rem;
+    margin-top:2.375rem;
 
     background-color:#fb5e5e;
     border-radius:0.375rem;
