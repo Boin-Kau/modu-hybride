@@ -13,6 +13,7 @@ import icon_male_fill from "../../assets/icon-male-fill.svg";
 import icon_male_none from "../../assets/icon-male-none.svg";
 import icon_female_fill from "../../assets/icon-female-fill.svg";
 import icon_female_none from "../../assets/icon-female-none.svg";
+import { apiClient, customApiClient } from '../../shared/apiClient';
 
 
 const Login = () => {
@@ -63,7 +64,7 @@ const Login = () => {
         }
     }
 
-    const onclickNextButton = () => {
+    const onclickNextButton = async () => {
         console.log("hihi")
         //currentPage 값과 pageStatus 값으로 검증 후 넘겨주기
 
@@ -75,6 +76,23 @@ const Login = () => {
         }
 
         if (currentPage == 2 && phoneNumberPageStatus) {
+
+            //인증번호 전송 API 호출
+            const data = await customApiClient('post', '/user/code/generate', {
+                name: name,
+                phone: phoneNumber
+            })
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                alert(data.message);
+                return
+            }
+
+            //성공시 로직
             setCurrentPage(3);
             setCurrentPageTitle("인증번호를\n입력해주세요.")
             setPageConfirmStatus(phoneAuthPageStatus);
@@ -82,6 +100,10 @@ const Login = () => {
         }
 
         if (currentPage == 3 && phoneAuthPageStatus) {
+
+            //인정코드 인증 API 호출
+
+            //성공시 로직
             setCurrentPage(4);
             setCurrentPageTitle("당신에 대해서\n알려주세요!")
             setPageConfirmStatus(etcPageStatus);
