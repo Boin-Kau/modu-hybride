@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import styled, { css } from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useHistory } from 'react-router-dom';
 
-import { LoginButton, LoginInput } from '../../styled/shared';
+import { LoginButton, LoginInput, TextMiddle } from '../../styled/shared';
 
 import icon_back from "../../assets/icon-back-arrow.svg";
 import icon_info from "../../assets/info-black-192-x-192@3x.png";
@@ -13,11 +14,16 @@ import icon_male_fill from "../../assets/icon-male-fill.svg";
 import icon_male_none from "../../assets/icon-male-none.svg";
 import icon_female_fill from "../../assets/icon-female-fill.svg";
 import icon_female_none from "../../assets/icon-female-none.svg";
-import { apiClient, customApiClient } from '../../shared/apiClient';
+import icon_timeout from "../../assets/icon-timeout.svg";
+
+
+import { customApiClient } from '../../shared/apiClient';
+import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 
 
 const Login = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     //현재 페이지
     const [currentPage, setCurrentPage] = useState(1);
@@ -39,8 +45,20 @@ const Login = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [phoneAuthCode, setPhoneAuthCode] = useState('');
 
+    //타이머 데이터
+    const [timeMin, setTimeMin] = useState(3);
+    const [timeSec, setTimeSec] = useState(0);
+    const [codeInputAccess, setCodeInputAccess] = useState(false);
+    const [timerErrorText, setTimerErrorText] = useState('');
+    const [intervalId, setIntervalId] = useState();
+
+
+    //에러 메세지
+    const [phoneErrorText, setPhoneErrorText] = useState('');
+
+
     const onClickBackButton = () => {
-        console.log("hoho")
+
         //currentPage 값과 pageStatus 값으로 검증 후 넘겨주기
 
         switch (currentPage) {
@@ -52,6 +70,9 @@ const Login = () => {
             case 3:
                 setCurrentPage(2);
                 setPageConfirmStatus(true);
+                setCodeInputAccess(false);
+                clearInterval(intervalId);
+                setphoneAuthPageStatus(false)
                 setCurrentPageTitle("본인 인증을\n진행해주세요.");
                 break
             case 4:
@@ -70,7 +91,8 @@ const Login = () => {
 
         if (currentPage == 1 && namePageStatus) {
             setCurrentPage(2);
-            setCurrentPageTitle("본인 인증을\n진행해주세요.")
+            setPhoneErrorText('');
+            setCurrentPageTitle("본인 인증을\n진행해주세요.");
             setPageConfirmStatus(phoneNumberPageStatus);
             return
         }
@@ -88,32 +110,59 @@ const Login = () => {
 
             //벨리데이션
             if (data.statusCode != 200) {
-                alert(data.message);
+                setPhoneErrorText(data.message);
                 return
             }
 
             //성공시 로직
+            setPhoneErrorText('');
+            beginTimer();
             setCurrentPage(3);
-            setCurrentPageTitle("인증번호를\n입력해주세요.")
+            setCurrentPageTitle("인증번호를\n입력해주세요.");
             setPageConfirmStatus(phoneAuthPageStatus);
             return
         }
 
-        if (currentPage == 3 && phoneAuthPageStatus) {
+        if (currentPage == 3 && phoneAuthPageStatus && codeInputAccess) {
 
             //인정코드 인증 API 호출
+            const data = await customApiClient('post', '/user/code/auth', {
+                phone: phoneNumber,
+                code: phoneAuthCode
+            })
 
-            //성공시 로직
-            setCurrentPage(4);
-            setCurrentPageTitle("당신에 대해서\n알려주세요!")
-            setPageConfirmStatus(etcPageStatus);
-            return
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 100 && data.statusCode != 200) {
+                setTimerErrorText(data.message);
+                return
+            }
+
+            //회원가입 로직
+            if (data.statusCode == 100) {
+                clearInterval(intervalId);
+                setCurrentPage(4);
+                setCurrentPageTitle("당신에 대해서\n알려주세요!")
+                setPageConfirmStatus(etcPageStatus);
+                return
+            }
+
+            //로그인 로직
+            if (data.statusCode == 200) {
+                localStorage.setItem('x-access-token', data.jwt);
+                dispatch(BottomNavOpenAction);
+                history.push('/main');
+                return
+            }
         }
 
         if (currentPage == 4 && etcPageStatus) {
             console.log("회원가입 로직 실행");
-            // history.push('/main');
-            window.location.href = '/main';
+
+            dispatch(BottomNavOpenAction);
+            history.push('/main');
             return
         }
     }
@@ -149,16 +198,85 @@ const Login = () => {
     const handlePhoneAuthCode = useCallback((e) => {
         setPhoneAuthCode(e.target.value);
 
+        console.log(codeInputAccess)
+
+        //타이머 벨리데이션
+        if (!codeInputAccess) {
+            setPageConfirmStatus(false);
+            setphoneAuthPageStatus(false);
+            setTimerErrorText('인증시간이 만료되었습니다. 재발송을 해주세요.');
+            return
+        }
+
         //휴대폰번호 벨리데이션
         if (phoneNumber.length < 2) {
             setPageConfirmStatus(false);
             setphoneAuthPageStatus(false);
+            setTimerErrorText('올바른 인증코드를 입력해주세요.');
             return
         }
 
+        setTimerErrorText('');
         setPageConfirmStatus(true);
         setphoneAuthPageStatus(true);
-    }, [phoneAuthCode]);
+    }, [codeInputAccess, phoneAuthCode]);
+
+    let min = 3;
+    let sec = 0;
+
+    //타이머 시작 함수
+    const beginTimer = () => {
+
+        setCodeInputAccess(true);
+        setTimerErrorText('');
+        setPhoneAuthCode('');
+
+        min = 3;
+        sec = 0;
+        setTimeMin(min);
+        setTimeSec(sec);
+
+        //시간 감소
+        const timer = setInterval(() => {
+
+            if (min == 0 && sec == 0) {
+                setTimerErrorText('인증시간이 만료되었습니다. 재발송을 해주세요.');
+                clearInterval(timer);
+                setCodeInputAccess(false);
+                setPageConfirmStatus(false);
+            }
+            else {
+                console.log("test 3");
+
+                if (sec == 0) {
+                    min = min - 1;
+                    sec = 59;
+                    setTimeMin(parseInt(min));
+                    setTimeSec(sec);
+                }
+                else {
+                    sec = sec - 1;
+                    setTimeSec(parseInt(sec));
+                }
+
+            }
+
+        }, 1000);
+
+        setIntervalId(timer);
+    };
+
+    //재발송 함수
+    const reGenrateCode = () => {
+
+        if (codeInputAccess) return
+
+        //코드 발송 api 호출
+
+        //타이머 함수 실행
+        beginTimer();
+
+    }
 
     return (
         <>
@@ -190,7 +308,10 @@ const Login = () => {
                 {currentPage == 2 &&
                     <ContentWrap>
                         <LoginInput value={phoneNumber} onChange={handlePhoneNumber} type="tel" placeholder="휴대폰 번호 (- 없이 입력)" />
-                        <div style={{ display: "flex", marginTop: "1.625rem" }}>
+                        <div style={{ height: '1.0625rem', margin: "0.125rem 0 0.4375rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
+                            {phoneErrorText}
+                        </div>
+                        <div style={{ display: "flex" }}>
                             <div style={{ marginRight: "0.3125rem" }}>
                                 <img src={icon_info} style={{ width: "0.875rem", height: "0.875rem" }} />
                             </div>
@@ -205,6 +326,23 @@ const Login = () => {
                 {currentPage == 3 &&
                     <ContentWrap>
                         <LoginInput value={phoneAuthCode} onChange={handlePhoneAuthCode} type="number" placeholder="인증번호 입력" />
+                        <div style={{ height: '1.0625rem', margin: "0.125rem 0 0.0625rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
+                            {timerErrorText}
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ flexGrow: '1' }}></div>
+                            <div style={{ position: 'relative', width: '1.375rem' }}>
+                                <img style={{ position: 'absolute', top: "46%", transform: 'translate(0,-46%)', width: '1rem', height: '0.8125rem' }} src={icon_timeout} />
+                            </div>
+                            <div style={{ position: 'relative', width: '2.5rem', fontSize: '0.8125rem', color: '#fb5e5e' }}>
+                                <TextMiddle>
+                                    {timeMin}:{timeSec < 10 ? `0${timeSec}` : timeSec}
+                                </TextMiddle>
+                            </div>
+                            <ReGenerateButton activateStatus={!codeInputAccess} onClick={reGenrateCode}>
+                                <div style={{ fontSize: '0.8125rem', color: '#ffffff' }}>재발송</div>
+                            </ReGenerateButton>
+                        </div>
                     </ContentWrap>
                 }
 
@@ -289,6 +427,12 @@ const BackIconWrap = styled.div`
 const BackIcon = styled.img`
     width:0.9375rem;
     height:0.8125rem;
+`;
+
+const ReGenerateButton = styled.div`
+    padding: 0.375rem 0.7188rem 0.3125rem 0.7188rem;
+    border-radius: 0.1875rem;
+    background-color: ${props => props.activateStatus ? '#ffca17' : '#e3e3e3'};
 `;
 
 const EtcButtonWrap = styled.div`
