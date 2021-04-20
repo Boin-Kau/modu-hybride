@@ -270,8 +270,6 @@ const Login = () => {
     const handlePhoneAuthCode = useCallback((e) => {
         setPhoneAuthCode(e.target.value);
 
-        console.log(codeInputAccess)
-
         //타이머 벨리데이션
         if (!codeInputAccess) {
             setPageConfirmStatus(false);
@@ -280,11 +278,12 @@ const Login = () => {
             return
         }
 
-        //휴대폰번호 벨리데이션
-        if (phoneNumber.length < 2) {
+        //인증코드 벨리데이션
+        if (e.target.value.length != 4) {
             setPageConfirmStatus(false);
             setphoneAuthPageStatus(false);
-            setTimerErrorText('올바른 인증코드를 입력해주세요.');
+            // setTimerErrorText('올바른 인증코드를 입력해주세요.');
+            setTimerErrorText('');
             return
         }
 
