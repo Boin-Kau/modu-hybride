@@ -53,6 +53,7 @@ const Login = () => {
 
 
     //에러 메세지
+    const [nameErrorText, setNameErrorText] = useState('');
     const [phoneErrorText, setPhoneErrorText] = useState('');
     const [timerErrorText, setTimerErrorText] = useState('');
 
@@ -231,13 +232,21 @@ const Login = () => {
     const handleName = useCallback((e) => {
         setName(e.target.value);
 
+        console.log(e.target.value);
+        console.log(name)
+
         //이름 벨리데이션
-        if (name.length < 2) {
+        //한글 이름 2~4자 이내
+        const reg = /^[가-힣]{2,4}$/;
+
+        if (!reg.test(e.target.value)) {
             setPageConfirmStatus(false);
             setNamePageStatus(false);
+            // setNameErrorText("올바른 이름을 입력해주세요.");
             return
         }
 
+        // setNameErrorText("");
         setPageConfirmStatus(true);
         setNamePageStatus(true);
     }, [name]);
@@ -245,8 +254,10 @@ const Login = () => {
     const handlePhoneNumber = useCallback((e) => {
         setPhoneNumber(e.target.value);
 
+        const reg = /^01([0|1|6|7|8|9]?)([0-9]{3,4})([0-9]{4})$/;
+
         //휴대폰번호 벨리데이션
-        if (phoneNumber.length < 2) {
+        if (!reg.test(e.target.value)) {
             setPageConfirmStatus(false);
             setPhoneNumberPageStatus(false);
             return
@@ -385,6 +396,9 @@ const Login = () => {
                 {currentPage == 1 &&
                     <ContentWrap>
                         <LoginInput value={name} onChange={handleName} type="text" placeholder="이름" />
+                        <div style={{ height: '1.0625rem', margin: "0.125rem 0 0.0625rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
+                            {nameErrorText}
+                        </div>
                     </ContentWrap>
                 }
 
