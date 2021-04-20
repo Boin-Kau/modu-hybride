@@ -49,12 +49,27 @@ const Login = () => {
     const [timeMin, setTimeMin] = useState(3);
     const [timeSec, setTimeSec] = useState(0);
     const [codeInputAccess, setCodeInputAccess] = useState(false);
-    const [timerErrorText, setTimerErrorText] = useState('');
     const [intervalId, setIntervalId] = useState();
 
 
     //에러 메세지
     const [phoneErrorText, setPhoneErrorText] = useState('');
+    const [timerErrorText, setTimerErrorText] = useState('');
+
+    //성별 및 연령 데이터
+    const [sex, setSex] = useState({
+        MALE: true,
+        FEMALE: false
+    })
+    const [age, setAge] = useState({
+        ONE: true,
+        TWO: false,
+        THREE: false,
+        FOUR: false,
+        FIVE: false,
+        MORE: false,
+    })
+
 
 
     const onClickBackButton = () => {
@@ -161,6 +176,52 @@ const Login = () => {
         if (currentPage == 4 && etcPageStatus) {
             console.log("회원가입 로직 실행");
 
+            let userSex = '';
+            let userAge = -1;
+
+            //sex
+            userSex = sex.MALE ? "MALE" : "FEMALE";
+
+            //age
+            if (age.ONE) {
+                userAge = 1;
+            }
+            else if (age.TWO) {
+                userAge = 2;
+            }
+            else if (age.THREE) {
+                userAge = 3;
+            }
+            else if (age.FOUR) {
+                userAge = 4;
+            }
+            else if (age.FIVE) {
+                userAge = 5;
+            }
+            else {
+                userAge = 6;
+            }
+
+            const data = await customApiClient('post', '/user', {
+                name: name,
+                phone: phoneNumber,
+                sex: userSex,
+                age: userAge
+            })
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                alert(data.message);
+                return
+            }
+
+            //토큰저장
+            localStorage.setItem('x-access-token', data.jwt);
+
+            //메인 페이지 이동 로직
             dispatch(BottomNavOpenAction);
             history.push('/main');
             return
@@ -278,6 +339,28 @@ const Login = () => {
 
     }
 
+    const handleOnclickSex = (type) => {
+
+        setSex({
+            MALE: type == "MALE",
+            FEMALE: type == "FEMALE"
+        })
+
+    }
+
+    const handelOnclickAge = (type) => {
+
+        setAge({
+            ONE: type == "ONE",
+            TWO: type == "TWO",
+            THREE: type == "THREE",
+            FOUR: type == "FOUR",
+            FIVE: type == "FIVE",
+            MORE: type == "MORE"
+        })
+
+    }
+
     return (
         <>
             <div className="page" style={{ backgroundColor: "#ffffff", position: 'relative' }}>
@@ -351,42 +434,50 @@ const Login = () => {
 
                         {/* 성별 선택 */}
                         <EtcButtonWrap style={{ marginBottom: "2.125rem" }}>
-                            <EtcButton selectedStatus={true} type="sex" style={{ marginRight: "0.625rem" }}>
+                            <EtcButton selectedStatus={sex.MALE} type="sex" style={{ marginRight: "0.625rem" }} onClick={() => { handleOnclickSex("MALE") }}>
                                 <EtcButtonIconWrap>
-                                    <EtcButtonIcon src={icon_male_fill} />
+                                    {
+                                        sex.MALE ?
+                                            <EtcButtonIcon src={icon_male_fill} /> :
+                                            <EtcButtonIcon src={icon_male_none} />
+                                    }
                                 </EtcButtonIconWrap>
-                                <EtcButtonText selectedStatus={true} type="sex">남자</EtcButtonText>
+                                <EtcButtonText selectedStatus={sex.MALE} type="sex">남자</EtcButtonText>
                             </EtcButton>
-                            <EtcButton selectedStatus={false} type="sex" >
+                            <EtcButton selectedStatus={sex.FEMALE} type="sex" onClick={() => { handleOnclickSex("FEMALE") }}>
                                 <EtcButtonIconWrap>
-                                    <EtcButtonIcon src={icon_female_none} />
+                                    {
+                                        sex.FEMALE ?
+                                            <EtcButtonIcon src={icon_female_fill} /> :
+                                            <EtcButtonIcon src={icon_female_none} />
+                                    }
                                 </EtcButtonIconWrap>
-                                <EtcButtonText selectedStatus={false} type="sex">여자</EtcButtonText>
+                                <EtcButtonText selectedStatus={sex.FEMALE} type="sex">여자</EtcButtonText>
                             </EtcButton>
                         </EtcButtonWrap>
 
                         {/* 연령대 선택 */}
                         <EtcButtonWrap style={{ marginBottom: "0.625rem" }}>
-                            <EtcButton selectedStatus={true} type="age" style={{ marginRight: "0.625rem" }}>
-                                <EtcButtonText selectedStatus={true} type="age">10대</EtcButtonText>
+                            <EtcButton selectedStatus={age.ONE} type="age" style={{ marginRight: "0.625rem" }} onClick={() => { handelOnclickAge("ONE") }}>
+                                <EtcButtonText selectedStatus={age.ONE} type="age">10대</EtcButtonText>
                             </EtcButton>
-                            <EtcButton selectedStatus={false} type="age" style={{ marginRight: "0.625rem" }}>
-                                <EtcButtonText selectedStatus={false} type="age">20대</EtcButtonText>
+                            <EtcButton selectedStatus={age.TWO} type="age" style={{ marginRight: "0.625rem" }} onClick={() => { handelOnclickAge("TWO") }}>
+                                <EtcButtonText selectedStatus={age.TWO} type="age">20대</EtcButtonText>
                             </EtcButton>
-                            <EtcButton selectedStatus={false} type="age">
-                                <EtcButtonText selectedStatus={false} type="age">30대</EtcButtonText>
+                            <EtcButton selectedStatus={age.THREE} type="age" onClick={() => { handelOnclickAge("THREE") }}>
+                                <EtcButtonText selectedStatus={age.THREE} type="age">30대</EtcButtonText>
                             </EtcButton>
                         </EtcButtonWrap>
 
                         <EtcButtonWrap>
-                            <EtcButton selectedStatus={false} type="age" style={{ marginRight: "0.625rem" }}>
-                                <EtcButtonText selectedStatus={false} type="age">40대</EtcButtonText>
+                            <EtcButton selectedStatus={age.FOUR} type="age" style={{ marginRight: "0.625rem" }} onClick={() => { handelOnclickAge("FOUR") }}>
+                                <EtcButtonText selectedStatus={age.FOUR} type="age">40대</EtcButtonText>
                             </EtcButton>
-                            <EtcButton selectedStatus={false} type="age" style={{ marginRight: "0.625rem" }}>
-                                <EtcButtonText selectedStatus={false} type="age">50대</EtcButtonText>
+                            <EtcButton selectedStatus={age.FIVE} type="age" style={{ marginRight: "0.625rem" }} onClick={() => { handelOnclickAge("FIVE") }}>
+                                <EtcButtonText selectedStatus={age.FIVE} type="age">50대</EtcButtonText>
                             </EtcButton>
-                            <EtcButton selectedStatus={false} type="age">
-                                <EtcButtonText selectedStatus={false} type="age">50대 이상</EtcButtonText>
+                            <EtcButton selectedStatus={age.MORE} type="age" onClick={() => { handelOnclickAge("MORE") }}>
+                                <EtcButtonText selectedStatus={age.MORE} type="age">50대 이상</EtcButtonText>
                             </EtcButton>
                         </EtcButtonWrap>
                     </ContentWrap>
