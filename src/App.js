@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
 import { createBrowserHistory } from 'history';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { PageTransContext } from './contexts/pageTransContext';
+import { PageTransContext } from './containers/pageTransContext';
 
 import './App.scss';
 

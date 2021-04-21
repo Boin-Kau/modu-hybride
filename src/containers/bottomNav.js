@@ -1,7 +1,7 @@
 import React, { useContext, useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { PageTransContext } from '../contexts/pageTransContext';
+import { PageTransContext } from './pageTransContext';
 import { useDispatch, useSelector } from "react-redux";
 
 

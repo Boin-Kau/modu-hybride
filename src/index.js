@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { PageTransProvider } from './contexts/pageTransContext';
+import { PageTransProvider } from './containers/pageTransContext';
 
 import { createStore } from 'redux';
 import rootReducer from './reducers';
