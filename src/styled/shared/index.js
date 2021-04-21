@@ -28,7 +28,7 @@ export const LoginButton = styled.div`
 
     position:absolute;
     left:50%;
-    bottom:22px;
+    bottom:1.375rem;
 
     transform:translate(-50%,0);
 

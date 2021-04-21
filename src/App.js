@@ -37,7 +37,7 @@ function App() {
         <Route
           render={({ location }) => (
             <TransitionGroup className='transitionGroup'>
-              <CSSTransition key={location.pathname} classNames={PageTransStyle} timeout={1000}>
+              <CSSTransition key={location.pathname} classNames={PageTransStyle} timeout={1000} style={{ border: "5px solid red" }}>
                 <Switch location={location}>
                   <Route path="/" component={AppLayout} />
                 </Switch>
@@ -55,7 +55,7 @@ function App() {
 
 const RootWrap = styled.div`
 
-    /* border:1px solid red; */
+    /* border:1px solid blue; */
 
     position: absolute;
     top:0;
@@ -68,6 +68,7 @@ const RootWrap = styled.div`
     transform:translate(-50%,0);
     
     background-color:#f7f7f7;
+
 
     overflow:hidden;
 `;

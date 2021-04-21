@@ -35,6 +35,8 @@ const getTransDirection = (gnb, gnbIndex) => {
     const matched = gnb.find(menu => menu.to === window.location.pathname)
     let matchedIndex = gnb.indexOf(matched)
 
+
+
     if (matchedIndex === -1) {
         matchedIndex = 1
     }
@@ -59,8 +61,6 @@ const BottomNav = () => {
     } = useSelector(state => state.container.bottomNav);
 
     const pathname = window.location.pathname;
-
-    console.log(openBottomNavStatus)
 
     const [iconMain, setIconMain] = useState(true);
     const [iconParty, setIconParty] = useState(false);

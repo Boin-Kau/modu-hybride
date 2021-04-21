@@ -167,6 +167,7 @@ const Login = () => {
 
             //로그인 로직
             if (data.statusCode == 200) {
+                clearInterval(intervalId);
                 localStorage.setItem('x-access-token', data.jwt);
                 dispatch(BottomNavOpenAction);
                 history.push('/main');
