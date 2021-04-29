@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
-import card_img_fill from "../../../assets/card-active-fill.svg";
+import card_img_fill from "../../../assets/money-back.png";
 import icon_arrow_gray from "../../../assets/icon-arrow-right-gray.svg";
 
 
