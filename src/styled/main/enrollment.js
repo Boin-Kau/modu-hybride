@@ -35,6 +35,7 @@ export const InputWrap = styled.div`
 
 export const Input = styled.input`
     flex-grow:1;
+    flex-basis:0;
 
     border:none;
 
@@ -45,6 +46,7 @@ export const Input = styled.input`
         opacity:0.3;
     }
 `;
+
 
 export const PartyIconWrap = styled.div`
     position:relative;

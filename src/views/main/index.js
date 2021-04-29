@@ -72,7 +72,7 @@ const Main = () => {
 
 
         bottomViewY = titleDivY - bottomDivY;
-    })
+    }, [])
 
     const bind = useGesture(({ down, delta, velocity }) => {
         velocity = clamp(velocity, 1, 1)

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import icon_setting from "../../assets/icon-setting.svg";
+import icon_profile from "../../assets/duck-profile.svg";
 
 const Info = () => {
 
@@ -11,7 +12,7 @@ const Info = () => {
                 <PageWrap>
 
                     <InfoWrap>
-                        <img style={{ width: '2.9375rem', height: '2.9375rem' }} />
+                        <img style={{ width: '2.9375rem', height: '2.9375rem' }} src={icon_profile} />
                         <div style={{ marginLeft: "0.6875rem", flexGrow: '1' }}>
                             <div style={{ fontSize: '1.0625rem', margin: '0.1875rem 0' }}>신민재</div>
                             <div style={{ fontSize: '0.6875rem', lineHeight: '1.3125rem', opacity: '0.4' }}>신민재#1234</div>

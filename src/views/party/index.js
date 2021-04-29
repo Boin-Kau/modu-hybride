@@ -1,10 +1,48 @@
-import React from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from "react-redux";
+
+import Fade from 'react-reveal/Fade';
+
 
 import icon_arrow_gray from "../../assets/icon-arrow-right-gray.svg";
+import duck_group from "../../assets/group-duck@2x.png";
+import icon_arrow_black from "../../assets/icon-back-arrow-right.svg";
+import icon_party_invite from "../../assets/party-invite.svg";
+import PartyEnrollmentPage from './enrollment';
 
+
+import { EnrollmentPageWrapOpenAction, EnrollmentPageOpenAction } from '../../reducers/party/enrollment';
+import { InfoPageWrapOpenAction, InfoPageOpenAction } from '../../reducers/party/info';
+
+import PartyInfoPage from './info';
 
 const Party = () => {
+
+    const dispatch = useDispatch();
+
+
+    const {
+        openEnrollmentPageWrapStatus,
+        openEnrollmentPageStatus
+    } = useSelector(state => state.party.enrollment);
+
+    const {
+        openInfoPageWrapStatus,
+        openInfoPageStatus
+    } = useSelector(state => state.party.info);
+
+    const openEnrollmentPage = useCallback(() => {
+        console.log("hihihihii")
+        dispatch(EnrollmentPageWrapOpenAction);
+        dispatch(EnrollmentPageOpenAction);
+    }, []);
+
+    const openInfoPage = useCallback(() => {
+        console.log("hihihihii")
+        dispatch(InfoPageWrapOpenAction);
+        dispatch(InfoPageOpenAction);
+    }, []);
 
     return (
         <>
@@ -15,7 +53,7 @@ const Party = () => {
                         <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>파티</div>
                         <div style={{ flexGrow: '1' }}></div>
                         <div>
-
+                            <img style={{ width: '1.25rem', height: '1rem' }} src={icon_party_invite} />
                         </div>
                     </div>
 
@@ -24,11 +62,16 @@ const Party = () => {
                         파티원을 찾고 있어요!
                     </div>
 
-                    <div style={{ border: '1px solid red', height: '60px' }}></div>
+                    <div style={{ zIndex: '100', position: 'relative', height: '60px' }}>
+                        <img style={{ position: 'absolute', bottom: '-0.75rem', right: '0.875rem', width: '10.6875rem', height: '5.8125rem' }} src={duck_group} />
+                    </div>
 
                     <div style={{ position: 'relative', height: '3.75rem', backgroundColor: '#ffca17', borderRadius: '0.4375rem', boxShadow: '0 0 0.25rem 0.0625rem rgba(0, 0, 0, 0.04)' }}>
                         <div style={{ position: 'absolute', left: '1.125rem', top: '50%', transform: 'translate(0,-50%)', fontSize: '0.875rem' }}>
                             파티 시작하기
+                        </div>
+                        <div onClick={openEnrollmentPage} style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translate(0,-50%)', width: '1.5625rem', height: '1.5625rem', backgroundColor: 'rgba(49, 49, 49,0.08)', borderRadius: '50%' }}>
+                            <img style={{ position: 'absolute', left: '48%', top: '48%', transform: 'translate(-48%,-48%)', width: '0.9375rem', height: '0.5625rem' }} src={icon_arrow_black} />
                         </div>
                     </div>
 
@@ -37,7 +80,7 @@ const Party = () => {
                     </div>
 
                     <TableWrap>
-                        <TableContent isActivate={true}>
+                        <TableContent isActivate={true} onClick={openInfoPage}>
                             <TitleWrap>
                                 <PlatformImg src='https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2Fnetflix.png?alt=media&token=96cf7411-2b79-4050-97cc-6ba683532b14' />
                                 <ArrowIcon src={icon_arrow_gray} />
@@ -72,6 +115,27 @@ const Party = () => {
 
                 </PageWrap>
             </div>
+
+
+            {/* 파티 등록 페이지 */}
+            <div style={openEnrollmentPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openEnrollmentPageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
+                        <PartyEnrollmentPage />
+                    </div>
+                </Fade>
+            </div>
+
+
+            {/* 파티 상세 페이지 */}
+            <div style={openInfoPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openInfoPageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
+                        <PartyInfoPage />
+                    </div>
+                </Fade>
+            </div>
+
         </>
     )
 };
