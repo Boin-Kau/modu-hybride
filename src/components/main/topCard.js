@@ -1,5 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import styled from "styled-components";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { AlertPageWrapOpenAction, AlertPageOpenAction } from '../../reducers/main/alert';
 
 
 import icon_alarm from "../../assets/icon-alarm-new.svg";
@@ -8,15 +12,22 @@ import { TextMiddle } from '../../styled/shared';
 
 const TopCard = () => {
 
+    const dispatch = useDispatch();
+
+    //알림페이지 열기
+    const openAlertPage = useCallback(() => {
+        dispatch(AlertPageWrapOpenAction);
+        dispatch(AlertPageOpenAction);
+    }, []);
 
     return (
         <TopCardWrap>
             <TitleWrap>
-                <div>
+                <div >
                     <TextMiddle>이번달 결제 예정</TextMiddle>
                 </div>
                 <div style={{ flexGrow: "1" }}></div>
-                <div>
+                <div onClick={openAlertPage} style={{ zIndex: '10' }}>
                     <img src={icon_alarm} />
                 </div>
             </TitleWrap>

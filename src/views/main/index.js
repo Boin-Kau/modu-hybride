@@ -19,6 +19,7 @@ import AnalysisPage from './analysis';
 import SubscribePage from './subscribe';
 import { SubscribePageWrapOpenAction, SubscribePageOpenAction } from '../../reducers/main/subscribe';
 import EnrollmentRevisePage from './subscribe/enrollment/revise';
+import AlertPage from './alert';
 
 const CardStyle = {
     height: '100vh',
@@ -50,6 +51,12 @@ const Main = () => {
         openEnrollmentRevisePageWrapStatus,
         openEnrollmentRevisePageStatus
     } = useSelector(state => state.main.enrollmentRevise);
+
+    const {
+        openAlertPageWrapStatus,
+        openAlertPageStatus
+    } = useSelector(state => state.main.alert);
+
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
@@ -145,9 +152,9 @@ const Main = () => {
     })
 
 
-    //구독등록 페이지 열기
     const dispatch = useDispatch();
 
+    //구독등록 페이지 열기
     const openSubscribePage = useCallback(() => {
         console.log("hihihihii")
         dispatch(SubscribePageWrapOpenAction);
@@ -204,6 +211,15 @@ const Main = () => {
                 <Fade right when={openEnrollmentRevisePageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <EnrollmentRevisePage />
+                    </div>
+                </Fade>
+            </div>
+
+            {/* 알림 페이지 */}
+            <div style={openAlertPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openAlertPageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                        <AlertPage />
                     </div>
                 </Fade>
             </div>
