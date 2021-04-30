@@ -218,7 +218,7 @@ const Main = () => {
             {/* 알림 페이지 */}
             <div style={openAlertPageWrapStatus ? { display: "block" } : { display: "none" }}>
                 <Fade right when={openAlertPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
                         <AlertPage />
                     </div>
                 </Fade>
