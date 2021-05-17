@@ -135,7 +135,7 @@ const ConsumCard = () => {
 
 const ConsumCardWrap = styled.div`
     /* border:1px solid red; */
-    padding: 1.25rem;
+    padding:0.625rem 1.25rem 1.25rem 1.25rem;
 
 `;
 

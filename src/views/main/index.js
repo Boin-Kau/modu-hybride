@@ -18,8 +18,11 @@ import ConsumCard from '../../components/main/consumCard';
 import AnalysisPage from './analysis';
 import SubscribePage from './subscribe';
 import { SubscribePageWrapOpenAction, SubscribePageOpenAction } from '../../reducers/main/subscribe';
+import { GetServerPlatformList } from '../../reducers/main/platform';
+
 import EnrollmentRevisePage from './subscribe/enrollment/revise';
 import AlertPage from './alert';
+import { customApiClient } from '../../shared/apiClient';
 
 const CardStyle = {
     height: '100vh',
@@ -37,6 +40,7 @@ const BottomChildCloseStyle = {
 
 const Main = () => {
 
+    //페이지 상태값
     const {
         openAnalyPageWrapStatus,
         openAnalyPageStatus
@@ -56,6 +60,11 @@ const Main = () => {
         openAlertPageWrapStatus,
         openAlertPageStatus
     } = useSelector(state => state.main.alert);
+
+    //구독 플랫폼 리스트 상태값
+    const {
+        serverPlatformList,
+    } = useSelector(state => state.main.platform);
 
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
@@ -155,11 +164,34 @@ const Main = () => {
     const dispatch = useDispatch();
 
     //구독등록 페이지 열기
-    const openSubscribePage = useCallback(() => {
-        console.log("hihihihii")
+    const openSubscribePage = useCallback(async () => {
+
+        //플랫폼 리스트 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+
+        if (serverPlatformList.length < 1) {
+
+            //구독 플랫폼 리스트 조회
+            const data = await customApiClient('get', '/subscribe/platform?type=ALL')
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetServerPlatformList,
+                data: data.result
+            })
+
+        }
+
         dispatch(SubscribePageWrapOpenAction);
         dispatch(SubscribePageOpenAction);
-    }, []);
+    }, [serverPlatformList]);
 
     return (
         <>

@@ -1,4 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+
 import styled from 'styled-components';
 import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
 import { createBrowserHistory } from 'history';
@@ -15,7 +17,14 @@ const history = createBrowserHistory();
 
 function App() {
 
-  let { pageTrans } = useContext(PageTransContext)
+  let { pageTrans } = useContext(PageTransContext);
+
+  //store
+  const {
+    message,
+    messageShow,
+    messageWrapShow
+  } = useSelector(state => state.container.message);
 
   const PageTransStyle = {
     appear: `${pageTrans} appear`,
@@ -46,7 +55,15 @@ function App() {
           )}
         />
 
+        {/* 바텀 네비게이션 */}
         <BottomNav></BottomNav>
+
+        {/* 알림창 */}
+        <MessageWrapPopup openStatus={messageWrapShow}>
+          <MessagePopup openStatus={messageShow}>
+            {message}
+          </MessagePopup>
+        </MessageWrapPopup>
       </Router>
     </RootWrap>
   );
@@ -55,25 +72,53 @@ function App() {
 
 const RootWrap = styled.div`
 
-    /* border:1px solid blue; */
+  /* border:1px solid blue; */
 
-    position: absolute;
-    top:0;
-    bottom:0;
+  position: absolute;
+  top:0;
+  bottom:0;
 
-    width:100%;
-    max-width:500px;
+  width:100%;
+  max-width:500px;
 
-    left:50%;
-    transform:translate(-50%,0);
-    
-    background-color:#f7f7f7;
+  left:50%;
+  transform:translate(-50%,0);
+  
+  background-color:#f7f7f7;
 
 
-    overflow:hidden;
+  overflow:hidden;
 `;
 
+const MessageWrapPopup = styled.div`
+    display : ${props => props.openStatus ? 'block' : 'none'};
+`;
+const MessagePopup = styled.div`
+  z-index:10000;
 
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:2.625rem;
+
+  padding:0.5rem 0;
+  margin:0 2.1875rem;
+
+  border-radius:0.4375rem;
+
+  line-height:1.3125rem;
+
+  background-color: rgba(0,0,0,0.7);
+  color: #ffffff;
+
+  font-size:0.75rem;
+
+  text-align:center;
+
+  /* 애니메이션 적용 */
+  transition: opacity 300ms ease-out;
+  opacity : ${props => props.openStatus ? '1' : '0'};
+`;
 
 
 

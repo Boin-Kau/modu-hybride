@@ -5,6 +5,7 @@ import subscribe from './subscribe';
 import search from './search';
 import enrollment from './enrollment';
 import enrollmentRevise from './enrollmentRevise';
+import platform from './platform';
 
 
 const mainReducer = combineReducers({
@@ -13,7 +14,8 @@ const mainReducer = combineReducers({
     subscribe,
     search,
     enrollment,
-    enrollmentRevise
+    enrollmentRevise,
+    platform
 });
 
 export default mainReducer;
