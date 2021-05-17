@@ -166,8 +166,10 @@ const Main = () => {
     //구독등록 페이지 열기
     const openSubscribePage = useCallback(async () => {
 
-        //플랫폼 리스트 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        dispatch(SubscribePageWrapOpenAction);
+        dispatch(SubscribePageOpenAction);
 
+        //플랫폼 리스트 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (serverPlatformList.length < 1) {
 
             //구독 플랫폼 리스트 조회
@@ -189,8 +191,6 @@ const Main = () => {
 
         }
 
-        dispatch(SubscribePageWrapOpenAction);
-        dispatch(SubscribePageOpenAction);
     }, [serverPlatformList]);
 
     return (

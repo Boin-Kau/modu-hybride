@@ -14,6 +14,12 @@ const SearchPage = () => {
 
     const dispatch = useDispatch();
 
+    //store
+    const {
+        popularPlatformList,
+        searchPlatformList
+    } = useSelector(state => state.main.platform);
+
     const closeSearchPage = () => {
         console.log("hihi")
 
@@ -44,52 +50,17 @@ const SearchPage = () => {
 
                 <div style={{ margin: "1.1875rem 0 0.5188rem 0" }}>인기 구독 서비스</div>
 
-                <div>
-                    <PopularItemWrap>
-                        <PopularItemRank>
-                            1
-                        </PopularItemRank>
-
-                        <PopularItemImgWrap>
-                            <PopularItemImg src={"https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg"} />
-                        </PopularItemImgWrap>
-
-                        <div style={{ fontSize: "0.75rem", color: "#313131" }}>
-                            <div style={{ lineHeight: "1.375rem" }}>넷플릭스</div>
-                            <div style={{ lineHeight: "1.3125rem", opacity: "0.4" }}>OTT</div>
-                        </div>
-                    </PopularItemWrap>
-
-                    <PopularItemWrap>
-                        <PopularItemRank>
-                            2
-                        </PopularItemRank>
-
-                        <PopularItemImgWrap>
-                            <PopularItemImg src={"https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg"} />
-                        </PopularItemImgWrap>
-
-                        <div style={{ fontSize: "0.75rem", color: "#313131" }}>
-                            <div style={{ lineHeight: "1.375rem" }}>넷플릭스</div>
-                            <div style={{ lineHeight: "1.3125rem", opacity: "0.4" }}>OTT</div>
-                        </div>
-                    </PopularItemWrap>
-
-                    <PopularItemWrap>
-                        <PopularItemRank>
-                            3
-                        </PopularItemRank>
-
-                        <PopularItemImgWrap>
-                            <PopularItemImg src={"https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg"} />
-                        </PopularItemImgWrap>
-
-                        <div style={{ fontSize: "0.75rem", color: "#313131" }}>
-                            <div style={{ lineHeight: "1.375rem" }}>넷플릭스</div>
-                            <div style={{ lineHeight: "1.3125rem", opacity: "0.4" }}>OTT</div>
-                        </div>
-                    </PopularItemWrap>
-                </div>
+                {
+                    popularPlatformList.map((list, index) => {
+                        console.log(index)
+                        if (index < 3) {
+                            return (<PopularItemComponent props={list} key={list.idx} isPopular={true}></PopularItemComponent>)
+                        }
+                        else {
+                            return (<PopularItemComponent props={list} key={list.idx} isPopular={false}></PopularItemComponent>)
+                        }
+                    })
+                }
 
             </PopularSearchWrap>
 
@@ -97,6 +68,26 @@ const SearchPage = () => {
     )
 
 };
+
+const PopularItemComponent = ({ props, isPopular }) => {
+
+    return (
+        <PopularItemWrap>
+            <PopularItemRank popular={isPopular}>
+                {props.rank}
+            </PopularItemRank>
+
+            <PopularItemImgWrap>
+                <PopularItemImg src={props.platform.imgUrl} />
+            </PopularItemImgWrap>
+
+            <div style={{ fontSize: "0.75rem", color: "#313131" }}>
+                <div style={{ lineHeight: "1.375rem" }}>{props.platform.name}</div>
+                <div style={{ lineHeight: "1.3125rem", opacity: "0.4" }}>{props.platform.category.name}</div>
+            </div>
+        </PopularItemWrap>
+    )
+}
 
 const PageWrap = styled.div`
 `;
@@ -191,7 +182,9 @@ const PopularItemRank = styled.div`
 
     font-size:0.8125rem;
     line-height:1.375rem;
-    color:#ffca17;
+
+    color : ${props => props.popular ? '#ffca17' : 'rgba(49, 49, 49,0.3)'};
+
 `;
 const PopularItemImgWrap = styled.div`
     margin-right:1.625rem;

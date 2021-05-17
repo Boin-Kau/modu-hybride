@@ -59,23 +59,40 @@ const SubscribePage = () => {
     const [totalMenuStatus, setTotalMenuStatus] = useState(true);
     const [categoryMenuStatus, setcategoryMenuStatus] = useState(false);
 
-    const openSearchPage = useCallback(() => {
-        console.log("hihihihii")
+    const openSearchPage = useCallback(async () => {
         dispatch(SearchPageWrapOpenAction);
         dispatch(SearchPageOpenAction);
-    }, []);
+
+        //인기 리스트, 전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        if (popularPlatformList.length < 1) {
+
+            //구독 플랫폼 리스트 조회
+            const data = await customApiClient('get', '/subscribe/platform?type=POPULAR');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetPopularPlatformList,
+                data: data.result
+            })
+
+        }
+    }, [popularPlatformList]);
 
     const openEnrollmentPage = useCallback(() => {
-        console.log("hihihihii")
         dispatch(EnrollmentPageWrapOpenAction);
         dispatch(EnrollmentPageOpenAction);
     }, []);
 
     const closeSubscribePage = useCallback(() => {
-        console.log("hihi")
-
         dispatch(SubscribePageCloseAction);
-
         setTimeout(() => {
             dispatch(SubscribePageWrapCloseAction);
         }, 300)
