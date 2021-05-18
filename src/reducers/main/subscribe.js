@@ -3,6 +3,8 @@ export const initialState = {
     openSubscribePageStatus: false,
     totalReloadStatus: false,
     categoryReloadStatus: false,
+    subscribeReloadStatus: true,
+    subscribeList: []
 };
 
 const SubscribePageWrapOpen = 'SubscribePageWrapOpen';
@@ -15,6 +17,12 @@ const totalReloadFalse = 'totalReloadFalse';
 
 const categoryReloadTrue = 'categoryReloadTrue';
 const categoryReloadFalse = 'categoryReloadFalse';
+
+
+const subscribeReloadTrue = 'subscribeReloadTrue';
+const subscribeReloadFalse = 'subscribeReloadFalse';
+
+export const GetSubscirbeList = 'GetSubscirbeList';
 
 export const SubscribePageWrapOpenAction = {
     type: SubscribePageWrapOpen,
@@ -41,7 +49,12 @@ export const CategoryReloadTrueAction = {
 export const CategoryReloadFalseAction = {
     type: categoryReloadFalse,
 };
-
+export const SubscribeReloadTrueAction = {
+    type: subscribeReloadTrue,
+};
+export const SubscribeReloadFalseAction = {
+    type: subscribeReloadFalse,
+};
 
 const reducer = (state = initialState, action) => {
 
@@ -92,6 +105,24 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 categoryReloadStatus: false,
+            }
+        }
+        case 'subscribeReloadTrue': {
+            return {
+                ...state,
+                subscribeReloadStatus: true,
+            }
+        }
+        case 'subscribeReloadFalse': {
+            return {
+                ...state,
+                subscribeReloadStatus: false,
+            }
+        }
+        case 'GetSubscirbeList': {
+            return {
+                ...state,
+                subscribeList: action.data,
             }
         }
         default: {

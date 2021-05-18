@@ -13,7 +13,7 @@ import icon_plus from "../../../../assets/icon-plus.svg";
 import platform_none from "../../../../assets/platform-none.svg";
 import { customApiClient } from '../../../../shared/apiClient';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
-import { CategoryReloadTrueAction, TotalReloadTrueAction, TotalReloadFalseAction, CategoryReloadFalseAction } from '../../../../reducers/main/subscribe';
+import { CategoryReloadTrueAction, TotalReloadTrueAction, TotalReloadFalseAction, CategoryReloadFalseAction, SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
 import { UpdateSubscribeStatus, GetServerPlatformList, GetCategoryPlatformList } from '../../../../reducers/main/platform';
 
 
@@ -273,6 +273,7 @@ const TotalItemComponent = ({ data }) => {
 
         }
 
+        dispatch(SubscribeReloadTrueAction);
         // dispatch(CategoryReloadTrueAction);
         // dispatch(TotalReloadTrueAction);
     };

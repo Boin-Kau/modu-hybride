@@ -32,6 +32,10 @@ export const DetailItemContent = styled.div`
     color:#313131;
     opacity:0.25;
 `;
+export const DetailItemFillContent = styled.div`
+    font-size:0.8125rem;
+    color:#313131;
+`;
 
 export const DetailButton = styled.div`
     position: relative;
@@ -49,7 +53,7 @@ export const DetailButton = styled.div`
 
     font-size:0.8125rem;
 
-    margin-left: ${props => props.revise ? '0.625rem' : '0'};
+    /* margin-left: ${props => props.revise ? '0.625rem' : '0'}; */
     color: ${props => props.revise ? '#ffffff' : 'rgba(0,0,0,0.48)'};
     background-color: ${props => props.revise ? '#ffca17' : '#e3e3e3'};
 `;

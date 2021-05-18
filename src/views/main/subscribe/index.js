@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { SubscribePageCloseAction, SubscribePageWrapCloseAction, TotalReloadFalseAction, CategoryReloadFalseAction, CategoryReloadTrueAction, TotalReloadTrueAction } from "../../../reducers/main/subscribe";
+import { SubscribePageCloseAction, SubscribePageWrapCloseAction, TotalReloadFalseAction, CategoryReloadFalseAction, CategoryReloadTrueAction, TotalReloadTrueAction, SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
 
 
 import Fade from 'react-reveal/Fade';
@@ -412,6 +412,7 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
 
         dispatch(CategoryReloadTrueAction);
         dispatch(TotalReloadTrueAction);
+        dispatch(SubscribeReloadTrueAction);
     };
 
     return (
