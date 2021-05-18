@@ -55,6 +55,10 @@ const BottomContent = ({ data }) => {
         }
     }
 
+    const priceToString = price => {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     return (
         <>
             <ContentWrap onClick={onclickOpenContent}>
@@ -70,7 +74,7 @@ const BottomContent = ({ data }) => {
                     </div>
                     <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: '0.4' }}>{data.platform.category.name}</div>
                 </div>
-                <div>{data.price}원</div>
+                <div>{priceToString(data.price)}원</div>
             </ContentWrap>
 
             <Fade collapse when={openStatus} duration={500}>
@@ -237,7 +241,7 @@ const ContentDetailWrap = styled.div`
 `;
 
 const DDayWrap = styled.div`
-    margin-left:0.625rem;
+    margin-left:0.375rem;
     font-size:0.6875rem;
 
     height: 1rem;
