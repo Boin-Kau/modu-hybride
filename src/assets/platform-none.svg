@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g transform="translate(-31 -183) translate(31 183)">
+                <rect width="37" height="37" fill="#E1E1E1" fill-rule="nonzero" rx="6"/>
+                <text fill="#FFF" font-family="SpoqaHanSans-Bold, SpoqaHanSans" font-size="22" font-weight="bold">
+                    <tspan x="13.346" y="28">?</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

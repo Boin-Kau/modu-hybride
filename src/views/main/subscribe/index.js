@@ -22,7 +22,7 @@ import { SearchPageWrapOpenAction, SearchPageOpenAction } from '../../../reducer
 import { EnrollmentPageWrapOpenAction, EnrollmentPageOpenAction } from '../../../reducers/main/enrollment';
 
 import EnrollmentPage from './enrollment';
-import { GetPopularPlatformList, GetCategoryPlatformList, GetSearchPlatformList, GetServerPlatformList } from '../../../reducers/main/platform';
+import { GetPopularPlatformList, GetCategoryPlatformList, GetSearchPlatformList, GetServerPlatformList, UpdateSubscribeStatus } from '../../../reducers/main/platform';
 import { customApiClient } from '../../../shared/apiClient';
 import { MessageOpen, MessageClose, MessageWrapOpen, MessageWrapClose } from '../../../reducers/container/message';
 
@@ -66,7 +66,7 @@ const SubscribePage = () => {
         //인기 리스트, 전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (popularPlatformList.length < 1) {
 
-            //구독 플랫폼 리스트 조회
+            //인기 구독 플랫폼 리스트 조회
             const data = await customApiClient('get', '/subscribe/platform?type=POPULAR');
 
             //서버에러
@@ -84,7 +84,28 @@ const SubscribePage = () => {
             })
 
         }
-    }, [popularPlatformList]);
+
+        if (searchPlatformList.length < 1) {
+
+            //전체 구독 플랫폼 리스트 조회
+            const search = await customApiClient('get', '/subscribe/platform?type=ALL');
+
+            //서버에러
+            if (!search) return
+
+            //벨리데이션
+            if (search.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetSearchPlatformList,
+                data: search.result
+            })
+
+        }
+    }, [popularPlatformList, searchPlatformList]);
 
     const openEnrollmentPage = useCallback(() => {
         dispatch(EnrollmentPageWrapOpenAction);
@@ -142,7 +163,7 @@ const SubscribePage = () => {
     const reloadTotalPlatform = async () => {
 
         //구독 플랫폼 리스트 조회
-        const data = await customApiClient('get', '/subscribe/platform?type=ALL')
+        const data = await customApiClient('get', '/subscribe/platform?type=REP');
 
         //서버에러
         if (!data) return
@@ -163,7 +184,7 @@ const SubscribePage = () => {
 
     const reloadCategoryPlatform = async () => {
         //구독 플랫폼 리스트 조회
-        const data = await customApiClient('get', '/subscribe/platform?type=CATEGORY')
+        const data = await customApiClient('get', '/subscribe/platform?type=CATEGORY');
 
         //서버에러
         if (!data) return
@@ -334,6 +355,14 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
                 })
             }, 2300);
 
+            dispatch({
+                type: UpdateSubscribeStatus,
+                data: {
+                    platformIdx: data.idx,
+                    status: 'Y'
+                }
+            })
+
             setStatus('Y');
 
         }
@@ -368,6 +397,14 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
                     type: MessageWrapClose
                 })
             }, 2300);
+
+            dispatch({
+                type: UpdateSubscribeStatus,
+                data: {
+                    platformIdx: data.idx,
+                    status: 'N'
+                }
+            })
 
             setStatus('N');
 

@@ -173,7 +173,7 @@ const Main = () => {
         if (serverPlatformList.length < 1) {
 
             //구독 플랫폼 리스트 조회
-            const data = await customApiClient('get', '/subscribe/platform?type=ALL')
+            const data = await customApiClient('get', '/subscribe/platform?type=REP')
 
             //서버에러
             if (!data) return
