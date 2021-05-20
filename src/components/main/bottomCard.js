@@ -63,7 +63,16 @@ const BottomContent = ({ data }) => {
         <>
             <ContentWrap onClick={onclickOpenContent}>
                 <div>
-                    <img src={data.platform.imgUrl ? data.platform.imgUrl : platform_none} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                    {
+                        data.color && data.initial ?
+                            <div style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
+                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '1.375rem', height: '1.375rem', color: '#ffffff' }}>
+                                    {data.initial}
+                                </div>
+                            </div>
+                            :
+                            <img src={data.platform.imgUrl ? data.platform.imgUrl : platform_none} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                    }
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0", display: 'flex' }}>

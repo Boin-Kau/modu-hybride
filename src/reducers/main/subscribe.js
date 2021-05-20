@@ -4,7 +4,8 @@ export const initialState = {
     totalReloadStatus: false,
     categoryReloadStatus: false,
     subscribeReloadStatus: true,
-    subscribeList: []
+    subscribeList: [],
+    enrollmentInitialStatus: false
 };
 
 const SubscribePageWrapOpen = 'SubscribePageWrapOpen';
@@ -21,6 +22,9 @@ const categoryReloadFalse = 'categoryReloadFalse';
 
 const subscribeReloadTrue = 'subscribeReloadTrue';
 const subscribeReloadFalse = 'subscribeReloadFalse';
+
+const enrollmentInitialTrue = 'enrollmentInitialTrue';
+const enrollmentInitialFalse = 'enrollmentInitialFalse';
 
 export const GetSubscirbeList = 'GetSubscirbeList';
 
@@ -54,6 +58,13 @@ export const SubscribeReloadTrueAction = {
 };
 export const SubscribeReloadFalseAction = {
     type: subscribeReloadFalse,
+};
+
+export const EnrollmentInitialTrueAction = {
+    type: enrollmentInitialTrue,
+};
+export const EnrollmentInitialFalseAction = {
+    type: enrollmentInitialFalse,
 };
 
 const reducer = (state = initialState, action) => {
@@ -117,6 +128,18 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 subscribeReloadStatus: false,
+            }
+        }
+        case 'enrollmentInitialTrue': {
+            return {
+                ...state,
+                enrollmentInitialStatus: true,
+            }
+        }
+        case 'enrollmentInitialFalse': {
+            return {
+                ...state,
+                enrollmentInitialStatus: false,
             }
         }
         case 'GetSubscirbeList': {

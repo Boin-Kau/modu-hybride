@@ -20,7 +20,7 @@ import { customApiClient } from '../../../../shared/apiClient';
 
 import Fade from 'react-reveal/Fade';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
-import { SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
+import { SubscribeReloadTrueAction, EnrollmentInitialFalseAction, EnrollmentInitialTrueAction } from '../../../../reducers/main/subscribe';
 
 
 const ImgColorList = ['#e96a6a', '#fa9754', '#f8cc54', '#9de154', '#82e3cd', '#76d7fd', '#54b5fd', '#9578fd', '#cd6ae9', '#9c9c9c'];
@@ -44,6 +44,15 @@ const EnrollmentPage = () => {
 
     const dispatch = useDispatch();
 
+    //store
+    const {
+        platformCategoryList: categoryList
+    } = useSelector(state => state.main.platform);
+
+    const {
+        enrollmentInitialStatus
+    } = useSelector(state => state.main.subscribe);
+
     //state
     const [currentPage, setCurrentPage] = useState(1);
     const [pageConfirm, setPageConfirm] = useState(false);
@@ -55,8 +64,8 @@ const EnrollmentPage = () => {
     const [imgEnrollOpen, setImgEnrollOpen] = useState(false);
 
     const [name, setName] = useState('');
-    const [price, setPrice] = useState(0);
-    const [categoryList, setCategoryList] = useState([]);
+    const [price, setPrice] = useState('');
+    // const [categoryList, setCategoryList] = useState([]);
     const [categoryIndex, setCategoryIndex] = useState(-1);
     const [membership, setMembership] = useState('');
 
@@ -85,24 +94,47 @@ const EnrollmentPage = () => {
     const [useageDataOpen, setUseageDataOpen] = useState(false);
     const [useageUnitOpen, setUseageUnitOpen] = useState(false);
 
+    //상태값 초기화
     useEffect(() => {
+        if (!enrollmentInitialStatus) return
 
-        const getCateggory = async () => {
-            const res = await customApiClient('get', `/subscribe/category`)
+        //초기화
+        setCurrentPage(1);
+        setPageConfirm(false);
+        setNextButtonText('다음');
 
-            //서버에러
-            if (!res) return
+        setImgColor('');
+        setImgInitial('');
+        setImgEnrollOpen(false);
 
-            //벨리데이션
-            if (res.statusCode != 200) {
-                return
-            }
+        setName('');
+        setPrice('');
+        setCategoryIndex(-1);
+        setMembership('');
 
-            setCategoryList(res.result);
-        }
+        setCategoryOpen(false);
 
-        getCateggory();
-    }, []);
+        setCycleData(null);
+        setCycleUnit(null);
+        setCycleDateOpen(false);
+        setCycleUnitOpen(false);
+
+        setPaymentYear(null);
+        setPaymentMonth(null);
+        setPaymentDay(null);
+
+        setPaymentYearOpen(false);
+        setPaymentMonthOpen(false);
+        setPaymentDayOpen(false);
+
+        setIsFree('N');
+        setUseageData(null);
+        setUseageUnit(null);
+        setUseageDataOpen(false);
+        setUseageUnitOpen(false);
+
+        dispatch(EnrollmentInitialFalseAction);
+    }, [enrollmentInitialStatus]);
 
     const openImgEnrollPopup = () => {
         setImgEnrollOpen(true);
@@ -377,6 +409,7 @@ const EnrollmentPage = () => {
                 dispatch(EnrollmentPageWrapCloseAction);
             }, 300)
 
+            dispatch(EnrollmentInitialTrueAction);
         }
     }, [
         pageConfirm, currentPage,
@@ -405,6 +438,8 @@ const EnrollmentPage = () => {
             setTimeout(() => {
                 dispatch(EnrollmentPageWrapCloseAction);
             }, 300)
+
+            dispatch(EnrollmentInitialTrueAction);
         }
     }, [currentPage]);
 
@@ -443,7 +478,7 @@ const EnrollmentPage = () => {
                     <TitleWrap>구독 서비스명</TitleWrap>
                     <ItemWrap>
                         <InputWrap>
-                            <Input placeholder="구독 서비스명을 입력하세요" onChange={onChangeName}></Input>
+                            <Input placeholder="구독 서비스명을 입력하세요" onChange={onChangeName} value={name}></Input>
                         </InputWrap>
                     </ItemWrap>
 
@@ -454,7 +489,7 @@ const EnrollmentPage = () => {
                     </TitleWrap>
                     <ItemWrap>
                         <InputWrap style={{ flexGrow: "1", flexBasis: "0", marginRight: "0.3125rem" }}>
-                            <Input type="number" placeholder="결제금액을 입력하세요" onChange={onChangePrice}></Input>
+                            <Input type="number" placeholder="결제금액을 입력하세요" onChange={onChangePrice} value={price}></Input>
                         </InputWrap>
                         <InputWrap style={{ flexGrow: "0", }}>
                             <div style={{ width: '3.125rem', height: '0.8125rem' }}>￦ (원)</div>
@@ -507,7 +542,7 @@ const EnrollmentPage = () => {
                     </TitleWrap>
                     <ItemWrap>
                         <InputWrap>
-                            <Input placeholder="멤버십명을 입력해주세요" onChange={onChangeMembership}></Input>
+                            <Input placeholder="멤버십명을 입력해주세요" onChange={onChangeMembership} value={membership}></Input>
                         </InputWrap>
                     </ItemWrap>
                 </SectionWrap>

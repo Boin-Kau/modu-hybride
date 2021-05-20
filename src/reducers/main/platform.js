@@ -2,13 +2,15 @@ export const initialState = {
     serverPlatformList: [],
     categoryPlatformList: [],
     popularPlatformList: [],
-    searchPlatformList: []
+    searchPlatformList: [],
+    platformCategoryList: []
 };
 
 export const GetServerPlatformList = 'GetServerPlatformList';
 export const GetCategoryPlatformList = 'GetCategoryPlatformList';
 export const GetPopularPlatformList = 'GetPopularPlatformList';
 export const GetSearchPlatformList = 'GetSearchPlatformList';
+export const GetPlatformCategoryList = 'GetPlatformCategoryList';
 
 export const UpdateSubscribeStatus = 'UpdateSubscribeStatus';
 
@@ -38,6 +40,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchPlatformList: action.data
+            }
+        }
+        case 'GetPlatformCategoryList': {
+            return {
+                ...state,
+                platformCategoryList: action.data
             }
         }
         case 'UpdateSubscribeStatus': {
