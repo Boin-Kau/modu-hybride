@@ -139,7 +139,7 @@ const EnrollmentRevisePage = () => {
 
                     {/* 마지막 결제일 */}
                     <TitleWrap>
-                        <div>마지막 결제일</div>
+                        <div>다음 결제일</div>
                     </TitleWrap>
                     <ItemWrap>
                         <InputWrap style={{ marginRight: "0.3125rem" }}>
@@ -169,21 +169,34 @@ const EnrollmentRevisePage = () => {
                 <SectionTitle>세부 정보</SectionTitle>
                 <SectionWrap>
 
-                    {/* 파티 정보 */}
+                    {/* 체험 기간 */}
                     <TitleWrap>
-                        <div>파티 정보</div>
+                        <div>체험 기간</div>
                     </TitleWrap>
-                    <div style={{ display: "flex", margin: "0.1875rem 0 0.5rem 0" }}>
+                    <div style={{ display: "flex", margin: "0.1875rem 0 0 0" }}>
                         <PartyIconWrap isParty={true}>
                             <PartyIcon src={icon_check} />
                         </PartyIconWrap>
                         <PartyText>
-                            파티 중인 구독 서비스입니다.
-                    </PartyText>
+                            체험 기간으로 사용 중인 서비스입니다.
+                        </PartyText>
                     </div>
+
+                    {/* 서비스 누적 이용 기간 */}
+                    <TitleWrap style={{ marginTop: '2.5rem' }}>
+                        <div>서비스 누적 이용 기간</div>
+                        <div style={{ marginLeft: '0.1875rem', color: '#ffbc26' }}>(선택)</div>
+                    </TitleWrap>
                     <ItemWrap>
+                        <InputWrap style={{ marginRight: "0.3125rem" }}>
+                            <div style={{ color: 'rgba(49,49,49,0.3)' }}>숫자 선택</div>
+                            <div style={{ flexGrow: "1" }}></div>
+                            <div>
+                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                            </div>
+                        </InputWrap>
                         <InputWrap>
-                            <div>넷플릭스 / 4인 파티 / 3,625원 결제</div>
+                            <div style={{ color: 'rgba(49,49,49,0.3)' }}>일,주,달,년</div>
                             <div style={{ flexGrow: "1" }}></div>
                             <div>
                                 <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
@@ -191,26 +204,6 @@ const EnrollmentRevisePage = () => {
                         </InputWrap>
                     </ItemWrap>
 
-                    {/* 체험 기간 */}
-                    <TitleWrap>
-                        <div>체험 기간</div>
-                    </TitleWrap>
-                    <ItemWrap>
-                        <InputWrap style={{ marginRight: "0.3125rem" }}>
-                            <div>없음</div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                            </div>
-                        </InputWrap>
-                        <InputWrap isBlocked={true}>
-                            <div>없음</div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                            </div>
-                        </InputWrap>
-                    </ItemWrap>
 
                 </SectionWrap>
 

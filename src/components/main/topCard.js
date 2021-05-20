@@ -15,10 +15,10 @@ const TopCard = () => {
     const dispatch = useDispatch();
 
     //알림페이지 열기
-    const openAlertPage = useCallback(() => {
-        dispatch(AlertPageWrapOpenAction);
-        dispatch(AlertPageOpenAction);
-    }, []);
+    // const openAlertPage = useCallback(() => {
+    //     dispatch(AlertPageWrapOpenAction);
+    //     dispatch(AlertPageOpenAction);
+    // }, []);
 
     return (
         <TopCardWrap>
@@ -27,9 +27,9 @@ const TopCard = () => {
                     <TextMiddle>이번달 결제 예정</TextMiddle>
                 </div>
                 <div style={{ flexGrow: "1" }}></div>
-                <div onClick={openAlertPage} style={{ zIndex: '10' }}>
+                {/* <div onClick={openAlertPage} style={{ zIndex: '10' }}>
                     <img src={icon_alarm} />
-                </div>
+                </div> */}
             </TitleWrap>
             <PriceWrap>
                 <TextMiddle>

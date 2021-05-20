@@ -17,6 +17,7 @@ export const customApiClient = async (method, url, data) => {
             data: data
         });
 
+        console.log(result);
 
         return result.data;
     }

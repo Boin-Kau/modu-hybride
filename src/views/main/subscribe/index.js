@@ -107,7 +107,7 @@ const SubscribePage = () => {
         }
     }, [popularPlatformList, searchPlatformList]);
 
-    const openEnrollmentPage = useCallback(() => {
+    const openEnrollmentPage = useCallback(async () => {
         dispatch(EnrollmentPageWrapOpenAction);
         dispatch(EnrollmentPageOpenAction);
     }, []);

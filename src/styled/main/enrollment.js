@@ -24,13 +24,13 @@ export const InputWrap = styled.div`
 
     padding:0.625rem 0.875rem;
 
-    border:0.0625rem solid #e8e8e8;
+    border:${props => props.openStatus ? '0.0625rem solid #949494' : '0.0625rem solid #e8e8e8'};
     border-radius:0.25rem;
 
     font-size:0.8125rem;
 
-    color: ${props => props.isBlocked ? 'rgba(49, 49, 49,0.26)' : '#313131'};
-    background-color: ${props => props.isBlocked ? '#f0f0f0' : '#ffffff'};
+    color: ${props => props.isBlocked ? 'rgba(49, 49, 49,0.2)' : '#313131'};
+    background-color: #ffffff;
 `;
 
 export const Input = styled.input`
@@ -56,7 +56,7 @@ export const PartyIconWrap = styled.div`
 
     border-radius:50%;
 
-    background-color: ${props => props.isParty ? '#ffca17' : '#e3e3e3'};
+    background-color: ${props => props.isFree == 'Y' ? '#ffca17' : '#e3e3e3'};
 `;
 
 export const PartyIcon = styled.img`
