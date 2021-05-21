@@ -15,11 +15,17 @@ import platform_none from "../../assets/platform-none.svg";
 
 import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailButton, DetailItemFillContent } from '../../styled/main';
 import { EnrollmentRevisePageWrapOpenAction, EnrollmentRevisePageOpenAction } from '../../reducers/main/enrollmentRevise';
-import { SubscribeReloadFalseAction, GetSubscirbeList } from '../../reducers/main/subscribe';
+import { SubscribeReloadFalseAction, GetSubscirbeList, GetSubscirbeDetail } from '../../reducers/main/subscribe';
 import { customApiClient } from '../../shared/apiClient';
+import { GetPlatformCategoryList } from '../../reducers/main/platform';
 
 const BottomContent = ({ data }) => {
+
     const dispatch = useDispatch();
+
+    const {
+        platformCategoryList
+    } = useSelector(state => state.main.platform);
 
     const [openStatus, setOpenStatus] = useState(false);
 
@@ -32,10 +38,39 @@ const BottomContent = ({ data }) => {
         }
     }
 
-    const openRevisePage = useCallback(() => {
+    const openRevisePage = useCallback(async () => {
+        //페이지 이동
         dispatch(EnrollmentRevisePageWrapOpenAction);
         dispatch(EnrollmentRevisePageOpenAction);
-    }, []);
+
+        //상세 데이터 삽입
+        dispatch({
+            type: GetSubscirbeDetail,
+            data: data
+        })
+
+        //카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        if (platformCategoryList.length < 1) {
+
+            //인기 구독 플랫폼 리스트 조회
+            const data = await customApiClient('get', '/subscribe/category');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetPlatformCategoryList,
+                data: data.result
+            })
+
+        }
+    }, [platformCategoryList, data]);
 
     const getUnit = unit => {
         switch (unit) {
@@ -175,7 +210,6 @@ const BottomCard = () => {
 
         //내 구독 API 호출
         if (subscribeList.length == 0 || subscribeReloadStatus) {
-            console.log("hihi")
 
             //나의 구독 리스트 조회
             const data = await customApiClient('get', '/subscribe');
