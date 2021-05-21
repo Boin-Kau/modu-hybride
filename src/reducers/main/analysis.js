@@ -1,6 +1,14 @@
 export const initialState = {
     openAnalyPageWrapStatus: false,
     openAnalyPageStatus: false,
+    analysisList: [],
+    currentPrice: 0,
+    pastPrice: 0,
+    pastMont: 0,
+    pastPastPrice: 0,
+    pastPastMonth: 0,
+    analysisCategory: [],
+    analysisCategorySub: [],
 };
 
 const AnalyPageWrapOpen = 'AnalyPageWrapOpen';
@@ -8,6 +16,7 @@ const AnalyPageOpen = 'AnalyPageOpen';
 const AnalyPageWrapClose = 'AnalyPageWrapClose';
 const AnalyPageClose = 'AnalyPageClose';
 
+export const GetAnalyPageList = 'GetAnalyPageList';
 
 
 export const AnalyPageWrapOpenAction = {
@@ -48,6 +57,31 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 openAnalyPageStatus: false,
+            }
+        }
+        case 'GetAnalyPageList': {
+            const data = action.data;
+            const category = data[0].category;
+
+            let categorySub = [];
+            let count = 0;
+            category.map((result) => {
+                if (result.totalPrice != 0 && count < 3) {
+                    count++;
+                    categorySub.push(result);
+                }
+            });
+
+            return {
+                ...state,
+                analysisList: data,
+                currentPrice: data[0].price,
+                pastPrice: data[1].price,
+                pastMonth: data[1].month,
+                pastPastPrice: data[2].price,
+                pastPastMonth: data[2].month,
+                analysisCategory: data[0].category,
+                analysisCategorySub: categorySub
             }
         }
         default: {

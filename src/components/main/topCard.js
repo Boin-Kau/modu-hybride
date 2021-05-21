@@ -8,9 +8,10 @@ import { AlertPageWrapOpenAction, AlertPageOpenAction } from '../../reducers/mai
 
 import icon_alarm from "../../assets/icon-alarm-new.svg";
 import { TextMiddle } from '../../styled/shared';
+import { priceToString } from './bottomCard';
 
 
-const TopCard = () => {
+const TopCard = ({ price }) => {
 
     const dispatch = useDispatch();
 
@@ -20,20 +21,24 @@ const TopCard = () => {
     //     dispatch(AlertPageOpenAction);
     // }, []);
 
+    const {
+        currentPrice
+    } = useSelector(state => state.main.analysis);
+
     return (
         <TopCardWrap>
             <TitleWrap>
-                <div >
-                    <TextMiddle>이번달 결제 예정</TextMiddle>
+                <div>
+                    이번달 결제 예정
                 </div>
-                <div style={{ flexGrow: "1" }}></div>
+                {/* <div style={{ flexGrow: "1" }}></div> */}
                 {/* <div onClick={openAlertPage} style={{ zIndex: '10' }}>
                     <img src={icon_alarm} />
                 </div> */}
             </TitleWrap>
             <PriceWrap>
                 <TextMiddle>
-                    <span>58,000</span>원
+                    <span>{priceToString(currentPrice)}</span>원
                 </TextMiddle>
             </PriceWrap>
         </TopCardWrap>

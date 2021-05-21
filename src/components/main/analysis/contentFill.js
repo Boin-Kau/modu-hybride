@@ -2,23 +2,35 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from "styled-components";
 
 import Fade from 'react-reveal/Fade';
+import { getCategoryImg } from '../consumCard';
+import { priceToString } from '../bottomCard';
 
-
-
+export const getCategoryColor = categoryIdx => {
+    switch (categoryIdx) {
+        case 1: return '#20c8ed'
+        case 2: return '#ffd121'
+        case 3: return '#0fd9a5'
+        case 4: return '#ff3465'
+        case 5: return '#ff9250'
+        case 6: return '#8f7deb'
+        case 7: return '#3c94ff'
+        default: return '#e3e3e3'
+    }
+}
 const ItemDetail = ({ data }) => {
 
     return (
         <>
             <ItemDetailWrap>
                 <div>
-                    <img src={data.logoImg} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                    <img src={data.serverImgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", textAlign: "left" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{data.title}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: "0.3", lineHeight: "1.375rem" }}>{data.category}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{data.customName}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: "0.3", lineHeight: "1.375rem" }}>{data.customCategory}</div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{data.price + "원"}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{priceToString(data.price)}원</div>
                 </div>
             </ItemDetailWrap>
         </>
@@ -26,8 +38,6 @@ const ItemDetail = ({ data }) => {
 };
 
 const Item = ({ data }) => {
-
-    const itemList = data.itemList;
 
     const [openStatus, setOpenStatus] = useState(false);
 
@@ -44,22 +54,22 @@ const Item = ({ data }) => {
         <>
             <ItemWrap onClick={onclickOpenContent}>
                 <div>
-                    <img src={data.categoryImg} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                    <img src={getCategoryImg(data.idx)} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", textAlign: "left" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.category}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem" }}>{data.itemCount + "개 이용중"}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.name}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem" }}>{data.platform.length}개 이용중</div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.totalPrice + "원"}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", color: "#ffca17" }}>{data.ratio + "%"}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0" }}>{priceToString(data.totalPrice)}원</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", color: "#ffca17" }}>{data.ratio}%</div>
                 </div>
             </ItemWrap>
 
             <Fade collapse when={openStatus} duration={500}>
                 <div style={{ border: "1px solid white" }}>
                     {
-                        itemList.map((list, index) => {
+                        data.platform.map((list, index) => {
                             return (<ItemDetail data={list} key={index}></ItemDetail>)
                         })
                     }
@@ -73,20 +83,46 @@ const Item = ({ data }) => {
 
 const ContentFill = ({ data }) => {
 
-    useEffect(() => {
-        console.log(data)
+    const [firstIdx, setFirstIdx] = useState(0);
+    const [lastIdx, setLastIdx] = useState(0);
 
-    }, [])
+    useEffect(() => {
+        // console.log(data);
+        setFirstIdx(0);
+        setLastIdx(0);
+
+        let flag = 0;
+
+        data.map((d, i) => {
+
+            if (d.ratio != 0) {
+                if (flag == 0) setFirstIdx(d.idx);
+                setLastIdx(d.idx);
+                flag++;
+            }
+
+        })
+
+    }, [data])
 
     return (
         <>
             <GrapWrap>
+                {
+                    data.map((d, idx) => {
+                        return (
+                            <GrapBar width={d.ratio} color={getCategoryColor(d.idx)} isFirst={firstIdx == d.idx} isLast={lastIdx == d.idx} key={idx} />
+                        )
+                    })
+                }
             </GrapWrap>
             <ContentWrap>
 
                 {
                     data.map((list, index) => {
-                        return (<Item data={list} key={index}></Item>)
+                        if (list.ratio != 0) {
+                            return (<Item data={list} key={index}></Item>)
+                        }
                     })
                 }
 
@@ -98,15 +134,31 @@ const ContentFill = ({ data }) => {
 
 
 const GrapWrap = styled.div`
+    display:flex;
     width:100%;
     height: 0.4375rem;
 
-    margin:16px 0 29px 0;
+    margin:1rem 0 1.8125rem 0;
 
-    border-radius:7px;
+    border-radius:0.4375rem;
+    /* border:1px solid red; */
+    background-color:#e3e3e3;
 
-    background-color:red;
 `;
+const GrapBar = styled.div`
+    width:${props => props.width}%;
+    height: 0.4375rem;
+    background-color:${props => props.color};
+
+    border-radius: inherit;
+
+    border-top-left-radius:${props => props.isFirst ? '0.4375rem' : '0'};
+    border-bottom-left-radius: ${props => props.isFirst ? '0.4375rem' : '0'};
+
+    border-top-right-radius: ${props => props.isLast ? '0.4375rem' : '0'};
+    border-bottom-right-radius: ${props => props.isLast ? '0.4375rem' : '0'};
+`;
+
 const ContentWrap = styled.div`
     /* border:1px solid red; */
 `;

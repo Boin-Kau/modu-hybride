@@ -12,10 +12,31 @@ import icon_chain_front_right from "../../assets/group-6.svg";
 import icon_chain_back_left from "../../assets/stroke-1-copy-6.svg";
 import icon_chain_back_right from "../../assets/stroke-1-copy-5.svg";
 
+import category_ott from "../../assets/category-ott.svg";
+import category_music from "../../assets/category-music.svg";
+import category_tool from "../../assets/category-tool.svg";
+import category_game from "../../assets/category-game.svg";
+import category_shopping from "../../assets/category-shopping.svg";
+import category_book from "../../assets/category-book.svg";
+import category_lifestyle from "../../assets/category-lifestyle.svg";
+import category_etc from "../../assets/category-etc.svg";
+
 import icon_triangle_up from "../../assets/triangle.svg";
 import { TextMiddle } from '../../styled/shared';
+import { priceToString } from './bottomCard';
 
-
+export const getCategoryImg = categoryIdx => {
+    switch (categoryIdx) {
+        case 1: return category_ott
+        case 2: return category_music
+        case 3: return category_book
+        case 4: return category_tool
+        case 5: return category_game
+        case 6: return category_shopping
+        case 7: return category_lifestyle
+        default: return category_etc
+    }
+}
 
 const ConsumContent = ({ data }) => {
 
@@ -23,13 +44,13 @@ const ConsumContent = ({ data }) => {
         <>
             <ConsumContentWrap>
                 <div>
-                    <img src={data.logoImg} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                    <img src={getCategoryImg(data.idx)} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.8125rem", color: "#313131" }}>{data.title}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", color: "#313131", opacity: "0.4" }}>{data.count}개 이용중</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.8125rem", color: "#313131", marginTop: '0.125rem' }}>{data.name}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", color: "#313131", opacity: "0.4" }}>{data.platform.length}개 이용중</div>
                 </div>
-                <div>{data.price}</div>
+                <div>{priceToString(data.totalPrice)}원</div>
             </ConsumContentWrap>
         </>
     )
@@ -44,30 +65,11 @@ const ConsumCard = () => {
         dispatch(AnalyPageOpenAction);
     }, []);
 
-
-    const testArray = [
-        {
-            id: 1,
-            logoImg: "https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg",
-            title: "OTT",
-            count: 3,
-            price: "28,000원"
-        },
-        {
-            id: 2,
-            logoImg: "https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg",
-            title: "음악",
-            count: 1,
-            price: "15,000원"
-        },
-        {
-            id: 3,
-            logoImg: "https://pbs.twimg.com/profile_images/777742232484843520/B2B_FOZY_400x400.jpg",
-            title: "프로그램",
-            count: 2,
-            price: "18,000원"
-        }
-    ];
+    const {
+        currentPrice,
+        pastPrice,
+        analysisCategorySub
+    } = useSelector(state => state.main.analysis);
 
     return (
         <>
@@ -88,11 +90,11 @@ const ConsumCard = () => {
                 <ContentWrap>
                     <ConsumListWrap>
                         {
-                            testArray.length != 0 ?
+                            analysisCategorySub.length != 0 ?
                                 <div style={{ paddingBottom: "0.875rem" }}>
                                     {
-                                        testArray.map((list, index) => {
-                                            return (<ConsumContent data={list} key={index}></ConsumContent>)
+                                        analysisCategorySub.map((data, index) => {
+                                            return (<ConsumContent data={data} key={index}></ConsumContent>)
                                         })
                                     }
                                 </div>
@@ -114,13 +116,17 @@ const ConsumCard = () => {
                             </div>
                             <div style={{ flexGrow: "1", flexBasis: "0" }}></div>
                             <div style={{ position: "relative", width: "1.25rem" }}>
-                                <TextMiddle>
-                                    <img src={icon_triangle_up} />
-                                </TextMiddle>
+                                <div style={{ position: 'absolute', top: '50%', transform: 'translate(0,-50%)' }}>
+                                    {
+                                        currentPrice - pastPrice == 0 ?
+                                            <MinIcon /> :
+                                            <GapIcon src={icon_triangle_up} gap={currentPrice - pastPrice > 0} />
+                                    }
+                                </div>
                             </div>
-                            <div style={{ position: "relative", width: "4.5rem", fontSize: "1.25rem" }}>
+                            <div style={{ position: "relative", border: '1px solid red', fontSize: "1.25rem" }}>
                                 <TextMiddle>
-                                    5,000원
+                                    {priceToString(Math.abs(currentPrice - pastPrice))}원
                                 </TextMiddle>
                             </div>
                         </div>
@@ -185,6 +191,18 @@ const ConsumCompareWrap = styled.div`
 
     box-shadow: 0 0 0.25rem 0.0625rem #eeb102;
 
+`;
+
+const GapIcon = styled.img`
+    -ms-transform:${props => props.gap ? 'rotate(0deg)' : 'rotate(180deg);'}; /* IE 9 */
+    -webkit-transform: ${props => props.gap ? 'rotate(0deg)' : 'rotate(180deg);'}; /* Chrome, Safari, Opera */
+    transform: ${props => props.gap ? 'rotate(0deg)' : 'rotate(180deg);'};
+`;
+const MinIcon = styled.div`
+    width: 0.5625rem;
+    height:4px;
+    opacity: 0.62;
+    background-color:#ffca17; 
 `;
 
 export default ConsumCard;

@@ -23,6 +23,7 @@ import { GetServerPlatformList } from '../../reducers/main/platform';
 import EnrollmentRevisePage from './subscribe/enrollment/revise';
 import AlertPage from './alert';
 import { customApiClient } from '../../shared/apiClient';
+import { GetAnalyPageList } from '../../reducers/main/analysis';
 
 const CardStyle = {
     height: '100vh',
@@ -43,7 +44,8 @@ const Main = () => {
     //페이지 상태값
     const {
         openAnalyPageWrapStatus,
-        openAnalyPageStatus
+        openAnalyPageStatus,
+        analysisList
     } = useSelector(state => state.main.analysis);
 
     const {
@@ -192,6 +194,31 @@ const Main = () => {
         }
 
     }, [serverPlatformList]);
+
+    //소비분석 데이터
+    useEffect(async () => {
+        if (analysisList.length < 1) {
+
+            //소비분석 리스트 조회
+            const data = await customApiClient('get', '/subscribe/analysis');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            console.log(data);
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetAnalyPageList,
+                data: data.result
+            })
+        }
+    }, [analysisList]);
+
 
     return (
         <>

@@ -19,6 +19,11 @@ import { SubscribeReloadFalseAction, GetSubscirbeList, GetSubscirbeDetail } from
 import { customApiClient } from '../../shared/apiClient';
 import { GetPlatformCategoryList } from '../../reducers/main/platform';
 
+
+export const priceToString = price => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 const BottomContent = ({ data }) => {
 
     const dispatch = useDispatch();
@@ -88,10 +93,6 @@ const BottomContent = ({ data }) => {
         else {
             return "Day"
         }
-    }
-
-    const priceToString = price => {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
     return (
