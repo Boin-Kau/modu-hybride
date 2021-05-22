@@ -21,6 +21,7 @@ import { customApiClient } from '../../../../shared/apiClient';
 import Fade from 'react-reveal/Fade';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
 import { SubscribeReloadTrueAction, EnrollmentInitialFalseAction, EnrollmentInitialTrueAction } from '../../../../reducers/main/subscribe';
+import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 
 
 export const ImgColorList = ['#e96a6a', '#fa9754', '#f8cc54', '#9de154', '#82e3cd', '#76d7fd', '#54b5fd', '#9578fd', '#cd6ae9', '#9c9c9c'];
@@ -402,6 +403,9 @@ const EnrollmentPage = () => {
 
             //구독 리스트 리로드
             dispatch(SubscribeReloadTrueAction);
+
+            //소비분석 리로드
+            dispatch(AnalyPageReloadTrueAction);
 
             //뒤로가기
             dispatch(EnrollmentPageCloseAction);

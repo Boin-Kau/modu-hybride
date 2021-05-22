@@ -5,6 +5,9 @@ import Fade from 'react-reveal/Fade';
 import { getCategoryImg } from '../consumCard';
 import { priceToString } from '../bottomCard';
 
+import platform_none from "../../../assets/platform-none.svg";
+
+
 export const getCategoryColor = categoryIdx => {
     switch (categoryIdx) {
         case 1: return '#20c8ed'
@@ -23,11 +26,20 @@ const ItemDetail = ({ data }) => {
         <>
             <ItemDetailWrap>
                 <div>
-                    <img src={data.serverImgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                    {
+                        data.color && data.initial ?
+                            <div style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
+                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '1.375rem', height: '1.375rem', color: '#ffffff' }}>
+                                    {data.initial}
+                                </div>
+                            </div>
+                            :
+                            <img src={data.serverImgUrl ? data.serverImgUrl : platform_none} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                    }
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", textAlign: "left" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{data.customName}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: "0.3", lineHeight: "1.375rem" }}>{data.customCategory}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{data.registerType == 'CUSTOM' ? data.customName : data.serverName}</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: "0.3", lineHeight: "1.375rem" }}>{data.registerType == 'CUSTOM' ? data.customCategory : data.serverCategory}</div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{priceToString(data.price)}원</div>

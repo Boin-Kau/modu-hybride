@@ -124,10 +124,12 @@ const ConsumCard = () => {
                                     }
                                 </div>
                             </div>
-                            <div style={{ position: "relative", border: '1px solid red', fontSize: "1.25rem" }}>
-                                <TextMiddle>
+                            <div style={{ display: 'flex', fontSize: "1.25rem", flexDirection: 'column' }}>
+                                <div style={{ flexGrow: '1.4' }}></div>
+                                <div>
                                     {priceToString(Math.abs(currentPrice - pastPrice))}원
-                                </TextMiddle>
+                                </div>
+                                <div style={{ flexGrow: '1' }}></div>
                             </div>
                         </div>
 

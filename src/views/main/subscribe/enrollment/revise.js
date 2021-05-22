@@ -23,6 +23,7 @@ import Fade from 'react-reveal/Fade';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
 import { SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
 import { ImgColorList, ImgInitialList, getUnit, NumberList, UnitList, MonthList, YearList } from '.';
+import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 
 
 const EnrollmentRevisePage = () => {
@@ -94,8 +95,6 @@ const EnrollmentRevisePage = () => {
             day = parseInt(subscribeDetail.paymentCycleDate.substr(8, 2));
         }
 
-
-        console.log(subscribeDetail);
 
         setSubscirbeIdx(subscribeDetail.idx);
         setRegisterType(subscribeDetail.registerType);
@@ -378,6 +377,9 @@ const EnrollmentRevisePage = () => {
 
         //구독 리스트 리로드
         dispatch(SubscribeReloadTrueAction);
+
+        //소비분석 리로드 
+        dispatch(AnalyPageReloadTrueAction);
 
         //뒤로가기
         dispatch(EnrollmentRevisePageCloseAction);

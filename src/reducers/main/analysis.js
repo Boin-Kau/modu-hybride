@@ -9,12 +9,16 @@ export const initialState = {
     pastPastMonth: 0,
     analysisCategory: [],
     analysisCategorySub: [],
+    analysisReloadStatus: false
 };
 
 const AnalyPageWrapOpen = 'AnalyPageWrapOpen';
 const AnalyPageOpen = 'AnalyPageOpen';
 const AnalyPageWrapClose = 'AnalyPageWrapClose';
 const AnalyPageClose = 'AnalyPageClose';
+
+const AnalyPageReloadTrue = 'AnalyPageReloadTrue';
+const AnalyPageReloadFalse = 'AnalyPageReloadFalse';
 
 export const GetAnalyPageList = 'GetAnalyPageList';
 
@@ -30,6 +34,13 @@ export const AnalyPageWrapCloseAction = {
 };
 export const AnalyPageCloseAction = {
     type: AnalyPageClose,
+};
+
+export const AnalyPageReloadTrueAction = {
+    type: AnalyPageReloadTrue,
+};
+export const AnalyPageReloadFalseAction = {
+    type: AnalyPageReloadFalse,
 };
 
 const reducer = (state = initialState, action) => {
@@ -57,6 +68,18 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 openAnalyPageStatus: false,
+            }
+        }
+        case 'AnalyPageReloadTrue': {
+            return {
+                ...state,
+                analysisReloadStatus: true,
+            }
+        }
+        case 'AnalyPageReloadFalse': {
+            return {
+                ...state,
+                analysisReloadStatus: false,
             }
         }
         case 'GetAnalyPageList': {

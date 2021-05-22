@@ -23,7 +23,7 @@ import { GetServerPlatformList } from '../../reducers/main/platform';
 import EnrollmentRevisePage from './subscribe/enrollment/revise';
 import AlertPage from './alert';
 import { customApiClient } from '../../shared/apiClient';
-import { GetAnalyPageList } from '../../reducers/main/analysis';
+import { GetAnalyPageList, AnalyPageReloadFalseAction } from '../../reducers/main/analysis';
 
 const CardStyle = {
     height: '100vh',
@@ -45,7 +45,8 @@ const Main = () => {
     const {
         openAnalyPageWrapStatus,
         openAnalyPageStatus,
-        analysisList
+        analysisList,
+        analysisReloadStatus
     } = useSelector(state => state.main.analysis);
 
     const {
@@ -84,13 +85,11 @@ const Main = () => {
     let bottomViewY = 0;
 
     useEffect(() => {
-
         const titleDivY = titleDivbRef.current.getBoundingClientRect().bottom;
         const bottomDivY = bottomDivbRef.current.getBoundingClientRect().top;
 
-
         bottomViewY = titleDivY - bottomDivY;
-    }, [])
+    }, [titleDivbRef, bottomDivbRef])
 
     const bind = useGesture(({ down, delta, velocity }) => {
         velocity = clamp(velocity, 1, 1)
@@ -162,7 +161,6 @@ const Main = () => {
 
     })
 
-
     const dispatch = useDispatch();
 
     //구독등록 페이지 열기
@@ -219,6 +217,35 @@ const Main = () => {
         }
     }, [analysisList]);
 
+    useEffect(async () => {
+
+        console.log("reload : " + analysisReloadStatus)
+
+        if (analysisReloadStatus) {
+
+            //소비분석 리스트 조회
+            const data = await customApiClient('get', '/subscribe/analysis');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            console.log(data);
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetAnalyPageList,
+                data: data.result
+            })
+
+            dispatch(AnalyPageReloadFalseAction);
+
+        }
+
+    }, [analysisReloadStatus]);
 
     return (
         <>
