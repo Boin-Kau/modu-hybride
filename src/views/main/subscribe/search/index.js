@@ -15,6 +15,7 @@ import { customApiClient } from '../../../../shared/apiClient';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
 import { CategoryReloadTrueAction, TotalReloadTrueAction, TotalReloadFalseAction, CategoryReloadFalseAction, SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
 import { UpdateSubscribeStatus, GetServerPlatformList, GetCategoryPlatformList } from '../../../../reducers/main/platform';
+import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 
 
 const SearchPage = () => {
@@ -270,6 +271,9 @@ const TotalItemComponent = ({ data }) => {
             })
 
             setStatus('N');
+
+            //소비분석 리로드
+            dispatch(AnalyPageReloadTrueAction);
 
         }
 

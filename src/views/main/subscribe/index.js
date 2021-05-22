@@ -25,6 +25,7 @@ import EnrollmentPage from './enrollment';
 import { GetPopularPlatformList, GetCategoryPlatformList, GetSearchPlatformList, GetServerPlatformList, UpdateSubscribeStatus, GetPlatformCategoryList } from '../../../reducers/main/platform';
 import { customApiClient } from '../../../shared/apiClient';
 import { MessageOpen, MessageClose, MessageWrapOpen, MessageWrapClose } from '../../../reducers/container/message';
+import { AnalyPageReloadTrueAction } from '../../../reducers/main/analysis';
 
 
 const SubscribePage = () => {
@@ -431,6 +432,9 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
             })
 
             setStatus('N');
+
+            //소비분석 리로드
+            dispatch(AnalyPageReloadTrueAction);
 
         }
 

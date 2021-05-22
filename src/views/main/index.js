@@ -219,8 +219,6 @@ const Main = () => {
 
     useEffect(async () => {
 
-        console.log("reload : " + analysisReloadStatus)
-
         if (analysisReloadStatus) {
 
             //소비분석 리스트 조회

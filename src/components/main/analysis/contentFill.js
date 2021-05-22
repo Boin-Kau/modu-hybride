@@ -70,10 +70,10 @@ const Item = ({ data }) => {
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", textAlign: "left" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.name}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem" }}>{data.platform.length}개 이용중</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem" }}>{data.platform ? data.platform.length : 0}개 이용중</div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
-                    <div style={{ flexGrow: "1", flexBasis: "0" }}>{priceToString(data.totalPrice)}원</div>
+                    <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.totalPrice ? priceToString(data.totalPrice) : 0}원</div>
                     <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", color: "#ffca17" }}>{data.ratio}%</div>
                 </div>
             </ItemWrap>
@@ -81,9 +81,9 @@ const Item = ({ data }) => {
             <Fade collapse when={openStatus} duration={500}>
                 <div style={{ border: "1px solid white" }}>
                     {
-                        data.platform.map((list, index) => {
+                        data.platform ? data.platform.map((list, index) => {
                             return (<ItemDetail data={list} key={index}></ItemDetail>)
-                        })
+                        }) : <div />
                     }
                 </div>
             </Fade>
