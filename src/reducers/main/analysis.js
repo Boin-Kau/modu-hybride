@@ -89,7 +89,7 @@ const reducer = (state = initialState, action) => {
             let categorySub = [];
             let count = 0;
             category.map((result) => {
-                if (result.totalPrice != 0 && count < 3) {
+                if (result.totalPrice && result.totalPrice != 0 && count < 3) {
                     count++;
                     categorySub.push(result);
                 }

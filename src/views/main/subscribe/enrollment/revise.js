@@ -314,8 +314,6 @@ const EnrollmentRevisePage = () => {
 
 
     const closeEnrollmentRevisePage = () => {
-        console.log("hihi")
-
         dispatch(EnrollmentRevisePageCloseAction);
 
         setTimeout(() => {

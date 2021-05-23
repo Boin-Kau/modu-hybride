@@ -72,31 +72,24 @@ const Main = () => {
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
-    let isScrollParent = true;
-
     const [isScrollChild, setIsScrollChild] = useState(false);
 
     const titleDivbRef = useRef();
     const bottomDivbRef = useRef();
     const bottomChildDivbRef = useRef();
 
-
+    let isScrollParent = true;
     let isBottomViewOpen = false;
-    let bottomViewY = 0;
-
-    useEffect(() => {
-        const titleDivY = titleDivbRef.current.getBoundingClientRect().bottom;
-        const bottomDivY = bottomDivbRef.current.getBoundingClientRect().top;
-
-        bottomViewY = titleDivY - bottomDivY;
-    }, [titleDivbRef, bottomDivbRef])
 
     const bind = useGesture(({ down, delta, velocity }) => {
-        velocity = clamp(velocity, 1, 1)
+        velocity = clamp(velocity, 1, 1);
 
         //자식이 스크롤 가능할 때는 스크롤 못하게 처리
         const childScrollY = bottomChildDivbRef.current.scrollTop;
 
+        const titleDivY = titleDivbRef.current.getBoundingClientRect().bottom;
+        const bottomDivY = bottomDivbRef.current.getBoundingClientRect().bottom;
+        const bottomViewY = titleDivY - bottomDivY;
 
         if (!isScrollParent && delta[1] < 0 && childScrollY >= 0 && down) return
         if (!isScrollParent && delta[1] > 0 && childScrollY != 0) return
@@ -214,6 +207,9 @@ const Main = () => {
                 type: GetAnalyPageList,
                 data: data.result
             })
+
+            // set({ xy: [0, 0] });
+
         }
     }, [analysisList]);
 
@@ -241,6 +237,8 @@ const Main = () => {
 
             dispatch(AnalyPageReloadFalseAction);
 
+            // set({ xy: [0, 0] });
+
         }
 
     }, [analysisReloadStatus]);
@@ -249,7 +247,7 @@ const Main = () => {
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundImage: `url(${backgroundImg})` }}>
 
-                <div>
+                <div ref={bottomDivbRef}>
                     <div ref={titleDivbRef}>
                         <TopCard />
                     </div>
@@ -257,7 +255,7 @@ const Main = () => {
                     <ConsumCard />
                 </div>
                 <div style={{ flexGrow: "1", flexBasis: "0", zIndex: "20" }}>
-                    <animated.div ref={bottomDivbRef} {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
+                    <animated.div {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
                         <TitleWrap>
                             <div>구독내역</div>
                             <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "20px", transform: "translate(0, -50%)" }}>+</div>

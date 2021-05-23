@@ -6,6 +6,7 @@ import { getCategoryImg } from '../consumCard';
 import { priceToString } from '../bottomCard';
 
 import platform_none from "../../../assets/platform-none.svg";
+import ContentNone from './contentNone';
 
 
 export const getCategoryColor = categoryIdx => {
@@ -97,6 +98,7 @@ const ContentFill = ({ data }) => {
 
     const [firstIdx, setFirstIdx] = useState(0);
     const [lastIdx, setLastIdx] = useState(0);
+    const [isData, setIsData] = useState(false);
 
     useEffect(() => {
         // console.log(data);
@@ -107,10 +109,11 @@ const ContentFill = ({ data }) => {
 
         data.map((d, i) => {
 
-            if (d.ratio != 0) {
+            if (d.ratio && d.ratio != 0) {
                 if (flag == 0) setFirstIdx(d.idx);
                 setLastIdx(d.idx);
                 flag++;
+                setIsData(true);
             }
 
         })
@@ -118,28 +121,39 @@ const ContentFill = ({ data }) => {
     }, [data])
 
     return (
-        <>
-            <GrapWrap>
-                {
-                    data.map((d, idx) => {
-                        return (
-                            <GrapBar width={d.ratio} color={getCategoryColor(d.idx)} isFirst={firstIdx == d.idx} isLast={lastIdx == d.idx} key={idx} />
-                        )
-                    })
-                }
-            </GrapWrap>
-            <ContentWrap>
+        <div>
+            {
+                isData ?
 
-                {
-                    data.map((list, index) => {
-                        if (list.ratio != 0) {
-                            return (<Item data={list} key={index}></Item>)
-                        }
-                    })
-                }
+                    <div>
+                        <GrapWrap>
+                            {
+                                data.map((d, idx) => {
+                                    return (
+                                        <GrapBar width={d.ratio} color={getCategoryColor(d.idx)} isFirst={firstIdx == d.idx} isLast={lastIdx == d.idx} key={idx} />
+                                    )
+                                })
+                            }
+                        </GrapWrap>
+                        <ContentWrap>
 
-            </ContentWrap>
-        </>
+                            {
+                                data.map((list, index) => {
+                                    if (list.ratio && list.ratio != 0) {
+                                        return (<Item data={list} key={index}></Item>)
+                                    }
+                                })
+                            }
+
+                        </ContentWrap>
+                    </div > :
+
+                    <div>
+                        <ContentNone />
+                    </div>
+
+            }
+        </div>
     )
 };
 
@@ -154,15 +168,13 @@ const GrapWrap = styled.div`
 
     border-radius:0.4375rem;
     /* border:1px solid red; */
-    background-color:#e3e3e3;
+    /* background-color:#e3e3e3; */
 
 `;
 const GrapBar = styled.div`
-    width:${props => props.width}%;
+    flex-grow:${props => props.width};
     height: 0.4375rem;
     background-color:${props => props.color};
-
-    border-radius: inherit;
 
     border-top-left-radius:${props => props.isFirst ? '0.4375rem' : '0'};
     border-bottom-left-radius: ${props => props.isFirst ? '0.4375rem' : '0'};
