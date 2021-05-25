@@ -11,16 +11,23 @@ import icon_info from "../../../assets/info-black-192-x-192@3x.png";
 import { TextMiddle } from '../../../styled/shared';
 
 import Fade from 'react-reveal/Fade';
+import { PageClose, PageWrapClose } from '../../../reducers/info/page';
 
 const NoticeDetailPage = () => {
 
     const dispatch = useDispatch();
 
-    const closeAlertPage = useCallback(() => {
-        dispatch(AlertPageCloseAction);
+    const closePage = useCallback(() => {
+        dispatch({
+            type: PageClose,
+            data: 'noticeDetail'
+        });
 
         setTimeout(() => {
-            dispatch(AlertPageWrapCloseAction);
+            dispatch({
+                type: PageWrapClose,
+                data: 'noticeDetail'
+            });
         }, 300)
     }, []);
 
@@ -30,7 +37,7 @@ const NoticeDetailPage = () => {
 
         <>
             <PageWrap>
-                <HeaderWrap onClick={closeAlertPage}>
+                <HeaderWrap onClick={closePage}>
                     <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>

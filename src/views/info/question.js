@@ -12,17 +12,24 @@ import icon_arrow_up from "../../assets/icon-arrow-up-gray.svg";
 
 import { TextMiddle, LoginButton } from '../../styled/shared';
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../styled/main/enrollment';
+import { PageClose, PageWrapClose } from '../../reducers/info/page';
 
 
 const QuestionPage = () => {
 
     const dispatch = useDispatch();
 
-    const closeAlertPage = useCallback(() => {
-        dispatch(AlertPageCloseAction);
+    const closePage = useCallback(() => {
+        dispatch({
+            type: PageClose,
+            data: 'question'
+        });
 
         setTimeout(() => {
-            dispatch(AlertPageWrapCloseAction);
+            dispatch({
+                type: PageWrapClose,
+                data: 'question'
+            });
         }, 300)
     }, []);
 
@@ -30,7 +37,7 @@ const QuestionPage = () => {
 
     return (
         <PageWrap>
-            <HeaderWrap onClick={closeAlertPage}>
+            <HeaderWrap onClick={closePage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>

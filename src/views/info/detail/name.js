@@ -10,25 +10,31 @@ import icon_info from "../../../assets/info-black-192-x-192@3x.png";
 
 import { TextMiddle, LoginButton } from '../../../styled/shared';
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../../styled/main/enrollment';
+import { PageClose, PageWrapClose } from '../../../reducers/info/page';
 
 
 const NamePage = () => {
 
     const dispatch = useDispatch();
 
-    const closeAlertPage = useCallback(() => {
-        dispatch(AlertPageCloseAction);
+    const closePage = useCallback(() => {
+        dispatch({
+            type: PageClose,
+            data: 'name'
+        });
 
         setTimeout(() => {
-            dispatch(AlertPageWrapCloseAction);
+            dispatch({
+                type: PageWrapClose,
+                data: 'name'
+            });
         }, 300)
     }, []);
 
 
-
     return (
         <PageWrap>
-            <HeaderWrap onClick={closeAlertPage}>
+            <HeaderWrap onClick={closePage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>

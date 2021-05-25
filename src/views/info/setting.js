@@ -7,24 +7,31 @@ import { AlertPageWrapCloseAction, AlertPageCloseAction } from "../../reducers/m
 import icon_back from "../../assets/icon-back-arrow.svg";
 
 import { TextMiddle, LoginButton } from '../../styled/shared';
+import { PageClose, PageWrapClose } from '../../reducers/info/page';
 
 
 const SettingPage = () => {
 
     const dispatch = useDispatch();
 
-    const closeAlertPage = useCallback(() => {
-        dispatch(AlertPageCloseAction);
+    const closePage = useCallback(() => {
+        dispatch({
+            type: PageClose,
+            data: 'setting'
+        });
 
         setTimeout(() => {
-            dispatch(AlertPageWrapCloseAction);
+            dispatch({
+                type: PageWrapClose,
+                data: 'setting'
+            });
         }, 300)
     }, []);
 
     return (
         <PageWrap>
 
-            <HeaderWrap onClick={closeAlertPage}>
+            <HeaderWrap onClick={closePage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>

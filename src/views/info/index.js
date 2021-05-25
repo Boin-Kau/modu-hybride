@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import icon_setting from "../../assets/icon-setting.svg";
@@ -9,8 +9,41 @@ import Fade from 'react-reveal/Fade';
 import SettingPage from './setting';
 import QuestionPage from './question';
 import NoticePage from './notice';
+import { useSelector, useDispatch } from 'react-redux';
+import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
 
 const Info = () => {
+
+    const dispatch = useDispatch();
+
+    //페이지 상태값
+    const {
+        openInfoPageWrapStatus,
+        openInfoPageStatus,
+
+        openSettingPageWrapStatus,
+        openSettingPageStatus,
+
+        openNoticePageWrapStatus,
+        openNoticePageStatus,
+
+        openQuestionPageWrapStatus,
+        openQuestionPageStatus
+    } = useSelector(state => state.info.page);
+
+    //페이지 열기
+    const openPage = useCallback(async (data) => {
+
+        dispatch({
+            type: PageWrapOpen,
+            data: data
+        });
+        dispatch({
+            type: PageOpen,
+            data: data
+        });
+
+    }, []);
 
     return (
         <>
@@ -19,7 +52,7 @@ const Info = () => {
 
                     <div style={{ display: 'flex', margin: '0.875rem 1.25rem 1.625rem 1.25rem' }}>
                         <div style={{ flexGrow: '1', fontSize: '0.875rem', lineHeight: '1.4375rem' }}>마이페이지</div>
-                        <div style={{ marginTop: '0.125rem' }}>
+                        <div onClick={() => { openPage('setting') }} style={{ marginTop: '0.125rem' }}>
                             <img src={icon_setting} style={{ width: '1rem', height: '1rem' }} />
                         </div>
                     </div>
@@ -27,7 +60,7 @@ const Info = () => {
 
                     <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)', margin: '0 0 0.8125rem 1.25rem' }}>내정보</div>
 
-                    <InfoWrap>
+                    <InfoWrap onClick={() => { openPage('info') }}>
                         <img style={{ width: '2.9375rem', height: '2.9375rem' }} src={icon_profile} />
                         <div style={{ marginLeft: "0.6875rem", flexGrow: '1' }}>
                             <div style={{ fontSize: '0.875rem', margin: '0.25rem 0' }}>신민재</div>
@@ -40,8 +73,8 @@ const Info = () => {
 
 
                     <TitelWrap>고객센터</TitelWrap>
-                    <ContentWrap>공지사항</ContentWrap>
-                    <ContentWrap>문의하기</ContentWrap>
+                    <ContentWrap onClick={() => { openPage('notice') }}>공지사항</ContentWrap>
+                    <ContentWrap onClick={() => { openPage('question') }}>문의하기</ContentWrap>
                     <ContentWrap>이용 약관</ContentWrap>
                     <ContentWrap>개인정보 처리방침</ContentWrap>
 
@@ -50,8 +83,8 @@ const Info = () => {
 
 
             {/* 내정보 상세 페이지 */}
-            <div style={false ? { display: "block" } : { display: "none" }}>
-                <Fade right when={false} duration={300}>
+            <div style={openInfoPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openInfoPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <DetailPage />
                     </div>
@@ -59,8 +92,8 @@ const Info = () => {
             </div>
 
             {/* 설정 페이지 */}
-            <div style={false ? { display: "block" } : { display: "none" }}>
-                <Fade right when={false} duration={300}>
+            <div style={openSettingPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openSettingPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <SettingPage />
                     </div>
@@ -68,8 +101,8 @@ const Info = () => {
             </div>
 
             {/* 공지사항 페이지 */}
-            <div style={false ? { display: "block" } : { display: "none" }}>
-                <Fade right when={false} duration={300}>
+            <div style={openNoticePageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openNoticePageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <NoticePage />
                     </div>
@@ -77,8 +110,8 @@ const Info = () => {
             </div>
 
             {/* 문의하기 페이지 */}
-            <div style={false ? { display: "block" } : { display: "none" }}>
-                <Fade right when={false} duration={300}>
+            <div style={openQuestionPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openQuestionPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <QuestionPage />
                     </div>

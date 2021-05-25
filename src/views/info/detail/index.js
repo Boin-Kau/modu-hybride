@@ -13,26 +13,54 @@ import NamePage from './name';
 
 import Fade from 'react-reveal/Fade';
 import PhonePage from './phone';
+import { PageClose, PageWrapClose, PageWrapOpen, PageOpen } from '../../../reducers/info/page';
 
 const DetailPage = () => {
 
+    //페이지 상태값
+    const {
+        openNamePageWrapStatus,
+        openNamePageStatus,
+
+        openPhonePageWrapStatus,
+        openPhonePageStatus,
+    } = useSelector(state => state.info.page);
+
     const dispatch = useDispatch();
 
-    const closeAlertPage = useCallback(() => {
-        dispatch(AlertPageCloseAction);
+    const closePage = useCallback(() => {
+        dispatch({
+            type: PageClose,
+            data: 'info'
+        });
 
         setTimeout(() => {
-            dispatch(AlertPageWrapCloseAction);
+            dispatch({
+                type: PageWrapClose,
+                data: 'info'
+            });
         }, 300)
     }, []);
 
+    //페이지 열기
+    const openPage = useCallback(async (data) => {
 
+        dispatch({
+            type: PageWrapOpen,
+            data: data
+        });
+        dispatch({
+            type: PageOpen,
+            data: data
+        });
+
+    }, []);
 
     return (
 
         <>
             <PageWrap>
-                <HeaderWrap onClick={closeAlertPage}>
+                <HeaderWrap onClick={closePage}>
                     <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>
@@ -52,8 +80,8 @@ const DetailPage = () => {
 
                 <div style={{ padding: '1.875rem 1.25rem 0 1.25rem' }}>
 
-                    <ContentWrap>이름 변경</ContentWrap>
-                    <ContentWrap>전화번호 변경</ContentWrap>
+                    <ContentWrap onClick={() => { openPage('name') }}>이름 변경</ContentWrap>
+                    <ContentWrap onClick={() => { openPage('phone') }}>전화번호 변경</ContentWrap>
 
                     <div style={{ height: '0.0437rem', backgroundColor: 'rgba(0,0,0,0.06)', marginBottom: '1.875rem' }}></div>
 
@@ -64,8 +92,8 @@ const DetailPage = () => {
 
 
             {/* 이름 변경 페이지 */}
-            <div style={false ? { display: "block" } : { display: "none" }}>
-                <Fade right when={false} duration={300}>
+            <div style={openNamePageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openNamePageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <NamePage />
                     </div>
@@ -73,8 +101,8 @@ const DetailPage = () => {
             </div>
 
             {/* 전화번호 변경 페이지 */}
-            <div style={false ? { display: "block" } : { display: "none" }}>
-                <Fade right when={false} duration={300}>
+            <div style={openPhonePageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openPhonePageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <PhonePage />
                     </div>
