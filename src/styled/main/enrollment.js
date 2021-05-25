@@ -25,6 +25,7 @@ export const InputWrap = styled.div`
     padding:0.625rem 0.875rem;
 
     border:${props => props.openStatus ? '0.0625rem solid #949494' : '0.0625rem solid #e8e8e8'};
+
     border-radius:0.25rem;
 
     font-size:0.8125rem;

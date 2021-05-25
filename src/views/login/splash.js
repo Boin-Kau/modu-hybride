@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { customApiClient } from '../../shared/apiClient';
 import { BottomNavOpenAction, BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { useDispatch, useSelector } from "react-redux";
+import { UserInfoUpdate } from '../../reducers/info/user';
 
 
 const Splash = () => {
@@ -16,8 +17,6 @@ const Splash = () => {
 
             const data = await customApiClient('get', '/user/jwt');
 
-            console.log(data);
-
             //벨리데이션
             if (!data || data.statusCode != 200) {
                 localStorage.removeItem('x-access-token');
@@ -26,6 +25,10 @@ const Splash = () => {
                 return
             }
 
+            dispatch({
+                type: UserInfoUpdate,
+                data: data.result
+            })
             dispatch(BottomNavOpenAction);
             history.push('/main');
             return

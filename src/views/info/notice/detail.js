@@ -7,6 +7,7 @@ import { AlertPageWrapCloseAction, AlertPageCloseAction } from "../../../reducer
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import icon_profile from "../../../assets/duck-profile.svg";
 import icon_info from "../../../assets/info-black-192-x-192@3x.png";
+import duck_family from "../../../assets/duck-family@2x.png";
 
 import { TextMiddle } from '../../../styled/shared';
 
@@ -65,6 +66,8 @@ const NoticeDetailPage = () => {
                         <br />
                         그리고 모두의 새 마스코트 구덕(GUDUCK)도 앞으로 많이 사랑해주세요! 감사합니다. 😀
                     </div>
+
+                    <img src={duck_family} style={{ width: '100%', marginTop: '1.875rem' }} />
 
                 </div>
             </PageWrap>

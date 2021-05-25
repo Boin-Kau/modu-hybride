@@ -11,13 +11,109 @@ import icon_info from "../../../assets/info-black-192-x-192@3x.png";
 import { TextMiddle, LoginButton } from '../../../styled/shared';
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../../styled/main/enrollment';
 import { PageClose, PageWrapClose } from '../../../reducers/info/page';
+import { customApiClient } from '../../../shared/apiClient';
+import { NameUpdate } from '../../../reducers/info/user';
+import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../reducers/container/message';
 
 
 const NamePage = () => {
 
     const dispatch = useDispatch();
 
+    const {
+        name: currentName,
+    } = useSelector(state => state.info.user);
+
+    const [name, setName] = useState(currentName);
+    const [confirm, setConfirm] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+
+
+    const handleName = (e) => {
+        setError(false);
+        setErrorMsg('');
+
+        setName(e.target.value);
+    }
+    useEffect(() => {
+
+        //이름 벨리데이션
+        //한글 이름 2~4자 이내
+        const reg = /^[가-힣]{2,4}$/;
+
+        if (!reg.test(name)) {
+            setConfirm(false);
+            return
+        }
+
+        setConfirm(true);
+
+    }, [name]);
+
+    useEffect(() => {
+        setName(currentName);
+    }, [currentName]);
+
+    const onClickConfirmButton = useCallback(async () => {
+        if (!confirm) return
+
+        if (name == currentName) {
+            setError(true);
+            setErrorMsg('현재 등록된 이름과 동일한 이름입니다');
+            return
+        }
+
+        //서버통신
+        const res = await customApiClient('put', `/user/name`, {
+            name: name
+        });
+
+        //서버에러
+        if (!res) return
+
+        //벨리데이션
+        if (res.statusCode != 200) {
+            setError(true);
+            setErrorMsg(res.message);
+            return
+        }
+
+        //store 이름 수정
+        dispatch({
+            type: NameUpdate,
+            data: name
+        })
+
+        closePage();
+
+        //변경완료 팝업창 띄우기
+        dispatch({
+            type: MessageWrapOpen
+        })
+        dispatch({
+            type: MessageOpen,
+            data: '이름 변경이 완료되었습니다.'
+        })
+        setTimeout(() => {
+            dispatch({
+                type: MessageClose
+            })
+        }, 2000);
+        setTimeout(() => {
+            dispatch({
+                type: MessageWrapClose
+            })
+        }, 2300);
+
+    }, [confirm, name, currentName]);
+
     const closePage = useCallback(() => {
+
+        setName(currentName);
+        setError(false);
+        setErrorMsg('');
+
         dispatch({
             type: PageClose,
             data: 'name'
@@ -29,7 +125,7 @@ const NamePage = () => {
                 data: 'name'
             });
         }, 300)
-    }, []);
+    }, [currentName]);
 
 
     return (
@@ -44,13 +140,14 @@ const NamePage = () => {
             <div style={{ padding: '1.25rem' }}>
                 <TitleWrap style={{ marginTop: '0' }}>이름</TitleWrap>
                 <ItemWrap>
-                    <InputWrap>
-                        <Input placeholder="구독 서비스명을 입력하세요"></Input>
+                    <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
+                        <Input placeholder="구독 서비스명을 입력하세요" onChange={handleName} value={name}></Input>
                     </InputWrap>
                 </ItemWrap>
+                <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e' }}>{errorMsg}</div>
             </div>
 
-            <LoginButton pageConfirmStatus={false}>
+            <LoginButton pageConfirmStatus={confirm} onClick={onClickConfirmButton}>
                 변경
             </LoginButton>
         </PageWrap>

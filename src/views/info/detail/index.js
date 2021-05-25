@@ -14,6 +14,9 @@ import NamePage from './name';
 import Fade from 'react-reveal/Fade';
 import PhonePage from './phone';
 import { PageClose, PageWrapClose, PageWrapOpen, PageOpen } from '../../../reducers/info/page';
+import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
+import { useHistory } from 'react-router-dom';
+import { customApiClient } from '../../../shared/apiClient';
 
 const DetailPage = () => {
 
@@ -26,7 +29,13 @@ const DetailPage = () => {
         openPhonePageStatus,
     } = useSelector(state => state.info.page);
 
+    const {
+        name,
+    } = useSelector(state => state.info.user);
+
     const dispatch = useDispatch();
+    const history = useHistory();
+
 
     const closePage = useCallback(() => {
         dispatch({
@@ -56,6 +65,33 @@ const DetailPage = () => {
 
     }, []);
 
+
+    const onCickLogout = () => {
+        localStorage.removeItem('x-access-token');
+        window.location.href = '/login';
+        return
+    }
+
+    const onClickDelete = async () => {
+
+        //서버통신
+        const res = await customApiClient('delete', `/user`);
+
+        //서버에러
+        if (!res) return
+
+        //벨리데이션
+        if (res.statusCode != 200) {
+            alert(res.message);
+            return
+        }
+
+        localStorage.removeItem('x-access-token');
+        window.location.href = '/login';
+
+        return
+    }
+
     return (
 
         <>
@@ -71,7 +107,7 @@ const DetailPage = () => {
                     <div>
                         <img style={{ width: '3.8125rem', height: '3.8125rem' }} src={icon_profile} />
                     </div>
-                    <div style={{ margin: '0.5625rem 0 0.25rem 0', fontSize: '0.875rem' }}>김수진</div>
+                    <div style={{ margin: '0.5625rem 0 0.25rem 0', fontSize: '0.875rem' }}>{name}</div>
                     <div style={{ fontSize: '0.6875rem', color: 'rgba(49,49,49,0.4)', lineHeight: '1.3125rem' }}>
                         고유번호 #1234
                     <img src={icon_info} style={{ width: '0.6875rem', height: '0.6875rem', marginLeft: '0.1875rem', position: 'relative', top: '0.0625rem' }} />
@@ -85,8 +121,8 @@ const DetailPage = () => {
 
                     <div style={{ height: '0.0437rem', backgroundColor: 'rgba(0,0,0,0.06)', marginBottom: '1.875rem' }}></div>
 
-                    <ContentWrap>로그아웃</ContentWrap>
-                    <ContentWrap style={{ color: '#fb5e5e' }}>탈퇴하기</ContentWrap>
+                    <ContentWrap onClick={onCickLogout}>로그아웃</ContentWrap>
+                    <ContentWrap onClick={onClickDelete} style={{ color: '#fb5e5e' }}>탈퇴하기</ContentWrap>
                 </div>
             </PageWrap>
 

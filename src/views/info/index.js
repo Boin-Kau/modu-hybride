@@ -31,6 +31,10 @@ const Info = () => {
         openQuestionPageStatus
     } = useSelector(state => state.info.page);
 
+    const {
+        name,
+    } = useSelector(state => state.info.user);
+
     //페이지 열기
     const openPage = useCallback(async (data) => {
 
@@ -44,6 +48,7 @@ const Info = () => {
         });
 
     }, []);
+
 
     return (
         <>
@@ -63,8 +68,8 @@ const Info = () => {
                     <InfoWrap onClick={() => { openPage('info') }}>
                         <img style={{ width: '2.9375rem', height: '2.9375rem' }} src={icon_profile} />
                         <div style={{ marginLeft: "0.6875rem", flexGrow: '1' }}>
-                            <div style={{ fontSize: '0.875rem', margin: '0.25rem 0' }}>신민재</div>
-                            <div style={{ fontSize: '0.6875rem', lineHeight: '1.3125rem', opacity: '0.4' }}>신민재#1234</div>
+                            <div style={{ fontSize: '0.875rem', margin: '0.25rem 0' }}>{name}</div>
+                            <div style={{ fontSize: '0.6875rem', lineHeight: '1.3125rem', opacity: '0.4' }}>고유번호#1234</div>
                         </div>
                         <div style={{ marginTop: '0.25rem' }}>
                             <img src={icon_arrow_right} style={{ width: '0.4375rem', height: '0.625rem' }} />

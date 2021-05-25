@@ -19,6 +19,7 @@ import icon_timeout from "../../assets/icon-timeout.svg";
 
 import { customApiClient } from '../../shared/apiClient';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
+import { UserInfoUpdate } from '../../reducers/info/user';
 
 
 const Login = () => {
@@ -168,7 +169,21 @@ const Login = () => {
             //로그인 로직
             if (data.statusCode == 200) {
                 clearInterval(intervalId);
-                localStorage.setItem('x-access-token', data.jwt);
+
+                await localStorage.setItem('x-access-token', data.jwt);
+
+                const authData = await customApiClient('get', '/user/jwt');
+
+                //벨리데이션
+                if (!authData || authData.statusCode != 200) {
+                    alert("오류가 발생하였습니다. 다시 시도해주세요.");
+                    return
+                }
+                dispatch({
+                    type: UserInfoUpdate,
+                    data: authData.result
+                })
+
                 dispatch(BottomNavOpenAction);
                 history.push('/main');
                 return
@@ -232,9 +247,6 @@ const Login = () => {
 
     const handleName = useCallback((e) => {
         setName(e.target.value);
-
-        console.log(e.target.value);
-        console.log(name)
 
         //이름 벨리데이션
         //한글 이름 2~4자 이내

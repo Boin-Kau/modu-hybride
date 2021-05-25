@@ -2,9 +2,6 @@ import axios from 'axios';
 
 export const apiClient = axios.create({
     baseURL: "http://localhost:3030/", // 기본 서버 주소 입력
-    headers: {
-        Authorization: "Bearer " + localStorage.getItem("x-access-token"),
-    },
 });
 
 
@@ -14,10 +11,11 @@ export const customApiClient = async (method, url, data) => {
     try {
         const result = await apiClient(url, {
             method: method,
-            data: data
+            data: data,
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("x-access-token"),
+            }
         });
-
-        console.log(result);
 
         return result.data;
     }

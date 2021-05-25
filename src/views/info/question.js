@@ -13,6 +13,7 @@ import icon_arrow_up from "../../assets/icon-arrow-up-gray.svg";
 import { TextMiddle, LoginButton } from '../../styled/shared';
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../styled/main/enrollment';
 import { PageClose, PageWrapClose } from '../../reducers/info/page';
+import Fade from 'react-reveal/Fade';
 
 
 const QuestionPage = () => {
@@ -33,6 +34,29 @@ const QuestionPage = () => {
         }, 300)
     }, []);
 
+    const [oneOpen, setOneOpen] = useState(false);
+    const [twoOpen, setTwoOpen] = useState(false);
+
+    const onClickContentOpen = useCallback((index) => {
+
+        if (index == 0) {
+            if (oneOpen) {
+                setOneOpen(false);
+            }
+            else {
+                setOneOpen(true);
+            }
+        }
+        else {
+            if (twoOpen) {
+                setTwoOpen(false);
+            }
+            else {
+                setTwoOpen(true);
+            }
+        }
+
+    }, [oneOpen, twoOpen]);
 
 
     return (
@@ -49,29 +73,44 @@ const QuestionPage = () => {
                 <div style={{ borderBottom: '0.0437rem solid rgba(0,0,0,0.06)', paddingBottom: '0.875rem' }}>
                     자주 묻는 질문
                 </div>
-                <ContentWrap>
+                <ContentWrap onClick={() => { onClickContentOpen(0) }}>
                     <div style={{ display: 'flex', fontSize: '0.8125rem', height: '0.8125rem' }}>
                         <div style={{ marginRight: '0.5625rem' }}>01</div>
                         <div>휴대폰 번호 변경 시 어떻게 해야하나요?</div>
-                        <ContentMoreIcon src={icon_arrow_up} />
+                        {
+                            !oneOpen ?
+                                <ContentMoreIcon src={icon_arrow_down} /> :
+                                <ContentMoreIcon src={icon_arrow_up} />
+                        }
                     </div>
                 </ContentWrap>
-                <ContentDetailWrap>
-                    휴대폰 번호가 변경되었을 시, 마이페이지에서 전화번호 변경 기능을 사용하여 데이터 이전이 가능합니다.
+                <Fade collapse when={oneOpen} duration={500}>
+                    <ContentDetailWrap>
+                        휴대폰 번호가 변경되었을 시, 마이페이지에서 전화번호 변경 기능을 사용하여 데이터 이전이 가능합니다.
                     <br /><br />
                     그러나 휴대폰 번호와 핸드폰 전부 변경되어서 불가능한 경우,  아래 내용을 1:1 문의로 남겨주시면 데이터를 이전해드립니다.
                     <br /><br />
                     1. 기존 전화번호 <br />
                     2. 모두에서 제공한 고유번호 4자리 <br />
-                </ContentDetailWrap>
+                    </ContentDetailWrap>
+                </Fade>
 
-                <ContentWrap>
+                <ContentWrap onClick={() => { onClickContentOpen(1) }}>
                     <div style={{ display: 'flex', fontSize: '0.8125rem', height: '0.8125rem' }}>
                         <div style={{ marginRight: '0.5625rem' }}>02</div>
                         <div>구독 서비스 결제일이 말일인 경우 어떻게 되나요?</div>
-                        <ContentMoreIcon src={icon_arrow_down} />
+                        {
+                            !twoOpen ?
+                                <ContentMoreIcon src={icon_arrow_down} /> :
+                                <ContentMoreIcon src={icon_arrow_up} />
+                        }
                     </div>
                 </ContentWrap>
+                <Fade collapse when={twoOpen} duration={500}>
+                    <ContentDetailWrap>
+                        내용 필요함
+                    </ContentDetailWrap>
+                </Fade>
 
             </div>
 
