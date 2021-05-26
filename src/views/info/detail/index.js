@@ -31,6 +31,7 @@ const DetailPage = () => {
 
     const {
         name,
+        uniqueNumber
     } = useSelector(state => state.info.user);
 
     const dispatch = useDispatch();
@@ -109,8 +110,8 @@ const DetailPage = () => {
                     </div>
                     <div style={{ margin: '0.5625rem 0 0.25rem 0', fontSize: '0.875rem' }}>{name}</div>
                     <div style={{ fontSize: '0.6875rem', color: 'rgba(49,49,49,0.4)', lineHeight: '1.3125rem' }}>
-                        고유번호 #1234
-                    <img src={icon_info} style={{ width: '0.6875rem', height: '0.6875rem', marginLeft: '0.1875rem', position: 'relative', top: '0.0625rem' }} />
+                        고유번호 #{uniqueNumber}
+                        <img src={icon_info} style={{ width: '0.6875rem', height: '0.6875rem', marginLeft: '0.1875rem', position: 'relative', top: '0.0625rem' }} />
                     </div>
                 </div>
 

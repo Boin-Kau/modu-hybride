@@ -13,7 +13,10 @@ import icon_check from "../../../../assets/icon-check-white.svg";
 import icon_trsah from "../../../../assets/icon-trash-can.svg";
 import icon_pen from "../../../../assets/pen-icon-white.svg";
 
-import { TextMiddle } from '../../../../styled/shared';
+import danger_icon from "../../../../assets/danger-icon.svg";
+
+
+import { TextMiddle, DangerWrapPopup, DangerPopup } from '../../../../styled/shared';
 import { EnrollmentRevisePageCloseAction, EnrollmentRevisePageWrapCloseAction } from '../../../../reducers/main/enrollmentRevise';
 import { TitleWrap, ItemWrap, InputWrap, Input, PartyIconWrap, PartyIcon, PartyText, DeleteButtonWrap } from '../../../../styled/main/enrollment';
 
@@ -80,6 +83,8 @@ const EnrollmentRevisePage = () => {
     const [useageDataOpen, setUseageDataOpen] = useState(false);
     const [useageUnitOpen, setUseageUnitOpen] = useState(false);
 
+    const [dangerPopupWrap, setDangerPopupWrap] = useState(false);
+    const [dangerPopup, setDangerPopup] = useState(false);
 
     useEffect(() => {
 
@@ -395,7 +400,17 @@ const EnrollmentRevisePage = () => {
         useageData, useageUnit
     ]);
 
-    const onClickDelete = useCallback(async () => {
+    const onClickDelete = () => {
+        setDangerPopupWrap(true);
+        setDangerPopup(true);
+    }
+
+    const onClickCancel = () => {
+        setDangerPopupWrap(false);
+        setDangerPopup(false);
+    }
+
+    const onClickDeleteConfirm = useCallback(async () => {
 
         //구독 플랫폼 삭제
         const data = await customApiClient('delete', `/subscribe/${subscribeIdx}`);
@@ -444,469 +459,494 @@ const EnrollmentRevisePage = () => {
     }, [subscribeIdx]);
 
     return (
-        <PageWrap>
-            <HeaderWrap>
-                <div onClick={closeEnrollmentRevisePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-                    <img src={icon_back}></img>
-                </div>
-                <TextMiddle>
-                    {
-                        registerType == 'SERVER' ?
-                            name : '직접 입력하기'
-                    }
-                </TextMiddle>
-                <SaveButton confimStatus={pageConfirmStatus} onClick={onClickRevise}>저장</SaveButton>
-            </HeaderWrap>
-
-            <ContentWrap>
-
-                <SectionTitle>기본 정보</SectionTitle>
-                <SectionWrap>
-
-                    {/* 플랫폼 썸네일 */}
-                    {
-                        thumbnail ?
-                            <div style={{ margin: "1.125rem 0 0.9375rem 0", textAlign: "center" }}>
-                                <img src={thumbnail} style={{ width: "4.25rem", height: "4.25rem", borderRadius: "0.375rem" }} />
-                            </div> :
-                            <div style={{ display: 'flex', margin: "1.125rem 0 0.9375rem 0" }}>
-                                <div style={{ flexGrow: '1' }}></div>
-                                <ImgColorWrap backgroundColor={imgColor} onClick={openImgEnrollPopup}>
-                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '1.875rem', color: '#ffffff', height: '1.875rem' }}>{imgInitial ? imgInitial : '?'}</div>
-                                    <div style={{ position: 'absolute', right: '-0.4375rem', bottom: '-0.4375rem', width: '1.4375rem', height: '1.4375rem', borderRadius: '50%', backgroundColor: '#ffca17' }}>
-                                        <img src={icon_pen} style={{ width: '0.8125rem', height: '1rem', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }} />
-                                    </div>
-                                </ImgColorWrap>
-                                <div style={{ flexGrow: '1' }}></div>
-                            </div>
-                    }
-
-                    {/* 플랫폼 이름 */}
-                    <TitleWrap>구독 서비스명</TitleWrap>
-                    <ItemWrap>
+        <>
+            <PageWrap>
+                <HeaderWrap>
+                    <div onClick={closeEnrollmentRevisePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_back}></img>
+                    </div>
+                    <TextMiddle>
                         {
                             registerType == 'SERVER' ?
-                                <InputWrap>{name}</InputWrap> :
-                                <InputWrap>
-                                    <Input placeholder="구독 서비스명을 입력하세요" onChange={onChangeName} value={name}></Input>
-                                </InputWrap>
+                                name : '직접 입력하기'
                         }
-                    </ItemWrap>
+                    </TextMiddle>
+                    <SaveButton confimStatus={pageConfirmStatus} onClick={onClickRevise}>저장</SaveButton>
+                </HeaderWrap>
 
-                    {/* 결제금액 */}
-                    <TitleWrap>
-                        <div style={{ marginRight: "0.5rem" }}>결제 금액</div>
-                        <div style={{ fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 최종 결제금액으로 입력해주세요.</div>
-                    </TitleWrap>
-                    <ItemWrap>
-                        <InputWrap style={{ flexGrow: "1", flexBasis: "0", marginRight: "0.3125rem" }}>
-                            <Input type="number" placeholder="결제금액을 입력하세요" onChange={onChangePrice} value={price}></Input>
-                        </InputWrap>
-                        <InputWrap style={{ flexGrow: "0", }}>
-                            <div style={{ width: '3.125rem', height: '0.8125rem' }}>￦ (원)</div>
-                            {/* <div>
+                <ContentWrap>
+
+                    <SectionTitle>기본 정보</SectionTitle>
+                    <SectionWrap>
+
+                        {/* 플랫폼 썸네일 */}
+                        {
+                            thumbnail ?
+                                <div style={{ margin: "1.125rem 0 0.9375rem 0", textAlign: "center" }}>
+                                    <img src={thumbnail} style={{ width: "4.25rem", height: "4.25rem", borderRadius: "0.375rem" }} />
+                                </div> :
+                                <div style={{ display: 'flex', margin: "1.125rem 0 0.9375rem 0" }}>
+                                    <div style={{ flexGrow: '1' }}></div>
+                                    <ImgColorWrap backgroundColor={imgColor} onClick={openImgEnrollPopup}>
+                                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '1.875rem', color: '#ffffff', height: '1.875rem' }}>{imgInitial ? imgInitial : '?'}</div>
+                                        <div style={{ position: 'absolute', right: '-0.4375rem', bottom: '-0.4375rem', width: '1.4375rem', height: '1.4375rem', borderRadius: '50%', backgroundColor: '#ffca17' }}>
+                                            <img src={icon_pen} style={{ width: '0.8125rem', height: '1rem', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }} />
+                                        </div>
+                                    </ImgColorWrap>
+                                    <div style={{ flexGrow: '1' }}></div>
+                                </div>
+                        }
+
+                        {/* 플랫폼 이름 */}
+                        <TitleWrap>구독 서비스명</TitleWrap>
+                        <ItemWrap>
+                            {
+                                registerType == 'SERVER' ?
+                                    <InputWrap>{name}</InputWrap> :
+                                    <InputWrap>
+                                        <Input placeholder="구독 서비스명을 입력하세요" onChange={onChangeName} value={name}></Input>
+                                    </InputWrap>
+                            }
+                        </ItemWrap>
+
+                        {/* 결제금액 */}
+                        <TitleWrap>
+                            <div style={{ marginRight: "0.5rem" }}>결제 금액</div>
+                            <div style={{ fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 최종 결제금액으로 입력해주세요.</div>
+                        </TitleWrap>
+                        <ItemWrap>
+                            <InputWrap style={{ flexGrow: "1", flexBasis: "0", marginRight: "0.3125rem" }}>
+                                <Input type="number" placeholder="결제금액을 입력하세요" onChange={onChangePrice} value={price}></Input>
+                            </InputWrap>
+                            <InputWrap style={{ flexGrow: "0", }}>
+                                <div style={{ width: '3.125rem', height: '0.8125rem' }}>￦ (원)</div>
+                                {/* <div>
                                 <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
                             </div> */}
-                        </InputWrap>
-                    </ItemWrap>
+                            </InputWrap>
+                        </ItemWrap>
 
-                    {/* 카테고리 */}
-                    <TitleWrap>
-                        <div>카테고리</div>
-                    </TitleWrap>
-                    {
-                        registerType == 'SERVER' ?
-                            <ItemWrap>
-                                <InputWrap>
-                                    {categoryList.map((data) => {
-                                        if (data.idx == categoryIndex) return data.name;
-                                    })}
-                                </InputWrap>
-                            </ItemWrap> :
-                            <ItemWrap onClick={onClickCategoryOpen}>
-                                <InputWrap openStatus={categoryOpen} isBlocked={categoryIndex == -1}>
-                                    <div>
-                                        {categoryIndex != -1 ? categoryList.map((data) => {
+                        {/* 카테고리 */}
+                        <TitleWrap>
+                            <div>카테고리</div>
+                        </TitleWrap>
+                        {
+                            registerType == 'SERVER' ?
+                                <ItemWrap>
+                                    <InputWrap>
+                                        {categoryList.map((data) => {
                                             if (data.idx == categoryIndex) return data.name;
-                                        }) : '카테고리를 선택해주세요'}
-                                    </div>
-                                    <div style={{ flexGrow: "1" }}></div>
-                                    <div>
+                                        })}
+                                    </InputWrap>
+                                </ItemWrap> :
+                                <ItemWrap onClick={onClickCategoryOpen}>
+                                    <InputWrap openStatus={categoryOpen} isBlocked={categoryIndex == -1}>
+                                        <div>
+                                            {categoryIndex != -1 ? categoryList.map((data) => {
+                                                if (data.idx == categoryIndex) return data.name;
+                                            }) : '카테고리를 선택해주세요'}
+                                        </div>
+                                        <div style={{ flexGrow: "1" }}></div>
+                                        <div>
+                                            {
+                                                categoryOpen ?
+                                                    <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                                    <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                            }
+                                        </div>
+                                    </InputWrap>
+                                </ItemWrap>
+                        }
+                        <Fade collapse when={categoryOpen} duration={500}>
+                            <SelectWrap>
+
+                                {
+                                    categoryList.map((data) => {
+                                        return (
+                                            <SelectContent selectSatus={data.idx == categoryIndex} onClick={() => { onClickCategoryContent(data.idx) }} key={data.idx}>
+                                                {data.name}
+                                            </SelectContent>
+                                        )
+                                    })
+                                }
+
+                            </SelectWrap>
+                        </Fade>
+
+                        {/* 맴버십 종류 */}
+                        <TitleWrap>
+                            <div>맴버십 종류</div>
+                        </TitleWrap>
+                        <ItemWrap>
+                            <InputWrap>
+                                <Input placeholder="멤버십명을 입력해주세요" onChange={onChangeMembership} value={membership}></Input>
+                            </InputWrap>
+                        </ItemWrap>
+
+                    </SectionWrap>
+
+                    <SectionTitle>결제 정보</SectionTitle>
+                    <SectionWrap>
+
+                        {/* 결제주기 */}
+                        <TitleWrap>
+                            <div>결제주기</div>
+                        </TitleWrap>
+                        <ItemWrap>
+                            <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={cycleDataOpen} isBlocked={!cycleData} onClick={onClickCycleDataOpen}>
+                                <div>
+                                    {
+                                        cycleData ? cycleData :
+                                            '숫자 선택'
+                                    }
+                                </div>
+                                <div style={{ flexGrow: "1" }}></div>
+                                <div>
+                                    {
+                                        cycleDataOpen ?
+                                            <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                    }
+                                </div>
+                            </InputWrap>
+                            <InputWrap openStatus={cycleUnitOpen} isBlocked={!cycleUnit} onClick={onClickCycleUnitOpen}>
+                                <div>
+                                    {
+                                        cycleUnit ? getUnit(cycleUnit) :
+                                            '일,주,달,년'
+                                    }
+                                </div>
+                                <div style={{ flexGrow: "1" }}></div>
+                                <div>
+                                    {
+                                        cycleUnitOpen ?
+                                            <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                    }
+                                </div>
+                            </InputWrap>
+                        </ItemWrap>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
+                                <Fade collapse when={cycleDataOpen} duration={500}>
+                                    <SelectWrap>
+
                                         {
-                                            categoryOpen ?
-                                                <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                            NumberList.map((data, index) => {
+                                                return (
+                                                    <SelectContent selectSatus={data == cycleData} onClick={() => { onClickCycleDataContent(data) }} key={index}>
+                                                        {data}
+                                                    </SelectContent>
+                                                )
+                                            })
                                         }
-                                    </div>
-                                </InputWrap>
-                            </ItemWrap>
-                    }
-                    <Fade collapse when={categoryOpen} duration={500}>
-                        <SelectWrap>
 
-                            {
-                                categoryList.map((data) => {
-                                    return (
-                                        <SelectContent selectSatus={data.idx == categoryIndex} onClick={() => { onClickCategoryContent(data.idx) }} key={data.idx}>
-                                            {data.name}
-                                        </SelectContent>
-                                    )
-                                })
-                            }
-
-                        </SelectWrap>
-                    </Fade>
-
-                    {/* 맴버십 종류 */}
-                    <TitleWrap>
-                        <div>맴버십 종류</div>
-                    </TitleWrap>
-                    <ItemWrap>
-                        <InputWrap>
-                            <Input placeholder="멤버십명을 입력해주세요" onChange={onChangeMembership} value={membership}></Input>
-                        </InputWrap>
-                    </ItemWrap>
-
-                </SectionWrap>
-
-                <SectionTitle>결제 정보</SectionTitle>
-                <SectionWrap>
-
-                    {/* 결제주기 */}
-                    <TitleWrap>
-                        <div>결제주기</div>
-                    </TitleWrap>
-                    <ItemWrap>
-                        <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={cycleDataOpen} isBlocked={!cycleData} onClick={onClickCycleDataOpen}>
-                            <div>
-                                {
-                                    cycleData ? cycleData :
-                                        '숫자 선택'
-                                }
+                                    </SelectWrap>
+                                </Fade>
                             </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                {
-                                    cycleDataOpen ?
-                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                                }
-                            </div>
-                        </InputWrap>
-                        <InputWrap openStatus={cycleUnitOpen} isBlocked={!cycleUnit} onClick={onClickCycleUnitOpen}>
-                            <div>
-                                {
-                                    cycleUnit ? getUnit(cycleUnit) :
-                                        '일,주,달,년'
-                                }
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                {
-                                    cycleUnitOpen ?
-                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                                }
-                            </div>
-                        </InputWrap>
-                    </ItemWrap>
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
-                            <Fade collapse when={cycleDataOpen} duration={500}>
-                                <SelectWrap>
+                            <div style={{ flexGrow: '1', flexBasis: '0' }}>
+                                <Fade collapse when={cycleUnitOpen} duration={500}>
+                                    <SelectWrap>
 
-                                    {
-                                        NumberList.map((data, index) => {
-                                            return (
-                                                <SelectContent selectSatus={data == cycleData} onClick={() => { onClickCycleDataContent(data) }} key={index}>
-                                                    {data}
-                                                </SelectContent>
-                                            )
-                                        })
-                                    }
+                                        {
+                                            UnitList.map((data, index) => {
+                                                return (
+                                                    <SelectContent selectSatus={data == cycleUnit} onClick={() => { onClickCycleUnitContent(data) }} key={index}>
+                                                        {getUnit(data)}
+                                                    </SelectContent>
+                                                )
+                                            })
+                                        }
 
-                                </SelectWrap>
-                            </Fade>
+                                    </SelectWrap>
+                                </Fade>
+                            </div>
                         </div>
-                        <div style={{ flexGrow: '1', flexBasis: '0' }}>
-                            <Fade collapse when={cycleUnitOpen} duration={500}>
-                                <SelectWrap>
 
+                        {/* 마지막 결제일 */}
+                        <TitleWrap>
+                            <div>다음 결제일</div>
+                        </TitleWrap>
+                        <ItemWrap>
+                            <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={paymentYearOpen} isBlocked={!paymentYear} onClick={onClickPaymentYearOpen}>
+                                <div>
                                     {
-                                        UnitList.map((data, index) => {
-                                            return (
-                                                <SelectContent selectSatus={data == cycleUnit} onClick={() => { onClickCycleUnitContent(data) }} key={index}>
-                                                    {getUnit(data)}
-                                                </SelectContent>
-                                            )
-                                        })
+                                        paymentYear ? paymentYear :
+                                            '연도'
                                     }
+                                </div>
+                                <div style={{ flexGrow: "1" }}></div>
 
-                                </SelectWrap>
-                            </Fade>
-                        </div>
-                    </div>
-
-                    {/* 마지막 결제일 */}
-                    <TitleWrap>
-                        <div>다음 결제일</div>
-                    </TitleWrap>
-                    <ItemWrap>
-                        <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={paymentYearOpen} isBlocked={!paymentYear} onClick={onClickPaymentYearOpen}>
-                            <div>
-                                {
-                                    paymentYear ? paymentYear :
-                                        '연도'
-                                }
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-
-                            <div>
-                                {
-                                    paymentYearOpen ?
-                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                                }
-                            </div>
-                        </InputWrap>
-                        <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={paymentMonthOpen} isBlocked={!paymentMonth} onClick={onClickPaymentMonthOpen}>
-                            <div>
-                                {
-                                    paymentMonth ? paymentMonth :
-                                        '월'
-                                }
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                {
-                                    paymentMonthOpen ?
-                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                                }
-                            </div>
-                        </InputWrap>
-                        <InputWrap openStatus={paymentDayOpen} isBlocked={!paymentDay} onClick={onClickPaymentDayOpen}>
-                            <div>
-                                {
-                                    paymentDay ? paymentDay :
-                                        '일'
-                                }
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                {
-                                    paymentDayOpen ?
-                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                                }
-                            </div>
-                        </InputWrap>
-                    </ItemWrap>
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
-                            <Fade collapse when={paymentYearOpen} duration={500}>
-                                <SelectWrap>
-
+                                <div>
                                     {
-                                        YearList.map((data, index) => {
-                                            return (
-                                                <SelectContent selectSatus={data == paymentYear} onClick={() => { onClickPaymentYearContent(data) }} key={index}>
-                                                    {data}
-                                                </SelectContent>
-                                            )
-                                        })
+                                        paymentYearOpen ?
+                                            <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
                                     }
-
-                                </SelectWrap>
-                            </Fade>
-                        </div>
-                        <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
-                            <Fade collapse when={paymentMonthOpen} duration={500}>
-                                <SelectWrap>
-
+                                </div>
+                            </InputWrap>
+                            <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={paymentMonthOpen} isBlocked={!paymentMonth} onClick={onClickPaymentMonthOpen}>
+                                <div>
                                     {
-                                        MonthList.map((data, index) => {
-                                            return (
-                                                <SelectContent selectSatus={data == paymentMonth} onClick={() => { onClickPaymentMonthContent(data) }} key={index}>
-                                                    {data}
-                                                </SelectContent>
-                                            )
-                                        })
+                                        paymentMonth ? paymentMonth :
+                                            '월'
                                     }
-
-                                </SelectWrap>
-                            </Fade>
-                        </div>
-                        <div style={{ flexGrow: '1', flexBasis: '0' }}>
-                            <Fade collapse when={paymentDayOpen} duration={500}>
-                                <SelectWrap>
-
+                                </div>
+                                <div style={{ flexGrow: "1" }}></div>
+                                <div>
                                     {
-                                        NumberList.map((data, index) => {
-                                            return (
-                                                <SelectContent selectSatus={data == paymentDay} onClick={() => { onClickPaymentDayContent(data) }} key={index}>
-                                                    {data}
-                                                </SelectContent>
-                                            )
-                                        })
+                                        paymentMonthOpen ?
+                                            <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
                                     }
+                                </div>
+                            </InputWrap>
+                            <InputWrap openStatus={paymentDayOpen} isBlocked={!paymentDay} onClick={onClickPaymentDayOpen}>
+                                <div>
+                                    {
+                                        paymentDay ? paymentDay :
+                                            '일'
+                                    }
+                                </div>
+                                <div style={{ flexGrow: "1" }}></div>
+                                <div>
+                                    {
+                                        paymentDayOpen ?
+                                            <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                    }
+                                </div>
+                            </InputWrap>
+                        </ItemWrap>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
+                                <Fade collapse when={paymentYearOpen} duration={500}>
+                                    <SelectWrap>
 
-                                </SelectWrap>
-                            </Fade>
+                                        {
+                                            YearList.map((data, index) => {
+                                                return (
+                                                    <SelectContent selectSatus={data == paymentYear} onClick={() => { onClickPaymentYearContent(data) }} key={index}>
+                                                        {data}
+                                                    </SelectContent>
+                                                )
+                                            })
+                                        }
+
+                                    </SelectWrap>
+                                </Fade>
+                            </div>
+                            <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
+                                <Fade collapse when={paymentMonthOpen} duration={500}>
+                                    <SelectWrap>
+
+                                        {
+                                            MonthList.map((data, index) => {
+                                                return (
+                                                    <SelectContent selectSatus={data == paymentMonth} onClick={() => { onClickPaymentMonthContent(data) }} key={index}>
+                                                        {data}
+                                                    </SelectContent>
+                                                )
+                                            })
+                                        }
+
+                                    </SelectWrap>
+                                </Fade>
+                            </div>
+                            <div style={{ flexGrow: '1', flexBasis: '0' }}>
+                                <Fade collapse when={paymentDayOpen} duration={500}>
+                                    <SelectWrap>
+
+                                        {
+                                            NumberList.map((data, index) => {
+                                                return (
+                                                    <SelectContent selectSatus={data == paymentDay} onClick={() => { onClickPaymentDayContent(data) }} key={index}>
+                                                        {data}
+                                                    </SelectContent>
+                                                )
+                                            })
+                                        }
+
+                                    </SelectWrap>
+                                </Fade>
+                            </div>
                         </div>
-                    </div>
 
-                </SectionWrap>
+                    </SectionWrap>
 
-                <SectionTitle>세부 정보</SectionTitle>
-                <SectionWrap>
+                    <SectionTitle>세부 정보</SectionTitle>
+                    <SectionWrap>
 
-                    {/* 체험 기간 */}
-                    <TitleWrap>
-                        <div>체험 기간</div>
-                    </TitleWrap>
-                    <div style={{ display: "flex", margin: "0.1875rem 0 0 0" }} onClick={onClickIsFree}>
-                        <PartyIconWrap isFree={isFree}>
-                            <PartyIcon src={icon_check} />
-                        </PartyIconWrap>
-                        <PartyText>
-                            체험 기간으로 사용 중인 서비스입니다.
+                        {/* 체험 기간 */}
+                        <TitleWrap>
+                            <div>체험 기간</div>
+                        </TitleWrap>
+                        <div style={{ display: "flex", margin: "0.1875rem 0 0 0" }} onClick={onClickIsFree}>
+                            <PartyIconWrap isFree={isFree}>
+                                <PartyIcon src={icon_check} />
+                            </PartyIconWrap>
+                            <PartyText>
+                                체험 기간으로 사용 중인 서비스입니다.
                         </PartyText>
+                        </div>
+
+                        {/* 서비스 누적 이용 기간 */}
+                        <TitleWrap style={{ marginTop: '2.5rem' }}>
+                            <div>서비스 누적 이용 기간</div>
+                            <div style={{ marginLeft: '0.1875rem', color: '#ffbc26' }}>(선택)</div>
+                        </TitleWrap>
+                        <ItemWrap>
+                            <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={useageDataOpen} isBlocked={!useageData} onClick={onClickUseageDataOpen}>
+                                <div>
+                                    {
+                                        useageData ? useageData :
+                                            '숫자 선택'
+                                    }
+                                </div>
+                                <div style={{ flexGrow: "1" }}></div>
+                                <div>
+                                    {
+                                        useageDataOpen ?
+                                            <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                    }
+                                </div>
+                            </InputWrap>
+                            <InputWrap openStatus={useageUnitOpen} isBlocked={!useageUnit} onClick={onClickUseageUnitOpen}>
+                                <div>
+                                    {
+                                        useageUnit ? getUnit(useageUnit) :
+                                            '일,주,달,년'
+                                    }
+                                </div>
+                                <div style={{ flexGrow: "1" }}></div>
+                                <div>
+                                    {
+                                        useageUnitOpen ?
+                                            <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                            <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                    }
+                                </div>
+                            </InputWrap>
+                        </ItemWrap>
+
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
+                                <Fade collapse when={useageDataOpen} duration={500}>
+                                    <SelectWrap>
+
+                                        {
+                                            NumberList.map((data, index) => {
+                                                return (
+                                                    <SelectContent selectSatus={data == useageData} onClick={() => { onClickUseageDataContent(data) }} key={index}>
+                                                        {data}
+                                                    </SelectContent>
+                                                )
+                                            })
+                                        }
+
+                                    </SelectWrap>
+                                </Fade>
+                            </div>
+                            <div style={{ flexGrow: '1', flexBasis: '0' }}>
+                                <Fade collapse when={useageUnitOpen} duration={500}>
+                                    <SelectWrap>
+
+                                        {
+                                            UnitList.map((data, index) => {
+                                                return (
+                                                    <SelectContent selectSatus={data == useageUnit} onClick={() => { onClickUseageUnitContent(data) }} key={index}>
+                                                        {getUnit(data)}
+                                                    </SelectContent>
+                                                )
+                                            })
+                                        }
+
+                                    </SelectWrap>
+                                </Fade>
+                            </div>
+                        </div>
+
+
+                    </SectionWrap>
+
+                    <DeleteButtonWrap onClick={onClickDelete}>
+                        <div style={{ flexGrow: "1" }}></div>
+                        <div style={{ marginTop: "0.0625rem" }}>
+                            <img src={icon_trsah} style={{ width: "0.9375rem", height: "0.9375rem", marginRight: "0.5rem" }} />
+                        </div>
+                        <div style={{ marginTop: "0.125rem" }}>
+                            삭제하기
                     </div>
+                        <div style={{ flexGrow: "1" }}></div>
+                    </DeleteButtonWrap>
+                </ContentWrap>
 
-                    {/* 서비스 누적 이용 기간 */}
-                    <TitleWrap style={{ marginTop: '2.5rem' }}>
-                        <div>서비스 누적 이용 기간</div>
-                        <div style={{ marginLeft: '0.1875rem', color: '#ffbc26' }}>(선택)</div>
-                    </TitleWrap>
-                    <ItemWrap>
-                        <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={useageDataOpen} isBlocked={!useageData} onClick={onClickUseageDataOpen}>
-                            <div>
-                                {
-                                    useageData ? useageData :
-                                        '숫자 선택'
-                                }
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                {
-                                    useageDataOpen ?
-                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                                }
-                            </div>
-                        </InputWrap>
-                        <InputWrap openStatus={useageUnitOpen} isBlocked={!useageUnit} onClick={onClickUseageUnitOpen}>
-                            <div>
-                                {
-                                    useageUnit ? getUnit(useageUnit) :
-                                        '일,주,달,년'
-                                }
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                {
-                                    useageUnitOpen ?
-                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                                }
-                            </div>
-                        </InputWrap>
-                    </ItemWrap>
 
+
+                {/* 썸네일 이미지 등록 페이지 */}
+                <div style={{ display: imgEnrollOpen ? 'block' : 'none' }}>
+                    <ImgEnrollWrap>
+                        <div style={{ flexGrow: '1' }} onClick={closeImgEnrollPopup}></div>
+                        <ImgEnrollContentWrap>
+                            <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginBottom: '1.0625rem', marginLeft: '1.25rem' }}>구독 아이콘 설정</div>
+                            <div style={{ fontSize: '0.8125rem', marginBottom: '0.75rem', marginLeft: '1.25rem' }}>색상</div>
+                            <ImgEnrollColorWrap>
+                                {
+                                    ImgColorList.map((data, index) => {
+                                        return (
+                                            <ImgEnrollColor selectedStatus={imgColor == data} backgroundColor={data} onClick={() => onClickImgColor(index)} key={index}>
+                                                <ImgEnrollColorCheck src={icon_check} selectedStatus={imgColor == data}></ImgEnrollColorCheck>
+                                            </ImgEnrollColor>
+                                        )
+                                    })
+                                }
+                            </ImgEnrollColorWrap>
+                            <div style={{ fontSize: '0.8125rem', marginBottom: '0.9375rem', marginLeft: '1.25rem' }}>이니셜</div>
+                            <ImgEnrollInitialContainer >
+                                <div style={{ width: '1.25rem', flex: '0 0 auto' }}></div>
+                                {
+                                    ImgInitialList.map((data, index) => {
+                                        return (
+                                            <ImgEnrollInitialWrap selectedStatus={imgInitial == data} onClick={() => onClickImgInitial(index)} key={index}>
+                                                {data}
+                                            </ImgEnrollInitialWrap>
+                                        )
+                                    })
+                                }=
+                            <div style={{ width: '1.25rem', flex: '0 0 auto' }}></div>
+                            </ImgEnrollInitialContainer>
+                            <ImgEnrollButton pageConfirmStatus={imgColor && imgInitial} onClick={onClickImgConfirm}>확인</ImgEnrollButton>
+
+                        </ImgEnrollContentWrap>
+                    </ImgEnrollWrap>
+                </div>
+
+            </PageWrap>
+
+            {/* 삭제 알림창 */}
+            <DangerWrapPopup openStatus={dangerPopupWrap}>
+                <DangerPopup openStatus={dangerPopup}>
+                    <div style={{ position: 'relative', height: '3.125rem' }}>
+                        <div style={{ position: 'absolute', top: '-1.875rem', left: '50%', width: '3.8125rem', height: '3.8125rem', backgroundColor: '#fb5e5e', transform: 'translate(-50%,0)', borderRadius: '50%', border: '0.25rem solid #ffffff' }}>
+                            <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
+                        </div>
+                    </div>
+                    <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
+                        구독 내역을 삭제하시겠어요?
+                    </div>
+                    <div style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
                     <div style={{ display: 'flex' }}>
-                        <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
-                            <Fade collapse when={useageDataOpen} duration={500}>
-                                <SelectWrap>
-
-                                    {
-                                        NumberList.map((data, index) => {
-                                            return (
-                                                <SelectContent selectSatus={data == useageData} onClick={() => { onClickUseageDataContent(data) }} key={index}>
-                                                    {data}
-                                                </SelectContent>
-                                            )
-                                        })
-                                    }
-
-                                </SelectWrap>
-                            </Fade>
+                        <div onClick={onClickCancel} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
                         </div>
-                        <div style={{ flexGrow: '1', flexBasis: '0' }}>
-                            <Fade collapse when={useageUnitOpen} duration={500}>
-                                <SelectWrap>
-
-                                    {
-                                        UnitList.map((data, index) => {
-                                            return (
-                                                <SelectContent selectSatus={data == useageUnit} onClick={() => { onClickUseageUnitContent(data) }} key={index}>
-                                                    {getUnit(data)}
-                                                </SelectContent>
-                                            )
-                                        })
-                                    }
-
-                                </SelectWrap>
-                            </Fade>
+                        <div onClick={onClickDeleteConfirm} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: '#ffffff' }}>삭제</div>
                         </div>
                     </div>
-
-
-                </SectionWrap>
-
-                <DeleteButtonWrap onClick={onClickDelete}>
-                    <div style={{ flexGrow: "1" }}></div>
-                    <div style={{ marginTop: "0.0625rem" }}>
-                        <img src={icon_trsah} style={{ width: "0.9375rem", height: "0.9375rem", marginRight: "0.5rem" }} />
-                    </div>
-                    <div style={{ marginTop: "0.125rem" }}>
-                        삭제하기
-                    </div>
-                    <div style={{ flexGrow: "1" }}></div>
-                </DeleteButtonWrap>
-            </ContentWrap>
-
-
-
-            {/* 썸네일 이미지 등록 페이지 */}
-            <div style={{ display: imgEnrollOpen ? 'block' : 'none' }}>
-                <ImgEnrollWrap>
-                    <div style={{ flexGrow: '1' }} onClick={closeImgEnrollPopup}></div>
-                    <ImgEnrollContentWrap>
-                        <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginBottom: '1.0625rem', marginLeft: '1.25rem' }}>구독 아이콘 설정</div>
-                        <div style={{ fontSize: '0.8125rem', marginBottom: '0.75rem', marginLeft: '1.25rem' }}>색상</div>
-                        <ImgEnrollColorWrap>
-                            {
-                                ImgColorList.map((data, index) => {
-                                    return (
-                                        <ImgEnrollColor selectedStatus={imgColor == data} backgroundColor={data} onClick={() => onClickImgColor(index)} key={index}>
-                                            <ImgEnrollColorCheck src={icon_check} selectedStatus={imgColor == data}></ImgEnrollColorCheck>
-                                        </ImgEnrollColor>
-                                    )
-                                })
-                            }
-                        </ImgEnrollColorWrap>
-                        <div style={{ fontSize: '0.8125rem', marginBottom: '0.9375rem', marginLeft: '1.25rem' }}>이니셜</div>
-                        <ImgEnrollInitialContainer >
-                            <div style={{ width: '1.25rem', flex: '0 0 auto' }}></div>
-                            {
-                                ImgInitialList.map((data, index) => {
-                                    return (
-                                        <ImgEnrollInitialWrap selectedStatus={imgInitial == data} onClick={() => onClickImgInitial(index)} key={index}>
-                                            {data}
-                                        </ImgEnrollInitialWrap>
-                                    )
-                                })
-                            }=
-                            <div style={{ width: '1.25rem', flex: '0 0 auto' }}></div>
-                        </ImgEnrollInitialContainer>
-                        <ImgEnrollButton pageConfirmStatus={imgColor && imgInitial} onClick={onClickImgConfirm}>확인</ImgEnrollButton>
-
-                    </ImgEnrollContentWrap>
-                </ImgEnrollWrap>
-            </div>
-
-        </PageWrap>
+                </DangerPopup>
+            </DangerWrapPopup>
+        </>
     )
 
 };

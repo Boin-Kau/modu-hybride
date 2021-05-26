@@ -108,7 +108,9 @@ const QuestionPage = () => {
                 </ContentWrap>
                 <Fade collapse when={twoOpen} duration={500}>
                     <ContentDetailWrap>
-                        내용 필요함
+                        입력하신 결제일이 다음 달에 존재하지 않을 경우는 (예: 31일) 자동으로 직전일(예: 30일)이 정기 결제일로 변경됩니다.
+                        <br /><br />
+                        구독 플랫폼마다 결제 시스템의 차이가 존재할 수 있으니, 서비스 센터를 참고하시기 바랍니다.
                     </ContentDetailWrap>
                 </Fade>
 

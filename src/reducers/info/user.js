@@ -2,7 +2,8 @@ export const initialState = {
     idx: null,
     name: null,
     phone: null,
-    isAlert: null
+    isAlert: null,
+    uniqueNumber: null
 };
 
 export const UserInfoUpdate = 'UserInfoUpdate';
@@ -19,7 +20,8 @@ const reducer = (state = initialState, action) => {
                 idx: action.data.idx,
                 name: action.data.name,
                 phone: action.data.phone,
-                isAlert: action.data.isAlert
+                isAlert: action.data.isAlert,
+                uniqueNumber: action.data.uniqueNumber
             }
         }
         case 'NameUpdate': {
