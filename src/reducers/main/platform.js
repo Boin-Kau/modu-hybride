@@ -3,7 +3,14 @@ export const initialState = {
     categoryPlatformList: [],
     popularPlatformList: [],
     searchPlatformList: [],
-    platformCategoryList: []
+    platformCategoryList: [],
+
+    deletePopupWrap: false,
+    deletePopup: false,
+    deletePlatformName: null,
+    deletePlatformIdx: null,
+
+    searchDeleteStatus: false,
 };
 
 export const GetServerPlatformList = 'GetServerPlatformList';
@@ -13,6 +20,12 @@ export const GetSearchPlatformList = 'GetSearchPlatformList';
 export const GetPlatformCategoryList = 'GetPlatformCategoryList';
 
 export const UpdateSubscribeStatus = 'UpdateSubscribeStatus';
+
+export const DeletePopupOpen = 'DeletePopupOpen';
+export const DeletePopupClose = 'DeletePopupClose';
+
+export const SearchDeleteTrue = 'SearchDeleteTrue';
+export const SearchDeleteFalse = 'SearchDeleteFalse';
 
 
 const reducer = (state = initialState, action) => {
@@ -49,23 +62,6 @@ const reducer = (state = initialState, action) => {
             }
         }
         case 'UpdateSubscribeStatus': {
-            // const repPlatform = state.serverPlatformList.map((value) => {
-            //     if (value.idx == action.data.platformIdx) {
-            //         value.isSubscribe = action.data.status;
-            //     }
-            //     return value;
-            // });
-
-            // const categoryPlatform = state.categoryPlatformList;
-            // for (let i = 0; i < categoryPlatform.length; i++) {
-            //     for (let j = 0; j < categoryPlatform[i].platformServer.length; j++) {
-
-            //         if (categoryPlatform[i].platformServer[j].idx == action.data.platformIdx) {
-            //             categoryPlatform[i].platformServer[j].isSubscribe = action.data.status;
-            //         }
-            //     }
-            // }
-
             const serachPlatform = state.searchPlatformList.map((value) => {
                 if (value.idx == action.data.platformIdx) {
                     value.isSubscribe = action.data.status;
@@ -76,6 +72,36 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchPlatformList: serachPlatform
+            }
+        }
+        case 'DeletePopupOpen': {
+            return {
+                ...state,
+                deletePopupWrap: true,
+                deletePopup: true,
+                deletePlatformName: action.data.name,
+                deletePlatformIdx: action.data.idx
+            }
+        }
+        case 'DeletePopupClose': {
+            return {
+                ...state,
+                deletePopupWrap: false,
+                deletePopup: false,
+                deletePlatformName: null,
+                deletePlatformIdx: null
+            }
+        }
+        case 'SearchDeleteTrue': {
+            return {
+                ...state,
+                searchDeleteStatus: true
+            }
+        }
+        case 'SearchDeleteFalse': {
+            return {
+                ...state,
+                searchDeleteStatus: false
             }
         }
         default: {

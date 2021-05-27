@@ -8,7 +8,10 @@ import icon_back from "../../../assets/icon-back-arrow.svg";
 import icon_profile from "../../../assets/duck-profile.svg";
 import icon_info from "../../../assets/info-black-192-x-192@3x.png";
 
-import { TextMiddle } from '../../../styled/shared';
+import danger_icon from "../../../assets/danger-icon.svg";
+
+
+import { TextMiddle, DangerWrapPopup, DangerPopup } from '../../../styled/shared';
 import NamePage from './name';
 
 import Fade from 'react-reveal/Fade';
@@ -33,6 +36,12 @@ const DetailPage = () => {
         name,
         uniqueNumber
     } = useSelector(state => state.info.user);
+
+    const [dangerPopupWrap, setDangerPopupWrap] = useState(false);
+    const [dangerPopup, setDangerPopup] = useState(false);
+
+    const [logoutPopupWrap, setLogoutPopupWrap] = useState(false);
+    const [logoutPopup, setLogoutPopup] = useState(false);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -66,14 +75,29 @@ const DetailPage = () => {
 
     }, []);
 
-
     const onCickLogout = () => {
+        setLogoutPopupWrap(true);
+        setLogoutPopup(true);
+    }
+
+    const onCickLogoutConfirm = () => {
         localStorage.removeItem('x-access-token');
         window.location.href = '/login';
         return
     }
 
     const onClickDelete = async () => {
+        setDangerPopupWrap(true);
+        setDangerPopup(true);
+    }
+    const onClickCancel = () => {
+        setDangerPopupWrap(false);
+        setDangerPopup(false);
+        setLogoutPopupWrap(false);
+        setLogoutPopup(false);
+    }
+
+    const onClickDeleteConfirm = async () => {
 
         //서버통신
         const res = await customApiClient('delete', `/user`);
@@ -146,6 +170,48 @@ const DetailPage = () => {
                 </Fade>
             </div>
 
+            {/* 회원탈퇴 알림창 */}
+            <DangerWrapPopup openStatus={dangerPopupWrap}>
+                <DangerPopup openStatus={dangerPopup}>
+                    <div style={{ position: 'relative', height: '3.125rem' }}>
+                        <div style={{ position: 'absolute', top: '-1.875rem', left: '50%', width: '3.8125rem', height: '3.8125rem', backgroundColor: '#fb5e5e', transform: 'translate(-50%,0)', borderRadius: '50%', border: '0.25rem solid #ffffff' }}>
+                            <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
+                        </div>
+                    </div>
+                    <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
+                        정말 탈퇴하시겠어요?
+                    </div>
+                    <div style={{ marginTop: '0.625rem', marginBottom: '1.625rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>탈퇴 시, 모두에 기록된 모든 정보가 사라져요.</div>
+                    <div style={{ display: 'flex' }}>
+                        <div onClick={onClickCancel} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                        </div>
+                        <div onClick={onClickDeleteConfirm} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: '#ffffff' }}>탈퇴</div>
+                        </div>
+                    </div>
+                </DangerPopup>
+            </DangerWrapPopup>
+
+            {/* 로그아웃 알림창 */}
+            <DangerWrapPopup openStatus={logoutPopupWrap}>
+                <DangerPopup openStatus={logoutPopup}>
+                    <div style={{ position: 'relative', height: '1.25rem' }}>
+                    </div>
+                    <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
+                        로그아웃 하기
+                    </div>
+                    <div style={{ marginTop: '0.625rem', marginBottom: '1.625rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>정말 로그아웃 하시겠어요?</div>
+                    <div style={{ display: 'flex' }}>
+                        <div onClick={onClickCancel} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                        </div>
+                        <div onClick={onCickLogoutConfirm} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#ffca17', borderRadius: '0.375rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: '#ffffff' }}>로그아웃</div>
+                        </div>
+                    </div>
+                </DangerPopup>
+            </DangerWrapPopup>
         </>
     )
 };

@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import icon_search_none from "../../../../assets/icon-search-none.svg";
 import icon_back from "../../../../assets/icon-back-arrow.svg";
 
-import { TextMiddle } from '../../../../styled/shared';
+import danger_icon from "../../../../assets/danger-icon.svg";
+
+import { TextMiddle, DangerWrapPopup, DangerPopup } from '../../../../styled/shared';
 import { SearchPageCloseAction, SearchPageWrapCloseAction } from '../../../../reducers/main/search';
 
 import icon_plus from "../../../../assets/icon-plus.svg";
@@ -14,7 +16,7 @@ import platform_none from "../../../../assets/platform-none.svg";
 import { customApiClient } from '../../../../shared/apiClient';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
 import { CategoryReloadTrueAction, TotalReloadTrueAction, TotalReloadFalseAction, CategoryReloadFalseAction, SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
-import { UpdateSubscribeStatus, GetServerPlatformList, GetCategoryPlatformList } from '../../../../reducers/main/platform';
+import { UpdateSubscribeStatus, GetServerPlatformList, GetCategoryPlatformList, DeletePopupClose, DeletePopupOpen, SearchDeleteFalse } from '../../../../reducers/main/platform';
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 
 
@@ -25,13 +27,29 @@ const SearchPage = () => {
     //store
     const {
         popularPlatformList,
-        searchPlatformList
+        searchPlatformList,
+
+        searchDeleteStatus
     } = useSelector(state => state.main.platform);
 
     //state
     const [searchSatus, setSearchSatus] = useState(false);
     const [keyword, setKeyword] = useState('');
     const [searchPlatform, setSearchPlatform] = useState([]);
+
+
+    useEffect(() => {
+
+        if (searchDeleteStatus) {
+
+            onClickCancel();
+
+            dispatch({
+                type: SearchDeleteFalse
+            })
+        }
+
+    }, [searchDeleteStatus]);
 
     const closeSearchPage = () => {
         setKeyword('');
@@ -229,57 +247,22 @@ const TotalItemComponent = ({ data }) => {
 
             setStatus('Y');
 
+            dispatch(SubscribeReloadTrueAction);
+
         }
         //삭제 로직
         else {
 
-            const res = await customApiClient('delete', `/subscribe/platform/${data.idx}`)
-
-            //서버에러
-            if (!res) return
-
-            //벨리데이션
-            if (res.statusCode != 200) {
-                return
-            }
-
-            //삭제완료 팝업창 띄우기
             dispatch({
-                type: MessageWrapOpen
-            })
-            dispatch({
-                type: MessageOpen,
-                data: '해당 구독 서비스가 삭제되었습니다.'
-            })
-            setTimeout(() => {
-                dispatch({
-                    type: MessageClose
-                })
-            }, 2000);
-            setTimeout(() => {
-                dispatch({
-                    type: MessageWrapClose
-                })
-            }, 2300);
-
-            dispatch({
-                type: UpdateSubscribeStatus,
+                type: DeletePopupOpen,
                 data: {
-                    platformIdx: data.idx,
-                    status: 'N'
+                    idx: data.idx,
+                    name: data.name
                 }
             })
 
-            setStatus('N');
-
-            //소비분석 리로드
-            dispatch(AnalyPageReloadTrueAction);
-
         }
 
-        dispatch(SubscribeReloadTrueAction);
-        // dispatch(CategoryReloadTrueAction);
-        // dispatch(TotalReloadTrueAction);
     };
 
     return (

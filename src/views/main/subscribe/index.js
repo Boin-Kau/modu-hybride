@@ -18,13 +18,12 @@ import danger_icon from "../../../assets/danger-icon.svg";
 
 
 import { TextMiddle, DangerWrapPopup, DangerPopup, DangerPopupTop } from '../../../styled/shared';
-import AnalysisPage from '../analysis';
 import SearchPage from './search';
-import { SearchPageWrapOpenAction, SearchPageOpenAction } from '../../../reducers/main/search';
+import { SearchPageWrapOpenAction, SearchPageOpenAction, SearchPageCloseAction, SearchPageWrapCloseAction } from '../../../reducers/main/search';
 import { EnrollmentPageWrapOpenAction, EnrollmentPageOpenAction } from '../../../reducers/main/enrollment';
 
 import EnrollmentPage from './enrollment';
-import { GetPopularPlatformList, GetCategoryPlatformList, GetSearchPlatformList, GetServerPlatformList, UpdateSubscribeStatus, GetPlatformCategoryList } from '../../../reducers/main/platform';
+import { GetPopularPlatformList, GetCategoryPlatformList, GetSearchPlatformList, GetServerPlatformList, UpdateSubscribeStatus, GetPlatformCategoryList, DeletePopupOpen, DeletePopupClose, SearchDeleteTrue } from '../../../reducers/main/platform';
 import { customApiClient } from '../../../shared/apiClient';
 import { MessageOpen, MessageClose, MessageWrapOpen, MessageWrapClose } from '../../../reducers/container/message';
 import { AnalyPageReloadTrueAction } from '../../../reducers/main/analysis';
@@ -51,7 +50,12 @@ const SubscribePage = () => {
         categoryPlatformList,
         popularPlatformList,
         searchPlatformList,
-        platformCategoryList
+        platformCategoryList,
+
+        deletePopupWrap,
+        deletePopup,
+        deletePlatformName,
+        deletePlatformIdx
     } = useSelector(state => state.main.platform);
 
     const {
@@ -230,6 +234,70 @@ const SubscribePage = () => {
         dispatch(CategoryReloadFalseAction);
     }
 
+    //삭제 확인 창
+    const conFirmDelete = useCallback(async () => {
+
+        const res = await customApiClient('delete', `/subscribe/platform/${deletePlatformIdx}`)
+
+        //서버에러
+        if (!res) return
+
+        //벨리데이션
+        if (res.statusCode != 200) {
+            return
+        }
+
+        //삭제완료 팝업창 띄우기
+        dispatch({
+            type: MessageWrapOpen
+        })
+        dispatch({
+            type: MessageOpen,
+            data: '해당 구독 서비스가 삭제되었습니다.'
+        })
+        setTimeout(() => {
+            dispatch({
+                type: MessageClose
+            })
+        }, 2000);
+        setTimeout(() => {
+            dispatch({
+                type: MessageWrapClose
+            })
+        }, 2300);
+
+        dispatch({
+            type: DeletePopupClose
+        })
+
+        dispatch({
+            type: UpdateSubscribeStatus,
+            data: {
+                platformIdx: deletePlatformIdx,
+                status: 'N'
+            }
+        })
+
+        //검색어 초기화
+        dispatch({
+            type: SearchDeleteTrue
+        })
+
+        //소비분석 리로드
+        dispatch(AnalyPageReloadTrueAction);
+        dispatch(SubscribeReloadTrueAction);
+
+        reloadTotalPlatform();
+        reloadCategoryPlatform();
+
+    }, [deletePlatformIdx]);
+
+    //삭제 확인 취소 창
+    const closeDelete = () => {
+        dispatch({
+            type: DeletePopupClose
+        })
+    }
 
     return (
         <>
@@ -335,23 +403,23 @@ const SubscribePage = () => {
             </div>
 
             {/* 삭제 알림창 */}
-            <DangerWrapPopup openStatus={false}>
-                <DangerPopup openStatus={false}>
+            <DangerWrapPopup openStatus={deletePopupWrap}>
+                <DangerPopup openStatus={deletePopup}>
                     <div style={{ position: 'relative', height: '3.125rem' }}>
                         <div style={{ position: 'absolute', top: '-1.875rem', left: '50%', width: '3.8125rem', height: '3.8125rem', backgroundColor: '#fb5e5e', transform: 'translate(-50%,0)', borderRadius: '50%', border: '0.25rem solid #ffffff' }}>
                             <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
                         </div>
                     </div>
                     <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
-                        {}를 리스트에서<br />
+                        {deletePlatformName}을(를) 리스트에서<br />
                         삭제하시겠어요?
                     </div>
                     <div style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
                     <div style={{ display: 'flex' }}>
-                        <div style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
+                        <div onClick={closeDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
                             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
                         </div>
-                        <div style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
+                        <div onClick={conFirmDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
                             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: '#ffffff' }}>삭제</div>
                         </div>
                     </div>
@@ -424,65 +492,17 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
         //삭제 로직
         else {
 
-
-            console.log(data)
-
-            // setDangerOpenMessage(data.name);
-            // setDangerOpenWrap(true);
-            // setDangerOpen(true);
+            dispatch({
+                type: DeletePopupOpen,
+                data: {
+                    idx: data.idx,
+                    name: data.name
+                }
+            })
 
 
         }
     };
-
-    const conFirmDelete = async () => {
-
-        const res = await customApiClient('delete', `/subscribe/platform/${data.idx}`)
-
-        //서버에러
-        if (!res) return
-
-        //벨리데이션
-        if (res.statusCode != 200) {
-            return
-        }
-
-        //삭제완료 팝업창 띄우기
-        dispatch({
-            type: MessageWrapOpen
-        })
-        dispatch({
-            type: MessageOpen,
-            data: '해당 구독 서비스가 삭제되었습니다.'
-        })
-        setTimeout(() => {
-            dispatch({
-                type: MessageClose
-            })
-        }, 2000);
-        setTimeout(() => {
-            dispatch({
-                type: MessageWrapClose
-            })
-        }, 2300);
-
-        dispatch({
-            type: UpdateSubscribeStatus,
-            data: {
-                platformIdx: data.idx,
-                status: 'N'
-            }
-        })
-
-        setStatus('N');
-
-        //소비분석 리로드
-        dispatch(AnalyPageReloadTrueAction);
-
-        dispatch(CategoryReloadTrueAction);
-        dispatch(TotalReloadTrueAction);
-        dispatch(SubscribeReloadTrueAction);
-    }
 
     return (
         <ItemWrap isCategory={isCategory} isCategoryLast={isLastItem}>
