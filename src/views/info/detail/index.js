@@ -43,6 +43,8 @@ const DetailPage = () => {
     const [logoutPopupWrap, setLogoutPopupWrap] = useState(false);
     const [logoutPopup, setLogoutPopup] = useState(false);
 
+    const [uniqueInfoStatus, setUniqueInfoStatus] = useState(false);
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -117,6 +119,10 @@ const DetailPage = () => {
         return
     }
 
+
+    const onClickUniqueInfo = useCallback(() => {
+        setUniqueInfoStatus(!uniqueInfoStatus);
+    }, [uniqueInfoStatus]);
     return (
 
         <>
@@ -133,9 +139,13 @@ const DetailPage = () => {
                         <img style={{ width: '3.8125rem', height: '3.8125rem' }} src={icon_profile} />
                     </div>
                     <div style={{ margin: '0.5625rem 0 0.25rem 0', fontSize: '0.875rem' }}>{name}</div>
-                    <div style={{ fontSize: '0.6875rem', color: 'rgba(49,49,49,0.4)', lineHeight: '1.3125rem' }}>
+                    <div onClick={onClickUniqueInfo} style={{ position: 'relative', fontSize: '0.6875rem', color: 'rgba(49,49,49,0.4)', lineHeight: '1.3125rem' }}>
                         고유번호 #{uniqueNumber}
                         <img src={icon_info} style={{ width: '0.6875rem', height: '0.6875rem', marginLeft: '0.1875rem', position: 'relative', top: '0.0625rem' }} />
+                        <UniqueInfo openStatus={uniqueInfoStatus}>
+                            변경된 전화번호로 인증이 불가능할 때 고유 <br />
+                            번호로 인증할 수 있어요. (문의하기 참고)
+                        </UniqueInfo>
                     </div>
                 </div>
 
@@ -254,6 +264,38 @@ const ContentWrap = styled.div`
 `;
 
 
+const UniqueInfo = styled.div`
 
+    display: ${props => props.openStatus ? 'block' : 'none'};
+    position:absolute;
+
+    top:100%;
+    right: 1.875rem;
+
+    margin-top:0.5rem;
+
+    word-break:keep-all;
+
+    background-color:#ffca17;
+    /* width:14.875rem; */
+    padding: 0.5625rem 0.75rem 0.4375rem 0.75rem;
+    border-radius: 0.4375rem;
+
+    font-size:0.75rem;
+    line-height:1.25rem;
+    color:#ffffff;
+
+    ::after{
+        border-top:0px solid transparent; 
+        border-left: 8px solid transparent; 
+        border-right: 8px solid transparent; 
+        border-bottom: 8px solid #ffca17; 
+        content:"";
+        position:absolute;
+        top:-8px;
+        left:50%;
+        transform:translate(-50%,0);
+    }
+`;
 
 export default DetailPage;

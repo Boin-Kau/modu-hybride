@@ -338,8 +338,8 @@ const SubscribePage = () => {
 
                             {/* 그외 리스트 */}
                             {
-                                serverPlatformList.map((list) => {
-                                    return (<TotalItemComponent data={list} key={list.idx}></TotalItemComponent>)
+                                serverPlatformList.map((list, index) => {
+                                    return (<TotalItemComponent data={list} key={index}></TotalItemComponent>)
                                 })
 
                             }
@@ -371,10 +371,10 @@ const SubscribePage = () => {
                                 categoryPlatformList.map((list, index) => {
 
                                     if ((index + 1 == categoryPlatformList.length)) {
-                                        return (<CategoryItemComponent props={list} key={list.idx} isLast={true}></CategoryItemComponent>)
+                                        return (<CategoryItemComponent props={list} key={index} isLast={true}></CategoryItemComponent>)
                                     }
                                     else {
-                                        return (<CategoryItemComponent props={list} key={list.idx}></CategoryItemComponent>)
+                                        return (<CategoryItemComponent props={list} key={index}></CategoryItemComponent>)
                                     }
                                 })
 

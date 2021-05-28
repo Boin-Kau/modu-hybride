@@ -172,6 +172,7 @@ const GrapWrap = styled.div`
 
 `;
 const GrapBar = styled.div`
+    display:${props => props.width != 0 ? 'block' : 'none'};
     flex-grow:${props => props.width};
     height: 0.4375rem;
     background-color:${props => props.color};
