@@ -16,15 +16,25 @@ import icon_female_fill from "../../assets/icon-female-fill.svg";
 import icon_female_none from "../../assets/icon-female-none.svg";
 import icon_timeout from "../../assets/icon-timeout.svg";
 
+import Fade from 'react-reveal/Fade';
+
 
 import { customApiClient } from '../../shared/apiClient';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { UserInfoUpdate } from '../../reducers/info/user';
+import PhoneChangePage from './phoneChange';
+import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
 
 
 const Login = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+
+    //페이지 상태값
+    const {
+        openLoginPhonePageWrapStatus,
+        openLoginPhonePageStatus
+    } = useSelector(state => state.info.page);
 
     //현재 페이지
     const [currentPage, setCurrentPage] = useState(1);
@@ -103,7 +113,6 @@ const Login = () => {
     }
 
     const onclickNextButton = async () => {
-        console.log("hihi")
         //currentPage 값과 pageStatus 값으로 검증 후 넘겨주기
 
         if (currentPage == 1 && namePageStatus) {
@@ -384,6 +393,20 @@ const Login = () => {
 
     }
 
+    //페이지 열기
+    const openPage = useCallback(async (data) => {
+
+        dispatch({
+            type: PageWrapOpen,
+            data: data
+        });
+        dispatch({
+            type: PageOpen,
+            data: data
+        });
+
+    }, []);
+
     return (
         <>
             <div className="page" style={{ backgroundColor: "#ffffff", position: 'relative' }}>
@@ -417,10 +440,10 @@ const Login = () => {
                 {currentPage == 2 &&
                     <ContentWrap>
                         <LoginInput value={phoneNumber} onChange={handlePhoneNumber} type="tel" placeholder="휴대폰 번호 (- 없이 입력)" />
-                        <div style={{ height: '1.0625rem', margin: "0.125rem 0 0.4375rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
+                        <div style={{ height: '1.0625rem', margin: "0.125rem 0 1.125rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
                             {phoneErrorText}
                         </div>
-                        <div style={{ display: "flex" }}>
+                        <div onClick={() => { openPage('loginPhone') }} style={{ display: "flex" }}>
                             <div style={{ marginRight: "0.3125rem" }}>
                                 <img src={icon_info} style={{ width: "0.875rem", height: "0.875rem" }} />
                             </div>
@@ -459,6 +482,7 @@ const Login = () => {
                     <ContentWrap>
 
                         {/* 성별 선택 */}
+                        <div style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.34)', marginBottom: '0.5rem' }}>성별을 알려주세요</div>
                         <EtcButtonWrap style={{ marginBottom: "2.125rem" }}>
                             <EtcButton selectedStatus={sex.MALE} type="sex" style={{ marginRight: "0.625rem" }} onClick={() => { handleOnclickSex("MALE") }}>
                                 <EtcButtonIconWrap>
@@ -483,6 +507,7 @@ const Login = () => {
                         </EtcButtonWrap>
 
                         {/* 연령대 선택 */}
+                        <div style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.34)', marginBottom: '0.5rem' }}>연령대를 알려주세요</div>
                         <EtcButtonWrap style={{ marginBottom: "0.625rem" }}>
                             <EtcButton selectedStatus={age.ONE} type="age" style={{ marginRight: "0.625rem" }} onClick={() => { handelOnclickAge("ONE") }}>
                                 <EtcButtonText selectedStatus={age.ONE} type="age">10대</EtcButtonText>
@@ -513,6 +538,15 @@ const Login = () => {
                 <LoginButton pageConfirmStatus={pageConfirmStatus} onClick={onclickNextButton}>
                     다음
                 </LoginButton>
+            </div>
+
+            {/* 휴대폰 변경 안내 페이지 */}
+            <div style={openLoginPhonePageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openLoginPhonePageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
+                        <PhoneChangePage />
+                    </div>
+                </Fade>
             </div>
         </>
     )

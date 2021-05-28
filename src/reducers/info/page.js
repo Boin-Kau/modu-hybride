@@ -18,7 +18,10 @@ export const initialState = {
     openQuestionPageStatus: false,
 
     openSettingPageWrapStatus: false,
-    openSettingPageStatus: false
+    openSettingPageStatus: false,
+
+    openLoginPhonePageWrapStatus: false,
+    openLoginPhonePageStatus: false
 };
 
 export const PageWrapOpen = 'PageWrapOpen';
@@ -73,6 +76,12 @@ const reducer = (state = initialState, action) => {
                         openSettingPageWrapStatus: true,
                     }
                 }
+                case 'loginPhone': {
+                    return {
+                        ...state,
+                        openLoginPhonePageWrapStatus: true,
+                    }
+                }
                 default: {
                     return {
                         ...state
@@ -122,6 +131,12 @@ const reducer = (state = initialState, action) => {
                     return {
                         ...state,
                         openSettingPageStatus: true,
+                    }
+                }
+                case 'loginPhone': {
+                    return {
+                        ...state,
+                        openLoginPhonePageStatus: true,
                     }
                 }
                 default: {
@@ -175,6 +190,12 @@ const reducer = (state = initialState, action) => {
                         openSettingPageWrapStatus: false,
                     }
                 }
+                case 'loginPhone': {
+                    return {
+                        ...state,
+                        openLoginPhonePageWrapStatus: false,
+                    }
+                }
                 default: {
                     return {
                         ...state
@@ -224,6 +245,12 @@ const reducer = (state = initialState, action) => {
                     return {
                         ...state,
                         openSettingPageStatus: false,
+                    }
+                }
+                case 'loginPhone': {
+                    return {
+                        ...state,
+                        openLoginPhonePageStatus: false,
                     }
                 }
                 default: {
