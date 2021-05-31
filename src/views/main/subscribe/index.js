@@ -16,6 +16,10 @@ import icon_plus from "../../../assets/icon-plus.svg";
 
 import danger_icon from "../../../assets/danger-icon.svg";
 
+import duck_read from "../../../assets/duct-read.svg";
+import duck_tech from "../../../assets/duct-tech.svg";
+import sub_info from "../../../assets/sub-info@3x.png";
+
 
 import { TextMiddle, DangerWrapPopup, DangerPopup, DangerPopupTop } from '../../../styled/shared';
 import SearchPage from './search';
@@ -27,6 +31,9 @@ import { GetPopularPlatformList, GetCategoryPlatformList, GetSearchPlatformList,
 import { customApiClient } from '../../../shared/apiClient';
 import { MessageOpen, MessageClose, MessageWrapOpen, MessageWrapClose } from '../../../reducers/container/message';
 import { AnalyPageReloadTrueAction } from '../../../reducers/main/analysis';
+
+
+import Slider from "react-slick";
 
 
 const SubscribePage = () => {
@@ -299,6 +306,25 @@ const SubscribePage = () => {
         })
     }
 
+    //안내창 관련
+    const settings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        appendDots: dots => (
+            <div
+                style={{
+                    position: 'absolute',
+                    bottom: '3.125rem',
+                }}
+            >
+                <ul style={{ margin: "0px", padding: '0px' }}> {dots} </ul>
+            </div>
+        ),
+    };
+
     return (
         <>
             <PageWrap>
@@ -425,6 +451,74 @@ const SubscribePage = () => {
                     </div>
                 </DangerPopup>
             </DangerWrapPopup>
+
+            {/* 구독등록 안내창 */}
+            <InitialInfoWrapPopup openStatus={false}>
+                <Slider {...settings} style={{ height: '100vh' }}>
+                    <div>
+                        <div style={{ position: 'relative', height: '100vh' }}>
+
+                            <div style={{ position: 'absolute', top: '7.75rem', right: '3.0625rem', width: '17.125rem' }}>
+                                <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0 0.9375rem 1rem', borderRadius: '0.375rem', borderBottomRightRadius: '0', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
+                                    사용중인 구독 서비스를 선택해<br />
+                                    구독 리스트에 추가해보세요.
+                                </div>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ flexGrow: '1' }} />
+                                    <TriFirst />
+                                </div>
+                                <img src={duck_read} style={{ position: 'absolute', right: '0.875rem', bottom: '0.625rem', width: '3.375rem', height: '3.875rem' }} />
+
+                            </div>
+                            <div style={{ position: 'absolute', top: '14.375rem', right: '1.4375rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
+                                <img src={icon_plus} style={{ width: '0.75rem', height: '0.75rem' }} />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style={{ position: 'relative', height: '100vh' }}>
+
+                            <div style={{ position: 'absolute', top: '3.75rem', right: '1rem', width: '17.4375rem' }}>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ flexGrow: '1' }} />
+                                    <TriSec />
+                                    <div style={{ width: '0.875rem' }} />
+                                </div>
+                                <div style={{ backgroundColor: '#ffbc26', padding: '1.0625rem 0 1.125rem 1rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
+                                    검색기능을 사용하면 더 많은<br />
+                                    구독 서비스를 찾아볼 수 있어요.
+                                </div>
+                                <img src={duck_tech} style={{ position: 'absolute', right: '0.875rem', bottom: '0rem', width: '4.125rem', height: '3.9375rem' }} />
+
+                            </div>
+                            <div style={{ position: 'absolute', top: '0.125rem', right: '0.3125rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
+                                <img src={icon_search} style={{ width: '1rem', height: '1rem' }} />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style={{ position: 'relative', height: '100vh' }}>
+
+                            <div style={{ position: 'absolute', top: '3.75rem', left: '1.5625rem' }}>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ width: '0.875rem' }} />
+                                    <TriThi />
+                                    <div style={{ flexGrow: '1' }} />
+                                </div>
+                                <div style={{ backgroundColor: '#ffbc26', padding: '22px 1.125rem 0.6875rem 1.125rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem', textAlign: 'center' }}>
+                                    <div style={{ marginBottom: '0.5625rem' }}>
+                                        <img src={sub_info} style={{ width: '11.25rem', height: '11.75rem' }} />
+                                    </div>
+                                    <div>상세정보는 메인에서 입력 가능!</div>
+                                </div>
+                            </div>
+                            <div style={{ position: 'absolute', top: '0.125rem', left: '4px', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
+                                <img src={icon_back} style={{ width: '0.9375rem', height: '0.8125rem' }} />
+                            </div>
+                        </div>
+                    </div>
+                </Slider>
+            </InitialInfoWrapPopup>
         </>
     )
 };
@@ -556,7 +650,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;
@@ -569,7 +663,7 @@ const HeaderWrap = styled.div`
 const MainWrap = styled.div`
     /* border:1px solid red; */
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
@@ -680,6 +774,42 @@ const CategoryTitle = styled.div`
     font-size: 0.875rem;
     line-height: 1.4375rem;
     color: rgba(0,0,0,0.26);
+`;
+
+
+const InitialInfoWrapPopup = styled.div`
+    display : ${props => props.openStatus ? 'block' : 'none'};
+    z-index:10000;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+    background-color:rgba(0,0,0,0.7);
+`;
+
+
+const TriFirst = styled.div`
+    width: 0px;height: 0px;
+    border-top:0.3125rem solid #ffbc26;
+    border-bottom:0.3125rem solid transparent;
+    border-right: 0.3125rem solid #ffbc26;
+    border-left: 0.3125rem solid transparent;
+`;
+const TriSec = styled.div`
+    width: 0px;height: 0px;
+    border-top:0.3125rem solid transparent;
+    border-bottom:0.3125rem solid #ffbc26;
+    border-right: 0.3125rem solid #ffbc26;
+    border-left: 0.3125rem solid transparent;
+`;
+const TriThi = styled.div`
+    width: 0px;height: 0px;
+    border-top:0.3125rem solid transparent;
+    border-bottom:0.3125rem solid #ffbc26;
+    border-right: 0.3125rem solid transparent;
+    border-left: 0.3125rem solid #ffbc26;
 `;
 
 export default SubscribePage;
