@@ -48,7 +48,7 @@ const ConsumContent = ({ data }) => {
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.8125rem", color: "#313131", marginTop: '0.125rem' }}>{data.name}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", color: "#313131", opacity: "0.4" }}>{data.platform.length}개 이용중</div>
+                    <div className="notoMedium" style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", color: "#313131", opacity: "0.4" }}>{data.platform.length}개 이용중</div>
                 </div>
                 <div>{priceToString(data.totalPrice)}원</div>
             </ConsumContentWrap>
@@ -74,7 +74,7 @@ const ConsumCard = () => {
     return (
         <>
             <ConsumCardWrap>
-                <TitleWrap>
+                <TitleWrap className="spoqaBold">
                     <div style={{ position: "relative", width: "6.25rem", fontSize: "0.875rem" }}>
                         <TextMiddle>소비분석</TextMiddle>
                     </div>
@@ -88,7 +88,7 @@ const ConsumCard = () => {
                 </TitleWrap>
 
                 <ContentWrap>
-                    <ConsumListWrap>
+                    <ConsumListWrap className="spoqaBold">
                         {
                             analysisCategorySub.length != 0 ?
                                 <div style={{ paddingBottom: "0.875rem" }}>
@@ -106,7 +106,7 @@ const ConsumCard = () => {
                     <img src={icon_chain_back_left} style={{ position: "absolute", bottom: "3.4rem", left: "1.5625rem", zIndex: "5" }} />
                     <img src={icon_chain_back_right} style={{ position: "absolute", bottom: "3.4rem", right: "1.5625rem", zIndex: "5" }} />
                     <img src={icon_chain_front_right} style={{ position: "absolute", bottom: "3.4rem", right: "1.25rem", zIndex: "15" }} />
-                    <ConsumCompareWrap>
+                    <ConsumCompareWrap className="spoqaBold">
 
                         <div style={{ flexGrow: "1", display: "flex", margin: "0 0.8125rem 0 0.8125rem" }}>
                             <div style={{ position: "relative", width: "3.9375rem", fontSize: "0.8125rem" }}>

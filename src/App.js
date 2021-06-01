@@ -60,7 +60,7 @@ function App() {
 
         {/* 알림창 */}
         <MessageWrapPopup openStatus={messageWrapShow}>
-          <MessagePopup openStatus={messageShow}>
+          <MessagePopup className="notoMedium" openStatus={messageShow}>
             {message}
           </MessagePopup>
         </MessageWrapPopup>

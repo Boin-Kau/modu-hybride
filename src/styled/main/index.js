@@ -25,16 +25,23 @@ export const DetailItemTitle = styled.div`
 
     line-height:1.3125rem;
     opacity:0.4;
+
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
 `;
 
 export const DetailItemContent = styled.div`
     font-size:0.8125rem;
     color:#313131;
     opacity:0.25;
+    font-family: 'Spoqa Han Sans';
+    font-weight: 600;
 `;
 export const DetailItemFillContent = styled.div`
     font-size:0.8125rem;
     color:#313131;
+    font-family: 'Spoqa Han Sans';
+    font-weight: 600;
 `;
 
 export const DetailButton = styled.div`

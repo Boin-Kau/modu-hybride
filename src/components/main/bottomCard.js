@@ -102,7 +102,7 @@ const BottomContent = ({ data }) => {
                     {
                         data.color && data.initial ?
                             <div style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
-                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '1.375rem', height: '1.375rem', color: '#ffffff' }}>
+                                <div className="spoqaBold" style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-20%)', fontSize: '1.375rem', color: '#ffffff' }}>
                                     {data.initial}
                                 </div>
                             </div>
@@ -110,16 +110,16 @@ const BottomContent = ({ data }) => {
                             <img src={data.platform.imgUrl ? data.platform.imgUrl : platform_none} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
                     }
                 </div>
-                <div style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}>
+                <div className="spoqaBold" style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0", display: 'flex' }}>
                         <div>{data.platform.name}</div>
                         {
                             data.dDay && <DDayWrap dDay={data.dDay}>D-{getDDay(data.dDay)}</DDayWrap>
                         }
                     </div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: '0.4' }}>{data.platform.category.name}</div>
+                    <div className="notoMedium" style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: '0.4' }}>{data.platform.category.name}</div>
                 </div>
-                <div>{priceToString(data.price)}원</div>
+                <div className="spoqaBold" >{priceToString(data.price)}원</div>
             </ContentWrap>
 
             <Fade collapse when={openStatus} duration={500}>
@@ -176,13 +176,13 @@ const BottomContent = ({ data }) => {
                             </div>
                             <div style={{ flexGrow: "1" }}></div>
                         </DetailButton> */}
-                        <DetailButton onClick={openRevisePage} revise>
+                        <DetailButton className="spoqaBold" onClick={openRevisePage} revise>
                             <div style={{ flexGrow: "1" }}></div>
                             <div style={{ position: "relative", width: "0.75rem", marginRight: "0.3125rem" }}>
                                 <img src={icon_edit} style={{ position: "absolute", top: "50%", left: "0", transform: "translate(0,-50%)", width: "0.75rem", height: "1.0625rem" }} />
                             </div>
                             <div style={{ position: "relative" }}>
-                                <div style={{ marginTop: "0.125rem" }}>수정하기</div>
+                                <div>수정하기</div>
                             </div>
                             <div style={{ flexGrow: "1" }}></div>
                         </DetailButton>
@@ -246,7 +246,7 @@ const BottomCard = () => {
                         <div>
                             <img src={icon_content_none} style={{ width: "12.1875rem", height: "2.8125rem", marginBottom: "0.75rem" }} />
                         </div>
-                        <div style={{ fontSize: "0.8125rem", color: "#313131", opacity: "0.25" }}>구독 서비스를 등록해주세요</div>
+                        <div className="notoMedium" style={{ fontSize: "0.8125rem", color: "#313131", opacity: "0.25" }}>구독 서비스를 등록해주세요</div>
                     </div>
             }
         </div>
@@ -291,7 +291,7 @@ const DDayWrap = styled.div`
     height: 1rem;
     text-align:center;
 
-    padding:0 0.375rem;
+    padding:0 0.375rem 0.125rem 0.375rem;
     line-height:1.125rem;
 
     background-color : ${props => props.dDay > 5 ? '#e3e3e3' : '#fb5e5e'};

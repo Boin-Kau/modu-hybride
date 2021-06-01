@@ -26,7 +26,7 @@ const TopCard = ({ price }) => {
     } = useSelector(state => state.main.analysis);
 
     return (
-        <TopCardWrap>
+        <TopCardWrap className="spoqaBold">
             <TitleWrap>
                 <div>
                     이번달 결제 예정

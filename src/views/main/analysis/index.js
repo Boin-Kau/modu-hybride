@@ -26,7 +26,7 @@ const AnalysisPage = () => {
 
     return (
         <PageWrap>
-            <HeaderWrap onClick={closeAnalyPage}>
+            <HeaderWrap className="spoqaBold" onClick={closeAnalyPage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
@@ -47,7 +47,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;

@@ -328,7 +328,7 @@ const SubscribePage = () => {
     return (
         <>
             <PageWrap>
-                <HeaderWrap>
+                <HeaderWrap className="spoqaBold">
                     <div onClick={closeSubscribePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>
@@ -338,11 +338,11 @@ const SubscribePage = () => {
                     </div>
                 </HeaderWrap>
                 <MainWrap>
-                    <CategoryTapWrap>
+                    <CategoryTapWrap className="spoqaBold">
                         <CategoryTapItem selectedStatus={totalMenuStatus} onClick={() => onClickMenu('total')}>전체</CategoryTapItem>
                         <CategoryTapItem selectedStatus={categoryMenuStatus} onClick={() => onClickMenu('category')}>카테고리</CategoryTapItem>
                     </CategoryTapWrap>
-                    <ItemListWrap>
+                    <ItemListWrap className="notoMedium">
 
                         {/* 전체 구독 리스트 */}
                         <ItemListView selectedStatus={totalMenuStatus}>
@@ -430,7 +430,7 @@ const SubscribePage = () => {
 
             {/* 삭제 알림창 */}
             <DangerWrapPopup openStatus={deletePopupWrap}>
-                <DangerPopup openStatus={deletePopup}>
+                <DangerPopup className="spoqaBold" openStatus={deletePopup}>
                     <div style={{ position: 'relative', height: '3.125rem' }}>
                         <div style={{ position: 'absolute', top: '-1.875rem', left: '50%', width: '3.8125rem', height: '3.8125rem', backgroundColor: '#fb5e5e', transform: 'translate(-50%,0)', borderRadius: '50%', border: '0.25rem solid #ffffff' }}>
                             <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
@@ -440,20 +440,20 @@ const SubscribePage = () => {
                         {deletePlatformName}을(를) 리스트에서<br />
                         삭제하시겠어요?
                     </div>
-                    <div style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
+                    <div className="notoMedium" style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
                     <div style={{ display: 'flex' }}>
                         <div onClick={closeDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
                         </div>
                         <div onClick={conFirmDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: '#ffffff' }}>삭제</div>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: '#ffffff' }}>삭제</div>
                         </div>
                     </div>
                 </DangerPopup>
             </DangerWrapPopup>
 
             {/* 구독등록 안내창 */}
-            <InitialInfoWrapPopup openStatus={false}>
+            <InitialInfoWrapPopup className="notoMedium" openStatus={false}>
                 <Slider {...settings} style={{ height: '100vh' }}>
                     <div>
                         <div style={{ position: 'relative', height: '100vh' }}>
@@ -461,7 +461,7 @@ const SubscribePage = () => {
                             <div style={{ position: 'absolute', top: '7.75rem', right: '3.0625rem', width: '17.125rem' }}>
                                 <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0 0.9375rem 1rem', borderRadius: '0.375rem', borderBottomRightRadius: '0', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
                                     사용중인 구독 서비스를 선택해<br />
-                                    구독 리스트에 추가해보세요.
+                                    <span className="spoqaBold">구독 리스트에 추가</span>해보세요.
                                 </div>
                                 <div style={{ display: 'flex' }}>
                                     <div style={{ flexGrow: '1' }} />
@@ -485,8 +485,8 @@ const SubscribePage = () => {
                                     <div style={{ width: '0.875rem' }} />
                                 </div>
                                 <div style={{ backgroundColor: '#ffbc26', padding: '1.0625rem 0 1.125rem 1rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
-                                    검색기능을 사용하면 더 많은<br />
-                                    구독 서비스를 찾아볼 수 있어요.
+                                    <span className="spoqaBold">검색기능</span>을 사용하면 <span className="spoqaBold">더 많은</span><br />
+                                    <span className="spoqaBold">구독 서비스</span>를 찾아볼 수 있어요.
                                 </div>
                                 <img src={duck_tech} style={{ position: 'absolute', right: '0.875rem', bottom: '0rem', width: '4.125rem', height: '3.9375rem' }} />
 
@@ -509,7 +509,7 @@ const SubscribePage = () => {
                                     <div style={{ marginBottom: '0.5625rem' }}>
                                         <img src={sub_info} style={{ width: '11.25rem', height: '11.75rem' }} />
                                     </div>
-                                    <div>상세정보는 메인에서 입력 가능!</div>
+                                    <div>상세정보는 <span className="spoqaBold">메인에서 입력</span> 가능!</div>
                                 </div>
                             </div>
                             <div style={{ position: 'absolute', top: '0.125rem', left: '4px', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>

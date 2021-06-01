@@ -19,36 +19,36 @@ import PartyInfoPage from './info';
 
 const Party = () => {
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
 
-    const {
-        openEnrollmentPageWrapStatus,
-        openEnrollmentPageStatus
-    } = useSelector(state => state.party.enrollment);
+    // const {
+    //     openEnrollmentPageWrapStatus,
+    //     openEnrollmentPageStatus
+    // } = useSelector(state => state.party.enrollment);
 
-    const {
-        openInfoPageWrapStatus,
-        openInfoPageStatus
-    } = useSelector(state => state.party.info);
+    // const {
+    //     openInfoPageWrapStatus,
+    //     openInfoPageStatus
+    // } = useSelector(state => state.party.info);
 
-    const openEnrollmentPage = useCallback(() => {
-        console.log("hihihihii")
-        dispatch(EnrollmentPageWrapOpenAction);
-        dispatch(EnrollmentPageOpenAction);
-    }, []);
+    // const openEnrollmentPage = useCallback(() => {
+    //     console.log("hihihihii")
+    //     dispatch(EnrollmentPageWrapOpenAction);
+    //     dispatch(EnrollmentPageOpenAction);
+    // }, []);
 
-    const openInfoPage = useCallback(() => {
-        console.log("hihihihii")
-        dispatch(InfoPageWrapOpenAction);
-        dispatch(InfoPageOpenAction);
-    }, []);
+    // const openInfoPage = useCallback(() => {
+    //     console.log("hihihihii")
+    //     dispatch(InfoPageWrapOpenAction);
+    //     dispatch(InfoPageOpenAction);
+    // }, []);
 
     return (
         <>
             <div className="page" style={{ backgroundColor: "#f7f7f7" }}>
                 <PageWrap>
-
+                    {/* 
                     <div style={{ display: 'flex' }}>
                         <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>파티</div>
                         <div style={{ flexGrow: '1' }}></div>
@@ -111,30 +111,30 @@ const Party = () => {
                             </ContentRole>
                         </TableContent>
 
-                    </TableWrap>
+                    </TableWrap> */}
 
                 </PageWrap>
             </div>
 
 
             {/* 파티 등록 페이지 */}
-            <div style={openEnrollmentPageWrapStatus ? { display: "block" } : { display: "none" }}>
+            {/* <div style={openEnrollmentPageWrapStatus ? { display: "block" } : { display: "none" }}>
                 <Fade right when={openEnrollmentPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
                         <PartyEnrollmentPage />
                     </div>
                 </Fade>
-            </div>
+            </div> */}
 
 
             {/* 파티 상세 페이지 */}
-            <div style={openInfoPageWrapStatus ? { display: "block" } : { display: "none" }}>
+            {/* <div style={openInfoPageWrapStatus ? { display: "block" } : { display: "none" }}>
                 <Fade right when={openInfoPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
                         <PartyInfoPage />
                     </div>
                 </Fade>
-            </div>
+            </div> */}
 
         </>
     )

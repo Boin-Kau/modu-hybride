@@ -30,7 +30,7 @@ const ItemDetail = ({ data }) => {
                     {
                         data.color && data.initial ?
                             <div style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
-                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '1.375rem', height: '1.375rem', color: '#ffffff' }}>
+                                <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-20%)', fontSize: '1.375rem', color: '#ffffff' }}>
                                     {data.initial}
                                 </div>
                             </div>
@@ -40,7 +40,7 @@ const ItemDetail = ({ data }) => {
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", textAlign: "left" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{data.registerType == 'CUSTOM' ? data.customName : data.serverName}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: "0.3", lineHeight: "1.375rem" }}>{data.registerType == 'CUSTOM' ? data.customCategory : data.serverCategory}</div>
+                    <div className="notoMedium" style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: "0.3", lineHeight: "1.375rem" }}>{data.registerType == 'CUSTOM' ? data.customCategory : data.serverCategory}</div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0", lineHeight: "1.3125rem" }}>{priceToString(data.price)}원</div>
@@ -71,7 +71,7 @@ const Item = ({ data }) => {
                 </div>
                 <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", textAlign: "left" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.name}</div>
-                    <div style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem" }}>{data.platform ? data.platform.length : 0}개 이용중</div>
+                    <div className="notoMedium" style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem" }}>{data.platform ? data.platform.length : 0}개 이용중</div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", textAlign: "right" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0" }}>{data.totalPrice ? priceToString(data.totalPrice) : 0}원</div>

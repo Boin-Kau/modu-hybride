@@ -448,8 +448,8 @@ const EnrollmentPage = () => {
     }, [currentPage]);
 
     return (
-        <PageWrap>
-            <HeaderWrap>
+        <PageWrap className="notoMedium">
+            <HeaderWrap className="spoqaBold">
                 <div onClick={closeEnrollmentPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
@@ -458,7 +458,7 @@ const EnrollmentPage = () => {
             </HeaderWrap>
             <ContentWrap>
                 <SectionTitle>
-                    <div>기본 정보</div>
+                    <div className="spoqaBold">기본 정보</div>
                     <div style={{ flexGrow: '1' }}></div>
                     <div style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.35)', lineHeight: '1.3125rem' }}>{currentPage} / 3</div>
                 </SectionTitle>
@@ -470,7 +470,7 @@ const EnrollmentPage = () => {
                     <div style={{ display: 'flex', margin: "1.125rem 0 0.9375rem 0" }}>
                         <div style={{ flexGrow: '1' }}></div>
                         <ImgColorWrap backgroundColor={imgColor} onClick={openImgEnrollPopup}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '1.875rem', color: '#ffffff', height: '1.875rem' }}>{imgInitial ? imgInitial : '?'}</div>
+                            <div className="spoqaBold" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '1.875rem', color: '#ffffff' }}>{imgInitial ? imgInitial : '?'}</div>
                             <div style={{ position: 'absolute', right: '-0.4375rem', bottom: '-0.4375rem', width: '1.4375rem', height: '1.4375rem', borderRadius: '50%', backgroundColor: '#ffca17' }}>
                                 <img src={icon_pen} style={{ width: '0.8125rem', height: '1rem', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }} />
                             </div>
@@ -845,7 +845,7 @@ const EnrollmentPage = () => {
                 <ImgEnrollWrap>
                     <div style={{ flexGrow: '1' }} onClick={closeImgEnrollPopup}></div>
                     <ImgEnrollContentWrap>
-                        <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginBottom: '1.0625rem', marginLeft: '1.25rem' }}>구독 아이콘 설정</div>
+                        <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginBottom: '1.0625rem', marginLeft: '1.25rem' }}>구독 아이콘 설정</div>
                         <div style={{ fontSize: '0.8125rem', marginBottom: '0.75rem', marginLeft: '1.25rem' }}>색상</div>
                         <ImgEnrollColorWrap>
                             {
@@ -864,7 +864,7 @@ const EnrollmentPage = () => {
                             {
                                 ImgInitialList.map((data, index) => {
                                     return (
-                                        <ImgEnrollInitialWrap selectedStatus={imgInitial == data} onClick={() => onClickImgInitial(index)} key={index}>
+                                        <ImgEnrollInitialWrap className="spoqaBold" selectedStatus={imgInitial == data} onClick={() => onClickImgInitial(index)} key={index}>
                                             {data}
                                         </ImgEnrollInitialWrap>
                                     )
@@ -872,7 +872,7 @@ const EnrollmentPage = () => {
                             }=
                             <div style={{ width: '1.25rem', flex: '0 0 auto' }}></div>
                         </ImgEnrollInitialContainer>
-                        <ImgEnrollButton pageConfirmStatus={imgColor && imgInitial} onClick={onClickImgConfirm}>확인</ImgEnrollButton>
+                        <ImgEnrollButton className="spoqaBold" pageConfirmStatus={imgColor && imgInitial} onClick={onClickImgConfirm}>확인</ImgEnrollButton>
 
                     </ImgEnrollContentWrap>
                 </ImgEnrollWrap>
@@ -892,7 +892,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;
@@ -916,7 +916,7 @@ const SaveButton = styled.div`
 
 const ContentWrap = styled.div`
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
@@ -1020,7 +1020,7 @@ const ImgEnrollInitialWrap = styled.div`
     font-size:0.875rem;
     border-radius:0.8125rem;
 
-    padding:0.1875rem 0;
+    padding:0.0938rem 0 0.1875rem 0;
 
     text-align:center;
 

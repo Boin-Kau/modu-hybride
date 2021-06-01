@@ -135,7 +135,7 @@ const SearchPage = () => {
 
     return (
         <PageWrap>
-            <HeaderWrap>
+            <HeaderWrap className="spoqaBold">
                 <div onClick={closeSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
@@ -145,7 +145,7 @@ const SearchPage = () => {
                         <SearchIcon src={icon_search_none} />
                     </SearchIconWrap>
 
-                    <SearchInput placeholder="찾는 구독 서비스 검색" onChange={onChangeSearch} value={keyword}></SearchInput>
+                    <SearchInput className="spoqaBold" placeholder="찾는 구독 서비스 검색" onChange={onChangeSearch} value={keyword}></SearchInput>
 
                 </SearchInputWrap>
 
@@ -155,7 +155,7 @@ const SearchPage = () => {
             </HeaderWrap>
 
             {/* 인기 플랫폼 화면 */}
-            <PopularSearchWrap searchSatus={searchSatus}>
+            <PopularSearchWrap className="spoqaBold" searchSatus={searchSatus}>
 
                 <div style={{ margin: "1.1875rem 0 0.5188rem 0" }}>인기 구독 서비스</div>
 
@@ -266,7 +266,7 @@ const TotalItemComponent = ({ data }) => {
     };
 
     return (
-        <ItemWrap>
+        <ItemWrap className="notoMedium">
             <ItemImgWrap>
                 <img src={data.imgUrl ? data.imgUrl : platform_none} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
             </ItemImgWrap>
@@ -302,8 +302,8 @@ const PopularItemComponent = ({ props, isPopular }) => {
             </PopularItemImgWrap>
 
             <div style={{ fontSize: "0.75rem", color: "#313131" }}>
-                <div style={{ lineHeight: "1.375rem" }}>{props.platform.name}</div>
-                <div style={{ lineHeight: "1.3125rem", opacity: "0.4" }}>{props.platform.category.name}</div>
+                <div>{props.platform.name}</div>
+                <div className="notoMedium" style={{ lineHeight: "1.3125rem", opacity: "0.4" }}>{props.platform.category.name}</div>
             </div>
         </PopularItemWrap>
     )
@@ -317,7 +317,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;

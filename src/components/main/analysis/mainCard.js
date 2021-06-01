@@ -23,7 +23,7 @@ const MainCard = () => {
     return (
         <MainWrap>
 
-            <MainTopWrap>
+            <MainTopWrap className="spoqaBold">
                 <div style={{ position: "relative", border: "1px solid #ffca17" }}>
                     <div style={{ fontSize: "0.8125rem" }}>이번달 결제 예정</div>
                     <div style={{ margin: "0.5rem 0 1.25rem 0", fontSize: "1.25rem" }}>{priceToString(currentPrice)}원</div>
@@ -40,7 +40,7 @@ const MainCard = () => {
                     </div>
                 </div>
             </MainTopWrap>
-            <MainContentWrap>
+            <MainContentWrap className="spoqaBold">
                 <div style={{ marginBottom: "0.625rem", fontSize: "0.8125rem", color: "#313131", opacity: "0.25" }}>이번달 결제 내역 분석</div>
                 <div style={{ fontSize: "1.25rem" }}>{priceToString(currentPrice)}원</div>
                 <div>
@@ -58,7 +58,7 @@ const MainCard = () => {
 const MainWrap = styled.div`
 
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
