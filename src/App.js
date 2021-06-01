@@ -46,7 +46,7 @@ function App() {
         <Route
           render={({ location }) => (
             <TransitionGroup className='transitionGroup'>
-              <CSSTransition key={location.pathname} classNames={PageTransStyle} timeout={1000} style={{ border: "5px solid red" }}>
+              <CSSTransition key={location.pathname} classNames={PageTransStyle} timeout={300}>
                 <Switch location={location}>
                   <Route path="/" component={AppLayout} />
                 </Switch>

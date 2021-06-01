@@ -111,42 +111,43 @@ const BottomNav = () => {
     return (
         <>
             <BottomNavWrap openStatue={openBottomNavStatus}>
-                <BottomNavItem>
-                    <Link
-                        key={`gnb-1`}
-                        to="/main"
-                        onClick={() => handleOnClick(0)}>
+                <Link
+                    key={`gnb-1`}
+                    to="/main"
+                    onClick={() => handleOnClick(0)}>
+                    <BottomNavItem>
+
                         {iconMain ?
                             <BottomNavIcon src={icon_main_fill} /> :
                             <BottomNavIcon src={icon_main_def} />
                         }
-                    </Link>
-                </BottomNavItem>
+
+                    </BottomNavItem>
+                </Link>
                 <BottomNavTemp></BottomNavTemp>
-                <BottomNavItem>
-                    <Link
-                        key={`gnb-2`}
-                        to="/party"
-                        onClick={() => handleOnClick(1)}>
+                <Link
+                    key={`gnb-2`}
+                    to="/party"
+                    onClick={() => handleOnClick(1)}>
+                    <BottomNavItem>
                         {iconParty ?
                             <BottomNavIcon src={icon_party_fill} /> :
                             <BottomNavIcon src={icon_party_def} />
                         }
-                    </Link>
-                </BottomNavItem>
+                    </BottomNavItem>
+                </Link>
                 <BottomNavTemp></BottomNavTemp>
-                <BottomNavItem>
-                    <Link
-                        key={`gnb-3`}
-                        to="/info"
-                        onClick={() => handleOnClick(2)}>
+                <Link
+                    key={`gnb-3`}
+                    to="/info"
+                    onClick={() => handleOnClick(2)}>
+                    <BottomNavItem>
                         {iconInfo ?
                             <BottomNavIcon src={icon_my_page_fill} /> :
                             <BottomNavIcon src={icon_my_page_def} />
                         }
-                    </Link>
-                </BottomNavItem>
-
+                    </BottomNavItem>
+                </Link>
             </BottomNavWrap>
         </>
     );
@@ -181,6 +182,7 @@ const BottomNavItem = styled.div`
     position: relative;
 
     width:3.125rem;
+    height: 100%;
     text-align:center;
 `;
 
