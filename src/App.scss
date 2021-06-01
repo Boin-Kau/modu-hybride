@@ -16,21 +16,6 @@ $timing: 300ms;
   background-position: center;
 }
 
-// .footer {
-//   @include fill;
-//   top: auto;
-//   z-index: 100;
-//   display: flex;
-//   height: 44px;
-//   background-color: #FFFFFF;
-// }
-
-// .footer a {
-//   flex: 1;
-//   line-height: 44px;
-//   text-align: center;
-// }
-
 .transitionPage {
   max-width: 100%;
 }
@@ -164,4 +149,104 @@ $timing: 300ms;
   &.default-trans-exit-active {
     transform: translateX(-20px);
   }
+}
+
+
+//폰트 thin:200, light:300, regular:400, bold:500
+
+//Spoqa Han Sans
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 200;
+  src: url('../src/fonts/SpoqaHanSans/SpoqaHanSansThin.ttf'),
+  url('../src/fonts/SpoqaHanSans/SpoqaHanSansThin.woff'),
+  url('../src/fonts/SpoqaHanSans/SpoqaHanSansThin.woff2');
+}
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 300;
+  src: url('../src/fonts/SpoqaHanSans/SpoqaHanSansLight.ttf'),
+  url('../src/fonts/SpoqaHanSans/SpoqaHanSansLight.woff'),
+  url('../src/fonts/SpoqaHanSans/SpoqaHanSansLight.woff2');
+}
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 400;
+  src: url('../src/fonts/SpoqaHanSans/SpoqaHanSansRegular.ttf'),
+  url('../src/fonts/SpoqaHanSans/SpoqaHanSansRegular.woff'),
+  url('../src/fonts/SpoqaHanSans/SpoqaHanSansRegular.woff2');
+}
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 500;
+  src: url('../src/fonts/SpoqaHanSans/SpoqaHanSansBold.ttf'),
+  url('../src/fonts/SpoqaHanSans/SpoqaHanSansBold.woff'),
+  url('../src/fonts/SpoqaHanSans/SpoqaHanSansBold.woff2');
+}
+
+//Noto Sans KR
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 200;
+  src: url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Thin.otf'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Thin.woff'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Thin.woff2');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 300;
+  src: url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Light.otf'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Light.woff'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Light.woff2');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 400;
+  src: url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Regular.otf'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Regular.woff'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Regular.woff2');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 500;
+  src: url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Bold.otf'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Bold.woff'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Bold.woff2');
+}
+
+//font class
+
+.notoThin {
+  font-family: 'Noto Sans KR';
+  font-weight: 200;
+}
+.notoLight {
+  font-family: 'Noto Sans KR';
+  font-weight: 300;
+}
+.notoRegular {
+  font-family: 'Noto Sans KR';
+  font-weight: 400;
+}
+.notoBold {
+  font-family: 'Noto Sans KR';
+  font-weight: 500;
+}
+
+
+.spoqaThin {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 200;
+}
+.spoqaLight {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 300;
+}
+.spoqaRegular {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 400;
+}
+.spoqaBold {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 500;
 }
