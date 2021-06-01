@@ -178,7 +178,7 @@ const PhonePage = () => {
 
     return (
         <PageWrap>
-            <HeaderWrap onClick={closePage}>
+            <HeaderWrap className="spoqaBold" onClick={closePage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
@@ -186,13 +186,13 @@ const PhonePage = () => {
                 <TextMiddle>전화번호 변경하기</TextMiddle>
             </HeaderWrap>
 
-            <div style={{ padding: '1.25rem 1.25rem 0.1875rem 1.25rem' }}>
+            <div className="notoMedium" style={{ padding: '1.25rem 1.25rem 0.1875rem 1.25rem' }}>
                 <TitleWrap style={{ marginTop: '0' }}>전화번호</TitleWrap>
                 <ItemWrap>
                     <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
                         <Input placeholder="새 전화번호를 입력해주세요" type='number' onChange={handelPhone} value={phone}></Input>
                     </InputWrap>
-                    <SubmitButton confirmStatus={confirm} onClick={onClickCodeGenerate}>
+                    <SubmitButton className="spoqaBold" confirmStatus={confirm} onClick={onClickCodeGenerate}>
                         <SubmitText>
                             {
                                 openAuth ?
@@ -204,13 +204,13 @@ const PhonePage = () => {
                 <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e', height: '1.0625rem' }}>{errorMsg}</div>
             </div>
 
-            <ConfirmWrap confirmStatus={openAuth}>
+            <ConfirmWrap className="notoMedium" confirmStatus={openAuth}>
                 <TitleWrap style={{ marginTop: '0' }}>인증번호</TitleWrap>
                 <ItemWrap>
                     <InputWrap style={errorCode ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
                         <Input placeholder="인증번호를 입력해주세요" type='number' onChange={handelCode} value={code}></Input>
                     </InputWrap>
-                    <SubmitButton confirmStatus={confirmCode} onClick={onClickCodeAuth}>
+                    <SubmitButton className="spoqaBold" confirmStatus={confirmCode} onClick={onClickCodeAuth}>
                         <SubmitText>
                             확인
                         </SubmitText>
@@ -226,7 +226,7 @@ const PhonePage = () => {
 const PageWrap = styled.div`
 
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
@@ -244,7 +244,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;
@@ -269,11 +269,13 @@ const SubmitText = styled.div`
     position:absolute;
 
     font-size:0.875rem;
-    height:0.875rem;
+    /* height:0.875rem; */
+
+    width:100%;
+    text-align:center;
 
     top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    transform:translate(0,-50%);
 
     color:#ffffff;
 `;

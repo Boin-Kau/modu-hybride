@@ -61,7 +61,7 @@ const QuestionPage = () => {
 
     return (
         <PageWrap>
-            <HeaderWrap onClick={closePage}>
+            <HeaderWrap className="spoqaBold" onClick={closePage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
@@ -70,13 +70,13 @@ const QuestionPage = () => {
             </HeaderWrap>
             <div style={{ flexGrow: '1', padding: '1.25rem' }}>
 
-                <div style={{ borderBottom: '0.0437rem solid rgba(0,0,0,0.06)', paddingBottom: '0.875rem' }}>
+                <div className="spoqaBold" style={{ borderBottom: '0.0437rem solid rgba(0,0,0,0.06)', paddingBottom: '0.875rem' }}>
                     자주 묻는 질문
                 </div>
                 <ContentWrap onClick={() => { onClickContentOpen(0) }}>
                     <div style={{ display: 'flex', fontSize: '0.8125rem', height: '0.8125rem' }}>
-                        <div style={{ marginRight: '0.5625rem' }}>01</div>
-                        <div>휴대폰 번호 변경 시 어떻게 해야하나요?</div>
+                        <div className="notoMedium" style={{ marginRight: '0.5625rem' }}>01</div>
+                        <div className="notoMedium">휴대폰 번호 변경 시 어떻게 해야하나요?</div>
                         {
                             !oneOpen ?
                                 <ContentMoreIcon src={icon_arrow_down} /> :
@@ -85,7 +85,7 @@ const QuestionPage = () => {
                     </div>
                 </ContentWrap>
                 <Fade collapse when={oneOpen} duration={500}>
-                    <ContentDetailWrap>
+                    <ContentDetailWrap className="notoRegular">
                         휴대폰 번호가 변경되었을 시, 마이페이지에서 전화번호 변경 기능을 사용하여 데이터 이전이 가능합니다.
                     <br /><br />
                     그러나 휴대폰 번호와 핸드폰 전부 변경되어서 불가능한 경우,  아래 내용을 1:1 문의로 남겨주시면 데이터를 이전해드립니다.
@@ -97,8 +97,8 @@ const QuestionPage = () => {
 
                 <ContentWrap onClick={() => { onClickContentOpen(1) }}>
                     <div style={{ display: 'flex', fontSize: '0.8125rem', height: '0.8125rem' }}>
-                        <div style={{ marginRight: '0.5625rem' }}>02</div>
-                        <div>구독 서비스 결제일이 말일인 경우 어떻게 되나요?</div>
+                        <div className="notoMedium" style={{ marginRight: '0.5625rem' }}>02</div>
+                        <div className="notoMedium">구독 서비스 결제일이 말일인 경우 어떻게 되나요?</div>
                         {
                             !twoOpen ?
                                 <ContentMoreIcon src={icon_arrow_down} /> :
@@ -107,7 +107,7 @@ const QuestionPage = () => {
                     </div>
                 </ContentWrap>
                 <Fade collapse when={twoOpen} duration={500}>
-                    <ContentDetailWrap>
+                    <ContentDetailWrap className="notoRegular">
                         입력하신 결제일이 다음 달에 존재하지 않을 경우는 (예: 31일) 자동으로 직전일(예: 30일)이 정기 결제일로 변경됩니다.
                         <br /><br />
                         구독 플랫폼마다 결제 시스템의 차이가 존재할 수 있으니, 서비스 센터를 참고하시기 바랍니다.
@@ -116,7 +116,7 @@ const QuestionPage = () => {
 
             </div>
 
-            <QuestionButtonWrap pageConfirmStatus={false}>
+            <QuestionButtonWrap className="spoqaBold" pageConfirmStatus={false}>
                 <div style={{ width: '100%', textAlign: 'center' }}>
                     1:1 문의하기
                 </div>
@@ -128,7 +128,7 @@ const QuestionPage = () => {
 const PageWrap = styled.div`
 
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
@@ -146,7 +146,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;

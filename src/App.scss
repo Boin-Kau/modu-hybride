@@ -178,7 +178,7 @@ $timing: 300ms;
 }
 @font-face {
   font-family: 'Spoqa Han Sans';
-  font-weight: 500;
+  font-weight: 600;
   src: url('../src/fonts/SpoqaHanSans/SpoqaHanSansBold.ttf'),
   url('../src/fonts/SpoqaHanSans/SpoqaHanSansBold.woff'),
   url('../src/fonts/SpoqaHanSans/SpoqaHanSansBold.woff2');
@@ -209,30 +209,18 @@ $timing: 300ms;
 @font-face {
   font-family: 'Noto Sans KR';
   font-weight: 500;
+  src: url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Medium.woff'),
+  url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Medium.woff2');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
   src: url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Bold.otf'),
   url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Bold.woff'),
   url('../src/fonts/NotoSansKR-WEB/NotoSansKR-Bold.woff2');
 }
 
 //font class
-
-.notoThin {
-  font-family: 'Noto Sans KR';
-  font-weight: 200;
-}
-.notoLight {
-  font-family: 'Noto Sans KR';
-  font-weight: 300;
-}
-.notoRegular {
-  font-family: 'Noto Sans KR';
-  font-weight: 400;
-}
-.notoBold {
-  font-family: 'Noto Sans KR';
-  font-weight: 500;
-}
-
 
 .spoqaThin {
   font-family: 'Spoqa Han Sans';
@@ -248,5 +236,27 @@ $timing: 300ms;
 }
 .spoqaBold {
   font-family: 'Spoqa Han Sans';
+  font-weight: 600;
+}
+
+
+.notoThin {
+  font-family: 'Noto Sans KR';
+  font-weight: 200;
+}
+.notoLight {
+  font-family: 'Noto Sans KR';
+  font-weight: 300;
+}
+.notoRegular {
+  font-family: 'Noto Sans KR';
+  font-weight: 400;
+}
+.notoMedium {
+  font-family: 'Noto Sans KR';
   font-weight: 500;
+}
+.notoBold {
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
 }

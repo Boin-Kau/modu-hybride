@@ -130,14 +130,14 @@ const NamePage = () => {
 
     return (
         <PageWrap>
-            <HeaderWrap onClick={closePage}>
+            <HeaderWrap className="spoqaBold" onClick={closePage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
 
                 <TextMiddle>이름 변경하기</TextMiddle>
             </HeaderWrap>
-            <div style={{ padding: '1.25rem' }}>
+            <div className="notoMedium" style={{ padding: '1.25rem' }}>
                 <TitleWrap style={{ marginTop: '0' }}>이름</TitleWrap>
                 <ItemWrap>
                     <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
@@ -147,7 +147,7 @@ const NamePage = () => {
                 <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e' }}>{errorMsg}</div>
             </div>
 
-            <LoginButton pageConfirmStatus={confirm} onClick={onClickConfirmButton}>
+            <LoginButton className="spoqaBold" pageConfirmStatus={confirm} onClick={onClickConfirmButton}>
                 변경
             </LoginButton>
         </PageWrap>
@@ -157,7 +157,7 @@ const NamePage = () => {
 const PageWrap = styled.div`
 
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
@@ -175,7 +175,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;

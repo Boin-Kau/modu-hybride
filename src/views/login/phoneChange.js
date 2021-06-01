@@ -33,7 +33,7 @@ const PhoneChangePage = () => {
 
     return (
         <PageWrap>
-            <HeaderWrap onClick={closePage}>
+            <HeaderWrap className="spoqaBold" onClick={closePage}>
                 <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
@@ -41,17 +41,17 @@ const PhoneChangePage = () => {
                 <TextMiddle>휴대폰 번호 변경 안내</TextMiddle>
             </HeaderWrap>
             <div style={{ padding: '2.0625rem 1.25rem 0 1.25rem' }}>
-                <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginBottom: '0.625rem' }}>
+                <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginBottom: '0.625rem' }}>
                     <span style={{ marginRight: '0.375rem' }}>01</span>휴대폰 번호를 변경
                 </div>
-                <div style={{ fontSize: '0.8125rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.65)', wordBreak: 'keep-all', marginBottom: '4.375rem' }}>
+                <div className="notoRegular" style={{ fontSize: '0.8125rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.65)', wordBreak: 'keep-all', marginBottom: '4.375rem' }}>
                     휴대폰 번호가 변경되었을 시, 마이페이지에서 전화번호 변경 기능을 사용하여 데이터 이전이 가능합니다.
                 </div>
 
-                <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginBottom: '0.625rem' }}>
+                <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginBottom: '0.625rem' }}>
                     <span style={{ marginRight: '0.375rem' }}>02</span>휴대폰 번호와 휴대폰 기기 모두 변경
                 </div>
-                <div style={{ fontSize: '0.8125rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.65)', wordBreak: 'keep-all' }}>
+                <div className="notoRegular" style={{ fontSize: '0.8125rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.65)', wordBreak: 'keep-all' }}>
                     휴대폰 번호와 핸드폰 전부 변경되어서 불가능한 경우,  아래 내용을 1:1 문의로 남겨주시면 데이터를 이전해드립니다.
                     <br /><br />
                     1. 기존 전화번호<br />
@@ -60,7 +60,7 @@ const PhoneChangePage = () => {
             </div>
 
             <QuestionButtonWrap pageConfirmStatus={false}>
-                <div style={{ width: '100%', textAlign: 'center' }}>
+                <div className="spoqaBold" style={{ width: '100%', textAlign: 'center' }}>
                     1:1 문의하기
                 </div>
             </QuestionButtonWrap>
@@ -72,7 +72,7 @@ const PhoneChangePage = () => {
 const PageWrap = styled.div`
 
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
@@ -88,7 +88,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;

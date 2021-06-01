@@ -419,7 +419,7 @@ const Login = () => {
                 }
 
                 {/* 제목 부분 */}
-                <TitleTextWrap>
+                <TitleTextWrap className="spoqaBold">
                     {
                         currentPageTitle.split('\n').map(line => {
                             return (<span key={line}>{line}<br /></span>)
@@ -430,7 +430,7 @@ const Login = () => {
                 {/* 내용 부분 */}
                 {currentPage == 1 &&
                     <ContentWrap>
-                        <LoginInput value={name} onChange={handleName} type="text" placeholder="이름" />
+                        <LoginInput className="spoqaBold" value={name} onChange={handleName} type="text" placeholder="이름" />
                         <div style={{ height: '1.0625rem', margin: "0.125rem 0 0.0625rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
                             {nameErrorText}
                         </div>
@@ -439,15 +439,15 @@ const Login = () => {
 
                 {currentPage == 2 &&
                     <ContentWrap>
-                        <LoginInput value={phoneNumber} onChange={handlePhoneNumber} type="tel" placeholder="휴대폰 번호 (- 없이 입력)" />
-                        <div style={{ height: '1.0625rem', margin: "0.125rem 0 1.125rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
+                        <LoginInput className="spoqaBold" value={phoneNumber} onChange={handlePhoneNumber} type="tel" placeholder="휴대폰 번호 (- 없이 입력)" />
+                        <div className="spoqaRegular" style={{ height: '1.0625rem', margin: "0.125rem 0 1.125rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
                             {phoneErrorText}
                         </div>
-                        <div onClick={() => { openPage('loginPhone') }} style={{ display: "flex" }}>
+                        <div className="spoqaRegular" onClick={() => { openPage('loginPhone') }} style={{ display: "flex" }}>
                             <div style={{ marginRight: "0.3125rem" }}>
                                 <img src={icon_info} style={{ width: "0.875rem", height: "0.875rem" }} />
                             </div>
-                            <div style={{ fontSize: "0.6875rem", color: "#313131", opacity: "0.4", textDecoration: "underline", textDecorationColor: "#adadad", textUnderlinePosition: "under" }}>
+                            <div style={{ paddingTop: '0.1563rem', fontSize: "0.6875rem", color: "#313131", opacity: "0.4", textDecoration: "underline", textDecorationColor: "#adadad", textUnderlinePosition: "under" }}>
                                 휴대폰 번호가 변경되었나요?
                             </div>
                             <div style={{ flexGrow: "1" }}></div>
@@ -457,14 +457,14 @@ const Login = () => {
 
                 {currentPage == 3 &&
                     <ContentWrap>
-                        <LoginInput value={phoneAuthCode} onChange={handlePhoneAuthCode} type="number" placeholder="인증번호 입력" />
-                        <div style={{ height: '1.0625rem', margin: "0.125rem 0 0.0625rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
+                        <LoginInput className="spoqaBold" value={phoneAuthCode} onChange={handlePhoneAuthCode} type="number" placeholder="인증번호 입력" />
+                        <div className="spoqaRegular" style={{ height: '1.0625rem', margin: "0.125rem 0 0.0625rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
                             {timerErrorText}
                         </div>
-                        <div style={{ display: 'flex' }}>
+                        <div className="spoqaBold" style={{ display: 'flex' }}>
                             <div style={{ flexGrow: '1' }}></div>
                             <div style={{ position: 'relative', width: '1.375rem' }}>
-                                <img style={{ position: 'absolute', top: "46%", transform: 'translate(0,-46%)', width: '1rem', height: '0.8125rem' }} src={icon_timeout} />
+                                <img style={{ position: 'absolute', top: "55%", transform: 'translate(0,-55%)', width: '1rem', height: '0.8125rem' }} src={icon_timeout} />
                             </div>
                             <div style={{ position: 'relative', width: '2.5rem', fontSize: '0.8125rem', color: '#fb5e5e' }}>
                                 <TextMiddle>
@@ -482,8 +482,8 @@ const Login = () => {
                     <ContentWrap>
 
                         {/* 성별 선택 */}
-                        <div style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.34)', marginBottom: '0.5rem' }}>성별을 알려주세요</div>
-                        <EtcButtonWrap style={{ marginBottom: "2.125rem" }}>
+                        <div className="notoMedium" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.34)', marginBottom: '0.5rem' }}>성별을 알려주세요</div>
+                        <EtcButtonWrap className="spoqaBold" style={{ marginBottom: "2.125rem" }}>
                             <EtcButton selectedStatus={sex.MALE} type="sex" style={{ marginRight: "0.625rem" }} onClick={() => { handleOnclickSex("MALE") }}>
                                 <EtcButtonIconWrap>
                                     {
@@ -507,8 +507,8 @@ const Login = () => {
                         </EtcButtonWrap>
 
                         {/* 연령대 선택 */}
-                        <div style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.34)', marginBottom: '0.5rem' }}>연령대를 알려주세요</div>
-                        <EtcButtonWrap style={{ marginBottom: "0.625rem" }}>
+                        <div className="notoMedium" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.34)', marginBottom: '0.5rem' }}>연령대를 알려주세요</div>
+                        <EtcButtonWrap className="spoqaBold" style={{ marginBottom: "0.625rem" }}>
                             <EtcButton selectedStatus={age.ONE} type="age" style={{ marginRight: "0.625rem" }} onClick={() => { handelOnclickAge("ONE") }}>
                                 <EtcButtonText selectedStatus={age.ONE} type="age">10대</EtcButtonText>
                             </EtcButton>
@@ -520,7 +520,7 @@ const Login = () => {
                             </EtcButton>
                         </EtcButtonWrap>
 
-                        <EtcButtonWrap>
+                        <EtcButtonWrap className="spoqaBold">
                             <EtcButton selectedStatus={age.FOUR} type="age" style={{ marginRight: "0.625rem" }} onClick={() => { handelOnclickAge("FOUR") }}>
                                 <EtcButtonText selectedStatus={age.FOUR} type="age">40대</EtcButtonText>
                             </EtcButton>
@@ -535,7 +535,7 @@ const Login = () => {
                 }
 
                 {/* 하단 '다음' 버튼 */}
-                <LoginButton pageConfirmStatus={pageConfirmStatus} onClick={onclickNextButton}>
+                <LoginButton className="spoqaBold" pageConfirmStatus={pageConfirmStatus} onClick={onclickNextButton}>
                     다음
                 </LoginButton>
             </div>

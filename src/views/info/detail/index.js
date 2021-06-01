@@ -132,24 +132,24 @@ const DetailPage = () => {
                         <img src={icon_back}></img>
                     </div>
 
-                    <TextMiddle>내 정보</TextMiddle>
+                    <TextMiddle className="spoqaBold">내 정보</TextMiddle>
                 </HeaderWrap>
                 <div style={{ backgroundColor: '#f7f7f7', padding: '2rem 0 1.25rem 0', textAlign: 'center' }}>
                     <div>
                         <img style={{ width: '3.8125rem', height: '3.8125rem' }} src={icon_profile} />
                     </div>
-                    <div style={{ margin: '0.5625rem 0 0.25rem 0', fontSize: '0.875rem' }}>{name}</div>
-                    <div onClick={onClickUniqueInfo} style={{ position: 'relative', fontSize: '0.6875rem', color: 'rgba(49,49,49,0.4)', lineHeight: '1.3125rem' }}>
+                    <div className="spoqaBold" style={{ margin: '0.5625rem 0 0.25rem 0', fontSize: '0.875rem' }}>{name}</div>
+                    <div className="notoMedium" onClick={onClickUniqueInfo} style={{ position: 'relative', fontSize: '0.6875rem', color: 'rgba(49,49,49,0.4)', lineHeight: '1.3125rem' }}>
                         고유번호 #{uniqueNumber}
                         <img src={icon_info} style={{ width: '0.6875rem', height: '0.6875rem', marginLeft: '0.1875rem', position: 'relative', top: '0.0625rem' }} />
-                        <UniqueInfo openStatus={uniqueInfoStatus}>
+                        <UniqueInfo className="spoqaBold" openStatus={uniqueInfoStatus}>
                             변경된 전화번호로 인증이 불가능할 때 고유 <br />
                             번호로 인증할 수 있어요. (문의하기 참고)
                         </UniqueInfo>
                     </div>
                 </div>
 
-                <div style={{ padding: '1.875rem 1.25rem 0 1.25rem' }}>
+                <div className="spoqaBold" style={{ padding: '1.875rem 1.25rem 0 1.25rem' }}>
 
                     <ContentWrap onClick={() => { openPage('name') }}>이름 변경</ContentWrap>
                     <ContentWrap onClick={() => { openPage('phone') }}>전화번호 변경</ContentWrap>
@@ -188,16 +188,16 @@ const DetailPage = () => {
                             <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
                         </div>
                     </div>
-                    <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
+                    <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
                         정말 탈퇴하시겠어요?
                     </div>
-                    <div style={{ marginTop: '0.625rem', marginBottom: '1.625rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>탈퇴 시, 모두에 기록된 모든 정보가 사라져요.</div>
-                    <div style={{ display: 'flex' }}>
+                    <div className="notoMedium" style={{ marginTop: '0.625rem', marginBottom: '1.625rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>탈퇴 시, 모두에 기록된 모든 정보가 사라져요.</div>
+                    <div className="spoqaBold" style={{ display: 'flex' }}>
                         <div onClick={onClickCancel} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
                         </div>
                         <div onClick={onClickDeleteConfirm} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: '#ffffff' }}>탈퇴</div>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: '#ffffff' }}>탈퇴</div>
                         </div>
                     </div>
                 </DangerPopup>
@@ -208,16 +208,16 @@ const DetailPage = () => {
                 <DangerPopup openStatus={logoutPopup}>
                     <div style={{ position: 'relative', height: '1.25rem' }}>
                     </div>
-                    <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
+                    <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
                         로그아웃 하기
                     </div>
-                    <div style={{ marginTop: '0.625rem', marginBottom: '1.625rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>정말 로그아웃 하시겠어요?</div>
-                    <div style={{ display: 'flex' }}>
+                    <div className="notoMedium" style={{ marginTop: '0.625rem', marginBottom: '1.625rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>정말 로그아웃 하시겠어요?</div>
+                    <div className="spoqaBold" style={{ display: 'flex' }}>
                         <div onClick={onClickCancel} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
                         </div>
                         <div onClick={onCickLogoutConfirm} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#ffca17', borderRadius: '0.375rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: '#ffffff' }}>로그아웃</div>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: '#ffffff' }}>로그아웃</div>
                         </div>
                     </div>
                 </DangerPopup>
@@ -229,7 +229,7 @@ const DetailPage = () => {
 const PageWrap = styled.div`
 
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
@@ -247,7 +247,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;
@@ -284,6 +284,8 @@ const UniqueInfo = styled.div`
     font-size:0.75rem;
     line-height:1.25rem;
     color:#ffffff;
+
+    letter-spacing:0rem;
 
     ::after{
         border-top:0px solid transparent; 

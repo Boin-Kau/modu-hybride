@@ -56,7 +56,7 @@ const Info = () => {
             <div className="page" style={{ backgroundColor: "#ffffff" }}>
                 <PageWrap>
 
-                    <div style={{ display: 'flex', margin: '0.875rem 1.25rem 1.625rem 1.25rem' }}>
+                    <div className="spoqaBold" style={{ display: 'flex', margin: '0.875rem 1.25rem 1.625rem 1.25rem' }}>
                         <div style={{ flexGrow: '1', fontSize: '0.875rem', lineHeight: '1.4375rem' }}>마이페이지</div>
                         <div onClick={() => { openPage('setting') }} style={{ marginTop: '0.125rem' }}>
                             <img src={icon_setting} style={{ width: '1rem', height: '1rem' }} />
@@ -64,13 +64,13 @@ const Info = () => {
                     </div>
 
 
-                    <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)', margin: '0 0 0.8125rem 1.25rem' }}>내정보</div>
+                    <div className="notoMedium" style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)', margin: '0 0 0.8125rem 1.25rem' }}>내정보</div>
 
                     <InfoWrap onClick={() => { openPage('info') }}>
                         <img style={{ width: '2.9375rem', height: '2.9375rem' }} src={icon_profile} />
                         <div style={{ marginLeft: "0.6875rem", flexGrow: '1' }}>
-                            <div style={{ fontSize: '0.875rem', margin: '0.25rem 0' }}>{name}</div>
-                            <div style={{ fontSize: '0.6875rem', lineHeight: '1.3125rem', opacity: '0.4' }}>고유번호 #{uniqueNumber}</div>
+                            <div className="spoqaBold" style={{ fontSize: '0.875rem', margin: '0.25rem 0' }}>{name}</div>
+                            <div className="notoMedium" style={{ fontSize: '0.6875rem', lineHeight: '1.3125rem', opacity: '0.4' }}>고유번호 #{uniqueNumber}</div>
                         </div>
                         <div style={{ marginTop: '0.25rem' }}>
                             <img src={icon_arrow_right} style={{ width: '0.4375rem', height: '0.625rem' }} />
@@ -78,11 +78,11 @@ const Info = () => {
                     </InfoWrap>
 
 
-                    <TitelWrap>고객센터</TitelWrap>
-                    <ContentWrap onClick={() => { openPage('notice') }}>공지사항</ContentWrap>
-                    <ContentWrap onClick={() => { openPage('question') }}>문의하기</ContentWrap>
-                    <ContentWrap>이용 약관</ContentWrap>
-                    <ContentWrap>개인정보 처리방침</ContentWrap>
+                    <TitelWrap className="notoMedium">고객센터</TitelWrap>
+                    <ContentWrap className="spoqaBold" onClick={() => { openPage('notice') }}>공지사항</ContentWrap>
+                    <ContentWrap className="spoqaBold" onClick={() => { openPage('question') }}>문의하기</ContentWrap>
+                    <ContentWrap className="spoqaBold">이용 약관</ContentWrap>
+                    <ContentWrap className="spoqaBold">개인정보 처리방침</ContentWrap>
 
                 </PageWrap>
             </div>

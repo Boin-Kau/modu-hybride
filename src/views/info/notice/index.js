@@ -58,14 +58,14 @@ const NoticePage = () => {
 
         <>
             <PageWrap>
-                <HeaderWrap onClick={closePage}>
+                <HeaderWrap className="spoqaBold" onClick={closePage}>
                     <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>
 
                     <TextMiddle>공지사항</TextMiddle>
                 </HeaderWrap>
-                <div onClick={() => { openPage('noticeDetail') }} style={{ padding: '0 1.25rem 0 1.25rem' }}>
+                <div className="notoMedium" onClick={() => { openPage('noticeDetail') }} style={{ padding: '0 1.25rem 0 1.25rem' }}>
 
                     <div style={{ padding: '0.9688rem 0 1.0313rem 0', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
                         <div style={{ fontSize: '0.8125rem', marginBottom: '0.3125rem' }}>
@@ -96,7 +96,7 @@ const NoticePage = () => {
 const PageWrap = styled.div`
 
     position:absolute;
-    top:2.5625rem;
+    top:3.0625rem;
     left:0;
     right:0;
     bottom:0;
@@ -114,7 +114,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;
