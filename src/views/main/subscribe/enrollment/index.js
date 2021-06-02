@@ -284,6 +284,7 @@ const EnrollmentPage = () => {
 
     const checkFirstPage = useCallback(() => {
         if (name && price && categoryIndex != -1 && membership && imgColor && imgInitial) {
+
             setPageConfirm(true);
         }
         else {
@@ -299,6 +300,7 @@ const EnrollmentPage = () => {
 
     const checkSecondPage = useCallback(() => {
         if (cycleData && cycleUnit && paymentYear && paymentMonth && paymentDay) {
+
             setPageConfirm(true);
         }
         else {
@@ -312,13 +314,16 @@ const EnrollmentPage = () => {
     }, [isFree, useageData, useageUnit]);
 
     const checkThirdPage = useCallback(() => {
+
         if (isFree && ((useageData && useageUnit) || (!useageData && !useageUnit))) {
+
+            if (currentPage != 3) return
             setPageConfirm(true);
         }
         else {
             setPageConfirm(false);
         }
-    }, [isFree, useageData, useageUnit]);
+    }, [currentPage, isFree, useageData, useageUnit]);
 
 
 
