@@ -11,6 +11,7 @@ import SubscribePage from '../views/main/subscribe';
 import EnrollmentRevisePage from '../views/main/subscribe/enrollment/revise';
 import AnalysisPage from '../views/main/analysis';
 import EnrollmentPage from '../views/main/subscribe/enrollment';
+import DetailPage from '../views/info/detail';
 
 const AppLayout = ({ history, location, match }) => {
 
@@ -24,7 +25,8 @@ const AppLayout = ({ history, location, match }) => {
             <Route path='/subscribe/enroll' exact component={EnrollmentPage} />
             <Route path='/analysis' exact component={AnalysisPage} />
             <Route path='/party' component={Party} />
-            <Route path='/info' component={MyInfo} />
+            <Route path='/info' exact component={MyInfo} />
+            <Route path='/info/detail' exact component={DetailPage} />
         </>
     );
 

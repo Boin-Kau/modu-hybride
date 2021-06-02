@@ -361,199 +361,197 @@ const SubscribePage = () => {
     }
 
     return (
-        <>
-            <div className="page">
+        <div className="page">
 
-                <PageWrap>
-                    <HeaderWrap className="spoqaBold">
-                        <div onClick={closeSubscribePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-                            <img src={icon_back}></img>
-                        </div>
-                        <TextMiddle>구독 내역 추가</TextMiddle>
-                        <div onClick={openSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}>
-                            <img src={icon_search}></img>
-                        </div>
-                    </HeaderWrap>
-                    <MainWrap>
-                        <CategoryTapWrap className="spoqaBold">
-                            <CategoryTapItem selectedStatus={totalMenuStatus} onClick={() => onClickMenu('total')}>전체</CategoryTapItem>
-                            <CategoryTapItem selectedStatus={categoryMenuStatus} onClick={() => onClickMenu('category')}>카테고리</CategoryTapItem>
-                        </CategoryTapWrap>
-                        <ItemListWrap className="notoMedium">
+            <PageWrap>
+                <HeaderWrap className="spoqaBold">
+                    <div onClick={closeSubscribePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_back}></img>
+                    </div>
+                    <TextMiddle>구독 내역 추가</TextMiddle>
+                    <div onClick={openSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_search}></img>
+                    </div>
+                </HeaderWrap>
+                <MainWrap>
+                    <CategoryTapWrap className="spoqaBold">
+                        <CategoryTapItem selectedStatus={totalMenuStatus} onClick={() => onClickMenu('total')}>전체</CategoryTapItem>
+                        <CategoryTapItem selectedStatus={categoryMenuStatus} onClick={() => onClickMenu('category')}>카테고리</CategoryTapItem>
+                    </CategoryTapWrap>
+                    <ItemListWrap className="notoMedium">
 
-                            {/* 전체 구독 리스트 */}
-                            <ItemListView selectedStatus={totalMenuStatus}>
+                        {/* 전체 구독 리스트 */}
+                        <ItemListView selectedStatus={totalMenuStatus}>
 
-                                {/* 직접입력 */}
-                                <ItemWrap style={{ border: "none" }}>
-                                    <ItemImgWrap>
-                                        <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
-                                    </ItemImgWrap>
-                                    <ItemTitleWrap>
-                                        <TextMiddle>
-                                            직접 입력하기
+                            {/* 직접입력 */}
+                            <ItemWrap style={{ border: "none" }}>
+                                <ItemImgWrap>
+                                    <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
+                                </ItemImgWrap>
+                                <ItemTitleWrap>
+                                    <TextMiddle>
+                                        직접 입력하기
                                 </TextMiddle>
-                                    </ItemTitleWrap>
-                                    <ItemIconWrap onClick={openEnrollmentPage}>
-                                        <ItemIcon src={icon_plus}></ItemIcon>
-                                    </ItemIconWrap>
-                                </ItemWrap>
+                                </ItemTitleWrap>
+                                <ItemIconWrap onClick={openEnrollmentPage}>
+                                    <ItemIcon src={icon_plus}></ItemIcon>
+                                </ItemIconWrap>
+                            </ItemWrap>
 
-                                {/* 그외 리스트 */}
-                                {
-                                    serverPlatformList.map((list, index) => {
-                                        return (<TotalItemComponent data={list} key={index}></TotalItemComponent>)
-                                    })
+                            {/* 그외 리스트 */}
+                            {
+                                serverPlatformList.map((list, index) => {
+                                    return (<TotalItemComponent data={list} key={index}></TotalItemComponent>)
+                                })
 
-                                }
+                            }
 
 
 
-                            </ItemListView>
+                        </ItemListView>
 
-                            {/* 카테고리 구독 리스트 */}
-                            <ItemListView selectedStatus={categoryMenuStatus}>
+                        {/* 카테고리 구독 리스트 */}
+                        <ItemListView selectedStatus={categoryMenuStatus}>
 
-                                {/* 직접입력 */}
-                                <ItemWrap style={{ border: "none", paddingBottom: '0' }}>
-                                    <ItemImgWrap>
-                                        <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
-                                    </ItemImgWrap>
-                                    <ItemTitleWrap>
-                                        <TextMiddle>
-                                            직접 입력하기
+                            {/* 직접입력 */}
+                            <ItemWrap style={{ border: "none", paddingBottom: '0' }}>
+                                <ItemImgWrap>
+                                    <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
+                                </ItemImgWrap>
+                                <ItemTitleWrap>
+                                    <TextMiddle>
+                                        직접 입력하기
                                 </TextMiddle>
-                                    </ItemTitleWrap>
-                                    <ItemIconWrap onClick={openEnrollmentPage}>
-                                        <ItemIcon src={icon_plus}></ItemIcon>
-                                    </ItemIconWrap>
-                                </ItemWrap>
+                                </ItemTitleWrap>
+                                <ItemIconWrap onClick={openEnrollmentPage}>
+                                    <ItemIcon src={icon_plus}></ItemIcon>
+                                </ItemIconWrap>
+                            </ItemWrap>
 
-                                {/* 그외 리스트 */}
-                                {
-                                    categoryPlatformList.map((list, index) => {
+                            {/* 그외 리스트 */}
+                            {
+                                categoryPlatformList.map((list, index) => {
 
-                                        if ((index + 1 == categoryPlatformList.length)) {
-                                            return (<CategoryItemComponent props={list} key={index} isLast={true}></CategoryItemComponent>)
-                                        }
-                                        else {
-                                            return (<CategoryItemComponent props={list} key={index}></CategoryItemComponent>)
-                                        }
-                                    })
+                                    if ((index + 1 == categoryPlatformList.length)) {
+                                        return (<CategoryItemComponent props={list} key={index} isLast={true}></CategoryItemComponent>)
+                                    }
+                                    else {
+                                        return (<CategoryItemComponent props={list} key={index}></CategoryItemComponent>)
+                                    }
+                                })
 
-                                }
+                            }
 
-                            </ItemListView>
+                        </ItemListView>
 
-                        </ItemListWrap>
-                    </MainWrap>
-                </PageWrap>
+                    </ItemListWrap>
+                </MainWrap>
+            </PageWrap>
 
-                <div style={openSearchPageWrapStatus ? { display: "block" } : { display: "none" }}>
-                    <Fade right when={openSearchPageStatus} duration={300}>
-                        <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
-                            <SearchPage />
+            <div style={openSearchPageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openSearchPageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
+                        <SearchPage />
+                    </div>
+                </Fade>
+            </div>
+
+            {/* 삭제 알림창 */}
+            <DangerWrapPopup openStatus={deletePopupWrap}>
+                <DangerPopup className="spoqaBold" openStatus={deletePopup}>
+                    <div style={{ position: 'relative', height: '3.125rem' }}>
+                        <div style={{ position: 'absolute', top: '-1.875rem', left: '50%', width: '3.8125rem', height: '3.8125rem', backgroundColor: '#fb5e5e', transform: 'translate(-50%,0)', borderRadius: '50%', border: '0.25rem solid #ffffff' }}>
+                            <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
                         </div>
-                    </Fade>
-                </div>
-
-                {/* 삭제 알림창 */}
-                <DangerWrapPopup openStatus={deletePopupWrap}>
-                    <DangerPopup className="spoqaBold" openStatus={deletePopup}>
-                        <div style={{ position: 'relative', height: '3.125rem' }}>
-                            <div style={{ position: 'absolute', top: '-1.875rem', left: '50%', width: '3.8125rem', height: '3.8125rem', backgroundColor: '#fb5e5e', transform: 'translate(-50%,0)', borderRadius: '50%', border: '0.25rem solid #ffffff' }}>
-                                <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
-                            </div>
-                        </div>
-                        <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
-                            {deletePlatformName}을(를) 리스트에서<br />
+                    </div>
+                    <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
+                        {deletePlatformName}을(를) 리스트에서<br />
                         삭제하시겠어요?
                     </div>
-                        <div className="notoMedium" style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
-                        <div style={{ display: 'flex' }}>
-                            <div onClick={closeDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
-                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                    <div className="notoMedium" style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
+                    <div style={{ display: 'flex' }}>
+                        <div onClick={closeDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                        </div>
+                        <div onClick={conFirmDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: '#ffffff' }}>삭제</div>
+                        </div>
+                    </div>
+                </DangerPopup>
+            </DangerWrapPopup>
+
+            {/* 구독등록 안내창 */}
+            <InitialInfoWrapPopup className="notoMedium" openStatus={isFirst}>
+                <Slider {...settings} style={{ height: '100vh' }}>
+                    <div>
+                        <div style={{ position: 'relative', height: '100vh' }}>
+
+                            <div style={{ position: 'absolute', top: '7.75rem', right: '3.0625rem', width: '17.125rem' }}>
+                                <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0 0.9375rem 1rem', borderRadius: '0.375rem', borderBottomRightRadius: '0', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
+                                    사용중인 구독 서비스를 선택해<br />
+                                    <span className="spoqaBold">구독 리스트에 추가</span>해보세요.
+                                </div>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ flexGrow: '1' }} />
+                                    <TriFirst />
+                                </div>
+                                <img src={duck_read} style={{ position: 'absolute', right: '0.875rem', bottom: '0.625rem', width: '3.375rem', height: '3.875rem' }} />
+
                             </div>
-                            <div onClick={conFirmDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
-                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: '#ffffff' }}>삭제</div>
+                            <div style={{ position: 'absolute', top: '14.375rem', right: '1.4375rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
+                                <img src={icon_plus} style={{ width: '0.75rem', height: '0.75rem' }} />
                             </div>
                         </div>
-                    </DangerPopup>
-                </DangerWrapPopup>
+                    </div>
+                    <div>
+                        <div style={{ position: 'relative', height: '100vh' }}>
 
-                {/* 구독등록 안내창 */}
-                <InitialInfoWrapPopup className="notoMedium" openStatus={isFirst}>
-                    <Slider {...settings} style={{ height: '100vh' }}>
-                        <div>
-                            <div style={{ position: 'relative', height: '100vh' }}>
+                            <div style={{ position: 'absolute', top: '3.75rem', right: '1rem', width: '17.4375rem' }}>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ flexGrow: '1' }} />
+                                    <TriSec />
+                                    <div style={{ width: '0.875rem' }} />
+                                </div>
+                                <div style={{ backgroundColor: '#ffbc26', padding: '1.0625rem 0 1.125rem 1rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
+                                    <span className="spoqaBold">검색기능</span>을 사용하면 <span className="spoqaBold">더 많은</span><br />
+                                    <span className="spoqaBold">구독 서비스</span>를 찾아볼 수 있어요.
+                                </div>
+                                <img src={duck_tech} style={{ position: 'absolute', right: '0.875rem', bottom: '0rem', width: '4.125rem', height: '3.9375rem' }} />
 
-                                <div style={{ position: 'absolute', top: '7.75rem', right: '3.0625rem', width: '17.125rem' }}>
-                                    <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0 0.9375rem 1rem', borderRadius: '0.375rem', borderBottomRightRadius: '0', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
-                                        사용중인 구독 서비스를 선택해<br />
-                                        <span className="spoqaBold">구독 리스트에 추가</span>해보세요.
-                                </div>
-                                    <div style={{ display: 'flex' }}>
-                                        <div style={{ flexGrow: '1' }} />
-                                        <TriFirst />
-                                    </div>
-                                    <img src={duck_read} style={{ position: 'absolute', right: '0.875rem', bottom: '0.625rem', width: '3.375rem', height: '3.875rem' }} />
-
-                                </div>
-                                <div style={{ position: 'absolute', top: '14.375rem', right: '1.4375rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
-                                    <img src={icon_plus} style={{ width: '0.75rem', height: '0.75rem' }} />
-                                </div>
+                            </div>
+                            <div style={{ position: 'absolute', top: '0.125rem', right: '0.3125rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
+                                <img src={icon_search} style={{ width: '1rem', height: '1rem' }} />
                             </div>
                         </div>
-                        <div>
-                            <div style={{ position: 'relative', height: '100vh' }}>
+                    </div>
+                    <div>
+                        <div style={{ position: 'relative', height: '100vh' }}>
 
-                                <div style={{ position: 'absolute', top: '3.75rem', right: '1rem', width: '17.4375rem' }}>
-                                    <div style={{ display: 'flex' }}>
-                                        <div style={{ flexGrow: '1' }} />
-                                        <TriSec />
-                                        <div style={{ width: '0.875rem' }} />
+                            <div onClick={onClickFirstInfoCancle} style={{ position: 'absolute', top: '0', right: '0', padding: '0.625rem 1rem' }}>
+                                <img src={icon_cancle} />
+                            </div>
+
+                            <div style={{ position: 'absolute', top: '3.75rem', left: '1.5625rem' }}>
+                                <div style={{ display: 'flex' }}>
+                                    <div style={{ width: '0.875rem' }} />
+                                    <TriThi />
+                                    <div style={{ flexGrow: '1' }} />
+                                </div>
+                                <div style={{ backgroundColor: '#ffbc26', padding: '22px 1.125rem 0.6875rem 1.125rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem', textAlign: 'center' }}>
+                                    <div style={{ marginBottom: '0.5625rem' }}>
+                                        <img src={sub_info} style={{ width: '11.25rem', height: '11.75rem' }} />
                                     </div>
-                                    <div style={{ backgroundColor: '#ffbc26', padding: '1.0625rem 0 1.125rem 1rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
-                                        <span className="spoqaBold">검색기능</span>을 사용하면 <span className="spoqaBold">더 많은</span><br />
-                                        <span className="spoqaBold">구독 서비스</span>를 찾아볼 수 있어요.
-                                </div>
-                                    <img src={duck_tech} style={{ position: 'absolute', right: '0.875rem', bottom: '0rem', width: '4.125rem', height: '3.9375rem' }} />
-
-                                </div>
-                                <div style={{ position: 'absolute', top: '0.125rem', right: '0.3125rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
-                                    <img src={icon_search} style={{ width: '1rem', height: '1rem' }} />
+                                    <div>상세정보는 <span className="spoqaBold">메인에서 입력</span> 가능!</div>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <div style={{ position: 'relative', height: '100vh' }}>
-
-                                <div onClick={onClickFirstInfoCancle} style={{ position: 'absolute', top: '0', right: '0', padding: '0.625rem 1rem' }}>
-                                    <img src={icon_cancle} />
-                                </div>
-
-                                <div style={{ position: 'absolute', top: '3.75rem', left: '1.5625rem' }}>
-                                    <div style={{ display: 'flex' }}>
-                                        <div style={{ width: '0.875rem' }} />
-                                        <TriThi />
-                                        <div style={{ flexGrow: '1' }} />
-                                    </div>
-                                    <div style={{ backgroundColor: '#ffbc26', padding: '22px 1.125rem 0.6875rem 1.125rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem', textAlign: 'center' }}>
-                                        <div style={{ marginBottom: '0.5625rem' }}>
-                                            <img src={sub_info} style={{ width: '11.25rem', height: '11.75rem' }} />
-                                        </div>
-                                        <div>상세정보는 <span className="spoqaBold">메인에서 입력</span> 가능!</div>
-                                    </div>
-                                </div>
-                                <div style={{ position: 'absolute', top: '0.125rem', left: '4px', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
-                                    <img src={icon_back} style={{ width: '0.9375rem', height: '0.8125rem' }} />
-                                </div>
+                            <div style={{ position: 'absolute', top: '0.125rem', left: '4px', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
+                                <img src={icon_back} style={{ width: '0.9375rem', height: '0.8125rem' }} />
                             </div>
                         </div>
-                    </Slider>
-                </InitialInfoWrapPopup>
-            </div>
-        </>
+                    </div>
+                </Slider>
+            </InitialInfoWrapPopup>
+        </div>
     )
 };
 

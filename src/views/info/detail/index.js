@@ -52,18 +52,12 @@ const DetailPage = () => {
 
 
     const closePage = useCallback(() => {
-        dispatch({
-            type: PageClose,
-            data: 'info'
-        });
-
-        setTimeout(() => {
-            dispatch({
-                type: PageWrapClose,
-                data: 'info'
-            });
-        }, 300)
+        history.goBack();
     }, []);
+
+    useEffect(() => {
+        dispatch(BottomNavCloseAction);
+    }, [])
 
     //페이지 열기
     const openPage = useCallback(async (data) => {
@@ -126,7 +120,8 @@ const DetailPage = () => {
     }, [uniqueInfoStatus]);
     return (
 
-        <>
+        <div className="page">
+
             <PageWrap>
                 <HeaderWrap onClick={closePage}>
                     <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
@@ -223,7 +218,7 @@ const DetailPage = () => {
                     </div>
                 </DangerPopup>
             </DangerWrapPopup>
-        </>
+        </div>
     )
 };
 

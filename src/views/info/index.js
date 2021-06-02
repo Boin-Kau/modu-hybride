@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
 import icon_setting from "../../assets/icon-setting.svg";
@@ -11,10 +11,13 @@ import QuestionPage from './question';
 import NoticePage from './notice';
 import { useSelector, useDispatch } from 'react-redux';
 import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
+import { useHistory } from 'react-router-dom';
+import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 
 const Info = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     //페이지 상태값
     const {
@@ -50,6 +53,15 @@ const Info = () => {
 
     }, []);
 
+    //내정보 디테일
+    const openDetailPage = () => {
+        history.push('/info/detail');
+    }
+
+    useEffect(() => {
+        dispatch(BottomNavOpenAction);
+    }, [])
+
 
     return (
         <>
@@ -66,7 +78,7 @@ const Info = () => {
 
                     <div className="notoMedium" style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)', margin: '0 0 0.8125rem 1.25rem' }}>내정보</div>
 
-                    <InfoWrap onClick={() => { openPage('info') }}>
+                    <InfoWrap onClick={openDetailPage}>
                         <img style={{ width: '2.9375rem', height: '2.9375rem' }} src={icon_profile} />
                         <div style={{ marginLeft: "0.6875rem", flexGrow: '1' }}>
                             <div className="spoqaBold" style={{ fontSize: '0.875rem', margin: '0.25rem 0' }}>{name}</div>
@@ -85,16 +97,6 @@ const Info = () => {
                     <ContentWrap className="spoqaBold">개인정보 처리방침</ContentWrap>
 
                 </PageWrap>
-            </div>
-
-
-            {/* 내정보 상세 페이지 */}
-            <div style={openInfoPageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openInfoPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <DetailPage />
-                    </div>
-                </Fade>
             </div>
 
             {/* 설정 페이지 */}
