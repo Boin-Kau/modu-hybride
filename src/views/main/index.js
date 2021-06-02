@@ -24,6 +24,8 @@ import EnrollmentRevisePage from './subscribe/enrollment/revise';
 import AlertPage from './alert';
 import { customApiClient } from '../../shared/apiClient';
 import { GetAnalyPageList, AnalyPageReloadFalseAction } from '../../reducers/main/analysis';
+import { useHistory } from 'react-router-dom';
+import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 
 const CardStyle = {
     height: '100vh',
@@ -41,6 +43,9 @@ const BottomChildCloseStyle = {
 
 const Main = () => {
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     //페이지 상태값
     const {
         openAnalyPageWrapStatus,
@@ -50,21 +55,9 @@ const Main = () => {
     } = useSelector(state => state.main.analysis);
 
     const {
-        openSubscribePageWrapStatus,
-        openSubscribePageStatus
-    } = useSelector(state => state.main.subscribe);
-
-    const {
         openEnrollmentRevisePageWrapStatus,
         openEnrollmentRevisePageStatus
     } = useSelector(state => state.main.enrollmentRevise);
-
-
-    //구독 플랫폼 리스트 상태값
-    const {
-        serverPlatformList,
-    } = useSelector(state => state.main.platform);
-
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
@@ -150,39 +143,39 @@ const Main = () => {
 
     })
 
-    const dispatch = useDispatch();
-
     //구독등록 페이지 열기
-    const openSubscribePage = useCallback(async () => {
+    const openSubscribePage = () => {
 
-        dispatch(SubscribePageWrapOpenAction);
-        dispatch(SubscribePageOpenAction);
+        // dispatch(SubscribePageWrapOpenAction);
+        // dispatch(SubscribePageOpenAction);
 
-        //플랫폼 리스트 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
-        if (serverPlatformList.length < 1) {
+        // //플랫폼 리스트 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        // if (serverPlatformList.length < 1) {
 
-            //구독 플랫폼 리스트 조회
-            const data = await customApiClient('get', '/subscribe/platform?type=REP')
+        //     //구독 플랫폼 리스트 조회
+        //     const data = await customApiClient('get', '/subscribe/platform?type=REP')
 
-            //서버에러
-            if (!data) return
+        //     //서버에러
+        //     if (!data) return
 
-            //벨리데이션
-            if (data.statusCode != 200) {
-                return
-            }
+        //     //벨리데이션
+        //     if (data.statusCode != 200) {
+        //         return
+        //     }
 
-            //리덕스에 넣어주기
-            dispatch({
-                type: GetServerPlatformList,
-                data: data.result
-            })
+        //     //리덕스에 넣어주기
+        //     dispatch({
+        //         type: GetServerPlatformList,
+        //         data: data.result
+        //     })
 
-        }
+        // }
 
-    }, [serverPlatformList]);
+        history.push('/subscribe');
 
-    //소비분석 데이터
+    };
+
+    // 소비분석 데이터
     useEffect(async () => {
         if (analysisList.length < 1) {
 
@@ -239,6 +232,10 @@ const Main = () => {
 
     }, [analysisReloadStatus]);
 
+    useEffect(() => {
+        dispatch(BottomNavOpenAction);
+    }, []);
+
     return (
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundImage: `url(${backgroundImg})` }}>
@@ -265,42 +262,6 @@ const Main = () => {
                 </div>
 
             </div>
-
-            {/* 소비분석 페이지 */}
-            <div style={openAnalyPageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openAnalyPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <AnalysisPage />
-                    </div>
-                </Fade>
-            </div>
-
-            {/* 구독 등록 페이지 */}
-            <div style={openSubscribePageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openSubscribePageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <SubscribePage />
-                    </div>
-                </Fade>
-            </div>
-
-            {/* 구독 수정 페이지 */}
-            <div style={openEnrollmentRevisePageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openEnrollmentRevisePageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <EnrollmentRevisePage />
-                    </div>
-                </Fade>
-            </div>
-
-            {/* 알림 페이지 */}
-            {/* <div style={openAlertPageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openAlertPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
-                        <AlertPage />
-                    </div>
-                </Fade>
-            </div> */}
 
 
         </>

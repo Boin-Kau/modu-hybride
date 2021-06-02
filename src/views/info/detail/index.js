@@ -23,6 +23,8 @@ import { customApiClient } from '../../../shared/apiClient';
 
 const DetailPage = () => {
 
+    const histroy = useHistory();
+
     //페이지 상태값
     const {
         openNamePageWrapStatus,
@@ -84,8 +86,8 @@ const DetailPage = () => {
 
     const onCickLogoutConfirm = () => {
         localStorage.removeItem('x-access-token');
-        window.location.href = '/login';
-        return
+        dispatch(BottomNavCloseAction);
+        histroy.push('/login');
     }
 
     const onClickDelete = async () => {
@@ -114,9 +116,8 @@ const DetailPage = () => {
         }
 
         localStorage.removeItem('x-access-token');
-        window.location.href = '/login';
-
-        return
+        dispatch(BottomNavCloseAction);
+        histroy.push('/login');
     }
 
 

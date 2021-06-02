@@ -27,20 +27,25 @@ import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '..
 import { SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
 import { ImgColorList, ImgInitialList, getUnit, NumberList, UnitList, MonthList, YearList } from '.';
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
+import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
+import { GetPlatformCategoryList } from '../../../../reducers/main/platform';
 
 
-const EnrollmentRevisePage = () => {
+const EnrollmentRevisePage = ({ location }) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
 
     //store
     const {
-        subscribeDetail,
-    } = useSelector(state => state.main.subscribe);
-    const {
         platformCategoryList: categoryList
     } = useSelector(state => state.main.platform);
+
+    const {
+        platformCategoryList
+    } = useSelector(state => state.main.platform);
+
+    const [subscribeDetail, setSubscribeDetail] = useState(location.state.data);
 
     //첫번째 페이지 state
     const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
@@ -85,6 +90,35 @@ const EnrollmentRevisePage = () => {
 
     const [dangerPopupWrap, setDangerPopupWrap] = useState(false);
     const [dangerPopup, setDangerPopup] = useState(false);
+
+    useEffect(async () => {
+
+        setSubscribeDetail(location.state.data);
+
+        //카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        if (platformCategoryList.length < 1) {
+
+            console.log("ohohoho")
+
+            //인기 구독 플랫폼 리스트 조회
+            const data = await customApiClient('get', '/subscribe/category');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetPlatformCategoryList,
+                data: data.result
+            })
+
+        }
+    }, []);
 
     useEffect(() => {
 
@@ -319,11 +353,7 @@ const EnrollmentRevisePage = () => {
 
 
     const closeEnrollmentRevisePage = () => {
-        dispatch(EnrollmentRevisePageCloseAction);
-
-        setTimeout(() => {
-            dispatch(EnrollmentRevisePageWrapCloseAction);
-        }, 300)
+        history.goBack();
     };
 
     const onClickRevise = useCallback(async () => {
@@ -385,11 +415,8 @@ const EnrollmentRevisePage = () => {
         dispatch(AnalyPageReloadTrueAction);
 
         //뒤로가기
-        dispatch(EnrollmentRevisePageCloseAction);
+        history.goBack();
 
-        setTimeout(() => {
-            dispatch(EnrollmentRevisePageWrapCloseAction);
-        }, 300);
     }, [
         pageConfirmStatus,
         subscribeIdx, registerType, platformIdx,
@@ -450,16 +477,18 @@ const EnrollmentRevisePage = () => {
         dispatch(AnalyPageReloadTrueAction);
 
         //뒤로가기
-        dispatch(EnrollmentRevisePageCloseAction);
-
-        setTimeout(() => {
-            dispatch(EnrollmentRevisePageWrapCloseAction);
-        }, 300);
+        history.goBack();
 
     }, [subscribeIdx]);
 
+
+    useEffect(() => {
+        dispatch(BottomNavCloseAction);
+    }, []);
+
     return (
-        <>
+        <div className="page">
+
             <PageWrap className="notoMedium">
                 <HeaderWrap className="spoqaBold">
                     <div onClick={closeEnrollmentRevisePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
@@ -877,7 +906,7 @@ const EnrollmentRevisePage = () => {
                         </div>
                         <div>
                             삭제하기
-                    </div>
+                        </div>
                         <div style={{ flexGrow: "1" }}></div>
                     </DeleteButtonWrap>
                 </ContentWrap>
@@ -926,7 +955,7 @@ const EnrollmentRevisePage = () => {
 
             {/* 삭제 알림창 */}
             <DangerWrapPopup openStatus={dangerPopupWrap}>
-                <DangerPopup openStatus={dangerPopup}>
+                <DangerPopup className="spoqaBold" openStatus={dangerPopup}>
                     <div style={{ position: 'relative', height: '3.125rem' }}>
                         <div style={{ position: 'absolute', top: '-1.875rem', left: '50%', width: '3.8125rem', height: '3.8125rem', backgroundColor: '#fb5e5e', transform: 'translate(-50%,0)', borderRadius: '50%', border: '0.25rem solid #ffffff' }}>
                             <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
@@ -935,18 +964,18 @@ const EnrollmentRevisePage = () => {
                     <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
                         구독 내역을 삭제하시겠어요?
                     </div>
-                    <div style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
+                    <div className="notoMedium" style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
                     <div style={{ display: 'flex' }}>
                         <div onClick={onClickCancel} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
                         </div>
                         <div onClick={onClickDeleteConfirm} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', height: '0.875rem', color: '#ffffff' }}>삭제</div>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: '#ffffff' }}>삭제</div>
                         </div>
                     </div>
                 </DangerPopup>
             </DangerWrapPopup>
-        </>
+        </div>
     )
 
 };

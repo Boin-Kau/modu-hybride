@@ -48,8 +48,8 @@ export const LoginButton = styled.div`
 
 export const TextMiddle = styled.div`
     position:absolute;
-    top:55%;
-    transform:translate(0,-55%);
+    top:50%;
+    transform:translate(0,-50%);
 
     width:100%;
 `;

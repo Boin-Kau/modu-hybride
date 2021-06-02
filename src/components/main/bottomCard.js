@@ -18,6 +18,7 @@ import { EnrollmentRevisePageWrapOpenAction, EnrollmentRevisePageOpenAction } fr
 import { SubscribeReloadFalseAction, GetSubscirbeList, GetSubscirbeDetail } from '../../reducers/main/subscribe';
 import { customApiClient } from '../../shared/apiClient';
 import { GetPlatformCategoryList } from '../../reducers/main/platform';
+import { useHistory } from 'react-router-dom';
 
 
 export const priceToString = price => {
@@ -27,6 +28,7 @@ export const priceToString = price => {
 const BottomContent = ({ data }) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const {
         platformCategoryList
@@ -43,39 +45,16 @@ const BottomContent = ({ data }) => {
         }
     }
 
-    const openRevisePage = useCallback(async () => {
-        //페이지 이동
-        dispatch(EnrollmentRevisePageWrapOpenAction);
-        dispatch(EnrollmentRevisePageOpenAction);
+    const openRevisePage = () => {
 
-        //상세 데이터 삽입
-        dispatch({
-            type: GetSubscirbeDetail,
-            data: data
+        history.push({
+            pathname: "/subscribe/revise",
+            state: {
+                data: data,
+            }
         })
 
-        //카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
-        if (platformCategoryList.length < 1) {
-
-            //인기 구독 플랫폼 리스트 조회
-            const data = await customApiClient('get', '/subscribe/category');
-
-            //서버에러
-            if (!data) return
-
-            //벨리데이션
-            if (data.statusCode != 200) {
-                return
-            }
-
-            //리덕스에 넣어주기
-            dispatch({
-                type: GetPlatformCategoryList,
-                data: data.result
-            })
-
-        }
-    }, [platformCategoryList, data]);
+    };
 
     const getUnit = unit => {
         switch (unit) {

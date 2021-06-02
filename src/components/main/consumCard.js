@@ -24,6 +24,7 @@ import category_etc from "../../assets/category-etc.svg";
 import icon_triangle_up from "../../assets/triangle.svg";
 import { TextMiddle } from '../../styled/shared';
 import { priceToString } from './bottomCard';
+import { useHistory } from 'react-router-dom';
 
 export const getCategoryImg = categoryIdx => {
     switch (categoryIdx) {
@@ -59,10 +60,10 @@ const ConsumContent = ({ data }) => {
 const ConsumCard = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const openAnalyPage = useCallback(() => {
-        dispatch(AnalyPageWrapOpenAction);
-        dispatch(AnalyPageOpenAction);
+        history.push('/analysis');
     }, []);
 
     const {
