@@ -14,6 +14,8 @@ import icon_search from "../../../assets/icon-search.svg";
 import icon_sub_ect from "../../../assets/icon-sub-ect.svg";
 import icon_plus from "../../../assets/icon-plus.svg";
 
+import icon_cancle from "../../../assets/icon-cancle-white.svg";
+
 import danger_icon from "../../../assets/danger-icon.svg";
 
 import duck_read from "../../../assets/duct-read.svg";
@@ -76,10 +78,26 @@ const SubscribePage = () => {
     //state
     const [totalMenuStatus, setTotalMenuStatus] = useState(true);
     const [categoryMenuStatus, setcategoryMenuStatus] = useState(false);
-
+    const [isFirst, setIsFirst] = useState(false);
 
     useEffect(() => {
         dispatch(BottomNavCloseAction);
+
+        //초기 코치마크 판별
+        const firstStatus = localStorage.getItem('isFirst');
+
+        console.log(firstStatus);
+        if (!firstStatus) {
+
+            //시간차 두고 하기
+            setTimeout(() => {
+                setIsFirst(true);
+            }, 300);
+        }
+        else {
+            setIsFirst(false);
+        }
+
     }, []);
 
     useEffect(async () => {
@@ -337,6 +355,11 @@ const SubscribePage = () => {
         ),
     };
 
+    const onClickFirstInfoCancle = () => {
+        setIsFirst(false);
+        localStorage.setItem('isFirst', 'true');
+    }
+
     return (
         <>
             <div className="page">
@@ -459,7 +482,7 @@ const SubscribePage = () => {
                 </DangerWrapPopup>
 
                 {/* 구독등록 안내창 */}
-                <InitialInfoWrapPopup className="notoMedium" openStatus={false}>
+                <InitialInfoWrapPopup className="notoMedium" openStatus={isFirst}>
                     <Slider {...settings} style={{ height: '100vh' }}>
                         <div>
                             <div style={{ position: 'relative', height: '100vh' }}>
@@ -504,6 +527,10 @@ const SubscribePage = () => {
                         </div>
                         <div>
                             <div style={{ position: 'relative', height: '100vh' }}>
+
+                                <div onClick={onClickFirstInfoCancle} style={{ position: 'absolute', top: '0', right: '0', padding: '0.625rem 1rem' }}>
+                                    <img src={icon_cancle} />
+                                </div>
 
                                 <div style={{ position: 'absolute', top: '3.75rem', left: '1.5625rem' }}>
                                     <div style={{ display: 'flex' }}>
