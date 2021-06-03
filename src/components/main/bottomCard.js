@@ -25,7 +25,7 @@ export const priceToString = price => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-const BottomContent = ({ data }) => {
+const BottomContent = ({ data, cardOpen }) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -37,6 +37,9 @@ const BottomContent = ({ data }) => {
     const [openStatus, setOpenStatus] = useState(false);
 
     const onclickOpenContent = () => {
+
+        if (!cardOpen) return
+
         if (openStatus) {
             setOpenStatus(false);
         }
@@ -175,7 +178,7 @@ const BottomContent = ({ data }) => {
 };
 
 
-const BottomCard = () => {
+const BottomCard = ({ cardOpen }) => {
 
     //import
     const dispatch = useDispatch();
@@ -215,11 +218,11 @@ const BottomCard = () => {
 
 
     return (
-        <div style={{ border: "1px solid #f7f7f7" }}>
+        <div>
             {
                 subscribeList.length != 0 ?
                     subscribeList.map((list, index) => {
-                        return (<BottomContent data={list} key={index}></BottomContent>)
+                        return (<BottomContent data={list} key={index} cardOpen={cardOpen}></BottomContent>)
                     }) :
                     <div style={{ marginTop: "3.4375rem", textAlign: "center" }}>
                         <div>

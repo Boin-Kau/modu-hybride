@@ -141,7 +141,7 @@ const NamePage = () => {
                 <TitleWrap style={{ marginTop: '0' }}>이름</TitleWrap>
                 <ItemWrap>
                     <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
-                        <Input placeholder="구독 서비스명을 입력하세요" onChange={handleName} value={name}></Input>
+                        <Input placeholder="이름을 입력하세요" onChange={handleName} value={name}></Input>
                     </InputWrap>
                 </ItemWrap>
                 <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e' }}>{errorMsg}</div>

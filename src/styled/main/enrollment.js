@@ -39,6 +39,9 @@ export const Input = styled.input`
     flex-basis:0;
 
     border:none;
+    font-size:0.8125rem;
+
+    padding:0;
 
     :focus {
         outline:none;

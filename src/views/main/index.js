@@ -48,20 +48,15 @@ const Main = () => {
 
     //페이지 상태값
     const {
-        openAnalyPageWrapStatus,
-        openAnalyPageStatus,
         analysisList,
         analysisReloadStatus
     } = useSelector(state => state.main.analysis);
 
-    const {
-        openEnrollmentRevisePageWrapStatus,
-        openEnrollmentRevisePageStatus
-    } = useSelector(state => state.main.enrollmentRevise);
-
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
     const [isScrollChild, setIsScrollChild] = useState(false);
+
+    const [bottomCardHeight, setBottomCardHeight] = useState(0);
 
     const titleDivbRef = useRef();
     const bottomDivbRef = useRef();
@@ -80,8 +75,17 @@ const Main = () => {
         const bottomDivY = bottomDivbRef.current.getBoundingClientRect().bottom;
         const bottomViewY = titleDivY - bottomDivY;
 
-        if (!isScrollParent && delta[1] < 0 && childScrollY >= 0 && down) return
-        if (!isScrollParent && delta[1] > 0 && childScrollY != 0) return
+        if (!isScrollParent && delta[1] < 0 && childScrollY >= 0 && down) {
+            return
+        }
+        if (!isScrollParent && delta[1] > 0 && childScrollY != 0) {
+            return
+        }
+
+        //사파리 스크롤 가속도 처리
+        if (!isScrollParent && delta[1] > 0 && childScrollY == 0) {
+            setIsScrollChild(false);
+        }
         if (delta[1] == 0) return
 
         if (!down && isBottomViewOpen) {
@@ -209,6 +213,12 @@ const Main = () => {
 
     useEffect(() => {
         dispatch(BottomNavOpenAction);
+
+        const bottomDivHeight = titleDivbRef.current.getBoundingClientRect().height;
+        const height = window.innerHeight || document.body.clientHeight;
+
+        setBottomCardHeight(height - bottomDivHeight);
+
     }, []);
 
     return (
@@ -229,9 +239,9 @@ const Main = () => {
                             <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "20px", transform: "translate(0, -50%)" }}>+</div>
                         </TitleWrap>
 
-                        <BottomChildWrap ref={bottomChildDivbRef} style={isScrollChild ? BottomChildOpenStyle : BottomChildCloseStyle}>
-                            <BottomCard />
-                            <div style={{ height: "1.25rem" }}></div>
+                        <BottomChildWrap height={bottomCardHeight} ref={bottomChildDivbRef} style={isScrollChild ? BottomChildOpenStyle : BottomChildCloseStyle}>
+                            <BottomCard cardOpen={isScrollChild} />
+                            <div style={{ height: "7.5rem" }}></div>
                         </BottomChildWrap>
                     </animated.div>
                 </div>
@@ -250,9 +260,9 @@ const TitleWrap = styled.div`
 `;
 
 const BottomChildWrap = styled.div`
-    height: 26.25rem;
-    /* border: 1px solid black; */
+    height: ${props => props.height}px;
     overflow-y: scroll;
+    -webkit-overflow-scrolling:auto;
 `;
 
 export default Main;

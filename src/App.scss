@@ -260,3 +260,58 @@ $timing: 300ms;
   font-family: 'Noto Sans KR';
   font-weight: 600;
 }
+
+
+
+//반응형
+
+
+@media screen and (max-width: 325px) {
+  html{
+      font-size: 14.5px;
+  }
+}
+@media screen and (min-width: 325px) and (max-width: 344px) {
+  html{
+      font-size: 15px;
+  }
+}
+@media screen and (min-width: 345px) and (max-width: 369px) {
+  html{
+      font-size: 16px;
+  }
+}
+@media screen and (min-width: 370px) and (max-width: 409px) {
+  html{
+      font-size: 17px;
+  }
+}
+@media screen and (min-width: 410px) and (max-width: 419px) {
+  html{
+      font-size: 17.5px;
+  }
+}
+
+@media screen and (min-width: 420px) and (max-width: 449px) {
+  html{
+      font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 450px) and (max-width: 474px) {
+  html{
+      font-size: 19px;
+  }
+}
+
+@media screen and (min-width: 475px) and (max-width: 499px) {
+  html{
+      font-size: 20.5px;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  html{
+      font-size: 21px;
+  }
+}

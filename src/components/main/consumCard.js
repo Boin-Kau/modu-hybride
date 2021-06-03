@@ -110,7 +110,7 @@ const ConsumCard = () => {
                     <ConsumCompareWrap className="spoqaBold">
 
                         <div style={{ flexGrow: "1", display: "flex", margin: "0 0.8125rem 0 0.8125rem" }}>
-                            <div style={{ position: "relative", width: "3.9375rem", fontSize: "0.8125rem" }}>
+                            <div style={{ position: "relative", width: "6.25rem", fontSize: "0.8125rem" }}>
                                 <TextMiddle>
                                     저번달 대비
                                 </TextMiddle>
