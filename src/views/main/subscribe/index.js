@@ -86,7 +86,6 @@ const SubscribePage = () => {
         //초기 코치마크 판별
         const firstStatus = localStorage.getItem('isFirst');
 
-        console.log(firstStatus);
         if (!firstStatus) {
 
             //시간차 두고 하기
@@ -128,53 +127,9 @@ const SubscribePage = () => {
 
 
 
-    const openSearchPage = useCallback(async () => {
-        dispatch(SearchPageWrapOpenAction);
-        dispatch(SearchPageOpenAction);
-
-        //인기 리스트, 전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
-        if (popularPlatformList.length < 1) {
-
-            //인기 구독 플랫폼 리스트 조회
-            const data = await customApiClient('get', '/subscribe/platform?type=POPULAR');
-
-            //서버에러
-            if (!data) return
-
-            //벨리데이션
-            if (data.statusCode != 200) {
-                return
-            }
-
-            //리덕스에 넣어주기
-            dispatch({
-                type: GetPopularPlatformList,
-                data: data.result
-            })
-
-        }
-
-        if (searchPlatformList.length < 1) {
-
-            //전체 구독 플랫폼 리스트 조회
-            const search = await customApiClient('get', '/subscribe/platform?type=ALL');
-
-            //서버에러
-            if (!search) return
-
-            //벨리데이션
-            if (search.statusCode != 200) {
-                return
-            }
-
-            //리덕스에 넣어주기
-            dispatch({
-                type: GetSearchPlatformList,
-                data: search.result
-            })
-
-        }
-    }, [popularPlatformList, searchPlatformList]);
+    const openSearchPage = () => {
+        history.push('/search');
+    };
 
     const openEnrollmentPage = () => {
 
@@ -227,6 +182,18 @@ const SubscribePage = () => {
         totalReloadStatus,
         categoryReloadStatus
     ]);
+
+    useEffect(() => {
+
+        if (totalReloadStatus) {
+            reloadTotalPlatform();
+        }
+
+        if (categoryReloadStatus) {
+            reloadCategoryPlatform();
+        }
+
+    }, []);
 
     const reloadTotalPlatform = async () => {
 
@@ -447,14 +414,6 @@ const SubscribePage = () => {
                     </ItemListWrap>
                 </MainWrap>
             </PageWrap>
-
-            <div style={openSearchPageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openSearchPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#ffffff" }}>
-                        <SearchPage />
-                    </div>
-                </Fade>
-            </div>
 
             {/* 삭제 알림창 */}
             <DangerWrapPopup openStatus={deletePopupWrap}>

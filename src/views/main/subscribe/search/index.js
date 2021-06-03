@@ -16,20 +16,27 @@ import platform_none from "../../../../assets/platform-none.svg";
 import { customApiClient } from '../../../../shared/apiClient';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
 import { CategoryReloadTrueAction, TotalReloadTrueAction, TotalReloadFalseAction, CategoryReloadFalseAction, SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
-import { UpdateSubscribeStatus, GetServerPlatformList, GetCategoryPlatformList, DeletePopupClose, DeletePopupOpen, SearchDeleteFalse } from '../../../../reducers/main/platform';
+import { UpdateSubscribeStatus, GetServerPlatformList, GetCategoryPlatformList, DeletePopupClose, DeletePopupOpen, SearchDeleteFalse, GetPopularPlatformList, GetSearchPlatformList } from '../../../../reducers/main/platform';
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
+import { useHistory } from 'react-router-dom';
 
 
 const SearchPage = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     //store
     const {
         popularPlatformList,
         searchPlatformList,
 
-        searchDeleteStatus
+        searchDeleteStatus,
+
+        deletePopupWrap,
+        deletePopup,
+        deletePlatformName,
+        deletePlatformIdx
     } = useSelector(state => state.main.platform);
 
     //state
@@ -37,31 +44,54 @@ const SearchPage = () => {
     const [keyword, setKeyword] = useState('');
     const [searchPlatform, setSearchPlatform] = useState([]);
 
+    useEffect(async () => {
 
-    useEffect(() => {
+        //인기 리스트, 전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        if (popularPlatformList.length < 1) {
 
-        if (searchDeleteStatus) {
+            //인기 구독 플랫폼 리스트 조회
+            const data = await customApiClient('get', '/subscribe/platform?type=POPULAR');
 
-            onClickCancel();
+            //서버에러
+            if (!data) return
 
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
             dispatch({
-                type: SearchDeleteFalse
+                type: GetPopularPlatformList,
+                data: data.result
             })
+
         }
 
-    }, [searchDeleteStatus]);
+        if (searchPlatformList.length < 1) {
+            //전체 구독 플랫폼 리스트 조회
+            const search = await customApiClient('get', '/subscribe/platform?type=ALL');
+
+            //서버에러
+            if (!search) return
+
+            //벨리데이션
+            if (search.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetSearchPlatformList,
+                data: search.result
+            })
+
+        }
+
+    }, []);
 
     const closeSearchPage = () => {
-        setKeyword('');
-        setSearchSatus(false);
-        dispatch(SearchPageCloseAction);
-
-        setTimeout(() => {
-            dispatch(SearchPageWrapCloseAction);
-        }, 300)
-
-        reloadTotalPlatform();
-        reloadCategoryPlatform();
+        history.goBack();
     };
 
 
@@ -90,103 +120,156 @@ const SearchPage = () => {
         setSearchSatus(false);
     };
 
-    const reloadTotalPlatform = async () => {
 
-        //구독 플랫폼 리스트 조회
-        const data = await customApiClient('get', '/subscribe/platform?type=REP');
+    //삭제 확인 창
+    const conFirmDelete = useCallback(async () => {
+
+        const res = await customApiClient('delete', `/subscribe/platform/${deletePlatformIdx}`)
 
         //서버에러
-        if (!data) return
+        if (!res) return
 
         //벨리데이션
-        if (data.statusCode != 200) {
+        if (res.statusCode != 200) {
             return
         }
 
-        //리덕스에 넣어주기
+        //삭제완료 팝업창 띄우기
         dispatch({
-            type: GetServerPlatformList,
-            data: data.result
+            type: MessageWrapOpen
+        })
+        dispatch({
+            type: MessageOpen,
+            data: '해당 구독 서비스가 삭제되었습니다.'
+        })
+        setTimeout(() => {
+            dispatch({
+                type: MessageClose
+            })
+        }, 2000);
+        setTimeout(() => {
+            dispatch({
+                type: MessageWrapClose
+            })
+        }, 2300);
+
+        dispatch({
+            type: DeletePopupClose
         })
 
-        dispatch(TotalReloadFalseAction);
-    }
-
-    const reloadCategoryPlatform = async () => {
-        //구독 플랫폼 리스트 조회
-        const data = await customApiClient('get', '/subscribe/platform?type=CATEGORY');
-
-        //서버에러
-        if (!data) return
-
-        //벨리데이션
-        if (data.statusCode != 200) {
-            return
-        }
-
-        //리덕스에 넣어주기
         dispatch({
-            type: GetCategoryPlatformList,
-            data: data.result
+            type: UpdateSubscribeStatus,
+            data: {
+                platformIdx: deletePlatformIdx,
+                status: 'N'
+            }
         })
 
-        dispatch(CategoryReloadFalseAction);
+        //검색어 초기화
+        onClickCancel();
+
+        //소비분석 리로드
+        dispatch(CategoryReloadTrueAction);
+        dispatch(TotalReloadTrueAction);
+        dispatch(AnalyPageReloadTrueAction);
+        dispatch(SubscribeReloadTrueAction);
+
+
+    }, [deletePlatformIdx]);
+
+    //삭제 확인 취소 창
+    const closeDelete = () => {
+        dispatch({
+            type: DeletePopupClose
+        })
     }
+
 
     return (
-        <PageWrap>
-            <HeaderWrap className="spoqaBold">
-                <div onClick={closeSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-                    <img src={icon_back}></img>
-                </div>
 
-                <SearchInputWrap searchSatus={searchSatus}>
-                    <SearchIconWrap>
-                        <SearchIcon src={icon_search_none} />
-                    </SearchIconWrap>
+        <div className="page" style={{ backgroundColor: "#ffffff" }}>
 
-                    <SearchInput className="spoqaBold" placeholder="찾는 구독 서비스 검색" onChange={onChangeSearch} value={keyword}></SearchInput>
+            <PageWrap>
+                <HeaderWrap className="spoqaBold">
+                    <div onClick={closeSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_back}></img>
+                    </div>
 
-                </SearchInputWrap>
+                    <SearchInputWrap searchSatus={searchSatus}>
+                        <SearchIconWrap>
+                            <SearchIcon src={icon_search_none} />
+                        </SearchIconWrap>
 
-                <SearchCancelWrap searchSatus={searchSatus} onClick={onClickCancel}>
-                    취소
+                        <SearchInput className="spoqaBold" placeholder="찾는 구독 서비스 검색" onChange={onChangeSearch} value={keyword}></SearchInput>
+
+                    </SearchInputWrap>
+
+                    <SearchCancelWrap searchSatus={searchSatus} onClick={onClickCancel}>
+                        취소
                 </SearchCancelWrap>
-            </HeaderWrap>
+                </HeaderWrap>
 
-            {/* 인기 플랫폼 화면 */}
-            <PopularSearchWrap className="spoqaBold" searchSatus={searchSatus}>
+                {/* 인기 플랫폼 화면 */}
+                <PopularSearchWrap className="spoqaBold" searchSatus={searchSatus}>
 
-                <div style={{ margin: "1.1875rem 0 0.5188rem 0" }}>인기 구독 서비스</div>
+                    <div style={{ margin: "1.1875rem 0 0.5188rem 0" }}>인기 구독 서비스</div>
 
-                {
-                    popularPlatformList.map((list, index) => {
-                        if (index < 3) {
-                            return (<PopularItemComponent props={list} key={list.idx} isPopular={true}></PopularItemComponent>)
-                        }
-                        else {
-                            return (<PopularItemComponent props={list} key={list.idx} isPopular={false}></PopularItemComponent>)
-                        }
-                    })
-                }
+                    {
+                        popularPlatformList.map((list, index) => {
+                            if (index < 3) {
+                                return (<PopularItemComponent props={list} key={list.idx} isPopular={true}></PopularItemComponent>)
+                            }
+                            else {
+                                return (<PopularItemComponent props={list} key={list.idx} isPopular={false}></PopularItemComponent>)
+                            }
+                        })
+                    }
 
-            </PopularSearchWrap>
+                </PopularSearchWrap>
 
-            {/* 검색 플랫폼 화면 */}
-            <SearchResultWrap searchSatus={searchSatus}>
-
-
-                {
-                    searchPlatform.map((list) => {
-                        return (<TotalItemComponent data={list} key={list.idx}></TotalItemComponent>)
-                    })
-
-                }
-
-            </SearchResultWrap>
+                {/* 검색 플랫폼 화면 */}
+                <SearchResultWrap searchSatus={searchSatus}>
 
 
-        </PageWrap>
+                    {
+                        searchPlatform.map((list) => {
+                            return (<TotalItemComponent data={list} key={list.idx}></TotalItemComponent>)
+                        })
+
+                    }
+
+                </SearchResultWrap>
+
+
+            </PageWrap>
+
+
+            {/* 삭제 알림창 */}
+            <DangerWrapPopup openStatus={deletePopupWrap}>
+                <DangerPopup className="spoqaBold" openStatus={deletePopup}>
+                    <div style={{ position: 'relative', height: '3.125rem' }}>
+                        <div style={{ position: 'absolute', top: '-1.875rem', left: '50%', width: '3.8125rem', height: '3.8125rem', backgroundColor: '#fb5e5e', transform: 'translate(-50%,0)', borderRadius: '50%', border: '0.25rem solid #ffffff' }}>
+                            <img src={danger_icon} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '0.5625rem', height: '2.0625rem' }} />
+                        </div>
+                    </div>
+                    <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
+                        {deletePlatformName}을(를) 리스트에서<br />
+                        삭제하시겠어요?
+                    </div>
+                    <div className="notoMedium" style={{ marginTop: '0.625rem', marginBottom: '1.25rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>구독 내역을 삭제하면 복구가 불가능합니다.</div>
+                    <div style={{ display: 'flex' }}>
+                        <div onClick={closeDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                        </div>
+                        <div onClick={conFirmDelete} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#fb5e5e', borderRadius: '0.375rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: '#ffffff' }}>삭제</div>
+                        </div>
+                    </div>
+                </DangerPopup>
+            </DangerWrapPopup>
+
+
+        </div>
     )
 
 };
@@ -247,6 +330,8 @@ const TotalItemComponent = ({ data }) => {
 
             setStatus('Y');
 
+            dispatch(CategoryReloadTrueAction);
+            dispatch(TotalReloadTrueAction);
             dispatch(SubscribeReloadTrueAction);
 
         }
