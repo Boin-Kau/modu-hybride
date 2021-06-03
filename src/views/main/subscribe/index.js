@@ -79,19 +79,28 @@ const SubscribePage = () => {
     const [totalMenuStatus, setTotalMenuStatus] = useState(true);
     const [categoryMenuStatus, setcategoryMenuStatus] = useState(false);
     const [isFirst, setIsFirst] = useState(false);
+    const [isFirstView, setIsFirstView] = useState(false);
 
     useEffect(() => {
         dispatch(BottomNavCloseAction);
+
+        if (totalReloadStatus) {
+            reloadTotalPlatform();
+        }
+
+        if (categoryReloadStatus) {
+            reloadCategoryPlatform();
+        }
 
         //초기 코치마크 판별
         const firstStatus = localStorage.getItem('isFirst');
 
         if (!firstStatus) {
+            setIsFirst(true);
 
-            //시간차 두고 하기
             setTimeout(() => {
-                setIsFirst(true);
-            }, 300);
+                setIsFirstView(true);
+            }, 500);
         }
         else {
             setIsFirst(false);
@@ -182,18 +191,6 @@ const SubscribePage = () => {
         totalReloadStatus,
         categoryReloadStatus
     ]);
-
-    useEffect(() => {
-
-        if (totalReloadStatus) {
-            reloadTotalPlatform();
-        }
-
-        if (categoryReloadStatus) {
-            reloadCategoryPlatform();
-        }
-
-    }, []);
 
     const reloadTotalPlatform = async () => {
 
@@ -463,7 +460,7 @@ const SubscribePage = () => {
                         </div>
                     </div>
                     <div>
-                        <div style={{ position: 'relative', height: '100vh' }}>
+                        <div style={{ position: 'relative', height: '100vh', display: isFirstView ? 'block' : 'none' }}>
 
                             <div style={{ position: 'absolute', top: '3.75rem', right: '1rem', width: '17.4375rem' }}>
                                 <div style={{ display: 'flex' }}>
@@ -484,7 +481,7 @@ const SubscribePage = () => {
                         </div>
                     </div>
                     <div>
-                        <div style={{ position: 'relative', height: '100vh' }}>
+                        <div style={{ position: 'relative', height: '100vh', display: isFirstView ? 'block' : 'none' }}>
 
                             <div onClick={onClickFirstInfoCancle} style={{ position: 'absolute', top: '0', right: '0', padding: '0.625rem 1rem' }}>
                                 <img src={icon_cancle} />
@@ -510,7 +507,7 @@ const SubscribePage = () => {
                     </div>
                 </Slider>
             </InitialInfoWrapPopup>
-        </div>
+        </div >
     )
 };
 

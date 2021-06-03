@@ -148,7 +148,7 @@ const AlertRadioButton = styled.div`
     border-radius: 50%;
 `;
 const AlertRadioGrow = styled.div`
-    transition: flex-grow 200ms ease-out;
+    transition: all 200ms ease-out;
     flex-grow:${props => props.isAlert ? '0' : '1'} ;
 `;
 
