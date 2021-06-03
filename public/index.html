@@ -54,6 +54,24 @@
       color: rgba(255, 255, 255, 1) !important;
     }
   </style>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+  <script>
+
+    let test = false;
+
+    //안드로이드 뒤로가기
+    const android_back_press = () => {
+
+      if (test) {
+        $('.back_link_sub').click();
+        return
+      }
+
+      $('#back_link').get(0).click();
+
+    }
+
+  </script>
 </head>
 
 <body>

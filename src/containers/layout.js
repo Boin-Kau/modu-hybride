@@ -13,6 +13,7 @@ import AnalysisPage from '../views/main/analysis';
 import EnrollmentPage from '../views/main/subscribe/enrollment';
 import DetailPage from '../views/info/detail';
 import SearchPage from '../views/main/subscribe/search';
+import NoticePage from '../views/info/notice';
 
 const AppLayout = ({ history, location, match }) => {
 
@@ -29,6 +30,7 @@ const AppLayout = ({ history, location, match }) => {
             <Route path='/party' component={Party} />
             <Route path='/info' exact component={MyInfo} />
             <Route path='/info/detail' exact component={DetailPage} />
+            <Route path='/notice' exact component={NoticePage} />
         </>
     );
 

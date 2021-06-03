@@ -11,7 +11,7 @@ import QuestionPage from './question';
 import NoticePage from './notice';
 import { useSelector, useDispatch } from 'react-redux';
 import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 
 const Info = () => {
@@ -41,6 +41,8 @@ const Info = () => {
 
     //페이지 열기
     const openPage = useCallback(async (data) => {
+
+        test = true;
 
         dispatch({
             type: PageWrapOpen,
@@ -91,7 +93,9 @@ const Info = () => {
 
 
                     <TitelWrap className="notoMedium">고객센터</TitelWrap>
-                    <ContentWrap className="spoqaBold" onClick={() => { openPage('notice') }}>공지사항</ContentWrap>
+                    <Link to='/notice' style={{ textDecoration: 'none' }}>
+                        <ContentWrap className="spoqaBold" style={{ color: 'rgb(49,49,49)' }}>공지사항</ContentWrap>
+                    </Link>
                     <ContentWrap className="spoqaBold" onClick={() => { openPage('question') }}>문의하기</ContentWrap>
                     <ContentWrap className="spoqaBold">이용 약관</ContentWrap>
                     <ContentWrap className="spoqaBold">개인정보 처리방침</ContentWrap>
@@ -104,15 +108,6 @@ const Info = () => {
                 <Fade right when={openSettingPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <SettingPage />
-                    </div>
-                </Fade>
-            </div>
-
-            {/* 공지사항 페이지 */}
-            <div style={openNoticePageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openNoticePageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <NoticePage />
                     </div>
                 </Fade>
             </div>

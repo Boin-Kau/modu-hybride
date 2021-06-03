@@ -236,7 +236,7 @@ const Main = () => {
                     <animated.div {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
                         <TitleWrap className="notoMedium">
                             <div>구독내역</div>
-                            <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "20px", transform: "translate(0, -50%)" }}>+</div>
+                            <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "0px", transform: "translate(0, -50%)", width: '50px', paddingRight: '1.25rem', textAlign: 'right' }}>+</div>
                         </TitleWrap>
 
                         <BottomChildWrap height={bottomCardHeight} ref={bottomChildDivbRef} style={isScrollChild ? BottomChildOpenStyle : BottomChildCloseStyle}>

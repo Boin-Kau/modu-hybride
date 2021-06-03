@@ -431,7 +431,7 @@ const EnrollmentPage = () => {
 
             <PageWrap className="notoMedium">
                 <HeaderWrap className="spoqaBold">
-                    <div onClick={closeEnrollmentPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                    <div id="back_link" onClick={closeEnrollmentPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>
                     <TextMiddle>직접 입력하기</TextMiddle>
@@ -477,7 +477,7 @@ const EnrollmentPage = () => {
                                 <Input type="number" placeholder="결제금액을 입력하세요" onChange={onChangePrice} value={price}></Input>
                             </InputWrap>
                             <InputWrap style={{ flexGrow: "0", }}>
-                                <div style={{ width: '3.125rem', height: '0.8125rem' }}>￦ (원)</div>
+                                <div style={{ width: '3.125rem' }}>￦ (원)</div>
                                 {/* <div>
                                 <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
                             </div> */}

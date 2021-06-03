@@ -329,7 +329,7 @@ const SubscribePage = () => {
 
             <PageWrap>
                 <HeaderWrap className="spoqaBold">
-                    <div onClick={closeSubscribePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                    <div id="back_link" onClick={closeSubscribePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>
                     <TextMiddle>구독 내역 추가</TextMiddle>

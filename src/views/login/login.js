@@ -396,6 +396,8 @@ const Login = () => {
     //페이지 열기
     const openPage = useCallback(async (data) => {
 
+        test = true;
+
         dispatch({
             type: PageWrapOpen,
             data: data
@@ -413,7 +415,7 @@ const Login = () => {
 
                 {/* 뒤로가기 버튼 */}
                 {currentPage != 1 &&
-                    <BackIconWrap onClick={onClickBackButton}>
+                    <BackIconWrap id="back_link" onClick={onClickBackButton}>
                         <BackIcon src={icon_back} />
                     </BackIconWrap>
                 }

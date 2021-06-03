@@ -16,6 +16,8 @@ const PhoneChangePage = () => {
 
     const closePage = () => {
 
+        test = false;
+
         dispatch({
             type: PageClose,
             data: 'loginPhone'
@@ -34,7 +36,7 @@ const PhoneChangePage = () => {
     return (
         <PageWrap>
             <HeaderWrap className="spoqaBold" onClick={closePage}>
-                <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
 

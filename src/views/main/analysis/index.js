@@ -32,7 +32,7 @@ const AnalysisPage = () => {
         <div className="page">
 
             <PageWrap>
-                <HeaderWrap className="spoqaBold" onClick={closeAnalyPage}>
+                <HeaderWrap id="back_link" className="spoqaBold" onClick={closeAnalyPage}>
                     <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>

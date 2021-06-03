@@ -40,6 +40,10 @@ const PhonePage = () => {
     const [errorMsgCode, setErrorMsgCode] = useState('');
 
     const closePage = useCallback(() => {
+
+        test = false;
+
+
         dispatch({
             type: PageClose,
             data: 'phone'
@@ -178,8 +182,8 @@ const PhonePage = () => {
 
     return (
         <PageWrap>
-            <HeaderWrap className="spoqaBold" onClick={closePage}>
-                <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+            <HeaderWrap id="back_link" className="spoqaBold" onClick={closePage}>
+                <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
 

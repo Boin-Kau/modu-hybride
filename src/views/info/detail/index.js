@@ -62,6 +62,8 @@ const DetailPage = () => {
     //페이지 열기
     const openPage = useCallback(async (data) => {
 
+        test = true;
+
         dispatch({
             type: PageWrapOpen,
             data: data
@@ -129,7 +131,7 @@ const DetailPage = () => {
         <div className="page">
 
             <PageWrap>
-                <HeaderWrap onClick={closePage}>
+                <HeaderWrap id="back_link" onClick={closePage}>
                     <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>

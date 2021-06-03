@@ -13,10 +13,13 @@ import { TextMiddle } from '../../../styled/shared';
 import Fade from 'react-reveal/Fade';
 import NoticeDetailPage from './detail';
 import { PageClose, PageWrapClose, PageWrapOpen, PageOpen } from '../../../reducers/info/page';
+import { useHistory } from 'react-router-dom';
+import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 
 const NoticePage = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     //페이지 상태값
     const {
@@ -24,22 +27,14 @@ const NoticePage = () => {
         openNoticeDetailPageStatus
     } = useSelector(state => state.info.page);
 
-    const closePage = useCallback(() => {
-        dispatch({
-            type: PageClose,
-            data: 'notice'
-        });
-
-        setTimeout(() => {
-            dispatch({
-                type: PageWrapClose,
-                data: 'notice'
-            });
-        }, 300)
-    }, []);
+    const closePage = () => {
+        history.goBack();
+    };
 
     //페이지 열기
     const openPage = useCallback(async (data) => {
+
+        test = true;
 
         dispatch({
             type: PageWrapOpen,
@@ -52,14 +47,17 @@ const NoticePage = () => {
 
     }, []);
 
+    useEffect(() => {
+        dispatch(BottomNavCloseAction);
+    }, [])
 
 
     return (
 
-        <>
+        <div className="page">
             <PageWrap>
                 <HeaderWrap className="spoqaBold" onClick={closePage}>
-                    <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                    <div id="back_link" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>
 
@@ -89,7 +87,7 @@ const NoticePage = () => {
                 </Fade>
             </div>
 
-        </>
+        </div>
     )
 };
 

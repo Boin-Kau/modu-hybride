@@ -191,7 +191,7 @@ const SearchPage = () => {
 
             <PageWrap>
                 <HeaderWrap className="spoqaBold">
-                    <div onClick={closeSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                    <div id="back_link" onClick={closeSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>
 
