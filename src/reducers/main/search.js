@@ -25,6 +25,9 @@ export const SearchPageCloseAction = {
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET': {
+            return initialState
+        }
         case 'SearchPageWrapOpen': {
             return {
                 ...state,

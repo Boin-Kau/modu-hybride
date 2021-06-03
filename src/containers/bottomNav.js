@@ -73,11 +73,17 @@ const BottomNav = () => {
         switch (pathname) {
             case '/main':
                 setIconMain(true);
+                setIconParty(false);
+                setIconInfo(false);
                 break;
             case '/party':
+                setIconMain(false);
                 setIconParty(true);
+                setIconInfo(false);
                 break;
             case '/info':
+                setIconMain(false);
+                setIconParty(false);
                 setIconInfo(true);
                 break;
             default:

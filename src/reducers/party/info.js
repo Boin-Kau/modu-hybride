@@ -25,6 +25,9 @@ export const InfoPageCloseAction = {
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET': {
+            return initialState
+        }
         case 'InfoPageWrapOpen': {
             return {
                 ...state,

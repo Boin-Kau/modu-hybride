@@ -14,6 +14,9 @@ export const IsAlertUpdate = 'IsAlertUpdate';
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET': {
+            return initialState
+        }
         case 'UserInfoUpdate': {
             return {
                 ...state,

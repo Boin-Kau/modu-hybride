@@ -73,6 +73,9 @@ export const EnrollmentInitialFalseAction = {
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET': {
+            return initialState
+        }
         case 'SubscribePageWrapOpen': {
             return {
                 ...state,

@@ -32,6 +32,9 @@ export const PageClose = 'PageClose';
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET': {
+            return initialState
+        }
         case 'PageWrapOpen': {
             switch (action.data) {
                 case 'info': {

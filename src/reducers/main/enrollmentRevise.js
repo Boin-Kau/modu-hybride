@@ -25,6 +25,9 @@ export const EnrollmentRevisePageCloseAction = {
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET': {
+            return initialState
+        }
         case 'EnrollmentRevisePageWrapOpen': {
             return {
                 ...state,

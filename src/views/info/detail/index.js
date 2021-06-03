@@ -81,6 +81,9 @@ const DetailPage = () => {
     const onCickLogoutConfirm = () => {
         localStorage.removeItem('x-access-token');
         dispatch(BottomNavCloseAction);
+        dispatch({
+            type: 'RESET'
+        });
         histroy.push('/login');
     }
 
@@ -111,6 +114,9 @@ const DetailPage = () => {
 
         localStorage.removeItem('x-access-token');
         dispatch(BottomNavCloseAction);
+        dispatch({
+            type: 'RESET'
+        })
         histroy.push('/login');
     }
 

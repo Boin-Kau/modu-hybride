@@ -31,6 +31,9 @@ export const SearchDeleteFalse = 'SearchDeleteFalse';
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET': {
+            return initialState
+        }
         case 'GetServerPlatformList': {
             return {
                 ...state,

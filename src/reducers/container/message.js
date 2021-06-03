@@ -11,6 +11,9 @@ export const MessageWrapClose = 'MessageWrapClose';
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'RESET': {
+            return initialState
+        }
         case 'MessageOpen': {
             return {
                 ...state,

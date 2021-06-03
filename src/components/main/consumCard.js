@@ -100,7 +100,7 @@ const ConsumCard = () => {
                                     }
                                 </div>
                                 :
-                                <TextMiddle style={{ textAlign: "center", opacity: "0.25" }}>등록된 구독내역이 없습니다</TextMiddle>
+                                <TextMiddle style={{ textAlign: "center", opacity: "0.25", fontSize: '0.8125rem' }}>등록된 구독내역이 없습니다</TextMiddle>
                         }
                     </ConsumListWrap>
                     <img src={icon_chain_front_left} style={{ position: "absolute", bottom: "3.4rem", left: "1.25rem", zIndex: "15" }} />
