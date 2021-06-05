@@ -864,6 +864,10 @@ const EnrollmentRevisePage = ({ location }) => {
                                 <Fade collapse when={useageDataOpen} duration={500}>
                                     <SelectWrap>
 
+                                        <SelectContent selectSatus={!useageData} onClick={() => { onClickUseageDataContent(null) }} key={-1} style={{ color: 'rgba(49, 49, 49,0.2)' }}>
+                                            선택안함
+                                        </SelectContent>
+
                                         {
                                             NumberList.map((data, index) => {
                                                 return (
@@ -880,6 +884,10 @@ const EnrollmentRevisePage = ({ location }) => {
                             <div style={{ flexGrow: '1', flexBasis: '0' }}>
                                 <Fade collapse when={useageUnitOpen} duration={500}>
                                     <SelectWrap>
+
+                                        <SelectContent selectSatus={!useageUnit} onClick={() => { onClickUseageUnitContent(null) }} key={-1} style={{ color: 'rgba(49, 49, 49,0.2)' }}>
+                                            선택안함
+                                        </SelectContent>
 
                                         {
                                             UnitList.map((data, index) => {
