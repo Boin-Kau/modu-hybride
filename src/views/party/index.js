@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Fade from 'react-reveal/Fade';
 
 
+import icon_notion from "../../assets/party-notion.svg";
+import duck_notion from "../../assets/duck-notion@3x.png";
+
+
 import icon_arrow_gray from "../../assets/icon-arrow-right-gray.svg";
 import duck_group from "../../assets/group-duck@2x.png";
 import icon_arrow_black from "../../assets/icon-back-arrow-right.svg";
@@ -46,8 +50,32 @@ const Party = () => {
 
     return (
         <>
-            <div className="page" style={{ backgroundColor: "#f7f7f7" }}>
+            <div className="page" style={{ backgroundColor: "#e3e3e3" }}>
                 <PageWrap>
+
+                    <div style={{ margin: '9rem 2rem 0 2rem', backgroundColor: '#ffffff', borderRadius: '0.5rem', padding: '1.5rem 1.375rem', color: '#313131' }}>
+                        <div className="spoqaBold" style={{ display: 'flex', fontSize: '1.375rem', marginBottom: '0.875rem' }}>
+                            <div>
+                                기능 업데이트 예정
+                            </div>
+                            <div style={{ marginLeft: '0.625rem' }}>
+                                <img src={icon_notion} style={{ width: '1.5625rem', height: '1.4375rem', marginTop: '5px' }} />
+                            </div>
+                        </div>
+                        <div className="notoRegular" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', wordBreak: 'keep-all' }}>
+                            모두가 새로운 기능을 선보이기 위해 열심히 준비 중에 있습니다. 많이 기대해주세요!
+                        </div>
+                    </div>
+                    <div style={{ display: 'flex', margin: '0 2rem 1.4375rem 2rem' }}>
+                        <div style={{ flexGrow: '1' }}></div>
+                        <ChatArrow />
+                        <div style={{ width: '4.9375rem' }}></div>
+                    </div>
+
+                    <img src={duck_notion} style={{ width: '17.75rem', marginLeft: '2.75rem' }} />
+
+
+
                     {/* 
                     <div style={{ display: 'flex' }}>
                         <div style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>파티</div>
@@ -146,15 +174,15 @@ const PageWrap = styled.div`
     left:0;
     right:0;
     bottom:2.9063rem;
-
-    overflow-y:scroll;
-
-    padding:2.375rem 1.25rem 0 1.25rem;
-
-
-    color:#313131;
 `;
 
+const ChatArrow = styled.div`
+    width: 0px;height: 0px;
+    border-top:0.6875rem solid #ffffff;
+    border-bottom:0.6875rem solid transparent;
+    border-right: 0.5313rem solid #ffffff;
+    border-left: 0.5313rem solid transparent;
+`;
 
 const TableWrap = styled.div`
     display:grid;
