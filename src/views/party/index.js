@@ -20,8 +20,12 @@ import { EnrollmentPageWrapOpenAction, EnrollmentPageOpenAction } from '../../re
 import { InfoPageWrapOpenAction, InfoPageOpenAction } from '../../reducers/party/info';
 
 import PartyInfoPage from './info';
+import { useHistory } from 'react-router-dom';
+import { onClickTerminate } from '../../App';
 
 const Party = () => {
+
+    const history = useHistory();
 
     // const dispatch = useDispatch();
 
@@ -52,6 +56,7 @@ const Party = () => {
         <>
             <div className="page" style={{ backgroundColor: "#e3e3e3" }}>
                 <PageWrap>
+                    <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
 
                     <div style={{ margin: '9rem 2rem 0 2rem', backgroundColor: '#ffffff', borderRadius: '0.5rem', padding: '1.5rem 1.375rem', color: '#313131' }}>
                         <div className="spoqaBold" style={{ display: 'flex', fontSize: '1.375rem', marginBottom: '0.875rem' }}>

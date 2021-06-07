@@ -26,6 +26,9 @@ import PhoneChangePage from './phoneChange';
 import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
 
 
+import { checkMobile, onClickTerminate } from '../../App';
+
+
 const Login = () => {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -87,8 +90,10 @@ const Login = () => {
     const onClickBackButton = () => {
 
         //currentPage 값과 pageStatus 값으로 검증 후 넘겨주기
-
         switch (currentPage) {
+            case 1:
+                onClickTerminate();
+                break
             case 2:
                 setCurrentPage(1);
                 setPageConfirmStatus(true);
@@ -414,10 +419,11 @@ const Login = () => {
             <div className="page" style={{ backgroundColor: "#ffffff", position: 'relative' }}>
 
                 {/* 뒤로가기 버튼 */}
-                {currentPage != 1 &&
+                {currentPage != 1 ?
                     <BackIconWrap id="back_link" onClick={onClickBackButton}>
                         <BackIcon src={icon_back} />
-                    </BackIconWrap>
+                    </BackIconWrap> :
+                    <div id="back_link" onClick={onClickBackButton} style={{ display: 'none' }} />
                 }
 
                 {/* 제목 부분 */}

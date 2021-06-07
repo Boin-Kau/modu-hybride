@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
 import { useHistory, Link } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
+import { onClickTerminate } from '../../App';
 
 const Info = () => {
 
@@ -69,6 +70,9 @@ const Info = () => {
         <>
             <div className="page" style={{ backgroundColor: "#ffffff" }}>
                 <PageWrap>
+
+                    <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
+
 
                     <div className="spoqaBold" style={{ display: 'flex', margin: '0.875rem 1.25rem 1.625rem 1.25rem' }}>
                         <div style={{ flexGrow: '1', fontSize: '0.875rem', lineHeight: '1.4375rem' }}>마이페이지</div>

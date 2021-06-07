@@ -27,6 +27,8 @@ import { GetAnalyPageList, AnalyPageReloadFalseAction } from '../../reducers/mai
 import { useHistory } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 
+import { onClickTerminate } from '../../App';
+
 const CardStyle = {
     height: '100vh',
     backgroundColor: '#f7f7f7',
@@ -221,10 +223,11 @@ const Main = () => {
 
     }, []);
 
+
     return (
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundImage: `url(${backgroundImg})` }}>
-
+                <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
                 <div ref={bottomDivbRef}>
                     <div ref={titleDivbRef}>
                         <TopCard />
