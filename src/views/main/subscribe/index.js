@@ -333,8 +333,8 @@ const SubscribePage = () => {
                         <img src={icon_back}></img>
                     </div>
                     <TextMiddle>구독 내역 추가</TextMiddle>
-                    <div onClick={openSearchPage} style={{ zIndex: "10", position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}>
-                        <img src={icon_search}></img>
+                    <div onClick={openSearchPage} style={{ zIndex: "10", position: "absolute", right: '0', height: '100%', width: '4.375rem' }}>
+                        <img src={icon_search} style={{ position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}></img>
                     </div>
                 </HeaderWrap>
                 <MainWrap>

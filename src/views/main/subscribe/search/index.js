@@ -206,7 +206,7 @@ const SearchPage = () => {
 
                     <SearchCancelWrap searchSatus={searchSatus} onClick={onClickCancel}>
                         취소
-                </SearchCancelWrap>
+                    </SearchCancelWrap>
                 </HeaderWrap>
 
                 {/* 인기 플랫폼 화면 */}
@@ -430,6 +430,7 @@ const SearchInputWrap = styled.div`
 
     border-radius: 0.4375rem;
     border:none;
+    /* border:1px solid red; */
 
     background-color: #f7f7f7;
 `;
@@ -449,7 +450,9 @@ const SearchCancelWrap = styled.div`
 
 const SearchIconWrap = styled.div`
     position:relative;
-    width:2.25rem;
+    max-width:2.25rem;
+    min-width:2.25rem;
+    /* border:1px solid red; */
 `;
 const SearchIcon = styled.img`
     position:absolute;
@@ -464,10 +467,10 @@ const SearchIcon = styled.img`
 `;
 
 const SearchInput = styled.input`
-    flex-grow:1;
+    width:100%;
 
-    margin-right:0.75rem;
     border:none;
+    border-radius: 0.4375rem;
 
     font-size:12px;
     color:#313131;

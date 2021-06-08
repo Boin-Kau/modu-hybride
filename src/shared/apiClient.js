@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const apiClient = axios.create({
-    baseURL: "http://172.30.1.11:3030/", // 기본 서버 주소 입력
+    baseURL: "http://192.168.219.126:3030/", // 기본 서버 주소 입력
     // baseURL: "http://localhost:3030/", // 기본 서버 주소 입력
 });
 

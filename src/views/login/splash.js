@@ -11,29 +11,25 @@ const Splash = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect(async () => {
 
-        setTimeout(async () => {
+        const data = await customApiClient('get', '/user/jwt');
 
-            const data = await customApiClient('get', '/user/jwt');
-
-            //벨리데이션
-            if (!data || data.statusCode != 200) {
-                localStorage.removeItem('x-access-token');
-                dispatch(BottomNavCloseAction);
-                history.push('/login');
-                return
-            }
-
-            dispatch({
-                type: UserInfoUpdate,
-                data: data.result
-            })
-            dispatch(BottomNavOpenAction);
-            history.push('/main');
+        //벨리데이션
+        if (!data || data.statusCode != 200) {
+            localStorage.removeItem('x-access-token');
+            dispatch(BottomNavCloseAction);
+            history.push('/login');
             return
+        }
 
-        }, 1000)
+        dispatch({
+            type: UserInfoUpdate,
+            data: data.result
+        })
+        dispatch(BottomNavOpenAction);
+        history.push('/main');
+        return
 
     }, []);
 
