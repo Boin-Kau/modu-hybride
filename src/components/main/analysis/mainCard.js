@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 
-import duck_img from "../../../assets/group-61@3x.png";
+import duck_img from "../../../assets/duck-money.gif";
 import duck_none_img from "../../../assets/duck-none.svg";
 import ContentNone from './contentNone';
 import ContentFill from './contentFill';
@@ -27,7 +27,7 @@ const MainCard = () => {
                 <div style={{ position: "relative", border: "1px solid #ffca17" }}>
                     <div style={{ fontSize: "0.8125rem" }}>이번달 결제 예정</div>
                     <div style={{ margin: "0.5rem 0 1.25rem 0", fontSize: "1.25rem" }}>{priceToString(currentPrice)}원</div>
-                    <img style={{ position: "absolute", bottom: "-0.625rem", right: "0", width: "5.625rem", height: "4.5rem" }} src={duck_img}></img>
+                    <img style={{ position: "absolute", bottom: "-0.75rem", right: "0", width: "6.25rem" }} src={duck_img}></img>
                 </div>
                 <div style={{ display: "flex", padding: "0.8125rem 0", backgroundColor: "rgba(0,0,0,0.05)", color: "#ffffff", borderRadius: "0.4375rem" }}>
                     <div style={{ flexGrow: "1", textAlign: "center", borderRight: "0.0938rem solid rgba(255,255,255,0.29" }}>

@@ -35,7 +35,9 @@ const Splash = () => {
 
     return (
         <>
-            <div className="page" style={{ backgroundColor: "red" }}>스플레시 페이지</div>
+            <div className="page" style={{ backgroundColor: "white" }}>
+
+            </div>
         </>
     )
 };

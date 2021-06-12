@@ -18,9 +18,9 @@ import icon_cancle from "../../../assets/icon-cancle-white.svg";
 
 import danger_icon from "../../../assets/danger-icon.svg";
 
-import duck_read from "../../../assets/duct-read.svg";
-import duck_tech from "../../../assets/duct-tech.svg";
-import sub_info from "../../../assets/sub-info@3x.png";
+import duck_read from "../../../assets/duck-read.gif";
+import duck_tech from "../../../assets/duck-tech.gif";
+import sub_info from "../../../assets/open-page.gif";
 
 
 import { TextMiddle, DangerWrapPopup, DangerPopup, DangerPopupTop } from '../../../styled/shared';
@@ -472,7 +472,7 @@ const SubscribePage = () => {
                                     <span className="spoqaBold">검색기능</span>을 사용하면 <span className="spoqaBold">더 많은</span><br />
                                     <span className="spoqaBold">구독 서비스</span>를 찾아볼 수 있어요.
                                 </div>
-                                <img src={duck_tech} style={{ position: 'absolute', right: '0.875rem', bottom: '0rem', width: '4.125rem', height: '3.9375rem' }} />
+                                <img src={duck_tech} style={{ position: 'absolute', right: '0.875rem', bottom: '0rem', width: '4.375rem' }} />
 
                             </div>
                             <div style={{ position: 'absolute', top: '0.125rem', right: '0.3125rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
@@ -493,9 +493,9 @@ const SubscribePage = () => {
                                     <TriThi />
                                     <div style={{ flexGrow: '1' }} />
                                 </div>
-                                <div style={{ backgroundColor: '#ffbc26', padding: '22px 1.125rem 0.6875rem 1.125rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem', textAlign: 'center' }}>
-                                    <div style={{ marginBottom: '0.5625rem' }}>
-                                        <img src={sub_info} style={{ width: '11.25rem', height: '11.75rem' }} />
+                                <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0.625rem 0.6875rem 0.625rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem', textAlign: 'center' }}>
+                                    <div>
+                                        <img src={sub_info} style={{ width: '12.5rem' }} />
                                     </div>
                                     <div>상세정보는 <span className="spoqaBold">메인에서 입력</span> 가능!</div>
                                 </div>

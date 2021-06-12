@@ -6,8 +6,8 @@ import Fade from 'react-reveal/Fade';
 
 
 import icon_notion from "../../assets/party-notion.svg";
-import duck_notion from "../../assets/duck-notion@3x.png";
-
+import duck_notion from "../../assets/saft-duck.gif";
+import duck_con from "../../assets/safe-con@3x.png";
 
 import icon_arrow_gray from "../../assets/icon-arrow-right-gray.svg";
 import duck_group from "../../assets/group-duck@2x.png";
@@ -22,6 +22,8 @@ import { InfoPageWrapOpenAction, InfoPageOpenAction } from '../../reducers/party
 import PartyInfoPage from './info';
 import { useHistory } from 'react-router-dom';
 import { onClickTerminate } from '../../App';
+import { LoginButton } from '../../styled/shared';
+import { DetailButton } from '../../styled/main';
 
 const Party = () => {
 
@@ -58,7 +60,7 @@ const Party = () => {
                 <PageWrap>
                     <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
 
-                    <div style={{ margin: '9rem 2rem 0 2rem', backgroundColor: '#ffffff', borderRadius: '0.5rem', padding: '1.5rem 1.375rem', color: '#313131' }}>
+                    <div style={{ margin: '2.125rem 2rem 0 2rem', backgroundColor: '#ffffff', borderRadius: '0.5rem', padding: '1.5rem 1.375rem', color: '#313131' }}>
                         <div className="spoqaBold" style={{ display: 'flex', fontSize: '1.375rem', marginBottom: '0.875rem' }}>
                             <div>
                                 기능 업데이트 예정
@@ -68,16 +70,33 @@ const Party = () => {
                             </div>
                         </div>
                         <div className="notoRegular" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', wordBreak: 'keep-all' }}>
-                            모두가 새로운 기능을 선보이기 위해 열심히 준비 중에 있습니다. 많이 기대해주세요!
+                            모두가 새로운 기능을 선보이기 위해 열심히 준비 중에 있습니다.<br /><br />
+                            관련 설문조사도 진행 중이니 참여 후 스타벅스 기프티콘도 받아가세요!
                         </div>
+                        <DetailButton className="spoqaBold" revise style={{ marginTop: '1.5rem' }}>
+                            <div style={{ position: "relative", textAlign: 'center', width: '100%' }}>
+                                <div>설문조사 참여하기</div>
+                            </div>
+                        </DetailButton>
                     </div>
                     <div style={{ display: 'flex', margin: '0 2rem 1.4375rem 2rem' }}>
                         <div style={{ flexGrow: '1' }}></div>
                         <ChatArrow />
                         <div style={{ width: '4.9375rem' }}></div>
                     </div>
-
-                    <img src={duck_notion} style={{ width: '17.75rem', marginLeft: '2.75rem' }} />
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ flexGrow: '1.5' }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div style={{ flexGrow: '1' }}></div>
+                            <div>
+                                <img src={duck_con} style={{ width: '8.75rem', height: '4.5625rem' }} />
+                            </div>
+                        </div>
+                        <div>
+                            <img src={duck_notion} style={{ height: '11.875rem', marginLeft: '1.5rem' }} />
+                        </div>
+                        <div style={{ flexGrow: '1' }}></div>
+                    </div>
 
 
 
