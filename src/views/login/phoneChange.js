@@ -60,12 +60,13 @@ const PhoneChangePage = () => {
                     2. 모두에서 제공한 고유번호 4자리
                 </div>
             </div>
-
-            <QuestionButtonWrap pageConfirmStatus={false}>
-                <div className="spoqaBold" style={{ width: '100%', textAlign: 'center' }}>
-                    1:1 문의하기
+            <a href="https://pf.kakao.com/_tKfKs" target="blank" style={{ textDecoration: 'none' }}>
+                <QuestionButtonWrap pageConfirmStatus={false}>
+                    <div className="spoqaBold" style={{ width: '100%', textAlign: 'center' }}>
+                        1:1 문의하기
                 </div>
-            </QuestionButtonWrap>
+                </QuestionButtonWrap>
+            </a>
 
         </PageWrap>
     )

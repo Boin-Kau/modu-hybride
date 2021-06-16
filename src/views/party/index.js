@@ -73,11 +73,14 @@ const Party = () => {
                             모두가 새로운 기능을 선보이기 위해 열심히 준비 중에 있습니다.<br /><br />
                             관련 설문조사도 진행 중이니 참여 후 스타벅스 기프티콘도 받아가세요!
                         </div>
-                        <DetailButton className="spoqaBold" revise style={{ marginTop: '1.5rem' }}>
-                            <div style={{ position: "relative", textAlign: 'center', width: '100%' }}>
-                                <div>설문조사 참여하기</div>
-                            </div>
-                        </DetailButton>
+
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLScshLcf41AkisUDStVDAZ9Y2_xIvGLxJbWRS0NmtejJkvvrKA/viewform" target="blank" style={{ textDecoration: 'none' }}>
+                            <DetailButton className="spoqaBold" revise style={{ marginTop: '1.5rem' }}>
+                                <div style={{ position: "relative", textAlign: 'center', width: '100%' }}>
+                                    <div>설문조사 참여하기</div>
+                                </div>
+                            </DetailButton>
+                        </a>
                     </div>
                     <div style={{ display: 'flex', margin: '0 2rem 1.4375rem 2rem' }}>
                         <div style={{ flexGrow: '1' }}></div>

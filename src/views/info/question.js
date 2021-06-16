@@ -118,11 +118,13 @@ const QuestionPage = () => {
 
             </div>
 
-            <QuestionButtonWrap className="spoqaBold" pageConfirmStatus={false}>
-                <div style={{ width: '100%', textAlign: 'center' }}>
-                    1:1 문의하기
-                </div>
-            </QuestionButtonWrap>
+            <a href="https://pf.kakao.com/_tKfKs" target="blank" style={{ textDecoration: 'none' }}>
+                <QuestionButtonWrap className="spoqaBold" pageConfirmStatus={false}>
+                    <div style={{ width: '100%', textAlign: 'center' }}>
+                        1:1 문의하기
+                    </div>
+                </QuestionButtonWrap>
+            </a>
         </PageWrap>
     )
 };
