@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="37" height="37" viewBox="0 0 37 37">
+    <defs>
+        <path id="m2r56r96ma" d="M0 14L12.771 14 12.771 0.174 0 0.174z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g transform="translate(-46 -494) translate(46 480) translate(0 14)">
+                    <rect width="37" height="37" fill="#FFCA17" fill-rule="nonzero" rx="6"/>
+                    <g>
+                        <path fill="#FFF" d="M12.771 1L3.434 2.904 3.434 5.508 12.771 3.605z" transform="translate(12 11)"/>
+                        <path fill="#FFF" d="M3.435 12.635L4.938 12.635 4.938 2.902 3.435 2.902z" transform="translate(12 11)"/>
+                        <g transform="translate(12 11) translate(0 .826)">
+                            <path fill="#FFF" d="M4.889 11.424c.269 1.002-.597 2.105-1.934 2.463-1.336.358-2.637-.164-2.906-1.166-.268-1.003.597-2.106 1.934-2.464 1.336-.358 2.637.165 2.906 1.167"/>
+                            <mask id="kt4etto8rb" fill="#fff">
+                                <use xlink:href="#m2r56r96ma"/>
+                            </mask>
+                            <path fill="#FFF" d="M11.268 10.218L12.771 10.218 12.771 0.485 11.268 0.485z" mask="url(#kt4etto8rb)"/>
+                            <path fill="#FFF" d="M12.722 9.834c.27 1.002-.597 2.105-1.934 2.463-1.336.359-2.637-.164-2.906-1.166-.268-1.003.597-2.105 1.934-2.464 1.336-.357 2.637.165 2.906 1.167" mask="url(#kt4etto8rb)"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="30" viewBox="0 0 8 30">
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g transform="translate(-314 -221) translate(314 221)">
+                <circle cx="3" cy="3" r="3" fill="#000" opacity=".378"/>
+                <circle cx="3" cy="27" r="3" fill="#000" opacity=".378"/>
+                <path stroke="#CFCFCF" stroke-linecap="round" stroke-width="3" d="M3 3c1.657 0 3 5.372 3 12.001C6 21.628 4.657 27 3 27"/>
+            </g>
+        </g>
+    </g>
+</svg>
