@@ -15,6 +15,8 @@ import icon_male_none from "../../assets/icon-male-none.svg";
 import icon_female_fill from "../../assets/icon-female-fill.svg";
 import icon_female_none from "../../assets/icon-female-none.svg";
 import icon_timeout from "../../assets/icon-timeout.svg";
+import icon_check from "../../assets/icon-check-white.svg";
+import icon_arrow_right from "../../assets/icon-arrow-right-gray.svg";
 
 import Fade from 'react-reveal/Fade';
 
@@ -27,6 +29,7 @@ import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
 
 
 import { checkMobile, onClickTerminate } from '../../App';
+import { PartyIconWrap, PartyIcon, PartyText } from '../../styled/main/enrollment';
 
 
 const Login = () => {
@@ -53,6 +56,8 @@ const Login = () => {
     const [phoneNumberPageStatus, setPhoneNumberPageStatus] = useState(false);
     const [phoneAuthPageStatus, setphoneAuthPageStatus] = useState(false);
     const [etcPageStatus, setEtcPageStatus] = useState(true);
+    const [agreePageStatus, setAgreePageStatus] = useState(false);
+
 
     //회원가입 데이터
     const [name, setName] = useState('');
@@ -85,7 +90,11 @@ const Login = () => {
         MORE: false,
     })
 
-
+    //동의 데이터
+    const [totalAgree, setTotalAgree] = useState(false);
+    const [serviceAgree, setServiceAgree] = useState(false);
+    const [personAgree, setPersonAgree] = useState(false);
+    const [marketAgree, setMarketAgree] = useState(false);
 
     const onClickBackButton = () => {
 
@@ -111,6 +120,11 @@ const Login = () => {
                 setCurrentPage(3);
                 setPageConfirmStatus(true);
                 setCurrentPageTitle("인증번호를\n입력해주세요.");
+                break
+            case 5:
+                setCurrentPage(4);
+                setPageConfirmStatus(true);
+                setCurrentPageTitle("당신에 대해서\n알려주세요!");
                 break
             default:
                 break
@@ -205,6 +219,12 @@ const Login = () => {
         }
 
         if (currentPage == 4 && etcPageStatus) {
+            setCurrentPage(5);
+            setCurrentPageTitle("모두의 서비스 이용을 위해\n약관에 동의해주세요.")
+            setPageConfirmStatus(agreePageStatus);
+        }
+
+        if (currentPage == 5 && agreePageStatus) {
             console.log("회원가입 로직 실행");
 
             let userSex = '';
@@ -233,11 +253,15 @@ const Login = () => {
                 userAge = 6;
             }
 
+            //marketing
+            const marketingAgree = marketAgree ? 'Y' : 'N';
+
             const data = await customApiClient('post', '/user', {
                 name: name,
                 phone: phoneNumber,
                 sex: userSex,
-                age: userAge
+                age: userAge,
+                marketingAgree: marketingAgree
             })
 
             //서버에러
@@ -539,6 +563,56 @@ const Login = () => {
                                 <EtcButtonText selectedStatus={age.MORE} type="age">50대 이상</EtcButtonText>
                             </EtcButton>
                         </EtcButtonWrap>
+                    </ContentWrap>
+                }
+
+                {currentPage == 5 &&
+                    <ContentWrap>
+                        <div style={{ display: "flex", backgroundColor: '#f7f7f7', padding: '1.1875rem', marginBottom: '1.25rem' }}>
+                            <PartyIconWrap isFree={totalAgree} style={{ width: '1.1875rem', height: '1.1875rem' }}>
+                                <PartyIcon src={icon_check} />
+                            </PartyIconWrap>
+                            <div className="spoqaBold" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }}>
+                                모두 동의하기
+                            </div>
+                        </div>
+
+                        <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
+                            <PartyIconWrap isFree={serviceAgree} style={{ width: '1.1875rem', height: '1.1875rem' }}>
+                                <PartyIcon src={icon_check} />
+                            </PartyIconWrap>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }}>
+                                서비스 이용약관 (필수)
+                            </div>
+                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
+                                <img src={icon_arrow_right} style={{ width: '0.4375rem', height: '0.625rem' }} />
+                            </div>
+                        </div>
+
+                        <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
+                            <PartyIconWrap isFree={personAgree} style={{ width: '1.1875rem', height: '1.1875rem' }}>
+                                <PartyIcon src={icon_check} />
+                            </PartyIconWrap>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }}>
+                                개인정보 수집 이용 동의 (필수)
+                            </div>
+                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
+                                <img src={icon_arrow_right} style={{ width: '0.4375rem', height: '0.625rem' }} />
+                            </div>
+                        </div>
+
+                        <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
+                            <PartyIconWrap isFree={marketAgree} style={{ width: '1.1875rem', height: '1.1875rem' }}>
+                                <PartyIcon src={icon_check} />
+                            </PartyIconWrap>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }}>
+                                마케팅 정보 수신 동의 (선택)
+                            </div>
+                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
+                                <img src={icon_arrow_right} style={{ width: '0.4375rem', height: '0.625rem' }} />
+                            </div>
+                        </div>
+
                     </ContentWrap>
                 }
 

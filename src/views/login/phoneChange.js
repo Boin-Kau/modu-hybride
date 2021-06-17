@@ -57,7 +57,7 @@ const PhoneChangePage = () => {
                     휴대폰 번호와 핸드폰 전부 변경되어서 불가능한 경우,  아래 내용을 1:1 문의로 남겨주시면 데이터를 이전해드립니다.
                     <br /><br />
                     1. 기존 전화번호<br />
-                    2. 모두에서 제공한 고유번호 4자리
+                    2. 모두에서 제공한 고유번호 6자리
                 </div>
             </div>
             <a href="https://pf.kakao.com/_tKfKs" target="blank" style={{ textDecoration: 'none' }}>
