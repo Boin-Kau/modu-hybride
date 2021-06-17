@@ -422,6 +422,53 @@ const Login = () => {
 
     }
 
+    //전체선택 클릭
+    const handleOnclickTotal = () => {
+        setTotalAgree(!totalAgree);
+
+        setServiceAgree(!totalAgree);
+        setPersonAgree(!totalAgree);
+        setMarketAgree(!totalAgree);
+    }
+
+    //개발선택 클릭
+    const handleOnclickSub = (index) => {
+
+        if (index == 0) {
+            setServiceAgree(!serviceAgree);
+        }
+        else if (index == 1) {
+            setPersonAgree(!personAgree);
+        }
+        else {
+            setMarketAgree(!marketAgree);
+        }
+
+    }
+
+    //개별선택 이벤트 감지
+    useEffect(() => {
+        //선택 처리 로직
+        if (serviceAgree && personAgree) {
+            setPageConfirmStatus(true);
+            setAgreePageStatus(true);
+        }
+        else {
+            setPageConfirmStatus(false);
+            setAgreePageStatus(false);
+        }
+
+        //전체선택 처리 로직
+        if (serviceAgree && personAgree && marketAgree) {
+            setTotalAgree(true);
+        }
+        else {
+            setTotalAgree(false);
+        }
+
+    }, [serviceAgree, personAgree, marketAgree])
+
+
     //페이지 열기
     const openPage = useCallback(async (data) => {
 
@@ -568,8 +615,8 @@ const Login = () => {
 
                 {currentPage == 5 &&
                     <ContentWrap>
-                        <div style={{ display: "flex", backgroundColor: '#f7f7f7', padding: '1.1875rem', marginBottom: '1.25rem' }}>
-                            <PartyIconWrap isFree={totalAgree} style={{ width: '1.1875rem', height: '1.1875rem' }}>
+                        <div style={{ display: "flex", backgroundColor: '#f7f7f7', padding: '1.1875rem', marginBottom: '1.25rem' }} onClick={handleOnclickTotal}>
+                            <PartyIconWrap isFree={totalAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }}>
                                 <PartyIcon src={icon_check} />
                             </PartyIconWrap>
                             <div className="spoqaBold" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }}>
@@ -578,10 +625,10 @@ const Login = () => {
                         </div>
 
                         <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
-                            <PartyIconWrap isFree={serviceAgree} style={{ width: '1.1875rem', height: '1.1875rem' }}>
+                            <PartyIconWrap isFree={serviceAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(0) }}>
                                 <PartyIcon src={icon_check} />
                             </PartyIconWrap>
-                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }}>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(0) }}>
                                 서비스 이용약관 (필수)
                             </div>
                             <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
@@ -590,10 +637,10 @@ const Login = () => {
                         </div>
 
                         <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
-                            <PartyIconWrap isFree={personAgree} style={{ width: '1.1875rem', height: '1.1875rem' }}>
+                            <PartyIconWrap isFree={personAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(1) }}>
                                 <PartyIcon src={icon_check} />
                             </PartyIconWrap>
-                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }}>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(1) }}>
                                 개인정보 수집 이용 동의 (필수)
                             </div>
                             <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
@@ -602,10 +649,10 @@ const Login = () => {
                         </div>
 
                         <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
-                            <PartyIconWrap isFree={marketAgree} style={{ width: '1.1875rem', height: '1.1875rem' }}>
+                            <PartyIconWrap isFree={marketAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(2) }}>
                                 <PartyIcon src={icon_check} />
                             </PartyIconWrap>
-                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }}>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(2) }}>
                                 마케팅 정보 수신 동의 (선택)
                             </div>
                             <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
