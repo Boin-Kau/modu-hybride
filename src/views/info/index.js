@@ -7,10 +7,11 @@ import icon_arrow_right from "../../assets/icon-arrow-right-gray.svg";
 import DetailPage from './detail';
 import Fade from 'react-reveal/Fade';
 import SettingPage from './setting';
+import AgreePage from './agree';
 import QuestionPage from './question';
 import NoticePage from './notice';
 import { useSelector, useDispatch } from 'react-redux';
-import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
+import { PageWrapOpen, PageOpen, AgreePageKind } from '../../reducers/info/page';
 import { useHistory, Link } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { onClickTerminate } from '../../App';
@@ -26,7 +27,10 @@ const Info = () => {
         openSettingPageStatus,
 
         openQuestionPageWrapStatus,
-        openQuestionPageStatus
+        openQuestionPageStatus,
+
+        openAgreePageWrapStatus,
+        openAgreePageStatus
     } = useSelector(state => state.info.page);
 
     const {
@@ -38,6 +42,27 @@ const Info = () => {
     const openPage = useCallback(async (data) => {
 
         test = true;
+
+        dispatch({
+            type: PageWrapOpen,
+            data: data
+        });
+        dispatch({
+            type: PageOpen,
+            data: data
+        });
+
+    }, []);
+
+    //약관 동의 페이지 열기
+    const openAgreePage = useCallback(async (data, title) => {
+
+        test = true;
+
+        dispatch({
+            type: AgreePageKind,
+            data: title
+        })
 
         dispatch({
             type: PageWrapOpen,
@@ -95,8 +120,8 @@ const Info = () => {
                         <ContentWrap className="spoqaBold" style={{ color: 'rgb(49,49,49)' }}>공지사항</ContentWrap>
                     </Link>
                     <ContentWrap className="spoqaBold" onClick={() => { openPage('question') }}>문의하기</ContentWrap>
-                    <ContentWrap className="spoqaBold">이용 약관</ContentWrap>
-                    <ContentWrap className="spoqaBold">개인정보 처리방침</ContentWrap>
+                    <ContentWrap className="spoqaBold" onClick={() => { openAgreePage('agree', 'serviceDetail') }}>이용 약관</ContentWrap>
+                    <ContentWrap className="spoqaBold" onClick={() => { openAgreePage('agree', 'personDetail') }}>개인정보 처리방침</ContentWrap>
 
                 </PageWrap>
             </div>
@@ -115,6 +140,15 @@ const Info = () => {
                 <Fade right when={openQuestionPageStatus} duration={300}>
                     <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
                         <QuestionPage />
+                    </div>
+                </Fade>
+            </div>
+
+            {/* 약관 페이지 */}
+            <div style={openAgreePageWrapStatus ? { display: "block" } : { display: "none" }}>
+                <Fade right when={openAgreePageStatus} duration={300}>
+                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
+                        <AgreePage />
                     </div>
                 </Fade>
             </div>

@@ -23,8 +23,12 @@ export const initialState = {
     openLoginPhonePageWrapStatus: false,
     openLoginPhonePageStatus: false,
 
+    openAgreePageWrapStatus: false,
+    openAgreePageStatus: false,
+
 
     loginSubPageKind: null,
+    agreePageKind: null,
 };
 
 export const PageWrapOpen = 'PageWrapOpen';
@@ -33,6 +37,7 @@ export const PageWrapClose = 'PageWrapClose';
 export const PageClose = 'PageClose';
 
 export const LoginSubPageKind = 'LoginSubPageKind';
+export const AgreePageKind = 'AgreePageKind';
 
 
 const reducer = (state = initialState, action) => {
@@ -89,6 +94,12 @@ const reducer = (state = initialState, action) => {
                     return {
                         ...state,
                         openLoginPhonePageWrapStatus: true,
+                    }
+                }
+                case 'agree': {
+                    return {
+                        ...state,
+                        openAgreePageWrapStatus: true,
                     }
                 }
                 default: {
@@ -148,6 +159,12 @@ const reducer = (state = initialState, action) => {
                         openLoginPhonePageStatus: true,
                     }
                 }
+                case 'agree': {
+                    return {
+                        ...state,
+                        openAgreePageStatus: true,
+                    }
+                }
                 default: {
                     return {
                         ...state
@@ -203,6 +220,12 @@ const reducer = (state = initialState, action) => {
                     return {
                         ...state,
                         openLoginPhonePageWrapStatus: false,
+                    }
+                }
+                case 'agree': {
+                    return {
+                        ...state,
+                        openAgreePageWrapStatus: false,
                     }
                 }
                 default: {
@@ -262,6 +285,12 @@ const reducer = (state = initialState, action) => {
                         openLoginPhonePageStatus: false,
                     }
                 }
+                case 'agree': {
+                    return {
+                        ...state,
+                        openAgreePageStatus: false,
+                    }
+                }
                 default: {
                     return {
                         ...state
@@ -273,6 +302,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginSubPageKind: action.data,
+            }
+        }
+        case 'AgreePageKind': {
+            return {
+                ...state,
+                agreePageKind: action.data,
             }
         }
         default: {
