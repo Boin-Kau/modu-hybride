@@ -22,14 +22,8 @@ const Info = () => {
 
     //페이지 상태값
     const {
-        openInfoPageWrapStatus,
-        openInfoPageStatus,
-
         openSettingPageWrapStatus,
         openSettingPageStatus,
-
-        openNoticePageWrapStatus,
-        openNoticePageStatus,
 
         openQuestionPageWrapStatus,
         openQuestionPageStatus

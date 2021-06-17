@@ -21,13 +21,19 @@ export const initialState = {
     openSettingPageStatus: false,
 
     openLoginPhonePageWrapStatus: false,
-    openLoginPhonePageStatus: false
+    openLoginPhonePageStatus: false,
+
+
+    loginSubPageKind: null,
 };
 
 export const PageWrapOpen = 'PageWrapOpen';
 export const PageOpen = 'PageOpen';
 export const PageWrapClose = 'PageWrapClose';
 export const PageClose = 'PageClose';
+
+export const LoginSubPageKind = 'LoginSubPageKind';
+
 
 const reducer = (state = initialState, action) => {
 
@@ -261,6 +267,12 @@ const reducer = (state = initialState, action) => {
                         ...state
                     }
                 }
+            }
+        }
+        case 'LoginSubPageKind': {
+            return {
+                ...state,
+                loginSubPageKind: action.data,
             }
         }
         default: {

@@ -25,7 +25,7 @@ import { customApiClient } from '../../shared/apiClient';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { UserInfoUpdate } from '../../reducers/info/user';
 import PhoneChangePage from './phoneChange';
-import { PageWrapOpen, PageOpen } from '../../reducers/info/page';
+import { PageWrapOpen, PageOpen, LoginSubPageKind } from '../../reducers/info/page';
 
 
 import { checkMobile, onClickTerminate } from '../../App';
@@ -96,6 +96,10 @@ const Login = () => {
     const [personAgree, setPersonAgree] = useState(false);
     const [marketAgree, setMarketAgree] = useState(false);
 
+    //확인버튼 텍스트
+    const [buttonText, setButtonText] = useState('다음');
+
+
     const onClickBackButton = () => {
 
         //currentPage 값과 pageStatus 값으로 검증 후 넘겨주기
@@ -123,6 +127,7 @@ const Login = () => {
                 break
             case 5:
                 setCurrentPage(4);
+                setButtonText('다음');
                 setPageConfirmStatus(true);
                 setCurrentPageTitle("당신에 대해서\n알려주세요!");
                 break
@@ -220,12 +225,12 @@ const Login = () => {
 
         if (currentPage == 4 && etcPageStatus) {
             setCurrentPage(5);
+            setButtonText('확인');
             setCurrentPageTitle("모두의 서비스 이용을 위해\n약관에 동의해주세요.")
             setPageConfirmStatus(agreePageStatus);
         }
 
         if (currentPage == 5 && agreePageStatus) {
-            console.log("회원가입 로직 실행");
 
             let userSex = '';
             let userAge = -1;
@@ -475,12 +480,17 @@ const Login = () => {
         test = true;
 
         dispatch({
-            type: PageWrapOpen,
+            type: LoginSubPageKind,
             data: data
+        })
+
+        dispatch({
+            type: PageWrapOpen,
+            data: 'loginPhone'
         });
         dispatch({
             type: PageOpen,
-            data: data
+            data: 'loginPhone'
         });
 
     }, []);
@@ -631,7 +641,7 @@ const Login = () => {
                             <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(0) }}>
                                 서비스 이용약관 (필수)
                             </div>
-                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
+                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }} onClick={() => { openPage('serviceDetail') }}>
                                 <img src={icon_arrow_right} style={{ width: '0.4375rem', height: '0.625rem' }} />
                             </div>
                         </div>
@@ -643,7 +653,7 @@ const Login = () => {
                             <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(1) }}>
                                 개인정보 수집 이용 동의 (필수)
                             </div>
-                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
+                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }} onClick={() => { openPage('personDetail') }}>
                                 <img src={icon_arrow_right} style={{ width: '0.4375rem', height: '0.625rem' }} />
                             </div>
                         </div>
@@ -655,7 +665,7 @@ const Login = () => {
                             <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(2) }}>
                                 마케팅 정보 수신 동의 (선택)
                             </div>
-                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }}>
+                            <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }} onClick={() => { openPage('marketingDetail') }}>
                                 <img src={icon_arrow_right} style={{ width: '0.4375rem', height: '0.625rem' }} />
                             </div>
                         </div>
@@ -665,7 +675,7 @@ const Login = () => {
 
                 {/* 하단 '다음' 버튼 */}
                 <LoginButton className="spoqaBold" pageConfirmStatus={pageConfirmStatus} onClick={onclickNextButton}>
-                    다음
+                    {buttonText}
                 </LoginButton>
             </div>
 
