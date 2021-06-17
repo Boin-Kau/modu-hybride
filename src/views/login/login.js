@@ -546,7 +546,7 @@ const Login = () => {
 
                 {currentPage == 3 &&
                     <ContentWrap>
-                        <LoginInput className="spoqaBold" value={phoneAuthCode} onChange={handlePhoneAuthCode} type="number" placeholder="인증번호 입력" />
+                        <LoginInput className="spoqaBold" value={phoneAuthCode} onChange={handlePhoneAuthCode} type="tel" placeholder="인증번호 입력" />
                         <div className="spoqaRegular" style={{ height: '1.0625rem', margin: "0.125rem 0 0.0625rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
                             {timerErrorText}
                         </div>

@@ -194,7 +194,7 @@ const PhonePage = () => {
                 <TitleWrap style={{ marginTop: '0' }}>전화번호</TitleWrap>
                 <ItemWrap>
                     <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
-                        <Input placeholder="새 전화번호를 입력해주세요" type='number' onChange={handelPhone} value={phone}></Input>
+                        <Input placeholder="새 전화번호를 입력해주세요" type='tel' onChange={handelPhone} value={phone}></Input>
                     </InputWrap>
                     <SubmitButton className="spoqaBold" confirmStatus={confirm} onClick={onClickCodeGenerate}>
                         <SubmitText>
@@ -212,7 +212,7 @@ const PhonePage = () => {
                 <TitleWrap style={{ marginTop: '0' }}>인증번호</TitleWrap>
                 <ItemWrap>
                     <InputWrap style={errorCode ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
-                        <Input placeholder="인증번호를 입력해주세요" type='number' onChange={handelCode} value={code}></Input>
+                        <Input placeholder="인증번호를 입력해주세요" type='tel' onChange={handelCode} value={code}></Input>
                     </InputWrap>
                     <SubmitButton className="spoqaBold" confirmStatus={confirmCode} onClick={onClickCodeAuth}>
                         <SubmitText>
