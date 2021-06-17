@@ -8,9 +8,6 @@ import icon_back from "../../assets/icon-back-arrow.svg";
 import { TextMiddle } from '../../styled/shared';
 import { PageClose, PageWrapClose } from '../../reducers/info/page';
 
-import { IsAlertUpdate } from '../../reducers/info/user';
-import { customApiClient } from '../../shared/apiClient';
-
 
 const AgreePage = () => {
 
@@ -25,6 +22,9 @@ const AgreePage = () => {
     const [title, setTitle] = useState('');
 
     useEffect(() => {
+
+        //스크롤 맨위로
+        document.getElementById('content').scrollTo(0, 0);
 
         switch (agreePageKind) {
             case 'serviceDetail': {
@@ -62,7 +62,7 @@ const AgreePage = () => {
 
     return (
 
-        <PageWrap>
+        <PageWrap id="content">
             <HeaderWrap className="spoqaBold" onClick={closePage}>
                 <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
