@@ -22,8 +22,6 @@ const reducer = (state = initialState, action) => {
         }
         case 'UserInfoUpdate': {
 
-            console.log(action.data)
-
             let date = new Date(action.data.isMarketingUpdatedAt);
 
             let year = date.getFullYear();

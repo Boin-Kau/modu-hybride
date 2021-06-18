@@ -255,8 +255,6 @@ const Main = () => {
 
                 <MainLoading isLoading={isLoading} style={{ background: `#ffca17 url(${mainLoading}) no-repeat top center`, backgroundSize: '100% auto' }} />
             </div>
-
-
         </>
     )
 };

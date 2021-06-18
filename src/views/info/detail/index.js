@@ -144,7 +144,7 @@ const DetailPage = () => {
                     <div className="spoqaBold" style={{ margin: '0.5625rem 0 0.25rem 0', fontSize: '0.875rem' }}>{name}</div>
                     <div className="notoMedium" onClick={onClickUniqueInfo} style={{ position: 'relative', fontSize: '0.6875rem', color: 'rgba(49,49,49,0.4)', lineHeight: '1.3125rem' }}>
                         고유번호 #{uniqueNumber}
-                        <img src={icon_info} style={{ width: '0.6875rem', height: '0.6875rem', marginLeft: '0.1875rem', position: 'relative', top: '0.0625rem' }} />
+                        <img src={icon_info} style={{ width: '0.625rem', height: '0.625rem', marginLeft: '0.1875rem', position: 'relative', top: '0.0625rem' }} />
                         <UniqueInfo className="spoqaBold" openStatus={uniqueInfoStatus}>
                             변경된 전화번호로 인증이 불가능할 때 고유 <br />
                             번호로 인증할 수 있어요. (문의하기 참고)

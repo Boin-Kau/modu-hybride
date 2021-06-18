@@ -36,6 +36,8 @@ const PhonePage = () => {
     const [errorCode, setErrorCode] = useState(false);
     const [errorMsgCode, setErrorMsgCode] = useState('');
 
+    const [isSend, setIsSend] = useState(false);
+
     const closePage = useCallback(() => {
 
         test = false;
@@ -64,7 +66,7 @@ const PhonePage = () => {
         setErrorCode(false);
         setErrorMsgCode('');
 
-
+        setIsSend(false);
     }, []);
 
     const handelPhone = (e) => {
@@ -110,6 +112,7 @@ const PhonePage = () => {
             return
         }
 
+        setIsSend(true);
         setOpenAuth(true);
     }, [confirm, phone]);
 
@@ -193,14 +196,22 @@ const PhonePage = () => {
                     <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
                         <Input placeholder="새 전화번호를 입력해주세요" type='tel' onChange={handelPhone} value={phone}></Input>
                     </InputWrap>
-                    <SubmitButton className="spoqaBold" confirmStatus={confirm} onClick={onClickCodeGenerate}>
-                        <SubmitText>
-                            {
-                                openAuth ?
-                                    "재발송" : "인증받기"
-                            }
-                        </SubmitText>
-                    </SubmitButton>
+                    {!isSend ?
+                        <SubmitButton className="spoqaBold" confirmStatus={confirm} onClick={onClickCodeGenerate}>
+                            <SubmitText>
+                                {/* {
+                                    openAuth ?
+                                        "재발송" : "인증받기"
+                                } */}
+                                인증받기
+                            </SubmitText>
+                        </SubmitButton> :
+                        <SubmitButton className="spoqaBold" confirmStatus={false} >
+                            <SubmitText>
+                                발송완료
+                            </SubmitText>
+                        </SubmitButton>
+                    }
                 </ItemWrap>
                 <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e', height: '1.0625rem' }}>{errorMsg}</div>
             </div>

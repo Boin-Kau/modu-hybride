@@ -385,7 +385,6 @@ const Login = () => {
                 setPageConfirmStatus(false);
             }
             else {
-                console.log("test 3");
 
                 if (sec == 0) {
                     min = min - 1;
@@ -406,11 +405,27 @@ const Login = () => {
     };
 
     //재발송 함수
-    const reGenrateCode = () => {
+    const reGenrateCode = async () => {
 
         if (codeInputAccess) return
 
-        //코드 발송 api 호출
+        //인증번호 전송 API 호출
+        const data = await customApiClient('post', '/user/code/generate', {
+            name: name,
+            phone: phoneNumber
+        })
+
+        //서버에러
+        if (!data) return
+
+        //벨리데이션
+        if (data.statusCode != 200) {
+            setPhoneErrorText(data.message);
+            return
+        }
+
+        //성공시 로직
+        setPhoneErrorText('');
 
         //타이머 함수 실행
         beginTimer();
