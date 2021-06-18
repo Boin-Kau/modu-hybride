@@ -230,7 +230,7 @@ const Main = () => {
 
     return (
         <>
-            <div className="page" style={{ display: "flex", flexDirection: "column", background: `rgb(247,203,74) url(${backgroundImg}) no-repeat top center` }}>
+            <div className="page" style={{ display: "flex", flexDirection: "column", background: `#ffca17 url(${backgroundImg}) no-repeat top center`, backgroundSize: 'cover' }}>
                 <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
                 <div ref={bottomDivbRef}>
                     <div ref={titleDivbRef}>
@@ -253,7 +253,7 @@ const Main = () => {
                     </animated.div>
                 </div>
 
-                <MainLoading isLoading={isLoading} style={{ background: `rgb(247,203,74) url(${mainLoading}) no-repeat top center` }} />
+                <MainLoading isLoading={isLoading} style={{ background: `#ffca17 url(${mainLoading}) no-repeat top center`, backgroundSize: '100% auto' }} />
             </div>
 
 
