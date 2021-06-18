@@ -10,7 +10,9 @@ import styled from "styled-components";
 import Fade from 'react-reveal/Fade';
 
 
-import backgroundImg from '../../assets/group-2.svg'
+import backgroundImg from '../../assets/group-2.svg';
+import mainLoading from '../../assets/main-loading.gif';
+
 import BottomCard from '../../components/main/bottomCard';
 import TopCard from '../../components/main/topCard';
 import ConsumCard from '../../components/main/consumCard';
@@ -59,6 +61,8 @@ const Main = () => {
     const [isScrollChild, setIsScrollChild] = useState(false);
 
     const [bottomCardHeight, setBottomCardHeight] = useState(0);
+
+    const [isLoading, setIsLoading] = useState(true);
 
     const titleDivbRef = useRef();
     const bottomDivbRef = useRef();
@@ -171,7 +175,6 @@ const Main = () => {
                 return
             }
 
-            console.log(data);
             //리덕스에 넣어주기
             dispatch({
                 type: GetAnalyPageList,
@@ -181,11 +184,16 @@ const Main = () => {
             // set({ xy: [0, 0] });
 
         }
+
+        setIsLoading(false);
+
     }, [analysisList]);
 
     useEffect(async () => {
 
         if (analysisReloadStatus) {
+
+            setIsLoading(true);
 
             //소비분석 리스트 조회
             const data = await customApiClient('get', '/subscribe/analysis');
@@ -198,7 +206,6 @@ const Main = () => {
                 return
             }
 
-            console.log(data);
             //리덕스에 넣어주기
             dispatch({
                 type: GetAnalyPageList,
@@ -208,8 +215,9 @@ const Main = () => {
             dispatch(AnalyPageReloadFalseAction);
 
             // set({ xy: [0, 0] });
-
         }
+
+        setIsLoading(false);
 
     }, [analysisReloadStatus]);
 
@@ -249,6 +257,7 @@ const Main = () => {
                     </animated.div>
                 </div>
 
+                <MainLoading isLoading={isLoading} style={{ backgroundImage: `url(${mainLoading})` }} />
             </div>
 
 
@@ -268,4 +277,13 @@ const BottomChildWrap = styled.div`
     -webkit-overflow-scrolling:auto;
 `;
 
+const MainLoading = styled.div`
+    display:${props => props.isLoading ? 'block' : 'none'};
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+`;
 export default Main;
