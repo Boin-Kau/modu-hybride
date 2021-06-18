@@ -223,14 +223,14 @@ const Main = () => {
 
         setTimeout(() => {
             setIsLoading(false);
-        }, 300)
+        }, 350)
 
     }, []);
 
 
     return (
         <>
-            <div className="page" style={{ display: "flex", flexDirection: "column", backgroundImage: `url(${backgroundImg})` }}>
+            <div className="page" style={{ display: "flex", flexDirection: "column", background: `rgb(247,203,74) url(${backgroundImg}) no-repeat top center` }}>
                 <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
                 <div ref={bottomDivbRef}>
                     <div ref={titleDivbRef}>
@@ -253,7 +253,7 @@ const Main = () => {
                     </animated.div>
                 </div>
 
-                <MainLoading isLoading={isLoading} style={{ backgroundImage: `url(${mainLoading})` }} />
+                <MainLoading isLoading={isLoading} style={{ background: `rgb(247,203,74) url(${mainLoading}) no-repeat top center` }} />
             </div>
 
 
@@ -283,6 +283,10 @@ const MainLoading = styled.div`
     right: 0;
     bottom: 0;
     z-index: 1000;
+
+    border:'1px solid red';
+
+    background-repeat:no-repeat;
 
     /* 애니메이션 적용 */
     transition: visibility 0.1s, opacity 0.1s linear;
