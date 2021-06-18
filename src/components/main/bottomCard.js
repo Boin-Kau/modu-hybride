@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
@@ -6,7 +6,6 @@ import styled from "styled-components";
 import Fade from 'react-reveal/Fade';
 
 import icon_content_none from "../../assets/img-bottom-item-none.svg";
-import icon_phone from "../../assets/icon-phone.svg";
 import icon_edit from "../../assets/icon-edit.svg";
 
 import platform_none from "../../assets/platform-none.svg";
@@ -14,10 +13,8 @@ import platform_none from "../../assets/platform-none.svg";
 
 
 import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailButton, DetailItemFillContent } from '../../styled/main';
-import { EnrollmentRevisePageWrapOpenAction, EnrollmentRevisePageOpenAction } from '../../reducers/main/enrollmentRevise';
-import { SubscribeReloadFalseAction, GetSubscirbeList, GetSubscirbeDetail } from '../../reducers/main/subscribe';
+import { SubscribeReloadFalseAction, GetSubscirbeList } from '../../reducers/main/subscribe';
 import { customApiClient } from '../../shared/apiClient';
-import { GetPlatformCategoryList } from '../../reducers/main/platform';
 import { useHistory } from 'react-router-dom';
 
 
@@ -27,12 +24,7 @@ export const priceToString = price => {
 
 const BottomContent = ({ data, cardOpen }) => {
 
-    const dispatch = useDispatch();
     const history = useHistory();
-
-    const {
-        platformCategoryList
-    } = useSelector(state => state.main.platform);
 
     const [openStatus, setOpenStatus] = useState(false);
 

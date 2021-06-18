@@ -1,14 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
-import { AnalyPageWrapCloseAction, AnalyPageCloseAction, GetAnalyPageList, AnalyPageReloadFalseAction } from "../../../reducers/main/analysis";
-
+import { useDispatch } from "react-redux";
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import MainCard from '../../../components/main/analysis/mainCard';
 
 import { TextMiddle } from '../../../styled/shared';
-import { customApiClient } from '../../../shared/apiClient';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 

@@ -1,8 +1,8 @@
-import React, { useContext, useCallback, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { PageTransContext } from './pageTransContext';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 import icon_main_fill from "../assets/icon_main_fill.svg";

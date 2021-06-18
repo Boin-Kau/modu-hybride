@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useContext } from 'react';
+import { useSelector } from "react-redux";
 
 import styled from 'styled-components';
-import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { PageTransContext } from './containers/pageTransContext';

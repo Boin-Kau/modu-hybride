@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 import { useHistory } from 'react-router-dom';
 
@@ -17,7 +17,6 @@ import danger_icon from "../../../../assets/danger-icon.svg";
 
 
 import { TextMiddle, DangerWrapPopup, DangerPopup } from '../../../../styled/shared';
-import { EnrollmentRevisePageCloseAction, EnrollmentRevisePageWrapCloseAction } from '../../../../reducers/main/enrollmentRevise';
 import { TitleWrap, ItemWrap, InputWrap, Input, PartyIconWrap, PartyIcon, PartyText, DeleteButtonWrap } from '../../../../styled/main/enrollment';
 
 import { customApiClient } from '../../../../shared/apiClient';

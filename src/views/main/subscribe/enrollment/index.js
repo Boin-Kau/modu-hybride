@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -9,20 +9,17 @@ import icon_arrow_down from "../../../../assets/icon-arrow-down-gray.svg";
 import icon_arrow_up from "../../../../assets/icon-arrow-up-gray.svg";
 
 import icon_check from "../../../../assets/icon-check-white.svg";
-import icon_trsah from "../../../../assets/icon-trash-can.svg";
 import icon_pen from "../../../../assets/pen-icon-white.svg";
 
 import { TextMiddle } from '../../../../styled/shared';
-import { TitleWrap, ItemWrap, InputWrap, Input, PartyIconWrap, PartyIcon, PartyText, DeleteButtonWrap } from '../../../../styled/main/enrollment';
+import { TitleWrap, ItemWrap, InputWrap, Input, PartyIconWrap, PartyIcon, PartyText } from '../../../../styled/main/enrollment';
 
-import { EnrollmentPageCloseAction, EnrollmentPageWrapCloseAction } from '../../../../reducers/main/enrollment';
 import { customApiClient } from '../../../../shared/apiClient';
 
 import Fade from 'react-reveal/Fade';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
-import { SubscribeReloadTrueAction, EnrollmentInitialFalseAction, EnrollmentInitialTrueAction } from '../../../../reducers/main/subscribe';
+import { SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
-import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
 import { useHistory } from 'react-router-dom';
 import { GetPlatformCategoryList } from '../../../../reducers/main/platform';
 

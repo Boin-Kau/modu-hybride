@@ -1,25 +1,14 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { AlertPageWrapOpenAction, AlertPageOpenAction } from '../../reducers/main/alert';
-
-
-import icon_alarm from "../../assets/icon-alarm-new.svg";
 import { TextMiddle } from '../../styled/shared';
 import { priceToString } from './bottomCard';
 
 
-const TopCard = ({ price }) => {
+const TopCard = () => {
 
-    const dispatch = useDispatch();
-
-    //알림페이지 열기
-    // const openAlertPage = useCallback(() => {
-    //     dispatch(AlertPageWrapOpenAction);
-    //     dispatch(AlertPageOpenAction);
-    // }, []);
 
     const {
         currentPrice
@@ -31,10 +20,6 @@ const TopCard = ({ price }) => {
                 <div>
                     이번달 결제 예정
                 </div>
-                {/* <div style={{ flexGrow: "1" }}></div> */}
-                {/* <div onClick={openAlertPage} style={{ zIndex: '10' }}>
-                    <img src={icon_alarm} />
-                </div> */}
             </TitleWrap>
             <PriceWrap>
                 <TextMiddle>

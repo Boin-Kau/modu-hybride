@@ -2,7 +2,6 @@ import React from 'react';
 import styled from "styled-components";
 
 import duck_img from "../../../assets/duck-money.gif";
-import duck_none_img from "../../../assets/duck-none.svg";
 import ContentNone from './contentNone';
 import ContentFill from './contentFill';
 import { priceToString } from '../bottomCard';

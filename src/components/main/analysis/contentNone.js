@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from "styled-components";
 import duck_none_img from "../../../assets/duck-none.svg";
 
 

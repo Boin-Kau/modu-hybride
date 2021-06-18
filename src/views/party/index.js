@@ -1,33 +1,17 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from "react-redux";
-
-import Fade from 'react-reveal/Fade';
-
-
 import icon_notion from "../../assets/party-notion.svg";
 import duck_notion from "../../assets/saft-duck.gif";
 import duck_con from "../../assets/safe-con@3x.png";
 
-import icon_arrow_gray from "../../assets/icon-arrow-right-gray.svg";
-import duck_group from "../../assets/group-duck@2x.png";
-import icon_arrow_black from "../../assets/icon-back-arrow-right.svg";
-import icon_party_invite from "../../assets/party-invite.svg";
-import PartyEnrollmentPage from './enrollment';
-
-
-import { EnrollmentPageWrapOpenAction, EnrollmentPageOpenAction } from '../../reducers/party/enrollment';
-import { InfoPageWrapOpenAction, InfoPageOpenAction } from '../../reducers/party/info';
-
-import PartyInfoPage from './info';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { onClickTerminate } from '../../App';
-import { LoginButton } from '../../styled/shared';
+// import { LoginButton } from '../../styled/shared';
 import { DetailButton } from '../../styled/main';
 
 const Party = () => {
 
-    const history = useHistory();
+    // const history = useHistory();
 
     // const dispatch = useDispatch();
 
@@ -211,67 +195,67 @@ const ChatArrow = styled.div`
     border-left: 0.5313rem solid transparent;
 `;
 
-const TableWrap = styled.div`
-    display:grid;
-    grid-template-columns: 1fr 1fr;
+// const TableWrap = styled.div`
+//     display:grid;
+//     grid-template-columns: 1fr 1fr;
 
-    grid-column-gap: 0.625rem;
-    grid-row-gap: 0.625rem;
+//     grid-column-gap: 0.625rem;
+//     grid-row-gap: 0.625rem;
 
-    margin-bottom:1.25rem;
-`;
+//     margin-bottom:1.25rem;
+// `;
 
-const TableContent = styled.div`
-    border-radius: 0.4375rem;
-    box-shadow: 0 0 0.25rem 0.0625rem #efefef;
-    background-color: #ffffff;
+// const TableContent = styled.div`
+//     border-radius: 0.4375rem;
+//     box-shadow: 0 0 0.25rem 0.0625rem #efefef;
+//     background-color: #ffffff;
 
-    opacity: ${props => props.isActivate ? '1' : '0.5'};
-`;
+//     opacity: ${props => props.isActivate ? '1' : '0.5'};
+// `;
 
-const TitleWrap = styled.div`
-    position:relative;
-    display:flex;
-    margin:1rem 0.9375rem 1.1875rem 0.9375rem;
-`;
-const PlatformImg = styled.img`
-    width:2.3125rem;
-    height:2.3125rem;
-`;
-const ArrowIcon = styled.img`
-    position:absolute;
-    top:0;
-    right:0;
-`;
-const ContentName = styled.div`
-    margin-left:0.9375rem;
-    font-size:0.8125rem;
-`;
-const ContentRole = styled.div`
-    margin-left:0.9375rem;
-    margin-bottom:0.5625rem;
+// const TitleWrap = styled.div`
+//     position:relative;
+//     display:flex;
+//     margin:1rem 0.9375rem 1.1875rem 0.9375rem;
+// `;
+// const PlatformImg = styled.img`
+//     width:2.3125rem;
+//     height:2.3125rem;
+// `;
+// const ArrowIcon = styled.img`
+//     position:absolute;
+//     top:0;
+//     right:0;
+// `;
+// const ContentName = styled.div`
+//     margin-left:0.9375rem;
+//     font-size:0.8125rem;
+// `;
+// const ContentRole = styled.div`
+//     margin-left:0.9375rem;
+//     margin-bottom:0.5625rem;
 
-    font-size:0.75rem;
-    color:#ffbc26;
-    line-height:1.4375rem;
+//     font-size:0.75rem;
+//     color:#ffbc26;
+//     line-height:1.4375rem;
 
-    color: ${props => props.isHead ? '#ffbc26' : '#313131'};
-    opacity: ${props => props.isHead ? '1' : '0.4'};
-`;
+//     color: ${props => props.isHead ? '#ffbc26' : '#313131'};
+//     opacity: ${props => props.isHead ? '1' : '0.4'};
+// `;
 
-const MatchingWrap = styled.div`
-    position:relative;
+// const MatchingWrap = styled.div`
+//     position:relative;
 
-    width:3.125rem;
-    height:1.4375rem;
+//     width:3.125rem;
+//     height:1.4375rem;
 
-    margin-left:1.4375rem;
+//     margin-left:1.4375rem;
 
-    background-color: rgba(255, 202, 23,0.15);
-    border-radius: 0.9688rem;
+//     background-color: rgba(255, 202, 23,0.15);
+//     border-radius: 0.9688rem;
 
-    font-size:0.75rem;
-    color:#ffb40c;
-`;
+//     font-size:0.75rem;
+//     color:#ffb40c;
+// `;
 
 export default Party;

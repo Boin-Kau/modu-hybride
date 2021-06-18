@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useHistory } from 'react-router-dom';
@@ -28,8 +28,8 @@ import PhoneChangePage from './phoneChange';
 import { PageWrapOpen, PageOpen, LoginSubPageKind } from '../../reducers/info/page';
 
 
-import { checkMobile, onClickTerminate } from '../../App';
-import { PartyIconWrap, PartyIcon, PartyText } from '../../styled/main/enrollment';
+import { onClickTerminate } from '../../App';
+import { PartyIconWrap, PartyIcon } from '../../styled/main/enrollment';
 
 
 const Login = () => {

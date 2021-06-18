@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
-import { AnalyPageWrapOpenAction, AnalyPageOpenAction } from "../../reducers/main/analysis";
+import { useSelector } from "react-redux";
 
 
 import icon_arrow from "../../assets/icon-arrow.svg";
@@ -59,12 +58,11 @@ const ConsumContent = ({ data }) => {
 
 const ConsumCard = () => {
 
-    const dispatch = useDispatch();
     const history = useHistory();
 
-    const openAnalyPage = useCallback(() => {
+    const openAnalyPage = () => {
         history.push('/analysis');
-    }, []);
+    };
 
     const {
         currentPrice,

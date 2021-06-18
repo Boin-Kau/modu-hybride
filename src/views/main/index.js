@@ -7,7 +7,6 @@ import { useGesture } from 'react-with-gesture'
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
-import Fade from 'react-reveal/Fade';
 
 
 import backgroundImg from '../../assets/group-2.svg';
@@ -17,13 +16,6 @@ import BottomCard from '../../components/main/bottomCard';
 import TopCard from '../../components/main/topCard';
 import ConsumCard from '../../components/main/consumCard';
 
-import AnalysisPage from './analysis';
-import SubscribePage from './subscribe';
-import { SubscribePageWrapOpenAction, SubscribePageOpenAction } from '../../reducers/main/subscribe';
-import { GetServerPlatformList } from '../../reducers/main/platform';
-
-import EnrollmentRevisePage from './subscribe/enrollment/revise';
-import AlertPage from './alert';
 import { customApiClient } from '../../shared/apiClient';
 import { GetAnalyPageList, AnalyPageReloadFalseAction } from '../../reducers/main/analysis';
 import { useHistory } from 'react-router-dom';
@@ -185,7 +177,7 @@ const Main = () => {
 
         }
 
-        setIsLoading(false);
+        // setIsLoading(false);
 
     }, [analysisList]);
 
@@ -217,7 +209,7 @@ const Main = () => {
             // set({ xy: [0, 0] });
         }
 
-        setIsLoading(false);
+        // setIsLoading(false);
 
     }, [analysisReloadStatus]);
 
@@ -228,6 +220,10 @@ const Main = () => {
         const height = window.innerHeight || document.body.clientHeight;
 
         setBottomCardHeight(height - bottomDivHeight);
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 300)
 
     }, []);
 
@@ -278,12 +274,17 @@ const BottomChildWrap = styled.div`
 `;
 
 const MainLoading = styled.div`
-    display:${props => props.isLoading ? 'block' : 'none'};
+    visibility:${props => props.isLoading ? 'visible' : 'hidden'};
+    opacity:${props => props.isLoading ? '1' : '0'};
+
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 1000;
+
+    /* 애니메이션 적용 */
+    transition: visibility 0.1s, opacity 0.1s linear;
 `;
 export default Main;

@@ -1,17 +1,13 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
-import { AlertPageWrapCloseAction, AlertPageCloseAction } from "../../../reducers/main/alert";
+import { useDispatch } from "react-redux";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
-import icon_profile from "../../../assets/duck-profile.svg";
-import icon_info from "../../../assets/info-black-192-x-192@3x.png";
 import duck_family from "../../../assets/duck-family@2x.png";
 
 import { TextMiddle } from '../../../styled/shared';
 
-import Fade from 'react-reveal/Fade';
 import { PageClose, PageWrapClose } from '../../../reducers/info/page';
 
 const NoticeDetailPage = () => {

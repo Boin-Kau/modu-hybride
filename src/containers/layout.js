@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { Switch, Route, BrowserRouter as Router, Link } from 'react-router-dom'
+import React from 'react';
+import { Route } from 'react-router-dom'
 
 import Splash from '../views/login/splash';
 import Login from '../views/login/login';
@@ -15,7 +15,7 @@ import DetailPage from '../views/info/detail';
 import SearchPage from '../views/main/subscribe/search';
 import NoticePage from '../views/info/notice';
 
-const AppLayout = ({ history, location, match }) => {
+const AppLayout = () => {
 
     return (
         <>

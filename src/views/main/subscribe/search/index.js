@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -9,14 +9,13 @@ import icon_back from "../../../../assets/icon-back-arrow.svg";
 import danger_icon from "../../../../assets/danger-icon.svg";
 
 import { TextMiddle, DangerWrapPopup, DangerPopup } from '../../../../styled/shared';
-import { SearchPageCloseAction, SearchPageWrapCloseAction } from '../../../../reducers/main/search';
 
 import icon_plus from "../../../../assets/icon-plus.svg";
 import platform_none from "../../../../assets/platform-none.svg";
 import { customApiClient } from '../../../../shared/apiClient';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../../reducers/container/message';
-import { CategoryReloadTrueAction, TotalReloadTrueAction, TotalReloadFalseAction, CategoryReloadFalseAction, SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
-import { UpdateSubscribeStatus, GetServerPlatformList, GetCategoryPlatformList, DeletePopupClose, DeletePopupOpen, SearchDeleteFalse, GetPopularPlatformList, GetSearchPlatformList } from '../../../../reducers/main/platform';
+import { CategoryReloadTrueAction, TotalReloadTrueAction, SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
+import { UpdateSubscribeStatus, DeletePopupClose, DeletePopupOpen, GetPopularPlatformList, GetSearchPlatformList } from '../../../../reducers/main/platform';
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 import { useHistory } from 'react-router-dom';
 
@@ -30,8 +29,6 @@ const SearchPage = () => {
     const {
         popularPlatformList,
         searchPlatformList,
-
-        searchDeleteStatus,
 
         deletePopupWrap,
         deletePopup,

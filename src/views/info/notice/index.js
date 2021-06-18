@@ -1,18 +1,13 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { AlertPageWrapCloseAction, AlertPageCloseAction } from "../../../reducers/main/alert";
-
 import icon_back from "../../../assets/icon-back-arrow.svg";
-import icon_profile from "../../../assets/duck-profile.svg";
-import icon_info from "../../../assets/info-black-192-x-192@3x.png";
-
 import { TextMiddle } from '../../../styled/shared';
 
 import Fade from 'react-reveal/Fade';
 import NoticeDetailPage from './detail';
-import { PageClose, PageWrapClose, PageWrapOpen, PageOpen } from '../../../reducers/info/page';
+import { PageWrapOpen, PageOpen } from '../../../reducers/info/page';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 

@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { AlertPageWrapCloseAction, AlertPageCloseAction } from "../../../reducers/main/alert";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import icon_profile from "../../../assets/duck-profile.svg";
@@ -16,7 +15,7 @@ import NamePage from './name';
 
 import Fade from 'react-reveal/Fade';
 import PhonePage from './phone';
-import { PageClose, PageWrapClose, PageWrapOpen, PageOpen } from '../../../reducers/info/page';
+import { PageWrapOpen, PageOpen } from '../../../reducers/info/page';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { useHistory } from 'react-router-dom';
 import { customApiClient } from '../../../shared/apiClient';

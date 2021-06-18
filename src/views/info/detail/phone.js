@@ -1,14 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { AlertPageWrapCloseAction, AlertPageCloseAction } from "../../../reducers/main/alert";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
-import icon_profile from "../../../assets/duck-profile.svg";
-import icon_info from "../../../assets/info-black-192-x-192@3x.png";
 
-import { TextMiddle, LoginButton } from '../../../styled/shared';
+import { TextMiddle } from '../../../styled/shared';
 
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../../styled/main/enrollment';
 import { PageClose, PageWrapClose } from '../../../reducers/info/page';

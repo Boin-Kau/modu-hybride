@@ -1,11 +1,8 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
-import { SubscribePageCloseAction, SubscribePageWrapCloseAction, TotalReloadFalseAction, CategoryReloadFalseAction, CategoryReloadTrueAction, TotalReloadTrueAction, SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
-
-
-import Fade from 'react-reveal/Fade';
+import { TotalReloadFalseAction, CategoryReloadFalseAction, CategoryReloadTrueAction, TotalReloadTrueAction, SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
 
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
@@ -24,12 +21,7 @@ import sub_info from "../../../assets/open-page.gif";
 
 
 import { TextMiddle, DangerWrapPopup, DangerPopup, DangerPopupTop } from '../../../styled/shared';
-import SearchPage from './search';
-import { SearchPageWrapOpenAction, SearchPageOpenAction, SearchPageCloseAction, SearchPageWrapCloseAction } from '../../../reducers/main/search';
-import { EnrollmentPageWrapOpenAction, EnrollmentPageOpenAction } from '../../../reducers/main/enrollment';
-
-import EnrollmentPage from './enrollment';
-import { GetPopularPlatformList, GetCategoryPlatformList, GetSearchPlatformList, GetServerPlatformList, UpdateSubscribeStatus, GetPlatformCategoryList, DeletePopupOpen, DeletePopupClose, SearchDeleteTrue } from '../../../reducers/main/platform';
+import { GetCategoryPlatformList, GetServerPlatformList, UpdateSubscribeStatus, DeletePopupOpen, DeletePopupClose, SearchDeleteTrue } from '../../../reducers/main/platform';
 import { customApiClient } from '../../../shared/apiClient';
 import { MessageOpen, MessageClose, MessageWrapOpen, MessageWrapClose } from '../../../reducers/container/message';
 import { AnalyPageReloadTrueAction } from '../../../reducers/main/analysis';
@@ -47,22 +39,10 @@ const SubscribePage = () => {
     const history = useHistory();
 
     //store
-    const {
-        openSearchPageWrapStatus,
-        openSearchPageStatus
-    } = useSelector(state => state.main.search);
-
-    const {
-        openEnrollmentPageWrapStatus,
-        openEnrollmentPageStatus
-    } = useSelector(state => state.main.enrollment);
 
     const {
         serverPlatformList,
         categoryPlatformList,
-        popularPlatformList,
-        searchPlatformList,
-        platformCategoryList,
 
         deletePopupWrap,
         deletePopup,
