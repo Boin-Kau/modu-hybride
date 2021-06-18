@@ -8,7 +8,7 @@ import icon_back from "../../assets/icon-back-arrow.svg";
 import { TextMiddle } from '../../styled/shared';
 import { PageClose, PageWrapClose } from '../../reducers/info/page';
 
-import { IsAlertUpdate } from '../../reducers/info/user';
+import { IsAlertUpdate, IsMarketingUpdate } from '../../reducers/info/user';
 import { customApiClient } from '../../shared/apiClient';
 
 
@@ -17,7 +17,9 @@ const SettingPage = () => {
     const dispatch = useDispatch();
 
     const {
-        isAlert
+        isAlert,
+        isMarketing,
+        marketingUpdatedAt
     } = useSelector(state => state.info.user);
 
     const closePage = useCallback(() => {
@@ -70,6 +72,59 @@ const SettingPage = () => {
 
     }, [isAlert]);
 
+    const onClickMarketingRadio = useCallback(async () => {
+
+        let today = new Date();
+
+        let year = today.getFullYear();
+        let month = new String(today.getMonth() + 1);
+        let day = new String(today.getDate());
+
+        // 한자리수일 경우 0을 채워준다. 
+        if (month.length == 1) {
+            month = "0" + month;
+        }
+        if (day.length == 1) {
+            day = "0" + day;
+        }
+
+        const currentDate = year + '-' + month + '-' + day;
+
+        //서버통신
+        const res = await customApiClient('put', `/user/alert/marketing`);
+        console.log(res)
+        //서버에러
+        if (!res) return
+
+        //벨리데이션
+        if (res.statusCode != 200) {
+            alert('오류가 발생하였습니다. 잠시후 다시 시도해주세요.');
+            return
+        }
+
+        //store 변경
+        if (isMarketing == 'Y') {
+            dispatch({
+                type: IsMarketingUpdate,
+                data: {
+                    isMarketing: 'N',
+                    marketingUpdatedAt: currentDate
+                }
+            })
+        }
+        else {
+            dispatch({
+                type: IsMarketingUpdate,
+                data: {
+                    isMarketing: 'Y',
+                    marketingUpdatedAt: currentDate
+                }
+            })
+        }
+
+
+    }, [isMarketing]);
+
     return (
         <PageWrap>
 
@@ -81,7 +136,7 @@ const SettingPage = () => {
             </HeaderWrap>
 
             <div style={{ padding: '0.875rem 1.25rem 0 1.25rem' }}>
-                <div style={{ position: 'relative', paddingBottom: '1.875rem', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
+                <div style={{ position: 'relative', paddingBottom: '1.875rem' }}>
                     <div className="spoqaBold" style={{ fontSize: '0.8125rem', marginBottom: '0.3125rem' }}>서비스 알림</div>
                     <div className="notoMedium" style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>구독 결제일 알림, 업데이트 안내 등</div>
 
@@ -89,6 +144,18 @@ const SettingPage = () => {
                         <AlertRadioGrow isAlert={isAlert != 'Y'} />
                         <AlertRadioButton />
                         <AlertRadioGrow isAlert={isAlert == 'Y'} />
+                    </AlertRadioButtonWrap>
+                </div>
+                <div style={{ position: 'relative', paddingBottom: '1.875rem', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
+                    <div className="spoqaBold" style={{ fontSize: '0.8125rem', marginBottom: '0.3125rem' }}>마케팅 정보 수신 동의</div>
+                    <div className="notoMedium" style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
+                        마케팅 정보 수신 {isMarketing == 'Y' ? '동의' : '해제'} {marketingUpdatedAt}
+                    </div>
+
+                    <AlertRadioButtonWrap onClick={onClickMarketingRadio} isAlert={isMarketing == 'Y'}>
+                        <AlertRadioGrow isAlert={isMarketing != 'Y'} />
+                        <AlertRadioButton />
+                        <AlertRadioGrow isAlert={isMarketing == 'Y'} />
                     </AlertRadioButtonWrap>
                 </div>
                 <div style={{ display: 'flex', marginTop: '1.875rem', marginBottom: '0.25rem', fontSize: '0.8125rem' }}>

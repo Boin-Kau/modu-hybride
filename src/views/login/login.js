@@ -281,6 +281,18 @@ const Login = () => {
             //토큰저장
             localStorage.setItem('x-access-token', data.jwt);
 
+            const authData = await customApiClient('get', '/user/jwt');
+
+            //벨리데이션
+            if (!authData || authData.statusCode != 200) {
+                alert("오류가 발생하였습니다. 다시 시도해주세요.");
+                return
+            }
+            dispatch({
+                type: UserInfoUpdate,
+                data: authData.result
+            })
+
             //메인 페이지 이동 로직
             dispatch(BottomNavOpenAction);
             history.push('/main');
