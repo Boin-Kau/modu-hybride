@@ -545,12 +545,7 @@ const EnrollmentRevisePage = ({ location }) => {
                         <ItemWrap>
                             <InputWrap style={{ flexGrow: "1", flexBasis: "0", marginRight: "0.3125rem" }}>
                                 <Input type="number" placeholder="결제금액을 입력하세요" onChange={onChangePrice} value={price}></Input>
-                            </InputWrap>
-                            <InputWrap style={{ flexGrow: "0", }}>
-                                <div style={{ width: '3.125rem' }}>￦ (원)</div>
-                                {/* <div>
-                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                            </div> */}
+                                <div className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)' }}>￦(원)</div>
                             </InputWrap>
                         </ItemWrap>
 
@@ -982,7 +977,7 @@ const EnrollmentRevisePage = ({ location }) => {
                     </div>
                 </DangerPopup>
             </DangerWrapPopup>
-        </div>
+        </div >
     )
 
 };
