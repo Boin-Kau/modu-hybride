@@ -27,7 +27,7 @@ const CardStyle = {
     height: '100vh',
     backgroundColor: '#f7f7f7',
     borderRadius: "0.4375rem",
-    boxShadow: "0 0 0.25rem 0.0625rem #eeb102"
+    boxShadow: "0 0 0.25rem 0.0625rem rgba(0, 0, 0, 0.15)"
 }
 
 const BottomChildOpenStyle = {
