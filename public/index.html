@@ -91,6 +91,36 @@
 
     }
 
+    window.onload = async function inital() {
+
+      //fcm token 가져오기
+      if (current_user_platform == 'android') {
+
+        try {
+          fcmToken = await window.android.getFcmToken();
+          localStorage.setItem('fcmToken', fcmToken);
+        }
+        catch (err) {
+          console.log(err);
+        }
+
+      }
+      else {
+        try {
+          window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
+        }
+        catch (err) {
+          console.log(err);
+        }
+      }
+
+    }
+
+    const set_ios_fcm_token = (iosDeviceToken) => {
+      fcmToken = iosDeviceToken;
+      localStorage.setItem('fcmToken', fcmToken);
+    }
+
 
   </script>
 </head>

@@ -225,6 +225,28 @@ const Main = () => {
             setIsLoading(false);
         }, 350)
 
+
+        //fcm token
+        let fcmToken = localStorage.getItem("fcmToken");
+
+        if (!fcmToken) {
+            setTimeout(() => {
+
+                fcmToken = localStorage.getItem("fcmToken");
+
+                //fcm 등록
+                customApiClient('patch', '/user/fcm', {
+                    fcmToken: fcmToken
+                });
+
+            }, 1500)
+        }
+
+        //fcm 등록
+        customApiClient('patch', '/user/fcm', {
+            fcmToken: fcmToken
+        });
+
     }, []);
 
 

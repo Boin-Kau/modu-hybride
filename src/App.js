@@ -15,7 +15,7 @@ import BottomNav from './containers/bottomNav';
 const history = createBrowserHistory();
 
 
-function checkMobile() {
+export const checkMobile = () => {
 
   var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
 
