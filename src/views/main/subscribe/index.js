@@ -19,6 +19,8 @@ import duck_read from "../../../assets/duck-read.gif";
 import duck_tech from "../../../assets/duck-tech.gif";
 import sub_info from "../../../assets/open-page.gif";
 
+import loading_gif from "../../../assets/gray-loading.gif";
+
 
 import { TextMiddle, DangerWrapPopup, DangerPopup, DangerPopupTop } from '../../../styled/shared';
 import { GetCategoryPlatformList, GetServerPlatformList, UpdateSubscribeStatus, DeletePopupOpen, DeletePopupClose, SearchDeleteTrue } from '../../../reducers/main/platform';
@@ -344,13 +346,12 @@ const SubscribePage = () => {
 
                             {/* 그외 리스트 */}
                             {
-                                serverPlatformList.map((list, index) => {
-                                    return (<TotalItemComponent data={list} key={index}></TotalItemComponent>)
-                                })
+                                serverPlatformList.length < 1 ? <LoadingIcon src={loading_gif} alt="loading" /> :
+                                    serverPlatformList.map((list, index) => {
+                                        return (<TotalItemComponent data={list} key={index}></TotalItemComponent>)
+                                    })
 
                             }
-
-
 
                         </ItemListView>
 
@@ -374,15 +375,16 @@ const SubscribePage = () => {
 
                             {/* 그외 리스트 */}
                             {
-                                categoryPlatformList.map((list, index) => {
+                                categoryPlatformList.length < 1 ? <LoadingIcon src={loading_gif} alt="loading" /> :
+                                    categoryPlatformList.map((list, index) => {
 
-                                    if ((index + 1 == categoryPlatformList.length)) {
-                                        return (<CategoryItemComponent props={list} key={index} isLast={true}></CategoryItemComponent>)
-                                    }
-                                    else {
-                                        return (<CategoryItemComponent props={list} key={index}></CategoryItemComponent>)
-                                    }
-                                })
+                                        if ((index + 1 == categoryPlatformList.length)) {
+                                            return (<CategoryItemComponent props={list} key={index} isLast={true}></CategoryItemComponent>)
+                                        }
+                                        else {
+                                            return (<CategoryItemComponent props={list} key={index}></CategoryItemComponent>)
+                                        }
+                                    })
 
                             }
 
@@ -683,8 +685,8 @@ const ItemListWrap = styled.div`
 `;
 const ItemListView = styled.div`
     display:${props => props.selectedStatus ? 'block' : 'none'};
-
-    min-height:12.5rem;
+    position: relative;
+    min-height:25rem;
 `;
 
 
@@ -778,6 +780,15 @@ const TriThi = styled.div`
     border-bottom:0.3125rem solid #ffbc26;
     border-right: 0.3125rem solid transparent;
     border-left: 0.3125rem solid #ffbc26;
+`;
+
+const LoadingIcon = styled.img`
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:1.875rem;
+    height:1.875rem;
 `;
 
 export default SubscribePage;
