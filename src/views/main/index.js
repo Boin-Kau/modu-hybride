@@ -228,13 +228,13 @@ const Main = () => {
 
         //fcm token
         let fcmToken = localStorage.getItem("fcmToken");
-        if (fcmToken == undefined || fcmToken == 'undefined') fcmToken = null;
+        if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
 
         if (!fcmToken) {
             setTimeout(() => {
 
                 fcmToken = localStorage.getItem("fcmToken");
-                if (fcmToken == undefined || fcmToken == 'undefined') fcmToken = null;
+                if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
 
                 //fcm 등록
                 customApiClient('patch', '/user/fcm', {
