@@ -151,6 +151,14 @@ $timing: 300ms;
   }
 }
 
+//드레드 금지
+body{
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select:none;
+}
 
 //폰트 thin:200, light:300, regular:400, bold:500
 
