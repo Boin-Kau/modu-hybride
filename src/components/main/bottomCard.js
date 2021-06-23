@@ -75,13 +75,19 @@ const BottomContent = ({ data, cardOpen }) => {
                 <div>
                     {
                         data.color && data.initial ?
-                            <div style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
-                                <div className="spoqaBold" style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%,-20%)', fontSize: '1.375rem', color: '#ffffff' }}>
+                            <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
+                                <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
                                     {data.initial}
                                 </div>
                             </div>
                             :
-                            <img src={data.platform.imgUrl ? data.platform.imgUrl : platform_none} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                            data.platform.imgUrl ?
+                                <img src={data.platform.imgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} /> :
+                                <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: '#e1e1e1' }}>
+                                    <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
+                                        ?
+                                    </div>
+                                </div>
                     }
                 </div>
                 <div className="spoqaBold" style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}>

@@ -265,9 +265,10 @@ const Main = () => {
                 </div>
                 <div style={{ flexGrow: "1", flexBasis: "0", zIndex: "20" }}>
                     <animated.div {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
-                        <TitleWrap className="notoMedium">
-                            <div className="spoqaBold" style={{ fontSize: '0.875rem' }}>구독내역</div>
-                            <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "0px", transform: "translate(0, -50%)", width: '50px', paddingRight: '1.25rem', textAlign: 'right' }}>+</div>
+                        <TitleWrap className="notoMedium" style={{ paddingRight: '0' }}>
+                            <div className="spoqaBold" style={{ fontSize: '0.875rem', position: 'relative' }}>구독내역
+                                <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "0px", transform: "translate(0, -50%)", width: '50px', paddingRight: '1.25rem', textAlign: 'right' }}>+</div>
+                            </div>
                         </TitleWrap>
 
                         <BottomChildWrap height={bottomCardHeight} ref={bottomChildDivbRef} style={isScrollChild ? BottomChildOpenStyle : BottomChildCloseStyle}>

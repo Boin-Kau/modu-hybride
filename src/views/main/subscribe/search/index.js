@@ -350,7 +350,15 @@ const TotalItemComponent = ({ data }) => {
     return (
         <ItemWrap className="notoMedium">
             <ItemImgWrap>
-                <img src={data.imgUrl ? data.imgUrl : platform_none} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
+                {
+                    data.imgUrl ?
+                        <img src={data.imgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} /> :
+                        <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", backgroundColor: '#e1e1e1' }}>
+                            <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
+                                ?
+                            </div>
+                        </div>
+                }
             </ItemImgWrap>
             <ItemTitleWrap>
                 <TextMiddle>
