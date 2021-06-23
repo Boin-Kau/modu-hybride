@@ -470,7 +470,7 @@ const EnrollmentPage = () => {
                             <div style={{ fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 최종 결제금액으로 입력해주세요.</div>
                         </TitleWrap>
                         <ItemWrap>
-                            <InputWrap style={{ flexGrow: "1", flexBasis: "0", marginRight: "0.3125rem" }}>
+                            <InputWrap style={{ flexGrow: "1", flexBasis: "0" }}>
                                 <Input type="number" placeholder="결제금액을 입력하세요" onChange={onChangePrice} value={price}></Input>
                                 <div className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)' }}>￦(원)</div>
                             </InputWrap>

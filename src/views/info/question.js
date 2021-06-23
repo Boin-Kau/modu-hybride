@@ -126,7 +126,7 @@ const QuestionPage = () => {
                         <div className="notoMedium" style={{ marginRight: '0.5625rem' }}>03</div>
                         <div className="notoMedium">화면이 가끔 끊기는 것 같아요.</div>
                         {
-                            !twoOpen ?
+                            !threeOpen ?
                                 <ContentMoreIcon src={icon_arrow_down} /> :
                                 <ContentMoreIcon src={icon_arrow_up} />
                         }

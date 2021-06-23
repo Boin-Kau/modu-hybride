@@ -14,6 +14,7 @@ import icon_trsah from "../../../../assets/icon-trash-can.svg";
 import icon_pen from "../../../../assets/pen-icon-white.svg";
 
 import danger_icon from "../../../../assets/danger-icon.svg";
+import trash_black from "../../../../assets/trash-black.svg";
 
 
 import { TextMiddle, DangerWrapPopup, DangerPopup } from '../../../../styled/shared';
@@ -499,7 +500,10 @@ const EnrollmentRevisePage = ({ location }) => {
                                 name : '직접 입력하기'
                         }
                     </TextMiddle>
-                    <SaveButton confimStatus={pageConfirmStatus} onClick={onClickRevise}>저장</SaveButton>
+                    {/* <SaveButton confimStatus={pageConfirmStatus} onClick={onClickRevise}>저장</SaveButton> */}
+                    <div onClick={onClickDelete} style={{ position: 'absolute', width: '3.5rem', height: '3.0625rem', right: '0' }}>
+                        <img src={trash_black} style={{ width: "1rem", height: "1rem", position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }} />
+                    </div>
                 </HeaderWrap>
 
                 <ContentWrap>
@@ -543,7 +547,7 @@ const EnrollmentRevisePage = ({ location }) => {
                             <div style={{ fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 최종 결제금액으로 입력해주세요.</div>
                         </TitleWrap>
                         <ItemWrap>
-                            <InputWrap style={{ flexGrow: "1", flexBasis: "0", marginRight: "0.3125rem" }}>
+                            <InputWrap style={{ flexGrow: "1", flexBasis: "0" }}>
                                 <Input type="number" placeholder="결제금액을 입력하세요" onChange={onChangePrice} value={price}></Input>
                                 <div className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)' }}>￦(원)</div>
                             </InputWrap>
@@ -901,16 +905,9 @@ const EnrollmentRevisePage = ({ location }) => {
 
                     </SectionWrap>
 
-                    <DeleteButtonWrap className="spoqaBold" onClick={onClickDelete}>
-                        <div style={{ flexGrow: "1" }}></div>
-                        <div style={{ marginTop: "0.0625rem" }}>
-                            <img src={icon_trsah} style={{ width: "0.9375rem", height: "0.9375rem", marginRight: "0.5rem" }} />
-                        </div>
-                        <div>
-                            삭제하기
-                        </div>
-                        <div style={{ flexGrow: "1" }}></div>
-                    </DeleteButtonWrap>
+                    <SaveButton className="spoqaBold" pageConfirmStatus={pageConfirmStatus} onClick={onClickRevise}>
+                        저장
+                    </SaveButton>
                 </ContentWrap>
 
 
@@ -1000,16 +997,6 @@ const HeaderWrap = styled.div`
     color:#313131;
     
     box-shadow: 0 0 0.25rem 0.0625rem #efefef;
-`;
-
-const SaveButton = styled.div`
-    position:absolute;
-    top:50%;
-    transform:translate(0,-50%);
-    right:1.25rem;
-
-    font-size:0.8125rem;
-    color:${props => props.confimStatus ? '#313131' : 'rgba(49,49,49,0.25)'};
 `;
 
 
@@ -1171,6 +1158,25 @@ const SelectContent = styled.div`
     padding:0.8125rem 0.875rem;
 
     background-color:${props => props.selectSatus ? 'rgba(216, 216, 216,0.15)' : '#ffffff'};
+`;
+
+const SaveButton = styled.div`
+    cursor: pointer;
+
+    width:100%;
+
+    padding:0.8125rem 0 0.875rem 0;
+
+    font-size:0.875rem;
+    color:#ffffff;
+
+    margin-top:2.3125rem;
+
+    text-align:center;
+
+    border-radius:0.375rem;
+
+    background-color: ${props => props.pageConfirmStatus ? '#ffca17' : '#e3e3e3'};
 `;
 
 
