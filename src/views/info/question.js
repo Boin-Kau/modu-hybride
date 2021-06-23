@@ -34,6 +34,7 @@ const QuestionPage = () => {
 
     const [oneOpen, setOneOpen] = useState(false);
     const [twoOpen, setTwoOpen] = useState(false);
+    const [threeOpen, setThreeOpen] = useState(false);
 
     const onClickContentOpen = useCallback((index) => {
 
@@ -45,7 +46,7 @@ const QuestionPage = () => {
                 setOneOpen(true);
             }
         }
-        else {
+        else if (index == 1) {
             if (twoOpen) {
                 setTwoOpen(false);
             }
@@ -53,8 +54,16 @@ const QuestionPage = () => {
                 setTwoOpen(true);
             }
         }
+        else {
+            if (threeOpen) {
+                setThreeOpen(false);
+            }
+            else {
+                setThreeOpen(true);
+            }
+        }
 
-    }, [oneOpen, twoOpen]);
+    }, [oneOpen, twoOpen, threeOpen]);
 
 
     return (
@@ -109,6 +118,25 @@ const QuestionPage = () => {
                         입력하신 결제일이 다음 달에 존재하지 않을 경우는 (예: 31일) 자동으로 직전일(예: 30일)이 정기 결제일로 변경됩니다.
                         <br /><br />
                         구독 플랫폼마다 결제 시스템의 차이가 존재할 수 있으니, 서비스 센터를 참고하시기 바랍니다.
+                    </ContentDetailWrap>
+                </Fade>
+
+                <ContentWrap onClick={() => { onClickContentOpen(2) }}>
+                    <div style={{ display: 'flex', fontSize: '0.8125rem', height: '0.8125rem' }}>
+                        <div className="notoMedium" style={{ marginRight: '0.5625rem' }}>03</div>
+                        <div className="notoMedium">화면이 가끔 끊기는 것 같아요.</div>
+                        {
+                            !twoOpen ?
+                                <ContentMoreIcon src={icon_arrow_down} /> :
+                                <ContentMoreIcon src={icon_arrow_up} />
+                        }
+                    </div>
+                </ContentWrap>
+                <Fade collapse when={threeOpen} duration={500}>
+                    <ContentDetailWrap className="notoRegular">
+                        아이폰의 경우, 저전력 모드를 사용 시 애니메이션 효과와 같은 일부 시각적인 효과가 최소화될 수 있습니다.
+                       <br /><br />
+                       자연스러운 현상이니 걱정하지마세요!
                     </ContentDetailWrap>
                 </Fade>
 
