@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.50ea8567.chunk.css",
-    "main.js": "/static/js/main.aa53f42b.chunk.js",
-    "main.js.map": "/static/js/main.aa53f42b.chunk.js.map",
+    "main.js": "/static/js/main.9b14b951.chunk.js",
+    "main.js.map": "/static/js/main.9b14b951.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.678d5936.js",
     "runtime-main.js.map": "/static/js/runtime-main.678d5936.js.map",
     "static/js/2.049633a3.chunk.js": "/static/js/2.049633a3.chunk.js",
@@ -65,12 +65,13 @@
     "static/media/saft-duck.f16f6f78.gif": "/static/media/saft-duck.f16f6f78.gif",
     "static/media/stroke-1-copy-5.808bc190.svg": "/static/media/stroke-1-copy-5.808bc190.svg",
     "static/media/stroke-1-copy-6.7cd00a1e.svg": "/static/media/stroke-1-copy-6.7cd00a1e.svg",
+    "static/media/trash-black.f3554e67.svg": "/static/media/trash-black.f3554e67.svg",
     "static/media/triangle.7a224ecd.svg": "/static/media/triangle.7a224ecd.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.678d5936.js",
     "static/js/2.049633a3.chunk.js",
     "static/css/main.50ea8567.chunk.css",
-    "static/js/main.aa53f42b.chunk.js"
+    "static/js/main.9b14b951.chunk.js"
   ]
 }
