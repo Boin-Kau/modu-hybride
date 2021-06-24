@@ -13,7 +13,7 @@ import platform_none from "../../assets/platform-none.svg";
 
 
 import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailButton, DetailItemFillContent } from '../../styled/main';
-import { SubscribeReloadFalseAction, GetSubscirbeList } from '../../reducers/main/subscribe';
+import { SubscribeReloadFalseAction, GetSubscirbeList, CloseItemTrueAction } from '../../reducers/main/subscribe';
 import { customApiClient } from '../../shared/apiClient';
 import { useHistory } from 'react-router-dom';
 
@@ -25,12 +25,16 @@ export const priceToString = price => {
 const BottomContent = ({ data, cardOpen }) => {
 
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const [openStatus, setOpenStatus] = useState(false);
 
     const onclickOpenContent = () => {
 
-        if (!cardOpen) return
+        if (!cardOpen) {
+            // return
+            dispatch(CloseItemTrueAction);
+        }
 
         if (openStatus) {
             setOpenStatus(false);

@@ -24,6 +24,7 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 
 import { onClickTerminate } from '../../App';
+import { CloseItemFalseAction } from '../../reducers/main/subscribe';
 
 const CardStyle = {
     height: '100vh',
@@ -39,6 +40,9 @@ const BottomChildCloseStyle = {
     overflowY: "hidden"
 }
 
+let isScrollParent = true;
+let isBottomViewOpen = false;
+
 const Main = () => {
 
     const dispatch = useDispatch();
@@ -49,6 +53,9 @@ const Main = () => {
         analysisList,
         analysisReloadStatus
     } = useSelector(state => state.main.analysis);
+    const {
+        closeItemClick
+    } = useSelector(state => state.main.subscribe);
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
@@ -61,9 +68,6 @@ const Main = () => {
     const titleDivbRef = useRef();
     const bottomDivbRef = useRef();
     const bottomChildDivbRef = useRef();
-
-    let isScrollParent = true;
-    let isBottomViewOpen = false;
 
     const bind = useGesture(({ down, delta, velocity }) => {
         velocity = clamp(velocity, 1, 1);
@@ -93,12 +97,10 @@ const Main = () => {
 
         if (!down && isBottomViewOpen) {
 
-
             if (childScrollY != 0) return
 
 
             if (delta[1] > -200) {
-
 
                 isBottomViewOpen = false;
                 isScrollParent = true;
@@ -109,13 +111,13 @@ const Main = () => {
                 return
             }
             else {
-
                 set({ xy: down ? delta : [0, bottomViewY], config: { mass: velocity, tension: 500 * velocity, friction: 50 } })
             }
 
         }
 
         if (delta[1] > -100) {
+
 
             let defaultLocation = [0, 0];
 
@@ -138,7 +140,6 @@ const Main = () => {
         else {
 
             set({ xy: down ? delta : [0, bottomViewY], config: { mass: velocity, tension: 500 * velocity, friction: 50 } })
-
 
             if (!down) {
                 isBottomViewOpen = true;
@@ -266,6 +267,25 @@ const Main = () => {
         }
 
     }, []);
+
+    //닫혀있을 때 내용물 클릭시 펼쳐지게 하기
+    useEffect(() => {
+
+        if (closeItemClick) {
+            const titleDivY = titleDivbRef.current.getBoundingClientRect().bottom;
+            const bottomDivY = bottomDivbRef.current.getBoundingClientRect().bottom;
+            const bottomViewY = titleDivY - bottomDivY;
+
+            set({ xy: [0, bottomViewY], config: { mass: 1, tension: 500 * 1, friction: 50 } })
+
+            isBottomViewOpen = true;
+            isScrollParent = false;
+            setIsScrollChild(true);
+
+            dispatch(CloseItemFalseAction);
+        }
+
+    }, [closeItemClick])
 
 
     return (

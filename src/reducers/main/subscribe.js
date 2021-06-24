@@ -6,7 +6,8 @@ export const initialState = {
     subscribeReloadStatus: true,
     enrollmentInitialStatus: false,
     subscribeList: [],
-    subscribeDetail: null
+    subscribeDetail: null,
+    closeItemClick: false,
 };
 
 const SubscribePageWrapOpen = 'SubscribePageWrapOpen';
@@ -26,6 +27,10 @@ const subscribeReloadFalse = 'subscribeReloadFalse';
 
 const enrollmentInitialTrue = 'enrollmentInitialTrue';
 const enrollmentInitialFalse = 'enrollmentInitialFalse';
+
+const closeItemTrue = 'closeItemTrue';
+const closeItemFalse = 'closeItemFalse';
+
 
 export const GetSubscirbeList = 'GetSubscirbeList';
 export const GetSubscirbeDetail = 'GetSubscirbeDetail';
@@ -68,6 +73,13 @@ export const EnrollmentInitialTrueAction = {
 };
 export const EnrollmentInitialFalseAction = {
     type: enrollmentInitialFalse,
+};
+
+export const CloseItemTrueAction = {
+    type: closeItemTrue,
+};
+export const CloseItemFalseAction = {
+    type: closeItemFalse,
 };
 
 const reducer = (state = initialState, action) => {
@@ -158,6 +170,18 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 subscribeDetail: action.data,
+            }
+        }
+        case 'closeItemTrue': {
+            return {
+                ...state,
+                closeItemClick: true,
+            }
+        }
+        case 'closeItemFalse': {
+            return {
+                ...state,
+                closeItemClick: false,
             }
         }
         default: {
