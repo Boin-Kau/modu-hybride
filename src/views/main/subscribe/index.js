@@ -28,8 +28,6 @@ import { customApiClient } from '../../../shared/apiClient';
 import { MessageOpen, MessageClose, MessageWrapOpen, MessageWrapClose } from '../../../reducers/container/message';
 import { AnalyPageReloadTrueAction } from '../../../reducers/main/analysis';
 
-
-import Slider from "react-slick";
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 
@@ -101,7 +99,7 @@ const SubscribePage = () => {
         if (userPlatform == 'ios') {
             //IOS 배경색 설정
             try {
-                window.webkit.messageHandlers.setColorGray.postMessage("hihi");
+                window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
             }
             catch (err) {
             }
