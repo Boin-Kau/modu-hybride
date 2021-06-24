@@ -61,7 +61,15 @@ const SubscribePage = () => {
     const [totalMenuStatus, setTotalMenuStatus] = useState(true);
     const [categoryMenuStatus, setcategoryMenuStatus] = useState(false);
     const [isFirst, setIsFirst] = useState(false);
-    const [isFirstView, setIsFirstView] = useState(false);
+
+    const [firstDisplay, setFirstDisplay] = useState(true);
+    const [firstOpacity, setFirstOpacity] = useState(false);
+
+    const [secondDisplay, setSecondDisplay] = useState(false);
+    const [secondOpacity, setSecondOpacity] = useState(false);
+
+    const [thirdDisplay, setThirdDisplay] = useState(false);
+    const [thirdOpacity, setThirdOpacity] = useState(false);
 
     useEffect(() => {
         dispatch(BottomNavCloseAction);
@@ -81,8 +89,8 @@ const SubscribePage = () => {
             setIsFirst(true);
 
             setTimeout(() => {
-                setIsFirstView(true);
-            }, 500);
+                setFirstOpacity(true);
+            }, 500)
         }
         else {
             setIsFirst(false);
@@ -134,9 +142,7 @@ const SubscribePage = () => {
     };
 
     const openEnrollmentPage = () => {
-
         history.push('/subscribe/enroll');
-
     };
 
 
@@ -293,28 +299,36 @@ const SubscribePage = () => {
         })
     }
 
-    //안내창 관련
-    const settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        appendDots: dots => (
-            <div
-                style={{
-                    position: 'absolute',
-                    bottom: '3.125rem',
-                }}
-            >
-                <ul style={{ margin: "0px", padding: '0px' }}> {dots} </ul>
-            </div>
-        ),
-    };
+    //코치마크 다음 함수
+    const onClickFirstInfoNext = (index) => {
+        if (index == 0) {
+            setFirstOpacity(false);
+            setSecondDisplay(true);
+            setTimeout(() => {
+                setFirstDisplay(false);
+                setSecondOpacity(true);
+            }, 400);
+        }
+        else {
+            setSecondOpacity(false);
+            setThirdDisplay(true);
+            setTimeout(() => {
+                setSecondDisplay(false);
+                setThirdOpacity(true);
+            }, 400);
+        }
+    }
 
+    //코치마크 닫기 함수
     const onClickFirstInfoCancle = () => {
-        setIsFirst(false);
-        localStorage.setItem('isFirst', 'true');
+        setFirstOpacity(false);
+        setSecondOpacity(false);
+        setThirdOpacity(false);
+
+        setTimeout(() => {
+            setIsFirst(false);
+            localStorage.setItem('isFirst', 'true');
+        }, 400)
     }
 
     return (
@@ -430,75 +444,119 @@ const SubscribePage = () => {
             </DangerWrapPopup>
 
             {/* 구독등록 안내창 */}
-            <InitialInfoWrapPopup className="notoMedium" openStatus={isFirst}>
-                <Slider {...settings} style={{ height: '100vh' }}>
-                    <div>
-                        <div style={{ position: 'relative', height: '100vh' }}>
+            <InitialInfoWrapPopup openStatus={isFirst}>
 
-                            <div style={{ position: 'absolute', top: '7.75rem', right: '3.0625rem', width: '17.125rem' }}>
-                                <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0 0.9375rem 1rem', borderRadius: '0.375rem', borderBottomRightRadius: '0', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
-                                    사용중인 구독 서비스를 선택해<br />
-                                    <span className="spoqaBold">구독 리스트에 추가</span>해보세요.
-                                </div>
-                                <div style={{ display: 'flex' }}>
-                                    <div style={{ flexGrow: '1' }} />
-                                    <TriFirst />
-                                </div>
-                                <img src={duck_read} style={{ position: 'absolute', right: '0.875rem', bottom: '0.625rem', width: '3.375rem', height: '3.875rem' }} />
-
+                {/* 첫번째 */}
+                <InitialInfoContent displayStatus={firstDisplay} opacityStatus={firstOpacity}>
+                    <div style={{ position: 'absolute', top: '8.75rem', right: '2.5rem', width: '16.3438rem' }}>
+                        <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0 0.9375rem 1rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
+                            <div className="notoBold" style={{ display: 'flex', lineHeight: '1.4375rem', marginBottom: '0.375rem', marginRight: '1.625rem' }}>
+                                <div style={{ flexGrow: '1' }}>구독 추가하기</div>
+                                <div style={{ color: 'rgba(255,255,255,0.65)' }}>1 of 3</div>
                             </div>
-                            <div style={{ position: 'absolute', top: '14.375rem', right: '1.4375rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
-                                <img src={icon_plus} style={{ width: '0.75rem', height: '0.75rem' }} />
+                            <div>
+                                사용중인 구독 서비스를 선택해<br />
+                                구독 리스트에 추가해보세요.
+                            </div>
+                            <div className="notoBold" style={{ display: 'flex', marginTop: '1.125rem', fontSize: '0.75rem', lineHeight: '1.4375rem' }}>
+                                <div onClick={onClickFirstInfoCancle}>닫기</div>
+                                <div onClick={() => { onClickFirstInfoNext(0) }} style={{ marginLeft: '1.3125rem', backgroundColor: 'white', color: '#ffbc26', width: '2.75rem', borderRadius: '0.7813rem', textAlign: 'center' }}>다음</div>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ flexGrow: '1' }} />
+                            <TriFirst />
+                            <div style={{ width: '0.625rem' }} />
+                        </div>
+                        <img src={duck_read} style={{ position: 'absolute', right: '1.375rem', bottom: '0.625rem', width: '3.375rem', height: '3.875rem' }} />
+
+                    </div>
+                    <div style={{ position: 'absolute', top: '17.9375rem', left: '0', right: '0', margin: '0 1.9375rem' }}>
+                        <ItemWrap style={{ border: 'none' }}>
+                            <ItemImgWrap>
+                                <img src="https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2Fyoutubepremium.png?alt=media&token=183d1cea-c07a-4c1c-84d3-10a48f656aea" style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
+                            </ItemImgWrap>
+                            <ItemTitleWrap>
+                                <TextMiddle>
+                                    <TextMiddle className="notoMedium">
+                                        유튜브 프리미엄
+                                    </TextMiddle>
+                                </TextMiddle>
+                            </ItemTitleWrap>
+                            <ItemIconWrap>
+                                <ItemIcon src={icon_plus}></ItemIcon>
+                            </ItemIconWrap>
+                        </ItemWrap>
+                    </div>
+                </InitialInfoContent>
+
+                {/* 두번째 */}
+                <InitialInfoContent displayStatus={secondDisplay} opacityStatus={secondOpacity}>
+
+                    <div style={{ position: 'absolute', top: '3.125rem', right: '1rem', width: '16.3438rem' }}>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ flexGrow: '1' }} />
+                            <TriSec />
+                            <div style={{ width: '0.875rem' }} />
+                        </div>
+                        <div style={{ backgroundColor: '#ffbc26', padding: '1.0625rem 0 1.125rem 1rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
+                            <div className="notoBold" style={{ display: 'flex', lineHeight: '1.4375rem', marginBottom: '0.375rem', marginRight: '1.625rem' }}>
+                                <div style={{ flexGrow: '1' }}>구독 서비스 찾기</div>
+                                <div style={{ color: 'rgba(255,255,255,0.65)' }}>2 of 3</div>
+                            </div>
+                            <div style={{ lineHeight: '1.3125rem' }}>
+                                검색기능을 사용하면 더 많은<br />
+                                구독 서비스를 찾아볼 수 있어요.
+                            </div>
+                            <div className="notoBold" style={{ display: 'flex', marginTop: '1.125rem', fontSize: '0.75rem', lineHeight: '1.4375rem' }}>
+                                <div onClick={onClickFirstInfoCancle}>닫기</div>
+                                <div onClick={() => { onClickFirstInfoNext(1) }} style={{ marginLeft: '1.3125rem', backgroundColor: 'white', color: '#ffbc26', width: '2.75rem', borderRadius: '0.7813rem', textAlign: 'center' }}>다음</div>
+                            </div>
+                        </div>
+                        <img src={duck_tech} style={{ position: 'absolute', right: '0.875rem', bottom: '0rem', width: '5rem' }} />
+
+                    </div>
+                    <div style={{ position: 'absolute', top: '0.125rem', right: '0.3125rem', padding: '1rem' }}>
+                        <img src={icon_search} style={{ width: '1rem', height: '1rem' }} />
+                    </div>
+                </InitialInfoContent>
+
+                {/* 세번째 */}
+                <InitialInfoContent displayStatus={thirdDisplay} opacityStatus={thirdOpacity}>
+
+                    <div onClick={onClickFirstInfoCancle} style={{ position: 'absolute', top: '0', right: '0', padding: '0.625rem 1rem' }}>
+                        <img src={icon_cancle} />
+                    </div>
+
+                    <div style={{ position: 'absolute', top: '3.125rem', left: '1.5625rem' }}>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ width: '0.875rem' }} />
+                            <TriThi />
+                            <div style={{ flexGrow: '1' }} />
+                        </div>
+                        <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0.625rem 0.6875rem 0.625rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem', textAlign: 'center' }}>
+                            <div className="notoBold" style={{ display: 'flex', lineHeight: '1.4375rem', marginBottom: '0.75rem', margin: '0 0.5625rem' }}>
+                                <div style={{ flexGrow: '1', textAlign: 'left' }}>구독 정보 수정</div>
+                                <div style={{ color: 'rgba(255,255,255,0.65)' }}>3 of 3</div>
+                            </div>
+                            <div>
+                                <img src={sub_info} style={{ width: '12.5rem' }} />
+                            </div>
+                            <div style={{ textAlign: 'left', margin: '0 0.5625rem', lineHeight: '1.3125rem' }}>
+                                상세 정보는 메인에서 입력 및 <br />
+                                수정이 가능해요.
+                            </div>
+                            <div className="notoBold" style={{ display: 'flex', fontSize: '0.75rem', lineHeight: '1.4375rem', marginRight: '0.5625rem' }}>
+                                <div style={{ flexGrow: '1' }} />
+                                <div onClick={onClickFirstInfoCancle} style={{ backgroundColor: 'white', color: '#ffbc26', width: '2.75rem', borderRadius: '0.7813rem', textAlign: 'center' }}>확인</div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div style={{ position: 'relative', height: '100vh', display: isFirstView ? 'block' : 'none' }}>
-
-                            <div style={{ position: 'absolute', top: '3.75rem', right: '1rem', width: '17.4375rem' }}>
-                                <div style={{ display: 'flex' }}>
-                                    <div style={{ flexGrow: '1' }} />
-                                    <TriSec />
-                                    <div style={{ width: '0.875rem' }} />
-                                </div>
-                                <div style={{ backgroundColor: '#ffbc26', padding: '1.0625rem 0 1.125rem 1rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
-                                    <span className="spoqaBold">검색기능</span>을 사용하면 <span className="spoqaBold">더 많은</span><br />
-                                    <span className="spoqaBold">구독 서비스</span>를 찾아볼 수 있어요.
-                                </div>
-                                <img src={duck_tech} style={{ position: 'absolute', right: '0.875rem', bottom: '0rem', width: '4.375rem' }} />
-
-                            </div>
-                            <div style={{ position: 'absolute', top: '0.125rem', right: '0.3125rem', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
-                                <img src={icon_search} style={{ width: '1rem', height: '1rem' }} />
-                            </div>
-                        </div>
+                    <div style={{ position: 'absolute', top: '0.125rem', left: '4px', padding: '1rem' }}>
+                        <img src={icon_back} style={{ width: '0.9375rem', height: '0.8125rem' }} />
                     </div>
-                    <div>
-                        <div style={{ position: 'relative', height: '100vh', display: isFirstView ? 'block' : 'none' }}>
+                </InitialInfoContent>
 
-                            <div onClick={onClickFirstInfoCancle} style={{ position: 'absolute', top: '0', right: '0', padding: '0.625rem 1rem' }}>
-                                <img src={icon_cancle} />
-                            </div>
-
-                            <div style={{ position: 'absolute', top: '3.75rem', left: '1.5625rem' }}>
-                                <div style={{ display: 'flex' }}>
-                                    <div style={{ width: '0.875rem' }} />
-                                    <TriThi />
-                                    <div style={{ flexGrow: '1' }} />
-                                </div>
-                                <div style={{ backgroundColor: '#ffbc26', padding: '0.75rem 0.625rem 0.6875rem 0.625rem', borderRadius: '0.375rem', color: '#ffffff', fontSize: '0.8125rem', lineHeight: '1.4375rem', textAlign: 'center' }}>
-                                    <div>
-                                        <img src={sub_info} style={{ width: '12.5rem' }} />
-                                    </div>
-                                    <div>상세정보는 <span className="spoqaBold">메인에서 입력</span> 가능!</div>
-                                </div>
-                            </div>
-                            <div style={{ position: 'absolute', top: '0.125rem', left: '4px', padding: '1rem', borderRadius: '50%', backgroundColor: 'white' }}>
-                                <img src={icon_back} style={{ width: '0.9375rem', height: '0.8125rem' }} />
-                            </div>
-                        </div>
-                    </div>
-                </Slider>
             </InitialInfoWrapPopup>
         </div >
     )
@@ -767,7 +825,17 @@ const InitialInfoWrapPopup = styled.div`
     right:0;
     bottom:0;
 
-    background-color:rgba(0,0,0,0.7);
+    background-color:rgba(255,255,255,0.9);
+`;
+
+const InitialInfoContent = styled.div`
+    position: relative;
+    height: 100vh; 
+
+    display:${props => props.displayStatus ? 'block' : 'none'};
+    opacity:${props => props.opacityStatus ? '1' : '0'};
+
+    transition: opacity 0.3s ease;
 `;
 
 
