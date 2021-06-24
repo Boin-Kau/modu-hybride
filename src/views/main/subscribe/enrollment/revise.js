@@ -484,6 +484,13 @@ const EnrollmentRevisePage = ({ location }) => {
 
     useEffect(() => {
         dispatch(BottomNavCloseAction);
+
+        //IOS 배경색 설정
+        try {
+            window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+        }
+        catch (err) {
+        }
     }, []);
 
     return (

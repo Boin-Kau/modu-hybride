@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import icon_notion from "../../assets/party-notion.svg";
 import duck_notion from "../../assets/saft-duck.gif";
@@ -37,6 +37,15 @@ const Party = () => {
     //     dispatch(InfoPageWrapOpenAction);
     //     dispatch(InfoPageOpenAction);
     // }, []);
+
+    useEffect(() => {
+        //IOS 배경색 설정
+        try {
+            window.webkit.messageHandlers.setColorGray.postMessage("hihi");
+        }
+        catch (err) {
+        }
+    }, [])
 
     return (
         <>

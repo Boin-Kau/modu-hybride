@@ -88,6 +88,13 @@ const SubscribePage = () => {
             setIsFirst(false);
         }
 
+        //IOS 배경색 설정
+        try {
+            window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+        }
+        catch (err) {
+        }
+
     }, []);
 
     useEffect(async () => {

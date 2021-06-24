@@ -80,6 +80,14 @@ const Info = () => {
 
     useEffect(() => {
         dispatch(BottomNavOpenAction);
+
+        //IOS 배경색 설정
+        try {
+            window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+        }
+        catch (err) {
+        }
+
     }, [])
 
 

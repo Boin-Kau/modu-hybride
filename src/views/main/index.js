@@ -249,6 +249,13 @@ const Main = () => {
             fcmToken: fcmToken
         });
 
+        //IOS 배경색 설정
+        try {
+            window.webkit.messageHandlers.setColorMain.postMessage("hihi");
+        }
+        catch (err) {
+        }
+
     }, []);
 
 
