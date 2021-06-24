@@ -59,7 +59,7 @@
 
     let test = false;
     const current_user_platform = checkMobile();
-
+    localStorage.setItem('userPlatform', current_user_platform);
 
     //안드로이드 뒤로가기
     const android_back_press = () => {

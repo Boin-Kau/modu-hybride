@@ -249,11 +249,15 @@ const Main = () => {
             fcmToken: fcmToken
         });
 
-        //IOS 배경색 설정
-        try {
-            window.webkit.messageHandlers.setColorMain.postMessage("hihi");
-        }
-        catch (err) {
+        const userPlatform = localStorage.getItem('userPlatform');
+
+        if (userPlatform == 'ios') {
+            //IOS 배경색 설정
+            try {
+                window.webkit.messageHandlers.setColorGray.postMessage("hihi");
+            }
+            catch (err) {
+            }
         }
 
     }, []);
