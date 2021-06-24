@@ -991,7 +991,6 @@ const EnrollmentRevisePage = ({ location }) => {
 };
 
 const PageWrap = styled.div`
-
 `;
 const HeaderWrap = styled.div`
     position: relative;

@@ -12,6 +12,8 @@ import styled from "styled-components";
 import backgroundImg from '../../assets/group-2.svg';
 import mainLoading from '../../assets/main-loading.gif';
 
+import cardPlus from '../../assets/card-plus.svg';
+
 import BottomCard from '../../components/main/bottomCard';
 import TopCard from '../../components/main/topCard';
 import ConsumCard from '../../components/main/consumCard';
@@ -72,6 +74,9 @@ const Main = () => {
         const titleDivY = titleDivbRef.current.getBoundingClientRect().bottom;
         const bottomDivY = bottomDivbRef.current.getBoundingClientRect().bottom;
         const bottomViewY = titleDivY - bottomDivY;
+
+        //펼쳐지기전 아래로 당기기 금지
+        if (isScrollParent && delta[1] > 0) return
 
         if (!isScrollParent && delta[1] < 0 && childScrollY >= 0 && down) {
             return
@@ -278,7 +283,9 @@ const Main = () => {
                     <animated.div {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
                         <TitleWrap className="notoMedium" style={{ paddingRight: '0' }}>
                             <div className="spoqaBold" style={{ fontSize: '0.875rem', position: 'relative' }}>구독내역
-                                <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "0px", transform: "translate(0, -50%)", width: '50px', paddingRight: '1.25rem', textAlign: 'right' }}>+</div>
+                                <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "0px", transform: "translate(0, -50%)", width: '50px', paddingRight: '1.25rem', textAlign: 'right' }}>
+                                    <img src={cardPlus} alt="pluse" style={{ width: '0.75rem', height: '0.75rem' }} />
+                                </div>
                             </div>
                         </TitleWrap>
 
