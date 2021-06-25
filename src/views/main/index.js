@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 
-import backgroundImg from '../../assets/group-2.svg';
+// import backgroundImg from '../../assets/group-2.svg';
+import backgroundImg from '../../assets/back-money.svg';
 import mainLoading from '../../assets/main-loading.gif';
 
 import cardPlus from '../../assets/card-plus.svg';
@@ -290,7 +291,8 @@ const Main = () => {
 
     return (
         <>
-            <div className="page" style={{ display: "flex", flexDirection: "column", background: `#ffca17 url(${backgroundImg}) no-repeat top center`, backgroundSize: 'cover' }}>
+            <div className="page" style={{ display: "flex", flexDirection: "column", backgroundColor: '#FFCA17', backgroundSize: 'cover' }}>
+                <img src={backgroundImg} alt="backgroundImg" style={{ position: 'absolute', width: '100vw' }} />
                 <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
                 <div ref={bottomDivbRef}>
                     <div ref={titleDivbRef}>

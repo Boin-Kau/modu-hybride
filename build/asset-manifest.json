@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.50ea8567.chunk.css",
-    "main.js": "/static/js/main.1b6f04b7.chunk.js",
-    "main.js.map": "/static/js/main.1b6f04b7.chunk.js.map",
+    "main.js": "/static/js/main.61380a74.chunk.js",
+    "main.js.map": "/static/js/main.61380a74.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.678d5936.js",
     "runtime-main.js.map": "/static/js/runtime-main.678d5936.js.map",
     "static/js/2.b055fd3f.chunk.js": "/static/js/2.b055fd3f.chunk.js",
@@ -11,6 +11,7 @@
     "static/css/main.50ea8567.chunk.css.map": "/static/css/main.50ea8567.chunk.css.map",
     "static/js/2.b055fd3f.chunk.js.LICENSE.txt": "/static/js/2.b055fd3f.chunk.js.LICENSE.txt",
     "static/media/App.scss": "/static/media/SpoqaHanSansThin.c9043ada.woff",
+    "static/media/back-money.171fd87e.svg": "/static/media/back-money.171fd87e.svg",
     "static/media/card-plus.a7252409.svg": "/static/media/card-plus.a7252409.svg",
     "static/media/category-book.0672da1f.svg": "/static/media/category-book.0672da1f.svg",
     "static/media/category-etc.8f5bb2a9.svg": "/static/media/category-etc.8f5bb2a9.svg",
@@ -28,7 +29,6 @@
     "static/media/duck-read.63c3de02.gif": "/static/media/duck-read.63c3de02.gif",
     "static/media/duck-tech.6f64321d.gif": "/static/media/duck-tech.6f64321d.gif",
     "static/media/gray-loading.8e634d18.gif": "/static/media/gray-loading.8e634d18.gif",
-    "static/media/group-2.d011e7d8.svg": "/static/media/group-2.d011e7d8.svg",
     "static/media/group-5.d8d9a621.svg": "/static/media/group-5.d8d9a621.svg",
     "static/media/group-6.4927d5d0.svg": "/static/media/group-6.4927d5d0.svg",
     "static/media/icon-arrow-down-gray.3fc00483.svg": "/static/media/icon-arrow-down-gray.3fc00483.svg",
@@ -73,6 +73,6 @@
     "static/js/runtime-main.678d5936.js",
     "static/js/2.b055fd3f.chunk.js",
     "static/css/main.50ea8567.chunk.css",
-    "static/js/main.1b6f04b7.chunk.js"
+    "static/js/main.61380a74.chunk.js"
   ]
 }
