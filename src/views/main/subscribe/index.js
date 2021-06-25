@@ -466,7 +466,7 @@ const SubscribePage = () => {
                             <TriFirst />
                             <div style={{ width: '0.625rem' }} />
                         </div>
-                        <img src={duck_read} style={{ position: 'absolute', right: '1.375rem', bottom: '0.625rem', width: '3.375rem', height: '3.875rem' }} />
+                        <img src={duck_read} style={{ position: 'absolute', right: '1.375rem', bottom: '0.5625rem', width: '3.375rem', height: '3.875rem' }} />
 
                     </div>
                     <div style={{ position: 'absolute', top: '17.9375rem', left: '0', right: '0', margin: '0 1.9375rem' }}>

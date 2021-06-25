@@ -81,7 +81,7 @@ const Main = () => {
         const bottomViewY = titleDivY - bottomDivY;
 
         //펼쳐지기전 아래로 당기기 금지
-        if (isScrollParent && delta[1] > 0) return
+        // if (isScrollParent && delta[1] > 0) return
 
         if (!isScrollParent && delta[1] < 0 && childScrollY >= 0 && down) {
             return
