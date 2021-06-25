@@ -174,13 +174,13 @@ const Main = () => {
                 return
             }
 
+            console.log(data.result)
+
             //리덕스에 넣어주기
             dispatch({
                 type: GetAnalyPageList,
                 data: data.result
             })
-
-            // set({ xy: [0, 0] });
 
         }
 

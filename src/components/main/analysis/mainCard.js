@@ -24,7 +24,7 @@ const MainCard = () => {
 
             <MainTopWrap className="spoqaBold">
                 <div style={{ position: "relative", border: "1px solid #ffca17" }}>
-                    <div style={{ fontSize: "0.8125rem" }}>이번달 결제 예정</div>
+                    <div style={{ fontSize: "0.8125rem" }}>이번달 총 결제 금액</div>
                     <div style={{ margin: "0.5rem 0 1.25rem 0", fontSize: "1.25rem" }}>{priceToString(currentPrice)}원</div>
                     <img style={{ position: "absolute", bottom: "-0.75rem", right: "0", width: "6.25rem" }} src={duck_img}></img>
                 </div>

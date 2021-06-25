@@ -11,7 +11,7 @@ const TopCard = () => {
 
 
     const {
-        currentPrice
+        willPayment
     } = useSelector(state => state.main.analysis);
 
     return (
@@ -23,7 +23,7 @@ const TopCard = () => {
             </TitleWrap>
             <PriceWrap>
                 <TextMiddle>
-                    <span>{priceToString(currentPrice)}</span>원
+                    <span>{priceToString(willPayment)}</span>원
                 </TextMiddle>
             </PriceWrap>
         </TopCardWrap>

@@ -2,6 +2,7 @@ export const initialState = {
     openAnalyPageWrapStatus: false,
     openAnalyPageStatus: false,
     analysisList: [],
+    willPayment: 0,
     currentPrice: 0,
     pastPrice: 0,
     pastMont: 0,
@@ -101,6 +102,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 analysisList: data,
+                willPayment: data[0].willPayment,
                 currentPrice: data[0].price,
                 pastPrice: data[1].price,
                 pastMonth: data[1].month,
