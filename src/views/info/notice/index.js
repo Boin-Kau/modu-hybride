@@ -65,7 +65,7 @@ const NoticePage = () => {
                             모두가 개편되었습니다!
                         </div>
                         <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
-                            2021.05.16
+                            2021.06.26
                         </div>
                     </div>
 
