@@ -297,7 +297,6 @@ const EnrollmentPage = () => {
 
     const checkSecondPage = useCallback(() => {
         if (cycleData && cycleUnit && paymentYear && paymentMonth && paymentDay) {
-
             setPageConfirm(true);
         }
         else {
@@ -334,6 +333,17 @@ const EnrollmentPage = () => {
                 checkSecondPage();
             }
             if (currentPage == 2) {
+
+                //paymentCycleDate 벨리데이션
+                const now = new Date();
+                const nowDate = new Date(now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate());
+                const updateDate = new Date(paymentYear + '-' + paymentMonth + '-' + paymentDay);
+
+                if (nowDate.getTime() > updateDate.getTime()) {
+                    alert("현재 날짜 이후부터 등록 가능합니다.");
+                    return
+                }
+
                 checkThirdPage();
                 setNextButtonText("완료");
             }

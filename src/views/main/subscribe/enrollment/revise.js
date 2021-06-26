@@ -360,6 +360,16 @@ const EnrollmentRevisePage = ({ location }) => {
 
         if (!pageConfirmStatus) return
 
+        //paymentCycleDate 벨리데이션
+        const now = new Date();
+        const nowDate = new Date(now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate());
+        const updateDate = new Date(paymentYear + '-' + paymentMonth + '-' + paymentDay);
+
+        if (nowDate.getTime() > updateDate.getTime()) {
+            alert("현재 날짜 이후부터 등록 가능합니다.");
+            return
+        }
+
         //구독 플랫폼 수정
         const data = await customApiClient('put', '/subscribe', {
             subscribeIdx: subscribeIdx,
