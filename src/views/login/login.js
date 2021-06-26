@@ -333,11 +333,11 @@ const Login = () => {
         if (!reg.test(e.target.value)) {
             setPageConfirmStatus(false);
             setNamePageStatus(false);
-            // setNameErrorText("올바른 이름을 입력해주세요.");
+            setNameErrorText("올바른 이름을 입력해주세요.");
             return
         }
 
-        // setNameErrorText("");
+        setNameErrorText("");
         setPageConfirmStatus(true);
         setNamePageStatus(true);
     }, [name]);
@@ -351,9 +351,11 @@ const Login = () => {
         if (!reg.test(e.target.value)) {
             setPageConfirmStatus(false);
             setPhoneNumberPageStatus(false);
+            setPhoneErrorText('올바른 휴대폰 번호를 입력해주세요.');
             return
         }
 
+        setPhoneErrorText('');
         setPageConfirmStatus(true);
         setPhoneNumberPageStatus(true);
     }, [phoneNumber]);
