@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.50ea8567.chunk.css",
-    "main.js": "/static/js/main.73ca58ad.chunk.js",
-    "main.js.map": "/static/js/main.73ca58ad.chunk.js.map",
+    "main.js": "/static/js/main.fe3d5e0c.chunk.js",
+    "main.js.map": "/static/js/main.fe3d5e0c.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.678d5936.js",
     "runtime-main.js.map": "/static/js/runtime-main.678d5936.js.map",
     "static/js/2.b055fd3f.chunk.js": "/static/js/2.b055fd3f.chunk.js",
@@ -27,6 +27,7 @@
     "static/media/duck-none.58d54818.svg": "/static/media/duck-none.58d54818.svg",
     "static/media/duck-profile.0313043a.svg": "/static/media/duck-profile.0313043a.svg",
     "static/media/duck-read.63c3de02.gif": "/static/media/duck-read.63c3de02.gif",
+    "static/media/duck-see.28bdd4ba.png": "/static/media/duck-see.28bdd4ba.png",
     "static/media/duck-tech.6f64321d.gif": "/static/media/duck-tech.6f64321d.gif",
     "static/media/gray-loading.8e634d18.gif": "/static/media/gray-loading.8e634d18.gif",
     "static/media/group-5.d8d9a621.svg": "/static/media/group-5.d8d9a621.svg",
@@ -73,6 +74,6 @@
     "static/js/runtime-main.678d5936.js",
     "static/js/2.b055fd3f.chunk.js",
     "static/css/main.50ea8567.chunk.css",
-    "static/js/main.73ca58ad.chunk.js"
+    "static/js/main.fe3d5e0c.chunk.js"
   ]
 }

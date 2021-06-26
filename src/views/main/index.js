@@ -12,7 +12,7 @@ import styled from "styled-components";
 // import backgroundImg from '../../assets/group-2.svg';
 import backgroundImg from '../../assets/back-money.svg';
 import mainLoading from '../../assets/main-loading.gif';
-import icon_profile from "../../assets/duck-profile.svg";
+import duck_see from "../../assets/duck-see.png";
 
 import cardPlus from '../../assets/card-plus.svg';
 
@@ -301,7 +301,7 @@ const Main = () => {
                     </div>
                     <ConsumCard />
                     <div style={{ position: 'absolute', marginTop: '0.625rem', left: '0', right: '0', textAlign: 'center' }}>
-                        <img src={icon_profile} alt="duck_img" style={{ width: '50%' }} />
+                        <img src={duck_see} alt="duck_img" style={{ position: 'absolute', right: '0', top: '0', width: '38%' }} />
                     </div>
                 </div>
                 <div style={{ flexGrow: "1", flexBasis: "0", zIndex: "20" }}>
