@@ -249,7 +249,7 @@ const Main = () => {
                     fcmToken: fcmToken
                 });
 
-            }, 1500)
+            }, 3000)
         }
 
         //fcm 등록
