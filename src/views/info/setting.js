@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { PageClose, PageWrapClose } from '../../reducers/info/page';
 
 import { IsAlertUpdate, IsMarketingUpdate } from '../../reducers/info/user';
 import { customApiClient } from '../../shared/apiClient';
+import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../reducers/container/message';
 
 
 const SettingPage = () => {
@@ -21,6 +22,9 @@ const SettingPage = () => {
         isMarketing,
         marketingUpdatedAt
     } = useSelector(state => state.info.user);
+
+    const [requestCount, setRequestCount] = useState(0);
+    const [requestBlock, setRequestBlock] = useState(false);
 
     const closePage = useCallback(() => {
 
@@ -43,8 +47,14 @@ const SettingPage = () => {
 
     const onClickRadio = useCallback(async () => {
 
+        if (requestBlock) {
+            showMessage();
+            return
+        }
+
         //서버통신
         const res = await customApiClient('put', `/user/alert`);
+        setRequestCount(requestCount + 1);
 
         //서버에러
         if (!res) return
@@ -70,9 +80,14 @@ const SettingPage = () => {
         }
 
 
-    }, [isAlert]);
+    }, [isAlert, requestBlock]);
 
     const onClickMarketingRadio = useCallback(async () => {
+
+        if (requestBlock) {
+            showMessage();
+            return
+        }
 
         let today = new Date();
 
@@ -92,7 +107,8 @@ const SettingPage = () => {
 
         //서버통신
         const res = await customApiClient('put', `/user/alert/marketing`);
-        console.log(res)
+        setRequestCount(requestCount + 1);
+
         //서버에러
         if (!res) return
 
@@ -123,7 +139,41 @@ const SettingPage = () => {
         }
 
 
-    }, [isMarketing]);
+    }, [isMarketing, requestBlock]);
+
+    //악의적인 request 방지
+    useEffect(() => {
+        if (requestCount > 6) {
+
+            //10초뒤 초기화
+            setRequestBlock(true);
+            setTimeout(() => {
+                setRequestCount(0);
+                setRequestBlock(false);
+            }, 10000);
+        }
+    }, [requestCount]);
+
+    const showMessage = () => {
+        dispatch({
+            type: MessageWrapOpen
+        })
+        dispatch({
+            type: MessageOpen,
+            data: '잠시후 다시 시도해주세요.'
+        })
+
+        setTimeout(() => {
+            dispatch({
+                type: MessageClose
+            })
+        }, 2000);
+        setTimeout(() => {
+            dispatch({
+                type: MessageWrapClose
+            })
+        }, 2300);
+    }
 
     return (
         <PageWrap>
