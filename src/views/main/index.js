@@ -71,6 +71,7 @@ const Main = () => {
     const bottomDivbRef = useRef();
     const bottomChildDivbRef = useRef();
 
+    //구독내역 하단 스크롤 배너 관련 함수
     const bind = useGesture(({ down, delta, velocity }) => {
         velocity = clamp(velocity, 1, 1);
 
@@ -189,6 +190,7 @@ const Main = () => {
 
     }, [analysisList]);
 
+    // 소비분석 리로드 관련
     useEffect(async () => {
 
         if (analysisReloadStatus) {
@@ -221,7 +223,8 @@ const Main = () => {
 
     }, [analysisReloadStatus]);
 
-    useEffect(() => {
+    //첫 랜더링시
+    useEffect(async () => {
         dispatch(BottomNavOpenAction);
 
         const bottomDivHeight = titleDivbRef.current.getBoundingClientRect().height;
@@ -233,12 +236,35 @@ const Main = () => {
             setIsLoading(false);
         }, 350)
 
+        const userPlatform = localStorage.getItem('userPlatform');
 
         //fcm token
         let fcmToken = localStorage.getItem("fcmToken");
         if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
 
         if (!fcmToken) {
+
+            if (userPlatform == 'android') {
+
+                try {
+                    const deviceToken = await window.android.getFcmToken();
+                    localStorage.setItem('fcmToken', deviceToken);
+                }
+                catch (err) {
+                    console.log(err);
+                }
+
+            }
+            else {
+                try {
+                    window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            }
+
+
             setTimeout(() => {
 
                 fcmToken = localStorage.getItem("fcmToken");
@@ -249,15 +275,14 @@ const Main = () => {
                     fcmToken: fcmToken
                 });
 
-            }, 3000)
+            }, 3000);
         }
-
-        //fcm 등록
-        customApiClient('patch', '/user/fcm', {
-            fcmToken: fcmToken
-        });
-
-        const userPlatform = localStorage.getItem('userPlatform');
+        else {
+            //fcm 등록
+            customApiClient('patch', '/user/fcm', {
+                fcmToken: fcmToken
+            });
+        }
 
         if (userPlatform == 'ios') {
             //IOS 배경색 설정
