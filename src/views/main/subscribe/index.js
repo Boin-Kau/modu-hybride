@@ -112,7 +112,6 @@ const SubscribePage = () => {
         //플랫폼 리스트 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (serverPlatformList.length < 1) {
 
-            console.log("hihi")
             //구독 플랫폼 리스트 조회
             const data = await customApiClient('get', '/subscribe/platform?type=REP')
 

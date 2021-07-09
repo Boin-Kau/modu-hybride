@@ -963,8 +963,8 @@ const EnrollmentRevisePage = ({ location }) => {
                                             </ImgEnrollInitialWrap>
                                         )
                                     })
-                                }=
-                            <div style={{ width: '1.25rem', flex: '0 0 auto' }}></div>
+                                }
+                                <div style={{ width: '1.25rem', flex: '0 0 auto' }}></div>
                             </ImgEnrollInitialContainer>
                             <ImgEnrollButton className="spoqaBold" pageConfirmStatus={imgColor && imgInitial} onClick={onClickImgConfirm}>확인</ImgEnrollButton>
 
