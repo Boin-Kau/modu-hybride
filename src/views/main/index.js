@@ -239,69 +239,63 @@ const Main = () => {
         const userPlatform = localStorage.getItem('userPlatform');
 
         //fcm token
-        let fcmToken = localStorage.getItem("fcmToken");
-        console.log("main 첫 토큰값 : " + fcmToken);
+        if (localStorage.getItem("isFcmLoad") == 'true') {
 
-        if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
+            console.log("hihi")
 
-        if (!fcmToken) {
+            let fcmToken = localStorage.getItem("fcmToken");
 
-            console.log("main 첫 토큰값 없음");
+            if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
 
+            if (!fcmToken) {
 
-            if (userPlatform == 'android') {
+                if (userPlatform == 'android') {
 
-                console.log("main 안드로이드 시작")
-
-
-                try {
-                    const deviceToken = await window.android.getFcmToken();
-                    localStorage.setItem('fcmToken', deviceToken);
-
-                    console.log("main 안드로이드 토큰값 : " + deviceToken);
+                    try {
+                        const deviceToken = await window.android.getFcmToken();
+                        localStorage.setItem('fcmToken', deviceToken);
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
 
                 }
-                catch (err) {
-                    console.log("main 안드로이드 토큰값 에러 : " + err);
+                else {
 
-                    console.log(err);
+                    try {
+                        window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+
                 }
 
+
+                setTimeout(() => {
+
+                    fcmToken = localStorage.getItem("fcmToken");
+
+                    if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
+
+                    //fcm 등록
+                    customApiClient('patch', '/user/fcm', {
+                        fcmToken: fcmToken
+                    });
+
+                    localStorage.setItem('isFcmLoad', 'false');
+
+                }, 3000);
             }
             else {
-                console.log("main ios 시작")
-
-                try {
-                    window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
-                }
-                catch (err) {
-                    console.log("main 토큰값 에러 : " + err);
-
-                    console.log(err);
-                }
-
-            }
-
-
-            setTimeout(() => {
-
-                fcmToken = localStorage.getItem("fcmToken");
-                console.log("main 마지막 토큰값 : " + fcmToken);
-
-                if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
-
                 //fcm 등록
                 customApiClient('patch', '/user/fcm', {
                     fcmToken: fcmToken
                 });
 
-            }, 3000);
-        }
-        else {
-            //fcm 등록
-            customApiClient('patch', '/user/fcm', {
-                fcmToken: fcmToken
-            });
+                localStorage.setItem('isFcmLoad', 'false');
+            }
+
         }
 
         if (userPlatform == 'ios') {
