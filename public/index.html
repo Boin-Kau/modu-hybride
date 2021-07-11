@@ -47,8 +47,6 @@
   <script>
 
     let test = false;
-    const current_user_platform = checkMobile();
-    localStorage.setItem('userPlatform', current_user_platform);
 
     //안드로이드 뒤로가기
     const android_back_press = () => {
@@ -63,7 +61,7 @@
     }
 
 
-    function checkMobile() {
+    const checkMobile = () => {
 
       var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
 
@@ -81,6 +79,9 @@
     }
 
     window.onload = async function inital() {
+
+      const current_user_platform = checkMobile();
+      localStorage.setItem('userPlatform', current_user_platform);
 
       //fcm token 가져오기
       if (current_user_platform == 'android') {

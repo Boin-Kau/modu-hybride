@@ -240,6 +240,7 @@ const Main = () => {
 
         //fcm token
         let fcmToken = localStorage.getItem("fcmToken");
+
         if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
 
         if (!fcmToken) {
@@ -256,12 +257,14 @@ const Main = () => {
 
             }
             else {
+
                 try {
                     window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
                 }
                 catch (err) {
                     console.log(err);
                 }
+
             }
 
 
