@@ -240,28 +240,43 @@ const Main = () => {
 
         //fcm token
         let fcmToken = localStorage.getItem("fcmToken");
+        console.log("main 첫 토큰값 : " + fcmToken);
 
         if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
 
         if (!fcmToken) {
 
+            console.log("main 첫 토큰값 없음");
+
+
             if (userPlatform == 'android') {
+
+                console.log("main 안드로이드 시작")
+
 
                 try {
                     const deviceToken = await window.android.getFcmToken();
                     localStorage.setItem('fcmToken', deviceToken);
+
+                    console.log("main 안드로이드 토큰값 : " + deviceToken);
+
                 }
                 catch (err) {
+                    console.log("main 안드로이드 토큰값 에러 : " + err);
+
                     console.log(err);
                 }
 
             }
             else {
+                console.log("main ios 시작")
 
                 try {
                     window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
                 }
                 catch (err) {
+                    console.log("main 토큰값 에러 : " + err);
+
                     console.log(err);
                 }
 
@@ -271,6 +286,8 @@ const Main = () => {
             setTimeout(() => {
 
                 fcmToken = localStorage.getItem("fcmToken");
+                console.log("main 마지막 토큰값 : " + fcmToken);
+
                 if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
 
                 //fcm 등록

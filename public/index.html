@@ -83,23 +83,34 @@
       const current_user_platform = checkMobile();
       localStorage.setItem('userPlatform', current_user_platform);
 
+
+      console.log("index html 테스트 시작")
+
       //fcm token 가져오기
       if (current_user_platform == 'android') {
+
+        console.log("index html 안드로이드 시작")
 
         try {
           const fcmToken = await window.android.getFcmToken();
           localStorage.setItem('fcmToken', fcmToken);
+
+          console.log("index html 안드로이드 토큰값 : " + fcmToken);
         }
         catch (err) {
+          console.log("index html 안드로이드 토큰값 에러 : " + err);
           console.log(err);
         }
 
       }
       else {
+        console.log("index html ios 시작")
+
         try {
           window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
         }
         catch (err) {
+          console.log("index html ios 토큰값 에러 : " + err);
           console.log(err);
         }
       }
@@ -109,6 +120,7 @@
     const set_ios_fcm_token = (iosDeviceToken) => {
       const fcmToken = iosDeviceToken;
       localStorage.setItem('fcmToken', fcmToken);
+      console.log("index html ios 토큰값 : " + fcmToken);
     }
 
 
