@@ -241,8 +241,6 @@ const Main = () => {
         //fcm token
         if (localStorage.getItem("isFcmLoad") == 'true') {
 
-            console.log("hihi")
-
             let fcmToken = localStorage.getItem("fcmToken");
 
             if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
