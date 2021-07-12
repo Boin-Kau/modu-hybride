@@ -243,6 +243,8 @@ const Main = () => {
 
             let fcmToken = localStorage.getItem("fcmToken");
 
+            localStorage.setItem('isFcmLoad', 'false');
+
             if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
 
             if (!fcmToken) {
@@ -281,8 +283,6 @@ const Main = () => {
                         fcmToken: fcmToken
                     });
 
-                    localStorage.setItem('isFcmLoad', 'false');
-
                 }, 3000);
             }
             else {
@@ -290,8 +290,6 @@ const Main = () => {
                 customApiClient('patch', '/user/fcm', {
                     fcmToken: fcmToken
                 });
-
-                localStorage.setItem('isFcmLoad', 'false');
             }
 
         }

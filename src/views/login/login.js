@@ -99,6 +99,11 @@ const Login = () => {
     //확인버튼 텍스트
     const [buttonText, setButtonText] = useState('다음');
 
+    //페이지 랜더링 시
+    useEffect(() => {
+        localStorage.setItem('isFcmLoad', 'true');
+    }, []);
+
 
     const onClickBackButton = () => {
 
