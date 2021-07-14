@@ -350,18 +350,18 @@ const EnrollmentPage = () => {
             setCurrentPage(currentPage + 1);
         }
 
-        let month = paymentMonth;
-        let day = paymentDay;
-
-        if (paymentMonth < 10) {
-            month = '0' + month;
-        }
-        if (day < 10) {
-            day = '0' + day;
-        }
-
         //최종 등록
         else {
+
+            let month = paymentMonth;
+            let day = paymentDay;
+
+            if (month < 10) {
+                month = '0' + month;
+            }
+            if (day < 10) {
+                day = '0' + day;
+            }
 
             //구독 플랫폼 등록
             const data = await customApiClient('post', '/subscribe/platform/custom', {

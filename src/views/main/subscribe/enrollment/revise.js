@@ -372,32 +372,12 @@ const EnrollmentRevisePage = ({ location }) => {
         let month = paymentMonth;
         let day = paymentDay;
 
-        if (paymentMonth < 10) {
+        if (month < 10) {
             month = '0' + month;
         }
         if (day < 10) {
             day = '0' + day;
         }
-
-        console.log(
-            {
-                subscribeIdx: subscribeIdx,
-                platformIdx: platformIdx,
-                registerType: registerType,
-                name: name,
-                color: imgColor,
-                initial: imgInitial,
-                categoryIdx: categoryIndex,
-                price: parseInt(price),
-                isFree: isFree,
-                membershipTitle: membership,
-                paymentCycleDate: paymentYear + '-' + month + '-' + day,
-                paymentCycleData: cycleData,
-                paymentCycleUnit: cycleUnit,
-                usageData: useageData,
-                usageUnit: useageUnit
-            }
-        )
 
         //구독 플랫폼 수정
         const data = await customApiClient('put', '/subscribe', {
