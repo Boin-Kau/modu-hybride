@@ -98,8 +98,6 @@ const EnrollmentRevisePage = ({ location }) => {
         //카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (platformCategoryList.length < 1) {
 
-            console.log("ohohoho")
-
             //인기 구독 플랫폼 리스트 조회
             const data = await customApiClient('get', '/subscribe/category');
 
@@ -334,7 +332,7 @@ const EnrollmentRevisePage = ({ location }) => {
     //페이지 벨리데이션
     useEffect(() => {
 
-        if (name && price && categoryIndex != -1 && membership
+        if (name && price && categoryIndex != -1
             && (thumbnail || (imgColor && imgInitial))
             && cycleData && cycleUnit && paymentYear && paymentMonth && paymentDay
             && isFree && ((useageData && useageUnit) || (!useageData && !useageUnit))
@@ -371,6 +369,36 @@ const EnrollmentRevisePage = ({ location }) => {
 
         if (!pageConfirmStatus) return
 
+        let month = paymentMonth;
+        let day = paymentDay;
+
+        if (paymentMonth < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+
+        console.log(
+            {
+                subscribeIdx: subscribeIdx,
+                platformIdx: platformIdx,
+                registerType: registerType,
+                name: name,
+                color: imgColor,
+                initial: imgInitial,
+                categoryIdx: categoryIndex,
+                price: parseInt(price),
+                isFree: isFree,
+                membershipTitle: membership,
+                paymentCycleDate: paymentYear + '-' + month + '-' + day,
+                paymentCycleData: cycleData,
+                paymentCycleUnit: cycleUnit,
+                usageData: useageData,
+                usageUnit: useageUnit
+            }
+        )
+
         //구독 플랫폼 수정
         const data = await customApiClient('put', '/subscribe', {
             subscribeIdx: subscribeIdx,
@@ -380,11 +408,10 @@ const EnrollmentRevisePage = ({ location }) => {
             color: imgColor,
             initial: imgInitial,
             categoryIdx: categoryIndex,
-            price: price,
+            price: parseInt(price),
             isFree: isFree,
             membershipTitle: membership,
-            paymentDate: paymentYear + '-' + paymentMonth + '-' + paymentDay,
-            paymentCycleDate: paymentYear + '-' + paymentMonth + '-' + paymentDay,
+            paymentCycleDate: paymentYear + '-' + month + '-' + day,
             paymentCycleData: cycleData,
             paymentCycleUnit: cycleUnit,
             usageData: useageData,

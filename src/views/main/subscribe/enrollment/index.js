@@ -280,7 +280,7 @@ const EnrollmentPage = () => {
     }, [name, price, categoryIndex, membership, imgColor, imgInitial]);
 
     const checkFirstPage = useCallback(() => {
-        if (name && price && categoryIndex != -1 && membership && imgColor && imgInitial) {
+        if (name && price && categoryIndex != -1 && imgColor && imgInitial) {
 
             setPageConfirm(true);
         }
@@ -350,6 +350,16 @@ const EnrollmentPage = () => {
             setCurrentPage(currentPage + 1);
         }
 
+        let month = paymentMonth;
+        let day = paymentDay;
+
+        if (paymentMonth < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+
         //최종 등록
         else {
 
@@ -359,11 +369,11 @@ const EnrollmentPage = () => {
                 color: imgColor,
                 initial: imgInitial,
                 categoryIdx: categoryIndex,
-                price: price,
+                price: parseInt(price),
                 isFree: isFree,
                 membershipTitle: membership,
-                paymentDate: paymentYear + '-' + paymentMonth + '-' + paymentDay,
-                paymentCycleDate: paymentYear + '-' + paymentMonth + '-' + paymentDay,
+                paymentDate: paymentYear + '-' + month + '-' + day,
+                paymentCycleDate: paymentYear + '-' + month + '-' + day,
                 paymentCycleData: cycleData,
                 paymentCycleUnit: cycleUnit,
                 usageData: useageData,

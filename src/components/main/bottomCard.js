@@ -110,25 +110,25 @@ const BottomContent = ({ data, cardOpen }) => {
                 <ContentDetailWrap>
                     <DetailRowWrap>
                         <DetailItemWrap mr>
-                            <DetailItemTitle>멤버십 종류</DetailItemTitle>
-                            {data.membershipTitle ?
-                                <DetailItemFillContent>{data.membershipTitle}</DetailItemFillContent> :
+                            <DetailItemTitle>다음 결제일</DetailItemTitle>
+                            {data.paymentCycleDate ?
+                                <DetailItemFillContent>{data.paymentCycleDate}</DetailItemFillContent> :
                                 <DetailItemContent>없음 </DetailItemContent>
                             }
                         </DetailItemWrap>
                         <DetailItemWrap>
-                            <DetailItemTitle>카테고리</DetailItemTitle>
-                            <DetailItemFillContent>{data.platform.category.name}</DetailItemFillContent>
-                        </DetailItemWrap>
-                    </DetailRowWrap>
-
-                    <DetailRowWrap>
-                        <DetailItemWrap mr>
                             <DetailItemTitle>결제주기</DetailItemTitle>
                             {data.paymentCycleData ?
                                 <DetailItemFillContent>{data.paymentCycleData}{getUnit(data.paymentCycleUnit)}</DetailItemFillContent> :
                                 <DetailItemContent>없음 </DetailItemContent>
                             }
+                        </DetailItemWrap>
+                    </DetailRowWrap>
+
+                    <DetailRowWrap>
+                        <DetailItemWrap mr>
+                            <DetailItemTitle>카테고리</DetailItemTitle>
+                            <DetailItemFillContent>{data.platform.category.name}</DetailItemFillContent>
                         </DetailItemWrap>
                         <DetailItemWrap>
                             <DetailItemTitle>체험기간</DetailItemTitle>
@@ -141,9 +141,9 @@ const BottomContent = ({ data, cardOpen }) => {
 
                     <DetailRowWrap>
                         <DetailItemWrap mr>
-                            <DetailItemTitle>다음 결제일</DetailItemTitle>
-                            {data.paymentCycleDate ?
-                                <DetailItemFillContent>{data.paymentCycleDate}</DetailItemFillContent> :
+                            <DetailItemTitle>멤버십 종류</DetailItemTitle>
+                            {data.membershipTitle ?
+                                <DetailItemFillContent>{data.membershipTitle}</DetailItemFillContent> :
                                 <DetailItemContent>없음 </DetailItemContent>
                             }
                         </DetailItemWrap>
