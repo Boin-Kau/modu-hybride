@@ -17,4 +17,7 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
-          ls -l
+          sudo su
+          cd ./modu-hybride
+          git pull origin master
+          pm2 restart 1
