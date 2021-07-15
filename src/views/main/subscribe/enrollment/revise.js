@@ -631,11 +631,11 @@ const EnrollmentRevisePage = ({ location }) => {
 
                         {/* 맴버십 종류 */}
                         <TitleWrap>
-                            <div>맴버십 종류</div>
+                            <div>한줄 메모</div>
                         </TitleWrap>
                         <ItemWrap>
                             <InputWrap>
-                                <Input placeholder="멤버십명을 입력해주세요" onChange={onChangeMembership} value={membership}></Input>
+                                <Input placeholder="한줄 메모를 입력해주세요" onChange={onChangeMembership} value={membership}></Input>
                             </InputWrap>
                         </ItemWrap>
 

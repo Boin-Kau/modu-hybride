@@ -141,7 +141,7 @@ const BottomContent = ({ data, cardOpen }) => {
 
                     <DetailRowWrap>
                         <DetailItemWrap mr>
-                            <DetailItemTitle>멤버십 종류</DetailItemTitle>
+                            <DetailItemTitle>한줄 메모</DetailItemTitle>
                             {data.membershipTitle ?
                                 <DetailItemFillContent>{data.membershipTitle}</DetailItemFillContent> :
                                 <DetailItemContent>없음 </DetailItemContent>
