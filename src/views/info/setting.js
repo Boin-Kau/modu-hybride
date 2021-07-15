@@ -210,7 +210,7 @@ const SettingPage = () => {
                 </div>
                 <div style={{ display: 'flex', marginTop: '1.875rem', marginBottom: '0.25rem', fontSize: '0.8125rem' }}>
                     <div className="spoqaBold" style={{ flexGrow: '1' }}>버전 정보</div>
-                    <div className="spoqaBold" style={{ color: '#ffbc26' }}>1.0.0</div>
+                    <div className="spoqaBold" style={{ color: '#ffbc26' }}>1.0.3</div>
                 </div>
                 <div className="notoMedium" style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>최신 버전 사용 중</div>
             </div>
