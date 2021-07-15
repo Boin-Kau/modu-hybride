@@ -19,4 +19,4 @@ jobs:
         script: |
           cd /home/ubuntu/modu-hybride/
           git pull origin master
-          pm2 restart 1
+          sudo pm2 restart 1
