@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from "styled-components";
 
 import { useSelector } from "react-redux";
@@ -24,6 +24,7 @@ import icon_triangle_up from "../../assets/triangle.svg";
 import { TextMiddle } from '../../styled/shared';
 import { priceToString } from './bottomCard';
 import { useHistory } from 'react-router-dom';
+import { PageTransContext } from '../../containers/pageTransContext';
 
 export const getCategoryImg = categoryIdx => {
     switch (categoryIdx) {
@@ -60,7 +61,12 @@ const ConsumCard = () => {
 
     const history = useHistory();
 
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
+
     const openAnalyPage = () => {
+        setPageTrans('trans toRight');
         history.push('/analysis');
     };
 

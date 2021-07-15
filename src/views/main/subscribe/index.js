@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +30,7 @@ import { AnalyPageReloadTrueAction } from '../../../reducers/main/analysis';
 
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
+import { PageTransContext } from '../../../containers/pageTransContext';
 
 
 const SubscribePage = () => {
@@ -54,6 +55,10 @@ const SubscribePage = () => {
         totalReloadStatus,
         categoryReloadStatus
     } = useSelector(state => state.main.subscribe);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
 
     //state
     const [totalMenuStatus, setTotalMenuStatus] = useState(true);
@@ -135,15 +140,18 @@ const SubscribePage = () => {
 
 
     const openSearchPage = () => {
+        setPageTrans('trans toRight');
         history.push('/search');
     };
 
     const openEnrollmentPage = () => {
+        setPageTrans('trans toRight');
         history.push('/subscribe/enroll');
     };
 
 
     const closeSubscribePage = () => {
+        setPageTrans('trans toLeft');
         history.goBack();
     };
 

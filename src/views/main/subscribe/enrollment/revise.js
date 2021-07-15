@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 import { useHistory } from 'react-router-dom';
 
@@ -29,6 +29,7 @@ import { ImgColorList, ImgInitialList, getUnit, NumberList, UnitList, MonthList,
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
 import { GetPlatformCategoryList } from '../../../../reducers/main/platform';
+import { PageTransContext } from '../../../../containers/pageTransContext';
 
 
 const EnrollmentRevisePage = ({ location }) => {
@@ -44,6 +45,10 @@ const EnrollmentRevisePage = ({ location }) => {
     const {
         platformCategoryList
     } = useSelector(state => state.main.platform);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
 
     const [subscribeDetail, setSubscribeDetail] = useState(location.state.data);
 
@@ -362,6 +367,7 @@ const EnrollmentRevisePage = ({ location }) => {
 
 
     const closeEnrollmentRevisePage = () => {
+        setPageTrans('trans toLeft');
         history.goBack();
     };
 
@@ -433,6 +439,7 @@ const EnrollmentRevisePage = ({ location }) => {
         dispatch(AnalyPageReloadTrueAction);
 
         //뒤로가기
+        setPageTrans('trans toLeft');
         history.goBack();
 
     }, [
@@ -495,6 +502,7 @@ const EnrollmentRevisePage = ({ location }) => {
         dispatch(AnalyPageReloadTrueAction);
 
         //뒤로가기
+        setPageTrans('trans toLeft');
         history.goBack();
 
     }, [subscribeIdx]);

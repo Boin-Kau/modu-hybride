@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
@@ -16,6 +16,7 @@ import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, Deta
 import { SubscribeReloadFalseAction, GetSubscirbeList, CloseItemTrueAction } from '../../reducers/main/subscribe';
 import { customApiClient } from '../../shared/apiClient';
 import { useHistory } from 'react-router-dom';
+import { PageTransContext } from '../../containers/pageTransContext';
 
 
 export const priceToString = price => {
@@ -26,6 +27,9 @@ const BottomContent = ({ data, cardOpen }) => {
 
     const history = useHistory();
     const dispatch = useDispatch();
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     const [openStatus, setOpenStatus] = useState(false);
 
@@ -46,6 +50,7 @@ const BottomContent = ({ data, cardOpen }) => {
 
     const openRevisePage = () => {
 
+        setPageTrans('trans toRight');
         history.push({
             pathname: "/subscribe/revise",
             state: {

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -10,11 +10,15 @@ import NoticeDetailPage from './detail';
 import { PageWrapOpen, PageOpen } from '../../../reducers/info/page';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
+import { PageTransContext } from '../../../containers/pageTransContext';
 
 const NoticePage = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     //페이지 상태값
     const {
@@ -23,6 +27,7 @@ const NoticePage = () => {
     } = useSelector(state => state.info.page);
 
     const closePage = () => {
+        setPageTrans('trans toLeft');
         history.goBack();
     };
 

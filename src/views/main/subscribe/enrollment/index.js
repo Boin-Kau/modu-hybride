@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,7 @@ import { SubscribeReloadTrueAction } from '../../../../reducers/main/subscribe';
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 import { useHistory } from 'react-router-dom';
 import { GetPlatformCategoryList } from '../../../../reducers/main/platform';
+import { PageTransContext } from '../../../../containers/pageTransContext';
 
 
 export const ImgColorList = ['#e96a6a', '#fa9754', '#f8cc54', '#9de154', '#82e3cd', '#76d7fd', '#54b5fd', '#9578fd', '#cd6ae9', '#9c9c9c'];
@@ -50,6 +51,9 @@ const EnrollmentPage = () => {
     const {
         platformCategoryList: categoryList
     } = useSelector(state => state.main.platform);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     //state
     const [currentPage, setCurrentPage] = useState(1);
@@ -415,6 +419,7 @@ const EnrollmentPage = () => {
             dispatch(AnalyPageReloadTrueAction);
 
             //뒤로가기
+            setPageTrans('trans toLeft');
             history.goBack();
         }
     }, [
@@ -439,6 +444,7 @@ const EnrollmentPage = () => {
             setCurrentPage(currentPage - 1);
         }
         else {
+            setPageTrans('trans toLeft');
             history.goBack();
         }
     }, [currentPage]);

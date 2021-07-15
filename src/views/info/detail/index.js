@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,7 @@ import { PageWrapOpen, PageOpen } from '../../../reducers/info/page';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { useHistory } from 'react-router-dom';
 import { customApiClient } from '../../../shared/apiClient';
+import { PageTransContext } from '../../../containers/pageTransContext';
 
 const DetailPage = () => {
 
@@ -49,8 +50,12 @@ const DetailPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
 
     const closePage = useCallback(() => {
+        setPageTrans('trans toLeft');
         history.goBack();
     }, []);
 

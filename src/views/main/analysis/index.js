@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import MainCard from '../../../components/main/analysis/mainCard';
 import { TextMiddle } from '../../../styled/shared';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
+import { PageTransContext } from '../../../containers/pageTransContext';
 
 
 const AnalysisPage = () => {
@@ -15,8 +16,11 @@ const AnalysisPage = () => {
     const dispatch = useDispatch();
     const histroy = useHistory();
 
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     const closeAnalyPage = useCallback(() => {
+        setPageTrans('trans toLeft');
         histroy.goBack();
     }, []);
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import icon_setting from "../../assets/icon-setting.svg";
@@ -13,6 +13,7 @@ import { PageWrapOpen, PageOpen, AgreePageKind } from '../../reducers/info/page'
 import { useHistory, Link } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { onClickTerminate } from '../../App';
+import { PageTransContext } from '../../containers/pageTransContext';
 
 const Info = () => {
 
@@ -35,6 +36,9 @@ const Info = () => {
         name,
         uniqueNumber
     } = useSelector(state => state.info.user);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     //페이지 열기
     const openPage = useCallback(async (data) => {
@@ -75,7 +79,13 @@ const Info = () => {
 
     //내정보 디테일
     const openDetailPage = () => {
+        setPageTrans('trans toRight');
         history.push('/info/detail');
+    }
+
+    const openNoticePage = () => {
+        setPageTrans('trans toRight');
+        history.push('/notice');
     }
 
     useEffect(() => {
@@ -126,9 +136,7 @@ const Info = () => {
 
 
                     <TitelWrap className="notoMedium">고객센터</TitelWrap>
-                    <Link to='/notice' style={{ textDecoration: 'none' }}>
-                        <ContentWrap className="spoqaBold" style={{ color: 'rgb(49,49,49)' }}>공지사항</ContentWrap>
-                    </Link>
+                    <ContentWrap onClick={openNoticePage} className="spoqaBold" style={{ color: 'rgb(49,49,49)' }}>공지사항</ContentWrap>
                     <ContentWrap className="spoqaBold" onClick={() => { openPage('question') }}>문의하기</ContentWrap>
                     <ContentWrap className="spoqaBold" onClick={() => { openAgreePage('agree', 'serviceDetail') }}>이용 약관</ContentWrap>
                     <ContentWrap className="spoqaBold" onClick={() => { openAgreePage('agree', 'personDetail') }}>개인정보 처리방침</ContentWrap>

@@ -21,8 +21,6 @@ const AlertPage = () => {
         }, 300)
     }, []);
 
-
-
     return (
         <PageWrap>
             <HeaderWrap onClick={closeAlertPage}>

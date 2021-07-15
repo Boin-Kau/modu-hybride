@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +18,7 @@ import { CategoryReloadTrueAction, TotalReloadTrueAction, SubscribeReloadTrueAct
 import { UpdateSubscribeStatus, DeletePopupClose, DeletePopupOpen, GetPopularPlatformList, GetSearchPlatformList } from '../../../../reducers/main/platform';
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 import { useHistory } from 'react-router-dom';
+import { PageTransContext } from '../../../../containers/pageTransContext';
 
 
 const SearchPage = () => {
@@ -35,6 +36,10 @@ const SearchPage = () => {
         deletePlatformName,
         deletePlatformIdx
     } = useSelector(state => state.main.platform);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
 
     //state
     const [searchSatus, setSearchSatus] = useState(false);
@@ -88,6 +93,7 @@ const SearchPage = () => {
     }, []);
 
     const closeSearchPage = () => {
+        setPageTrans('trans toLeft');
         history.goBack();
     };
 

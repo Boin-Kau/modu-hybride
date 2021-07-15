@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 
 import clamp from 'lodash-es/clamp'
 import { useSpring, animated } from 'react-spring'
@@ -27,6 +27,7 @@ import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 
 import { onClickTerminate } from '../../App';
 import { CloseItemFalseAction } from '../../reducers/main/subscribe';
+import { PageTransContext } from '../../containers/pageTransContext';
 
 const CardStyle = {
     height: '100vh',
@@ -58,6 +59,9 @@ const Main = () => {
     const {
         closeItemClick
     } = useSelector(state => state.main.subscribe);
+
+    //페이지 전환
+    const { setPageTrans } = useContext(PageTransContext);
 
     const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }))
 
@@ -157,6 +161,7 @@ const Main = () => {
     //구독등록 페이지 열기
     const openSubscribePage = () => {
 
+        setPageTrans('trans toRight');
         history.push('/subscribe');
 
     };
