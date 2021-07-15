@@ -17,8 +17,6 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
-          sudo su
           cd /home/ubuntu/modu-hybride/
-          ls -al
           git pull origin master
           pm2 restart 1
