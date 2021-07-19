@@ -7,7 +7,7 @@ import { TextMiddle } from '../../../styled/shared';
 
 import Fade from 'react-reveal/Fade';
 import NoticeDetailPage from './detail';
-import { PageWrapOpen, PageOpen } from '../../../reducers/info/page';
+import { PageWrapOpen, PageOpen, NoticePageIdx } from '../../../reducers/info/page';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../containers/pageTransContext';
@@ -32,9 +32,14 @@ const NoticePage = () => {
     };
 
     //페이지 열기
-    const openPage = useCallback(async (data) => {
+    const openPage = useCallback(async (data, index) => {
 
         test = true;
+
+        dispatch({
+            type: NoticePageIdx,
+            data: index
+        })
 
         dispatch({
             type: PageWrapOpen,
@@ -63,7 +68,19 @@ const NoticePage = () => {
 
                     <TextMiddle>공지사항</TextMiddle>
                 </HeaderWrap>
-                <div className="notoMedium" onClick={() => { openPage('noticeDetail') }} style={{ padding: '0 1.25rem 0 1.25rem' }}>
+                <div className="notoMedium" onClick={() => { openPage('noticeDetail', 2) }} style={{ padding: '0 1.25rem 0 1.25rem' }}>
+
+                    <div style={{ padding: '0.9688rem 0 1.0313rem 0', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
+                        <div style={{ fontSize: '0.8125rem', marginBottom: '0.3125rem' }}>
+                            일부 기능이 업데이트 되었습니다!
+                        </div>
+                        <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
+                            2021.07.19
+                        </div>
+                    </div>
+
+                </div>
+                <div className="notoMedium" onClick={() => { openPage('noticeDetail', 1) }} style={{ padding: '0 1.25rem 0 1.25rem' }}>
 
                     <div style={{ padding: '0.9688rem 0 1.0313rem 0', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
                         <div style={{ fontSize: '0.8125rem', marginBottom: '0.3125rem' }}>
