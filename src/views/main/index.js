@@ -69,6 +69,9 @@ const Main = () => {
 
     const [bottomCardHeight, setBottomCardHeight] = useState(0);
 
+    const [subLoading, setSubLoading] = useState(true);
+    const [analysisLoading, setAnalysisLoading] = useState(true);
+    const [analysisReloadLoading, setAnalysisReloadLoading] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
 
     const titleDivbRef = useRef();
@@ -189,7 +192,7 @@ const Main = () => {
 
         }
 
-        // setIsLoading(false);
+        setAnalysisLoading(false);
 
     }, [analysisList]);
 
@@ -221,10 +224,23 @@ const Main = () => {
 
             // set({ xy: [0, 0] });
         }
-
-        // setIsLoading(false);
+        setAnalysisReloadLoading(false);
 
     }, [analysisReloadStatus]);
+
+    //로딩 관리
+    useEffect(() => {
+
+        if (!subLoading && !analysisLoading && !analysisReloadLoading) {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 350);
+        }
+        else {
+            setIsLoading(true);
+        }
+
+    }, [subLoading, analysisLoading, analysisReloadLoading])
 
     //첫 랜더링시
     useEffect(async () => {
@@ -234,10 +250,6 @@ const Main = () => {
         const height = window.innerHeight || document.body.clientHeight;
 
         setBottomCardHeight(height - bottomDivHeight);
-
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 350)
 
         const userPlatform = localStorage.getItem('userPlatform');
         let platform = '';
@@ -383,7 +395,7 @@ const Main = () => {
                         </TitleWrap>
 
                         <BottomChildWrap height={bottomCardHeight} ref={bottomChildDivbRef} style={isScrollChild ? BottomChildOpenStyle : BottomChildCloseStyle}>
-                            <BottomCard cardOpen={isScrollChild} />
+                            <BottomCard cardOpen={isScrollChild} loadingFalse={() => { setSubLoading(false); }} />
                             <div style={{ height: "7.5rem" }}></div>
                         </BottomChildWrap>
                     </animated.div>

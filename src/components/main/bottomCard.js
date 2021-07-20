@@ -185,7 +185,7 @@ const BottomContent = ({ data, cardOpen }) => {
 };
 
 
-const BottomCard = ({ cardOpen }) => {
+const BottomCard = ({ cardOpen, loadingFalse }) => {
 
     //import
     const dispatch = useDispatch();
@@ -220,6 +220,7 @@ const BottomCard = ({ cardOpen }) => {
         }
 
         dispatch(SubscribeReloadFalseAction);
+        loadingFalse();
 
     }, [subscribeReloadStatus]);
 
