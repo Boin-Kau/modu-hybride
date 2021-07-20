@@ -240,20 +240,30 @@ const Main = () => {
         }, 350)
 
         const userPlatform = localStorage.getItem('userPlatform');
+        let platform = '';
 
         //fcm token
         if (localStorage.getItem("isFcmLoad") == 'true') {
 
-            let fcmToken = localStorage.getItem("fcmToken");
-
             localStorage.setItem('isFcmLoad', 'false');
 
-            if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
+            if (userPlatform == 'android') {
 
-            if (!fcmToken) {
+                platform = 'AOS';
 
-                if (userPlatform == 'android') {
+                //splash close 함수 호출
+                try {
+                    window.android.closeSplash();
+                }
+                catch (err) {
+                    console.log(err);
+                }
 
+                //업데이트되기전까지는 이 로직 사용 -> 업데이트 되고나서는 밑에 로직 사용
+                let tokenTest = localStorage.getItem("fcmToken");
+                if (tokenTest == undefined || tokenTest == 'undefined' || tokenTest.length == 0) tokenTest = null;
+                if (!tokenTest) {
+                    //fcm token 가져오기 함수
                     try {
                         const deviceToken = await window.android.getFcmToken();
                         localStorage.setItem('fcmToken', deviceToken);
@@ -261,39 +271,59 @@ const Main = () => {
                     catch (err) {
                         console.log(err);
                     }
-
-                }
-                else {
-
-                    try {
-                        window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-
                 }
 
+                // //fcm token 가져오기 함수
+                // try {
+                //     const deviceToken = await window.android.getFcmToken();
+                //     localStorage.setItem('fcmToken', deviceToken);
+                // }
+                // catch (err) {
+                //     console.log(err);
+                // }
 
-                setTimeout(() => {
+            }
+            else if (userPlatform == 'ios') {
 
-                    fcmToken = localStorage.getItem("fcmToken");
+                platform = 'IOS';
 
-                    if (fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
+                //splash close 함수 호출
+                try {
+                    window.webkit.messageHandlers.closeSplash.postMessage("hihi");
+                }
+                catch (err) {
+                    console.log(err);
+                }
 
-                    //fcm 등록
-                    customApiClient('patch', '/user/fcm', {
-                        fcmToken: fcmToken
-                    });
+                //fcm token 가져오기 함수
+                try {
+                    window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
+                }
+                catch (err) {
+                    console.log(err);
+                }
 
-                }, 3000);
             }
             else {
+                platform = 'WEB';
+
+                localStorage.setItem('fcmToken', null);
+            }
+
+
+            setTimeout(() => {
+
+                let fcmToken = localStorage.getItem("fcmToken");
+
+                if (!fcmToken || fcmToken == 'null' || fcmToken == undefined || fcmToken == 'undefined' || fcmToken.length == 0) fcmToken = null;
+
                 //fcm 등록
                 customApiClient('patch', '/user/fcm', {
-                    fcmToken: fcmToken
+                    fcmToken: fcmToken,
+                    platform: platform
                 });
-            }
+
+            }, 3000);
 
         }
 

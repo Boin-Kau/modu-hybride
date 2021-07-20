@@ -84,7 +84,7 @@
       localStorage.setItem('userPlatform', current_user_platform);
       localStorage.setItem('isFcmLoad', 'true');
 
-      //fcm token 가져오기
+      //fcm token 가져오기 -> 앱 업데이트 되면 주석처리
       if (current_user_platform == 'android') {
 
         try {
@@ -95,15 +95,6 @@
           console.log(err);
         }
 
-      }
-      else {
-
-        try {
-          window.webkit.messageHandlers.getFcmToken.postMessage("hihi");
-        }
-        catch (err) {
-          console.log(err);
-        }
       }
 
     }

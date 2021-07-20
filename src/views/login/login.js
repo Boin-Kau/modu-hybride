@@ -102,6 +102,32 @@ const Login = () => {
     //페이지 랜더링 시
     useEffect(() => {
         localStorage.setItem('isFcmLoad', 'true');
+
+        const userPlatform = localStorage.getItem('userPlatform');
+
+        if (userPlatform == 'android') {
+
+            //splash close 함수 호출
+            try {
+                window.android.closeSplash();
+            }
+            catch (err) {
+                console.log(err);
+            }
+
+        }
+        else if (userPlatform == 'ios') {
+
+            //splash close 함수 호출
+            try {
+                window.webkit.messageHandlers.closeSplash.postMessage("hihi");
+            }
+            catch (err) {
+                console.log(err);
+            }
+
+        }
+
     }, []);
 
 

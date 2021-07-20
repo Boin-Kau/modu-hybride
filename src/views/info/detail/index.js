@@ -84,7 +84,27 @@ const DetailPage = () => {
         setLogoutPopup(true);
     }
 
-    const onCickLogoutConfirm = () => {
+    const onCickLogoutConfirm = async () => {
+
+        //fcm 삭제
+        const userPlatform = localStorage.getItem('userPlatform');
+        let platform = '';
+
+        if (userPlatform == 'android') {
+            platform = 'AOS';
+        }
+        else if (userPlatform == 'ios') {
+            platform = 'IOS';
+        }
+        else {
+            platform = 'WEB';
+        }
+
+        await customApiClient('patch', '/user/fcm', {
+            fcmToken: null,
+            platform: platform
+        });
+
         localStorage.removeItem('x-access-token');
         dispatch(BottomNavCloseAction);
         dispatch({
@@ -105,6 +125,25 @@ const DetailPage = () => {
     }
 
     const onClickDeleteConfirm = async () => {
+
+        //fcm 삭제
+        const userPlatform = localStorage.getItem('userPlatform');
+        let platform = '';
+
+        if (userPlatform == 'android') {
+            platform = 'AOS';
+        }
+        else if (userPlatform == 'ios') {
+            platform = 'IOS';
+        }
+        else {
+            platform = 'WEB';
+        }
+
+        await customApiClient('patch', '/user/fcm', {
+            fcmToken: null,
+            platform: platform
+        });
 
         //서버통신
         const res = await customApiClient('delete', `/user`);
