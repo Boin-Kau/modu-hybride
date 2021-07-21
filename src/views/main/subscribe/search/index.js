@@ -220,10 +220,10 @@ const SearchPage = () => {
                     {
                         popularPlatformList.map((list, index) => {
                             if (index < 3) {
-                                return (<PopularItemComponent props={list} key={list.idx} isPopular={true}></PopularItemComponent>)
+                                return (<PopularItemComponent props={list} rank={index + 1} key={list.platformIdx} isPopular={true}></PopularItemComponent>)
                             }
                             else {
-                                return (<PopularItemComponent props={list} key={list.idx} isPopular={false}></PopularItemComponent>)
+                                return (<PopularItemComponent props={list} rank={index + 1} key={list.platformIdx} isPopular={false}></PopularItemComponent>)
                             }
                         })
                     }
@@ -385,21 +385,29 @@ const TotalItemComponent = ({ data }) => {
 }
 
 
-const PopularItemComponent = ({ props, isPopular }) => {
+const PopularItemComponent = ({ props, rank, isPopular }) => {
 
     return (
         <PopularItemWrap>
             <PopularItemRank popular={isPopular}>
-                {props.rank}
+                {rank}
             </PopularItemRank>
 
             <PopularItemImgWrap>
-                <PopularItemImg src={props.platform.imgUrl} />
+                {
+                    props.imgUrl ?
+                        <PopularItemImg src={props.imgUrl} /> :
+                        <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", backgroundColor: '#e1e1e1' }}>
+                            <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
+                                ?
+                            </div>
+                        </div>
+                }
             </PopularItemImgWrap>
 
             <div style={{ fontSize: "0.75rem", color: "#313131" }}>
-                <div>{props.platform.name}</div>
-                <div className="notoMedium" style={{ lineHeight: "1.3125rem", opacity: "0.4" }}>{props.platform.category.name}</div>
+                <div>{props.name}</div>
+                <div className="notoMedium" style={{ lineHeight: "1.3125rem", opacity: "0.4" }}>{props.categoryName}</div>
             </div>
         </PopularItemWrap>
     )
