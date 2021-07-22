@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { customApiClient } from '../../shared/apiClient';
 import { BottomNavOpenAction, BottomNavCloseAction } from '../../reducers/container/bottomNav';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { UserInfoUpdate } from '../../reducers/info/user';
-import { checkMobile } from '../../App';
 
 
 const Splash = () => {
@@ -13,12 +12,6 @@ const Splash = () => {
     const dispatch = useDispatch();
 
     useEffect(async () => {
-
-        const userPlatform = localStorage.getItem('userPlatform');
-
-        if (userPlatform != 'android' && userPlatform != 'ios' && userPlatform != 'other') {
-            localStorage.setItem('userPlatform', checkMobile());
-        }
 
         const data = await customApiClient('get', '/user/jwt');
 

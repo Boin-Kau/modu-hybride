@@ -25,7 +25,7 @@ import { GetAnalyPageList, AnalyPageReloadFalseAction } from '../../reducers/mai
 import { useHistory } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 
-import { onClickTerminate } from '../../App';
+import { onClickTerminate, checkMobile } from '../../App';
 import { CloseItemFalseAction } from '../../reducers/main/subscribe';
 import { PageTransContext } from '../../containers/pageTransContext';
 
@@ -251,13 +251,13 @@ const Main = () => {
 
         setBottomCardHeight(height - bottomDivHeight);
 
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
         let platform = '';
 
         //fcm token
-        if (localStorage.getItem("isFcmLoad") == 'true') {
+        if (!localStorage.getItem("isFcmLoad") || localStorage.getItem("isFcmLoad") != 'deactive') {
 
-            localStorage.setItem('isFcmLoad', 'false');
+            localStorage.setItem('isFcmLoad', 'deactive');
 
             if (userPlatform == 'android') {
 
@@ -318,7 +318,6 @@ const Main = () => {
             }
             else {
                 platform = 'WEB';
-
                 localStorage.setItem('fcmToken', null);
             }
 

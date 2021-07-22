@@ -28,7 +28,7 @@ import PhoneChangePage from './phoneChange';
 import { PageWrapOpen, PageOpen, LoginSubPageKind } from '../../reducers/info/page';
 
 
-import { onClickTerminate } from '../../App';
+import { onClickTerminate, checkMobile } from '../../App';
 import { PartyIconWrap, PartyIcon } from '../../styled/main/enrollment';
 
 
@@ -101,9 +101,9 @@ const Login = () => {
 
     //페이지 랜더링 시
     useEffect(() => {
-        localStorage.setItem('isFcmLoad', 'true');
+        localStorage.removeItem('isFcmLoad');
 
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
 
         if (userPlatform == 'android') {
 
