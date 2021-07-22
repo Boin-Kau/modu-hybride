@@ -46,7 +46,6 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
   <script>
 
-    //페이지 depth주기 임시 변수 -> 최종적으로는 모든 페이지 분리
     let test = false;
 
     //안드로이드 뒤로가기
@@ -61,8 +60,28 @@
 
     }
 
-    //앱 업데이트 되면 삭제
+
+    const checkMobile = () => {
+
+      var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+
+      if (varUA.indexOf('android') > -1) {
+        //안드로이드
+        return "android";
+      } else if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
+        //IOS
+        return "ios";
+      } else {
+        //아이폰, 안드로이드 외
+        return "other";
+      }
+
+    }
+
+    //앱 업데이트 되면 이거 전체 삭제
     window.onload = async function inital() {
+
+      const current_user_platform = checkMobile();
 
       //fcm token 가져오기 -> 앱 업데이트 되면 주석처리
       if (current_user_platform == 'android') {
@@ -91,6 +110,16 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
 </body>
 
 </html>
