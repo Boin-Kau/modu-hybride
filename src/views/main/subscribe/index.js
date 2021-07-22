@@ -31,6 +31,7 @@ import { AnalyPageReloadTrueAction } from '../../../reducers/main/analysis';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../containers/pageTransContext';
+import { checkMobile } from '../../../App';
 
 
 const SubscribePage = () => {
@@ -99,7 +100,7 @@ const SubscribePage = () => {
             setIsFirst(false);
         }
 
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
 
         if (userPlatform == 'ios') {
             //IOS 배경색 설정

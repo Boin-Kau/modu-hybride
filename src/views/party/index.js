@@ -5,7 +5,7 @@ import duck_notion from "../../assets/saft-duck.gif";
 import duck_con from "../../assets/safe-con@3x.png";
 
 // import { useHistory } from 'react-router-dom';
-import { onClickTerminate } from '../../App';
+import { onClickTerminate, checkMobile } from '../../App';
 // import { LoginButton } from '../../styled/shared';
 import { DetailButton } from '../../styled/main';
 
@@ -39,7 +39,7 @@ const Party = () => {
     // }, []);
 
     useEffect(() => {
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
 
         if (userPlatform == 'ios') {
             //IOS 배경색 설정

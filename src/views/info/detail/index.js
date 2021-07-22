@@ -20,6 +20,7 @@ import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { useHistory } from 'react-router-dom';
 import { customApiClient } from '../../../shared/apiClient';
 import { PageTransContext } from '../../../containers/pageTransContext';
+import { checkMobile } from '../../../App';
 
 const DetailPage = () => {
 
@@ -87,7 +88,7 @@ const DetailPage = () => {
     const onCickLogoutConfirm = async () => {
 
         //fcm 삭제
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
         let platform = '';
 
         if (userPlatform == 'android') {
@@ -127,7 +128,7 @@ const DetailPage = () => {
     const onClickDeleteConfirm = async () => {
 
         //fcm 삭제
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
         let platform = '';
 
         if (userPlatform == 'android') {

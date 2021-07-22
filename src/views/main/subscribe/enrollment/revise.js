@@ -30,6 +30,7 @@ import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
 import { GetPlatformCategoryList } from '../../../../reducers/main/platform';
 import { PageTransContext } from '../../../../containers/pageTransContext';
+import { checkMobile } from '../../../../App';
 
 
 const EnrollmentRevisePage = ({ location }) => {
@@ -511,7 +512,7 @@ const EnrollmentRevisePage = ({ location }) => {
     useEffect(() => {
         dispatch(BottomNavCloseAction);
 
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
 
         if (userPlatform == 'ios') {
             //IOS 배경색 설정

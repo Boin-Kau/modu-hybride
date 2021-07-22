@@ -9,6 +9,7 @@ import { TextMiddle } from '../../../styled/shared';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../containers/pageTransContext';
+import { checkMobile } from '../../../App';
 
 
 const AnalysisPage = () => {
@@ -27,7 +28,7 @@ const AnalysisPage = () => {
     useEffect(() => {
         dispatch(BottomNavCloseAction);
 
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
 
         if (userPlatform == 'ios') {
             //IOS 배경색 설정

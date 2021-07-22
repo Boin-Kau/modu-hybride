@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { PageWrapOpen, PageOpen, AgreePageKind } from '../../reducers/info/page';
 import { useHistory, Link } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
-import { onClickTerminate } from '../../App';
+import { onClickTerminate, checkMobile } from '../../App';
 import { PageTransContext } from '../../containers/pageTransContext';
 
 const Info = () => {
@@ -91,7 +91,7 @@ const Info = () => {
     useEffect(() => {
         dispatch(BottomNavOpenAction);
 
-        const userPlatform = localStorage.getItem('userPlatform');
+        const userPlatform = checkMobile();
 
         if (userPlatform == 'ios') {
             //IOS 배경색 설정
