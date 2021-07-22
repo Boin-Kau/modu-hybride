@@ -4,6 +4,7 @@ import { customApiClient } from '../../shared/apiClient';
 import { BottomNavOpenAction, BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { useDispatch } from "react-redux";
 import { UserInfoUpdate } from '../../reducers/info/user';
+import { checkMobile } from '../../App';
 
 
 const Splash = () => {
@@ -14,6 +15,24 @@ const Splash = () => {
     useEffect(async () => {
 
         localStorage.removeItem('isFcmLoad');
+
+        let localFcm = localStorage.getItem("fcmToken");
+        if (localFcm == undefined || localFcm == 'undefined' || localFcm.length == 0) localFcm = null;
+
+        const current_user_platform = checkMobile();
+
+        //fcm token 가져오기 -> 앱 업데이트 되면 주석처리
+        if (current_user_platform == 'android' && !localFcm) {
+
+            try {
+                const fcmToken = await window.android.getFcmToken();
+                localStorage.setItem('fcmToken', fcmToken);
+            }
+            catch (err) {
+                console.log(err);
+            }
+
+        }
 
         const data = await customApiClient('get', '/user/jwt');
 
