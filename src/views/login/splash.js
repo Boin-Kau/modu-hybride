@@ -13,6 +13,8 @@ const Splash = () => {
 
     useEffect(async () => {
 
+        localStorage.removeItem('isFcmLoad');
+
         const data = await customApiClient('get', '/user/jwt');
 
         //벨리데이션
