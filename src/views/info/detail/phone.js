@@ -163,7 +163,7 @@ const PhonePage = () => {
         <div className="page">
             <PageWrap>
                 <HeaderWrap id="back_link" className="spoqaBold" onClick={closePage}>
-                    <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                    <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>
 
