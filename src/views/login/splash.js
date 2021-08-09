@@ -21,6 +21,22 @@ const Splash = () => {
 
         const current_user_platform = checkMobile();
 
+
+        //앱 버전관련 로직
+        try {
+            if (current_user_platform == 'android') {
+                const verson = await window.android.getVersionName();
+                localStorage.setItem('versonName', verson);
+            }
+            else if (current_user_platform == 'ios') {
+                window.webkit.messageHandlers.getVersionName.postMessage("hihi");
+            }
+        }
+        catch (err) {
+            localStorage.removeItem('versonName');
+        }
+
+
         //fcm token 가져오기 -> 앱 업데이트 되면 주석처리
         if (current_user_platform == 'android' && !localFcm) {
 

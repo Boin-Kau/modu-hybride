@@ -8,10 +8,6 @@ import Fade from 'react-reveal/Fade';
 import icon_content_none from "../../assets/img-bottom-item-none.svg";
 import icon_edit from "../../assets/icon-edit.svg";
 
-import platform_none from "../../assets/platform-none.svg";
-
-
-
 import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailButton, DetailItemFillContent } from '../../styled/main';
 import { SubscribeReloadFalseAction, GetSubscirbeList, CloseItemTrueAction } from '../../reducers/main/subscribe';
 import { customApiClient } from '../../shared/apiClient';

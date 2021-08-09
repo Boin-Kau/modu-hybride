@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -8,20 +8,25 @@ import icon_back from "../../../assets/icon-back-arrow.svg";
 import { TextMiddle } from '../../../styled/shared';
 
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../../styled/main/enrollment';
-import { PageClose, PageWrapClose } from '../../../reducers/info/page';
 import { customApiClient } from '../../../shared/apiClient';
 import { PhoneUpdate } from '../../../reducers/info/user';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../reducers/container/message';
+import { useHistory } from 'react-router-dom';
+import { PageTransContext } from '../../../containers/pageTransContext';
 
 
 const PhonePage = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     //store
     const {
         phone: currentPhone,
     } = useSelector(state => state.info.user);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     //state
     const [phone, setPhone] = useState('');
@@ -38,36 +43,10 @@ const PhonePage = () => {
 
     const [isSend, setIsSend] = useState(false);
 
-    const closePage = useCallback(() => {
-
-        test = false;
-
-
-        dispatch({
-            type: PageClose,
-            data: 'phone'
-        });
-
-        setTimeout(() => {
-            dispatch({
-                type: PageWrapClose,
-                data: 'phone'
-            });
-        }, 300);
-
-        setPhone('');
-        setConfirm(false);
-        setError(false);
-        setErrorMsg('');
-
-        setOpenAuth(false);
-        setCode('');
-        setConfirmCode(false);
-        setErrorCode(false);
-        setErrorMsgCode('');
-
-        setIsSend(false);
-    }, []);
+    const closePage = () => {
+        setPageTrans('trans toLeft');
+        history.goBack();
+    };
 
     const handelPhone = (e) => {
         setError(false);
@@ -181,57 +160,59 @@ const PhonePage = () => {
     }, [confirmCode, code, phone]);
 
     return (
-        <PageWrap>
-            <HeaderWrap id="back_link" className="spoqaBold" onClick={closePage}>
-                <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-                    <img src={icon_back}></img>
-                </div>
+        <div className="page">
+            <PageWrap>
+                <HeaderWrap id="back_link" className="spoqaBold" onClick={closePage}>
+                    <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_back}></img>
+                    </div>
 
-                <TextMiddle>전화번호 변경하기</TextMiddle>
-            </HeaderWrap>
+                    <TextMiddle>전화번호 변경하기</TextMiddle>
+                </HeaderWrap>
 
-            <div className="notoMedium" style={{ padding: '1.25rem 1.25rem 0.1875rem 1.25rem' }}>
-                <TitleWrap style={{ marginTop: '0' }}>전화번호</TitleWrap>
-                <ItemWrap>
-                    <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
-                        <Input placeholder="새 전화번호를 입력해주세요" type='tel' onChange={handelPhone} value={phone}></Input>
-                    </InputWrap>
-                    {!isSend ?
-                        <SubmitButton className="spoqaBold" confirmStatus={confirm} onClick={onClickCodeGenerate}>
-                            <SubmitText>
-                                {/* {
+                <div className="notoMedium" style={{ padding: '1.25rem 1.25rem 0.1875rem 1.25rem' }}>
+                    <TitleWrap style={{ marginTop: '0' }}>전화번호</TitleWrap>
+                    <ItemWrap>
+                        <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
+                            <Input placeholder="새 전화번호를 입력해주세요" type='tel' onChange={handelPhone} value={phone}></Input>
+                        </InputWrap>
+                        {!isSend ?
+                            <SubmitButton className="spoqaBold" confirmStatus={confirm} onClick={onClickCodeGenerate}>
+                                <SubmitText>
+                                    {/* {
                                     openAuth ?
                                         "재발송" : "인증받기"
                                 } */}
                                 인증받기
                             </SubmitText>
-                        </SubmitButton> :
-                        <SubmitButton className="spoqaBold" confirmStatus={false} >
-                            <SubmitText>
-                                발송완료
+                            </SubmitButton> :
+                            <SubmitButton className="spoqaBold" confirmStatus={false} >
+                                <SubmitText>
+                                    발송완료
                             </SubmitText>
-                        </SubmitButton>
-                    }
-                </ItemWrap>
-                <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e', height: '1.0625rem' }}>{errorMsg}</div>
-            </div>
+                            </SubmitButton>
+                        }
+                    </ItemWrap>
+                    <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e', height: '1.0625rem' }}>{errorMsg}</div>
+                </div>
 
-            <ConfirmWrap className="notoMedium" confirmStatus={openAuth}>
-                <TitleWrap style={{ marginTop: '0' }}>인증번호</TitleWrap>
-                <ItemWrap>
-                    <InputWrap style={errorCode ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
-                        <Input placeholder="인증번호를 입력해주세요" type='tel' onChange={handelCode} value={code}></Input>
-                    </InputWrap>
-                    <SubmitButton className="spoqaBold" confirmStatus={confirmCode} onClick={onClickCodeAuth}>
-                        <SubmitText>
-                            확인
+                <ConfirmWrap className="notoMedium" confirmStatus={openAuth}>
+                    <TitleWrap style={{ marginTop: '0' }}>인증번호</TitleWrap>
+                    <ItemWrap>
+                        <InputWrap style={errorCode ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
+                            <Input placeholder="인증번호를 입력해주세요" type='tel' onChange={handelCode} value={code}></Input>
+                        </InputWrap>
+                        <SubmitButton className="spoqaBold" confirmStatus={confirmCode} onClick={onClickCodeAuth}>
+                            <SubmitText>
+                                확인
                         </SubmitText>
-                    </SubmitButton>
-                </ItemWrap>
-                <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e', height: '1.0625rem' }}>{errorMsgCode}</div>
-            </ConfirmWrap>
+                        </SubmitButton>
+                    </ItemWrap>
+                    <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e', height: '1.0625rem' }}>{errorMsgCode}</div>
+                </ConfirmWrap>
 
-        </PageWrap>
+            </PageWrap>
+        </div>
     )
 };
 

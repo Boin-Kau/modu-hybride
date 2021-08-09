@@ -14,6 +14,10 @@ import EnrollmentPage from '../views/main/subscribe/enrollment';
 import DetailPage from '../views/info/detail';
 import SearchPage from '../views/main/subscribe/search';
 import NoticePage from '../views/info/notice';
+import QuestionPage from '../views/info/question';
+import SettingPage from '../views/info/setting';
+import NamePage from '../views/info/detail/name';
+import PhonePage from '../views/info/detail/phone';
 
 const AppLayout = () => {
 
@@ -30,7 +34,11 @@ const AppLayout = () => {
             <Route path='/party' component={Party} />
             <Route path='/info' exact component={MyInfo} />
             <Route path='/info/detail' exact component={DetailPage} />
+            <Route path='/info/detail/name' exact component={NamePage} />
+            <Route path='/info/detail/phone' exact component={PhonePage} />
             <Route path='/notice' exact component={NoticePage} />
+            <Route path='/faq' exact component={QuestionPage} />
+            <Route path='/setting' exact component={SettingPage} />
         </>
     );
 

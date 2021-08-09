@@ -5,12 +5,10 @@ import icon_setting from "../../assets/icon-setting.svg";
 import icon_profile from "../../assets/duck-profile.svg";
 import icon_arrow_right from "../../assets/icon-arrow-right-gray.svg";
 import Fade from 'react-reveal/Fade';
-import SettingPage from './setting';
 import AgreePage from './agree';
-import QuestionPage from './question';
 import { useSelector, useDispatch } from 'react-redux';
 import { PageWrapOpen, PageOpen, AgreePageKind } from '../../reducers/info/page';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { onClickTerminate, checkMobile } from '../../App';
 import { PageTransContext } from '../../containers/pageTransContext';
@@ -22,12 +20,6 @@ const Info = () => {
 
     //페이지 상태값
     const {
-        openSettingPageWrapStatus,
-        openSettingPageStatus,
-
-        openQuestionPageWrapStatus,
-        openQuestionPageStatus,
-
         openAgreePageWrapStatus,
         openAgreePageStatus
     } = useSelector(state => state.info.page);
@@ -83,9 +75,19 @@ const Info = () => {
         history.push('/info/detail');
     }
 
+    const openSettingPage = () => {
+        setPageTrans('trans toRight');
+        history.push('/setting');
+    }
+
     const openNoticePage = () => {
         setPageTrans('trans toRight');
         history.push('/notice');
+    }
+
+    const openFaqPage = () => {
+        setPageTrans('trans toRight');
+        history.push('/faq');
     }
 
     useEffect(() => {
@@ -115,7 +117,7 @@ const Info = () => {
 
                     <div className="spoqaBold" style={{ display: 'flex', margin: '0.875rem 1.25rem 1.625rem 1.25rem' }}>
                         <div style={{ flexGrow: '1', fontSize: '0.875rem', lineHeight: '1.4375rem' }}>마이페이지</div>
-                        <div onClick={() => { openPage('setting') }} style={{ marginTop: '0.125rem' }}>
+                        <div onClick={openSettingPage} style={{ marginTop: '0.125rem' }}>
                             <img src={icon_setting} style={{ width: '1rem', height: '1rem' }} />
                         </div>
                     </div>
@@ -136,30 +138,12 @@ const Info = () => {
 
 
                     <TitelWrap className="notoMedium">고객센터</TitelWrap>
-                    <ContentWrap onClick={openNoticePage} className="spoqaBold" style={{ color: 'rgb(49,49,49)' }}>공지사항</ContentWrap>
-                    <ContentWrap className="spoqaBold" onClick={() => { openPage('question') }}>문의하기</ContentWrap>
+                    <ContentWrap onClick={openNoticePage} className="spoqaBold">공지사항</ContentWrap>
+                    <ContentWrap onClick={openFaqPage} className="spoqaBold">문의하기</ContentWrap>
                     <ContentWrap className="spoqaBold" onClick={() => { openAgreePage('agree', 'serviceDetail') }}>이용 약관</ContentWrap>
                     <ContentWrap className="spoqaBold" onClick={() => { openAgreePage('agree', 'personDetail') }}>개인정보 처리방침</ContentWrap>
 
                 </PageWrap>
-            </div>
-
-            {/* 설정 페이지 */}
-            <div style={openSettingPageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openSettingPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <SettingPage />
-                    </div>
-                </Fade>
-            </div>
-
-            {/* 문의하기 페이지 */}
-            <div style={openQuestionPageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openQuestionPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <QuestionPage />
-                    </div>
-                </Fade>
             </div>
 
             {/* 약관 페이지 */}

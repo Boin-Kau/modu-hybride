@@ -11,11 +11,6 @@ import danger_icon from "../../../assets/danger-icon.svg";
 
 
 import { TextMiddle, DangerWrapPopup, DangerPopup } from '../../../styled/shared';
-import NamePage from './name';
-
-import Fade from 'react-reveal/Fade';
-import PhonePage from './phone';
-import { PageWrapOpen, PageOpen } from '../../../reducers/info/page';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { useHistory } from 'react-router-dom';
 import { customApiClient } from '../../../shared/apiClient';
@@ -25,15 +20,6 @@ import { checkMobile } from '../../../App';
 const DetailPage = () => {
 
     const histroy = useHistory();
-
-    //페이지 상태값
-    const {
-        openNamePageWrapStatus,
-        openNamePageStatus,
-
-        openPhonePageWrapStatus,
-        openPhonePageStatus,
-    } = useSelector(state => state.info.page);
 
     const {
         name,
@@ -64,21 +50,15 @@ const DetailPage = () => {
         dispatch(BottomNavCloseAction);
     }, [])
 
-    //페이지 열기
-    const openPage = useCallback(async (data) => {
+    const openNamePage = () => {
+        setPageTrans('trans toRight');
+        history.push('/info/detail/name');
+    }
 
-        test = true;
-
-        dispatch({
-            type: PageWrapOpen,
-            data: data
-        });
-        dispatch({
-            type: PageOpen,
-            data: data
-        });
-
-    }, []);
+    const openPhonePage = () => {
+        setPageTrans('trans toRight');
+        history.push('/info/detail/phone');
+    }
 
     const onCickLogout = () => {
         setLogoutPopupWrap(true);
@@ -199,8 +179,8 @@ const DetailPage = () => {
 
                 <div className="spoqaBold" style={{ padding: '1.875rem 1.25rem 0 1.25rem' }}>
 
-                    <ContentWrap onClick={() => { openPage('name') }}>이름 변경</ContentWrap>
-                    <ContentWrap onClick={() => { openPage('phone') }}>전화번호 변경</ContentWrap>
+                    <ContentWrap onClick={openNamePage}>이름 변경</ContentWrap>
+                    <ContentWrap onClick={openPhonePage}>전화번호 변경</ContentWrap>
 
                     <div style={{ height: '0.0437rem', backgroundColor: 'rgba(0,0,0,0.06)', marginBottom: '1.875rem' }}></div>
 
@@ -208,25 +188,6 @@ const DetailPage = () => {
                     <ContentWrap onClick={onClickDelete} style={{ color: '#fb5e5e' }}>탈퇴하기</ContentWrap>
                 </div>
             </PageWrap>
-
-
-            {/* 이름 변경 페이지 */}
-            <div style={openNamePageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openNamePageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <NamePage />
-                    </div>
-                </Fade>
-            </div>
-
-            {/* 전화번호 변경 페이지 */}
-            <div style={openPhonePageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openPhonePageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <PhonePage />
-                    </div>
-                </Fade>
-            </div>
 
             {/* 회원탈퇴 알림창 */}
             <DangerWrapPopup openStatus={dangerPopupWrap}>

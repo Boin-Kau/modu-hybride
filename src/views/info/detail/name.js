@@ -1,25 +1,30 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import { TextMiddle, LoginButton } from '../../../styled/shared';
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../../styled/main/enrollment';
-import { PageClose, PageWrapClose } from '../../../reducers/info/page';
 import { customApiClient } from '../../../shared/apiClient';
 import { NameUpdate } from '../../../reducers/info/user';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../reducers/container/message';
+import { useHistory } from 'react-router-dom';
+import { PageTransContext } from '../../../containers/pageTransContext';
 
 
 const NamePage = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const {
         name: currentName,
     } = useSelector(state => state.info.user);
 
-    const [name, setName] = useState(currentName);
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
+    const [name, setName] = useState('');
     const [confirm, setConfirm] = useState(false);
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
@@ -45,10 +50,6 @@ const NamePage = () => {
         setConfirm(true);
 
     }, [name]);
-
-    useEffect(() => {
-        setName(currentName);
-    }, [currentName]);
 
     const onClickConfirmButton = useCallback(async () => {
         if (!confirm) return
@@ -103,51 +104,37 @@ const NamePage = () => {
 
     }, [confirm, name, currentName]);
 
-    const closePage = useCallback(() => {
-
-        test = false;
-
-        setName(currentName);
-        setError(false);
-        setErrorMsg('');
-
-        dispatch({
-            type: PageClose,
-            data: 'name'
-        });
-
-        setTimeout(() => {
-            dispatch({
-                type: PageWrapClose,
-                data: 'name'
-            });
-        }, 300)
-    }, [currentName]);
+    const closePage = () => {
+        setPageTrans('trans toLeft');
+        history.goBack();
+    };
 
 
     return (
-        <PageWrap>
-            <HeaderWrap id="back_link" className="spoqaBold" onClick={closePage}>
-                <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-                    <img src={icon_back}></img>
+        <div className="page">
+            <PageWrap>
+                <HeaderWrap id="back_link" className="spoqaBold" onClick={closePage}>
+                    <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_back}></img>
+                    </div>
+
+                    <TextMiddle>이름 변경하기</TextMiddle>
+                </HeaderWrap>
+                <div className="notoMedium" style={{ padding: '1.25rem' }}>
+                    <TitleWrap style={{ marginTop: '0' }}>이름</TitleWrap>
+                    <ItemWrap>
+                        <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
+                            <Input placeholder="이름을 입력하세요" onChange={handleName} value={name}></Input>
+                        </InputWrap>
+                    </ItemWrap>
+                    <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e' }}>{errorMsg}</div>
                 </div>
 
-                <TextMiddle>이름 변경하기</TextMiddle>
-            </HeaderWrap>
-            <div className="notoMedium" style={{ padding: '1.25rem' }}>
-                <TitleWrap style={{ marginTop: '0' }}>이름</TitleWrap>
-                <ItemWrap>
-                    <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
-                        <Input placeholder="이름을 입력하세요" onChange={handleName} value={name}></Input>
-                    </InputWrap>
-                </ItemWrap>
-                <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e' }}>{errorMsg}</div>
-            </div>
-
-            <LoginButton className="spoqaBold" pageConfirmStatus={confirm} onClick={onClickConfirmButton}>
-                변경
+                <LoginButton className="spoqaBold" pageConfirmStatus={confirm} onClick={onClickConfirmButton}>
+                    변경
             </LoginButton>
-        </PageWrap>
+            </PageWrap>
+        </div>
     )
 };
 
