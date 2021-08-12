@@ -17,6 +17,8 @@ import { customApiClient } from '../../../shared/apiClient';
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { checkMobile } from '../../../App';
 
+import ReactGA from 'react-ga';
+
 const DetailPage = () => {
 
     const histroy = useHistory();
@@ -61,6 +63,11 @@ const DetailPage = () => {
     }
 
     const onCickLogout = () => {
+        ReactGA.event({
+            category: 'User',
+            action: 'Logout an Account'
+        });
+
         setLogoutPopupWrap(true);
         setLogoutPopup(true);
     }
@@ -95,6 +102,11 @@ const DetailPage = () => {
     }
 
     const onClickDelete = async () => {
+        ReactGA.event({
+            category: 'User',
+            action: 'Delete an Account'
+        });
+
         setDangerPopupWrap(true);
         setDangerPopup(true);
     }

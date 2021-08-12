@@ -12,9 +12,10 @@ import './App.scss';
 import AppLayout from './containers/layout';
 import BottomNav from './containers/bottomNav';
 
+
 const history = createBrowserHistory();
 
-
+//모바일 기기 체크
 export const checkMobile = () => {
 
   var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기

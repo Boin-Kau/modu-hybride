@@ -31,6 +31,8 @@ import { PageWrapOpen, PageOpen, LoginSubPageKind } from '../../reducers/info/pa
 import { onClickTerminate, checkMobile } from '../../App';
 import { PartyIconWrap, PartyIcon } from '../../styled/main/enrollment';
 
+import ReactGA from 'react-ga';
+
 
 const Login = () => {
     const history = useHistory();
@@ -266,6 +268,12 @@ const Login = () => {
                     alert("오류가 발생하였습니다. 다시 시도해주세요.");
                     return
                 }
+
+                ReactGA.event({
+                    category: 'User',
+                    action: 'Login an Account'
+                });
+
                 dispatch({
                     type: UserInfoUpdate,
                     data: authData.result
@@ -346,6 +354,11 @@ const Login = () => {
                 type: UserInfoUpdate,
                 data: authData.result
             })
+
+            ReactGA.event({
+                category: 'User',
+                action: 'SignUp an Account'
+            });
 
             //메인 페이지 이동 로직
             dispatch(BottomNavOpenAction);

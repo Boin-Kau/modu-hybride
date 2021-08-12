@@ -6,11 +6,10 @@ import { PageTransProvider } from './containers/pageTransContext';
 import { createStore } from 'redux';
 import rootReducer from './reducers';
 import { Provider } from 'react-redux';
+import ReactGA from 'react-ga';
 
-
-
+ReactGA.initialize('UA-204802541-1');
 const store = createStore(rootReducer);
-
 
 ReactDOM.render(
   <Provider store={store}>

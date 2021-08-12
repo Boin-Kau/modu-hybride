@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { Route, useHistory, useLocation } from 'react-router-dom'
 
 import Splash from '../views/login/splash';
 import Login from '../views/login/login';
@@ -19,7 +19,16 @@ import SettingPage from '../views/info/setting';
 import NamePage from '../views/info/detail/name';
 import PhonePage from '../views/info/detail/phone';
 
+import ReactGA from 'react-ga';
+
 const AppLayout = () => {
+
+    const location = useLocation();
+
+    useEffect(() => {
+        ReactGA.set({ page: location.pathname });
+        ReactGA.pageview(location.pathname);
+    }, [location]);
 
     return (
         <>
