@@ -20,16 +20,19 @@ import NamePage from '../views/info/detail/name';
 import PhonePage from '../views/info/detail/phone';
 
 import ReactGA from 'react-ga';
+import AgreePage from '../views/info/agree';
 
 const AppLayout = () => {
 
     const location = useLocation();
 
+    //google analytics 연동
     useEffect(() => {
         ReactGA.set({ page: location.pathname });
         ReactGA.pageview(location.pathname);
     }, [location]);
 
+    //routing
     return (
         <>
             <Route path='/' exact component={Splash} />
@@ -48,6 +51,7 @@ const AppLayout = () => {
             <Route path='/notice' exact component={NoticePage} />
             <Route path='/faq' exact component={QuestionPage} />
             <Route path='/setting' exact component={SettingPage} />
+            <Route path='/agree' exact component={AgreePage} />
         </>
     );
 

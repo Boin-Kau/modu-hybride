@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -42,26 +42,24 @@ const DetailPage = () => {
     //context
     const { setPageTrans } = useContext(PageTransContext);
 
-
-    const closePage = useCallback(() => {
-        setPageTrans('trans toLeft');
-        history.goBack();
-    }, []);
-
+    //inital logic
     useEffect(() => {
         dispatch(BottomNavCloseAction);
     }, [])
 
-    const openNamePage = () => {
-        setPageTrans('trans toRight');
-        history.push('/info/detail/name');
+    //뒤로가기 버튼
+    const closePage = () => {
+        setPageTrans('trans toLeft');
+        history.goBack();
     }
 
-    const openPhonePage = () => {
+    //상세페이지 이동
+    const openPage = (domain) => {
         setPageTrans('trans toRight');
-        history.push('/info/detail/phone');
+        history.push(domain);
     }
 
+    //로그아웃 버튼 클릭
     const onCickLogout = () => {
         ReactGA.event({
             category: 'User',
@@ -72,6 +70,7 @@ const DetailPage = () => {
         setLogoutPopup(true);
     }
 
+    //로그아웃 버튼 최종 확인 클릭
     const onCickLogoutConfirm = async () => {
 
         //fcm 삭제
@@ -101,6 +100,7 @@ const DetailPage = () => {
         histroy.push('/login');
     }
 
+    //회원탈퇴 버튼 클릭
     const onClickDelete = async () => {
         ReactGA.event({
             category: 'User',
@@ -110,13 +110,8 @@ const DetailPage = () => {
         setDangerPopupWrap(true);
         setDangerPopup(true);
     }
-    const onClickCancel = () => {
-        setDangerPopupWrap(false);
-        setDangerPopup(false);
-        setLogoutPopupWrap(false);
-        setLogoutPopup(false);
-    }
 
+    //회원탈퇴 버튼 최종 클릭
     const onClickDeleteConfirm = async () => {
 
         //fcm 삭제
@@ -158,10 +153,19 @@ const DetailPage = () => {
         histroy.push('/login');
     }
 
+    //버튼 취소 클릭
+    const onClickCancel = () => {
+        setDangerPopupWrap(false);
+        setDangerPopup(false);
+        setLogoutPopupWrap(false);
+        setLogoutPopup(false);
+    }
 
-    const onClickUniqueInfo = useCallback(() => {
+    //고유번호 안내 아이콘 클릭
+    const onClickUniqueInfo = () => {
         setUniqueInfoStatus(!uniqueInfoStatus);
-    }, [uniqueInfoStatus]);
+    };
+
     return (
 
         <div className="page">
@@ -191,8 +195,8 @@ const DetailPage = () => {
 
                 <div className="spoqaBold" style={{ padding: '1.875rem 1.25rem 0 1.25rem' }}>
 
-                    <ContentWrap onClick={openNamePage}>이름 변경</ContentWrap>
-                    <ContentWrap onClick={openPhonePage}>전화번호 변경</ContentWrap>
+                    <ContentWrap onClick={() => { openPage('/info/detail/name') }}>이름 변경</ContentWrap>
+                    <ContentWrap onClick={() => { openPage('/info/detail/phone') }}>전화번호 변경</ContentWrap>
 
                     <div style={{ height: '0.0437rem', backgroundColor: 'rgba(0,0,0,0.06)', marginBottom: '1.875rem' }}></div>
 

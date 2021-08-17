@@ -28,7 +28,6 @@ export const initialState = {
 
 
     loginSubPageKind: null,
-    agreePageKind: null,
     noticePageIdx: null,
 };
 
@@ -38,7 +37,6 @@ export const PageWrapClose = 'PageWrapClose';
 export const PageClose = 'PageClose';
 
 export const LoginSubPageKind = 'LoginSubPageKind';
-export const AgreePageKind = 'AgreePageKind';
 export const NoticePageIdx = 'NoticePageIdx';
 
 
@@ -304,12 +302,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginSubPageKind: action.data,
-            }
-        }
-        case 'AgreePageKind': {
-            return {
-                ...state,
-                agreePageKind: action.data,
             }
         }
         case 'NoticePageIdx': {
