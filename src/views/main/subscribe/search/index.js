@@ -215,7 +215,7 @@ const SearchPage = () => {
                 {/* 인기 플랫폼 화면 */}
                 <PopularSearchWrap className="spoqaBold" searchSatus={searchSatus}>
 
-                    <div style={{ margin: "1.1875rem 0 0.5188rem 0" }}>인기 구독 서비스</div>
+                    <div style={{ margin: "1.1875rem 0 0.5188rem 0" }}>실시간 인기 구독 서비스</div>
 
                     {
                         popularPlatformList.map((list, index) => {
