@@ -18,6 +18,7 @@ import category_game from "../../assets/category-game.svg";
 import category_shopping from "../../assets/category-shopping.svg";
 import category_book from "../../assets/category-book.svg";
 import category_lifestyle from "../../assets/category-lifestyle.svg";
+import category_mobilityiy from "../../assets/icon_sub_mobilitiy.svg";
 import category_etc from "../../assets/category-etc.svg";
 
 import icon_triangle_up from "../../assets/triangle.svg";
@@ -35,6 +36,7 @@ export const getCategoryImg = categoryIdx => {
         case 5: return category_game
         case 6: return category_shopping
         case 7: return category_lifestyle
+        case 9: return category_mobilityiy
         default: return category_etc
     }
 }
