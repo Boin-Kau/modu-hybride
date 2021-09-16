@@ -119,7 +119,7 @@ const NoticeDetailPage = () => {
                                 새로운 카테고리 및 플랫폼이 업데이트 되었습니다. <span style={{ fontSize: '1rem' }}>🎉</span>
                             </div>
                             <div className="notoMedium" style={{ fontSize: '0.8125rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
-                                2021.07.19
+                                2021.09.16
                         </div>
                         </div>
 
