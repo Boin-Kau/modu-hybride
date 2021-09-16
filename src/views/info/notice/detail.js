@@ -110,6 +110,42 @@ const NoticeDetailPage = () => {
 
                     </div>
                 }
+
+                {noticePageIdx == 3 &&
+                    <div style={{ padding: '0 1.25rem 0 1.25rem' }}>
+
+                        <div style={{ padding: '0.9688rem 0 1.0313rem 0', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
+                            <div className="spoqaBold" style={{ fontSize: '0.875rem', marginBottom: '0.3125rem' }}>
+                                새로운 카테고리 및 플랫폼이 업데이트 되었습니다. <span style={{ fontSize: '1rem' }}>🎉</span>
+                            </div>
+                            <div className="notoMedium" style={{ fontSize: '0.8125rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
+                                2021.07.19
+                        </div>
+                        </div>
+
+                        <div className="notoRegular" style={{ margin: '0.9688rem 0', fontSize: '0.8125rem', lineHeight: '1.3125rem', wordBreak: 'keep-all' }}>
+                            안녕하세요 여러분 ~!<br />
+                            여러분들의 구독 관리를 위해 하루하루를 살고있는 모두 입니다.<br />
+                            <br />
+                            이번에도 여러분들이 요청주신 다양한 아이디어와 플랫폼을 바탕으로 새로운 구독 카테고리 및 플랫폼을 업데이트를 진행 하였습니다.<br />
+                            <br />
+                            업데이트된 내용은 다음과 같습니다.<br />
+                            <br />
+                            - <span className="notoMedium">모빌리티</span> 카테고리 추가<br />
+                            - <span className="notoMedium">디즈니 플러스</span> 플랫폼 추가<br />
+                            - <span className="notoMedium">이모티콘 플러스</span> 플랫폼 추가<br />
+                            - <span className="notoMedium">스포티파이</span> 플랫폼 추가<br />
+                            - <span className="notoMedium">월세</span> 플랫폼 추가<br />
+                            - <span className="notoMedium">교통비</span> 플랫폼 추가<br />
+                            - <span className="notoMedium">통신비</span> 플랫폼 추가<br />
+                            <br />
+                            다음 업데이트 사항으로는 결제 단위를 <span className="notoMedium">원화(₩)</span> 뿐만 아니라 <span className="notoMedium">달러($)</span> 단위도 추가가 될 예정입니다. <span style={{ fontSize: '1rem' }}>💰💰💰</span><br />
+                            <br />
+                            비록 부족한 점이 많지만, 항상 의견과 피드백을 수용하고 이를 반영하고 성장하는 모습을 보여드리도록 최선을 다하겠습니다! 감사합니다. <span style={{ fontSize: '1rem' }}>🥰</span>
+                        </div>
+
+                    </div>
+                }
             </PageWrap>
 
         </>

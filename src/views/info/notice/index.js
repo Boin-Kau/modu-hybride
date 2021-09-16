@@ -12,6 +12,24 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../containers/pageTransContext';
 
+const noticeData = [
+    {
+        idx: 3,
+        title: '새로운 카테고리 및 플랫폼이 업데이트 되었습니다. \uD83C\uDF89',
+        createdAt: '2021.09.16'
+    },
+    {
+        idx: 2,
+        title: '일부 기능이 업데이트 되었습니다!',
+        createdAt: '2021.07.19'
+    },
+    {
+        idx: 1,
+        title: '모두가 개편되었습니다!',
+        createdAt: '2021.06.26'
+    }
+]
+
 const NoticePage = () => {
 
     const dispatch = useDispatch();
@@ -68,30 +86,15 @@ const NoticePage = () => {
 
                     <TextMiddle>공지사항</TextMiddle>
                 </HeaderWrap>
-                <div className="notoMedium" onClick={() => { openPage('noticeDetail', 2) }} style={{ padding: '0 1.25rem 0 1.25rem' }}>
 
-                    <div style={{ padding: '0.9688rem 0 1.0313rem 0', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
-                        <div style={{ fontSize: '0.8125rem', marginBottom: '0.3125rem' }}>
-                            일부 기능이 업데이트 되었습니다!
-                        </div>
-                        <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
-                            2021.07.19
-                        </div>
-                    </div>
-
-                </div>
-                <div className="notoMedium" onClick={() => { openPage('noticeDetail', 1) }} style={{ padding: '0 1.25rem 0 1.25rem' }}>
-
-                    <div style={{ padding: '0.9688rem 0 1.0313rem 0', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
-                        <div style={{ fontSize: '0.8125rem', marginBottom: '0.3125rem' }}>
-                            모두가 개편되었습니다!
-                        </div>
-                        <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
-                            2021.06.26
-                        </div>
-                    </div>
-
-                </div>
+                {/* 새부내용 */}
+                {
+                    noticeData.map((value) => {
+                        return (
+                            <NoticeContent title={value.title} createdAt={value.createdAt} action={() => { openPage('noticeDetail', value.idx) }} key={value.idx} />
+                        )
+                    })
+                }
             </PageWrap>
 
 
@@ -107,6 +110,24 @@ const NoticePage = () => {
         </div>
     )
 };
+
+
+const NoticeContent = (props) => {
+    return (
+        <div className="notoMedium" onClick={props.action} style={{ padding: '0 1.25rem 0 1.25rem' }}>
+
+            <div style={{ padding: '0.9688rem 0 1.0313rem 0', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
+                <div style={{ fontSize: '0.8125rem', marginBottom: '0.3125rem' }}>
+                    {props.title}
+                </div>
+                <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
+                    {props.createdAt}
+                </div>
+            </div>
+
+        </div>
+    )
+}
 
 const PageWrap = styled.div`
 
