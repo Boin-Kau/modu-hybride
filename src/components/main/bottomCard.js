@@ -239,7 +239,7 @@ const BottomCard = ({ cardOpen, loadingFalse }) => {
     )
 };
 
-const ContentWrap = styled.div`
+export const ContentWrap = styled.div`
 
     display:flex;
 
@@ -255,7 +255,7 @@ const ContentWrap = styled.div`
     font-size:0.8125rem;
 `;
 
-const ContentDetailWrap = styled.div`
+export const ContentDetailWrap = styled.div`
 
     margin:0 1.25rem;
     background-color:#ffffff;

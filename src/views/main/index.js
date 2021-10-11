@@ -407,7 +407,7 @@ const Main = () => {
 };
 
 
-const TitleWrap = styled.div`
+export const TitleWrap = styled.div`
     position:relative;
     padding:0.9375rem 1.25rem 0.5rem 1.25rem;
 `;
