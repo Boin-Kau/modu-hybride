@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { Route, useHistory, useLocation } from 'react-router-dom'
+import { Route, useLocation } from 'react-router-dom'
 
 import Splash from '../views/login/splash';
 import Login from '../views/login/login';
 
 import Main from '../views/main';
-import Party from '../views/party';
 import MyInfo from '../views/info';
 import SubscribePage from '../views/main/subscribe';
 import EnrollmentRevisePage from '../views/main/subscribe/enrollment/revise';
@@ -22,7 +21,9 @@ import PhonePage from '../views/info/detail/phone';
 import ReactGA from 'react-ga';
 import AgreePage from '../views/info/agree';
 import MyParty from '../views/party/myParty';
-import PartyEnrollment from '../views/party/enrollment';
+import PartyEnrollment from '../views/party/enrollment/enrollment';
+import Party from '../views/party';
+import PartyEnrollSubscribe from '../views/party/enrollment/enrollmentSubscribe';
 
 const AppLayout = () => {
 
@@ -48,6 +49,7 @@ const AppLayout = () => {
             <Route path='/party' exact component={Party} />
             <Route path='/party/my' exact component={MyParty} />
             <Route path='/party/enroll' exact component={PartyEnrollment} />
+            <Route path='/party/enroll/subscribe' exact component={PartyEnrollSubscribe} />
             <Route path='/info' exact component={MyInfo} />
             <Route path='/info/detail' exact component={DetailPage} />
             <Route path='/info/detail/name' exact component={NamePage} />

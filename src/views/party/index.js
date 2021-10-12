@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import Fade from 'react-reveal/Fade';
 
@@ -13,6 +13,8 @@ import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../containers/pageTransContext';
 import { ContentWrap, ContentDetailWrap } from '../../components/main/bottomCard';
 import { DetailRowWrap, DetailItemTitle, DetailItemContent, DetailItemWrap, DetailItemFillContent } from '../../styled/main';
+import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
+import { useDispatch } from 'react-redux';
 
 
 const categoryData = [
@@ -45,6 +47,7 @@ const categoryData = [
 
 const Party = () => {
 
+    const dispatch = useDispatch();
     const history = useHistory();
 
     //페이지 전환
@@ -58,6 +61,7 @@ const Party = () => {
 
     useEffect(() => {
         const userPlatform = checkMobile();
+        dispatch(BottomNavOpenAction);
 
         if (userPlatform == 'ios') {
             //IOS 배경색 설정
@@ -101,8 +105,13 @@ const Party = () => {
                 </div>
 
                 <CardWrap>
-                    <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginLeft: '1.25rem', marginBottom: '0.8875rem' }}>선택된 카테고리</div>
-                    <PartyContent />
+                    <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginLeft: '1.25rem', marginBottom: '0.625rem' }}>선택된 카테고리</div>
+                    <div style={{ position: 'relative', overflowY: 'scroll', height: '25rem' }}>
+                        <PartyContent />
+                        <PartyContent />
+                        <PartyContent />
+                        <div style={{ height: '6.25rem' }} />
+                    </div>
                 </CardWrap>
 
 
@@ -114,9 +123,12 @@ const Party = () => {
 
 
 const PartyContent = (props) => {
+
+    const [openStatus, setOpenStatue] = useState(false);
+
     return (
         <>
-            <ContentWrap style={{ display: 'block', position: 'relative', zIndex: '-1' }}>
+            <ContentWrap onClick={() => { setOpenStatue(!openStatus) }} style={{ display: 'block', position: 'relative' }}>
                 <div style={{ display: 'flex' }}>
                     <div>
                         <img src="https://firebasestorage.googleapis.com/v0/b/softsquared-modu.appspot.com/o/SubscribeIcon%2Ficon_sub_spotify.svg?alt=media&token=0836ca41-fd8d-4ccd-a0e6-cb229ff80a1e" style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
@@ -145,7 +157,7 @@ const PartyContent = (props) => {
                 </div>
             </ContentWrap>
 
-            <Fade collapse when={true} duration={500}>
+            <Fade collapse when={openStatus} duration={500}>
                 <ContentDetailWrap>
                     <DetailRowWrap>
                         <DetailItemWrap>
