@@ -37,9 +37,19 @@ const PartyEnrollment = () => {
     const openSubscribePage = () => {
 
         setPageTrans('trans toRight');
-        history.push('/party/enroll/subscribe');
+        history.push('/party/enroll/platform');
 
     };
+
+
+    //파티 최종 등록
+    const onClickSubmit = () => {
+        //필수사항 만족하지 않으면 return 처리
+
+        //서버 통신 후 성공하면 성공 페이지 이동
+        setPageTrans('trans toRight');
+        history.push('/party/enroll/finish');
+    }
 
     return (
         <div className="page" style={{ backgroundColor: "#f7f7f7" }}>
@@ -149,7 +159,7 @@ const PartyEnrollment = () => {
                         </InputWrap>
                     </ItemWrap>
                 </SectionWrap>
-                <ButtonWrap className="spoqaBold">
+                <ButtonWrap onClick={onClickSubmit} className="spoqaBold" isConfirm={false}>
                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>완료</div>
                 </ButtonWrap>
             </div>
@@ -209,7 +219,7 @@ const ButtonWrap = styled.div`
     position: relative;
     height: 2.9375rem;
     margin-top: 1.25rem;
-    background-color: #ffbc26;
+    background-color: ${props => props.isConfirm ? '#ffbc26' : '#e3e3e3'};
     border-radius: 0.375rem;
 `;
 

@@ -955,8 +955,6 @@ const ImgColorWrap = styled.div`
     height: 4.25rem;
     border-radius: 0.375rem;
     background-color: ${props => props.backgroundColor ? props.backgroundColor : '#e1e1e1'};
-
-
 `;
 const ImgEnrollWrap = styled.div`
     position:absolute;

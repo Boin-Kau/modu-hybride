@@ -21,9 +21,12 @@ import PhonePage from '../views/info/detail/phone';
 import ReactGA from 'react-ga';
 import AgreePage from '../views/info/agree';
 import MyParty from '../views/party/myParty';
-import PartyEnrollment from '../views/party/enrollment/enrollment';
+import PartyEnrollment from '../views/party/enrollment';
 import Party from '../views/party';
-import PartyEnrollSubscribe from '../views/party/enrollment/enrollmentSubscribe';
+import PartyPlatform from '../views/party/enrollment/platform';
+import PartyPlatformSearch from '../views/party/enrollment/platform/search';
+import PartyPlatformDetail from '../views/party/enrollment/platform/detail';
+import PartyEnrollFinish from '../views/party/enrollment/finish';
 
 const AppLayout = () => {
 
@@ -49,7 +52,10 @@ const AppLayout = () => {
             <Route path='/party' exact component={Party} />
             <Route path='/party/my' exact component={MyParty} />
             <Route path='/party/enroll' exact component={PartyEnrollment} />
-            <Route path='/party/enroll/subscribe' exact component={PartyEnrollSubscribe} />
+            <Route path='/party/enroll/platform' exact component={PartyPlatform} />
+            <Route path='/party/enroll/platform/search' exact component={PartyPlatformSearch} />
+            <Route path='/party/enroll/platform/detail' exact component={PartyPlatformDetail} />
+            <Route path='/party/enroll/finish' exact component={PartyEnrollFinish} />
             <Route path='/info' exact component={MyInfo} />
             <Route path='/info/detail' exact component={DetailPage} />
             <Route path='/info/detail/name' exact component={NamePage} />
