@@ -8,6 +8,8 @@ import partyPlusIcon from '../../assets/party_plus_icon.svg';
 import ReportIcon from '../../assets/icon-report.svg';
 import MyPartyIcon from '../../assets/my_party_icon.svg';
 import ActiveDuckIcon from '../../assets/icon-activate-people.svg';
+import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
+
 
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../containers/pageTransContext';
@@ -150,7 +152,7 @@ const PartyContent = (props) => {
                     <img src={ActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
                     <img src={ActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
                     <img src={ActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
-                    <img src={ActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
+                    <img src={DeActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
                 </div>
                 <div className="spoqaBold" style={{ position: 'absolute', right: '0.75rem', bottom: '0.6875rem', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
                     3,533원

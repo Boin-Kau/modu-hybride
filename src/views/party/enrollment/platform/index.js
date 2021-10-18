@@ -13,6 +13,8 @@ import icon_search from "../../../../assets/icon-search.svg";
 import icon_sub_ect from "../../../../assets/icon-sub-ect.svg";
 import icon_plus from "../../../../assets/icon-plus.svg";
 
+import icon_check from "../../../../assets/icon-main-check.svg";
+
 
 import loading_gif from "../../../../assets/gray-loading.gif";
 
@@ -315,7 +317,7 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
                 </TextMiddle>
             </ItemTitleWrap>
             <ItemIconWrap onClick={onClickItem}>
-                {data.idx == selectedPlatformIdx && <ItemIcon src={icon_plus}></ItemIcon>}
+                {data.idx == selectedPlatformIdx && <ItemIcon src={icon_check}></ItemIcon>}
             </ItemIconWrap>
         </ItemWrap>
     )
@@ -461,6 +463,7 @@ const ItemIcon = styled.img`
 
 const CategoryTitle = styled.div`
     margin-top: 1.375rem;
+    margin-left:0.6875rem;
     font-size: 0.875rem;
     line-height: 1.4375rem;
     color: rgba(0,0,0,0.26);
