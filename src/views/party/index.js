@@ -13,47 +13,32 @@ import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
 
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../containers/pageTransContext';
-import { ContentWrap, ContentDetailWrap } from '../../components/main/bottomCard';
+import { ContentWrap, ContentDetailWrap, priceToString } from '../../components/main/bottomCard';
 import { DetailRowWrap, DetailItemTitle, DetailItemContent, DetailItemWrap, DetailItemFillContent } from '../../styled/main';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
-import { useDispatch } from 'react-redux';
-
-
-const categoryData = [
-    {
-        idx: 1,
-        name: 'OTT'
-    },
-    {
-        idx: 2,
-        name: '음악'
-    },
-    {
-        idx: 3,
-        name: '카테고리2'
-    },
-    {
-        idx: 4,
-        name: '카테고리3'
-    },
-    {
-        idx: 5,
-        name: '카테고리4'
-    },
-    {
-        idx: 6,
-        name: '카테고리5'
-    }
-]
-
+import { useDispatch, useSelector } from 'react-redux';
+import { customApiClient } from '../../shared/apiClient';
+import { GetPlatformCategoryList } from '../../reducers/main/platform';
 
 const Party = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
 
+    //store
+    const {
+        platformCategoryList: categoryList
+    } = useSelector(state => state.main.platform);
+
     //페이지 전환
     const { setPageTrans } = useContext(PageTransContext);
+
+
+    //state
+    const [seletedCategory, setSelectedCategory] = useState(0);
+    const [seletedCategoryName, setSelectedCategoryName] = useState('전체');
+    const [totalPartyList, setTotalPartyList] = useState([]);
+    const [partyList, setPartyList] = useState([]);
 
     //페이지 열기
     const openPage = (path) => {
@@ -61,10 +46,52 @@ const Party = () => {
         history.push(path);
     }
 
-    useEffect(() => {
-        const userPlatform = checkMobile();
+    //initial logic
+    useEffect(async () => {
+
+        //bottom nav logic
         dispatch(BottomNavOpenAction);
 
+        //카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        if (categoryList.length < 1) {
+
+            //인기 구독 플랫폼 리스트 조회
+            const data = await customApiClient('get', '/subscribe/category');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetPlatformCategoryList,
+                data: data.result
+            })
+
+        }
+
+        //파티 리스트 조회
+        const partyUri = `/party?categoryIdx=${seletedCategory}`;
+
+        //인기 구독 플랫폼 리스트 조회
+        const partyListData = await customApiClient('get', partyUri);
+
+        //서버에러
+        if (!partyListData) { return }
+
+        //벨리데이션
+        if (partyListData.statusCode != 200) { return }
+
+        setTotalPartyList(partyListData.result);
+        setPartyList(partyListData.result);
+        console.log(partyListData.result);
+
+        //배경색 logic
+        const userPlatform = checkMobile();
         if (userPlatform == 'ios') {
             //IOS 배경색 설정
             try {
@@ -73,7 +100,35 @@ const Party = () => {
             catch (err) {
             }
         }
-    }, [])
+    }, []);
+
+    const onClickCategory = async (index, name) => {
+
+        //카테고리 변경
+        setSelectedCategory(index);
+        setSelectedCategoryName(name);
+
+
+        if (index === 0) {
+            setPartyList(totalPartyList);
+        }
+        else {
+            //게시물 변경 (처음엔 서버 통신했다가 비효율 적이여서 변경)
+            const partyResult = totalPartyList.filter((value) => {
+
+                if (value.registerType === 'SERVER') {
+                    return value.serverCategoryIdx === index
+                }
+                else {
+                    return value.customCategoryIdx === index
+                }
+
+            })
+
+            setPartyList(partyResult);
+        }
+
+    }
 
     return (
         <>
@@ -89,16 +144,16 @@ const Party = () => {
                         <img src={MyPartyIcon} style={{ width: '1.5rem', height: '1.4375rem' }} />
                     </PartyIconWrap>
                     <div className="spoqaBold" style={{ marginTop: '0.375rem', marginLeft: '1.25rem', fontSize: '1.25rem', lineHeight: '1.625rem' }}>
-                        <span style={{ color: '#ffffff' }}>23</span> 개의 파티가<br />
+                        <span style={{ color: '#ffffff' }}>{totalPartyList.length}</span> 개의 파티가<br />
                         파티원을 찾고 있어요!
                     </div>
                     <CategoryWrap className="spoqaBold">
                         <div style={{ width: '1.25rem', flex: '0 0 auto' }} />
-                        <CategoryItem>전체</CategoryItem>
+                        <CategoryItem onClick={() => onClickCategory(0, '전체')} isSelected={seletedCategory === 0}>전체</CategoryItem>
                         {
-                            categoryData.map((value) => {
+                            categoryList.map((value) => {
                                 return (
-                                    <CategoryItem key={value.idx}>{value.name}</CategoryItem>
+                                    <CategoryItem onClick={() => { onClickCategory(value.idx, value.name) }} isSelected={seletedCategory === value.idx} key={value.idx}>{value.name}</CategoryItem>
                                 )
                             })
                         }
@@ -107,11 +162,18 @@ const Party = () => {
                 </div>
 
                 <CardWrap>
-                    <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginLeft: '1.25rem', marginBottom: '0.625rem' }}>선택된 카테고리</div>
+                    <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginLeft: '1.25rem' }}>
+                        {seletedCategoryName}
+                    </div>
                     <div style={{ position: 'relative', overflowY: 'scroll', height: '25rem' }}>
-                        <PartyContent />
-                        <PartyContent />
-                        <PartyContent />
+
+                        {partyList.length === 0 ?
+                            <div>파티 리스트가 없습니다.</div>
+                            :
+                            partyList.map((data, index) => {
+                                return (<PartyContent data={data} key={index} />)
+                            })
+                        }
                         <div style={{ height: '6.25rem' }} />
                     </div>
                 </CardWrap>
@@ -124,7 +186,7 @@ const Party = () => {
 };
 
 
-const PartyContent = (props) => {
+const PartyContent = ({ data }) => {
 
     const [openStatus, setOpenStatue] = useState(false);
 
@@ -133,29 +195,52 @@ const PartyContent = (props) => {
             <ContentWrap onClick={() => { setOpenStatue(!openStatus) }} style={{ display: 'block', position: 'relative' }}>
                 <div style={{ display: 'flex' }}>
                     <div>
-                        <img src="https://firebasestorage.googleapis.com/v0/b/softsquared-modu.appspot.com/o/SubscribeIcon%2Ficon_sub_spotify.svg?alt=media&token=0836ca41-fd8d-4ccd-a0e6-cb229ff80a1e" style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} />
+                        {
+                            data.color && data.initial ?
+                                <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
+                                    <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
+                                        {data.initial}
+                                    </div>
+                                </div>
+                                :
+                                data.serverImgUrl ?
+                                    <img src={data.serverImgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} /> :
+                                    <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: '#e1e1e1' }}>
+                                        <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
+                                            ?
+                                        </div>
+                                    </div>
+                        }
                     </div>
                     <div className="spoqaBold" style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}>
                         <div style={{ flexGrow: "1", flexBasis: "0" }}>
-                            스포티파이 같이 결제하실분 ~~~!!
-                    </div>
+                            {data.title}
+                        </div>
                         <div style={{ flexGrow: "1", flexBasis: "0", display: 'flex', fontSize: "0.75rem" }}>
                             {
-                                true &&
+                                data.IsEnrolled === "Y" &&
                                 <div className="notoBold" style={{ marginRight: '0.375rem', color: '#ffca17', lineHeight: '1.4375rem' }}>참여중</div>
                             }
-                            <div className="notoMedium" style={{ color: '#acacac', lineHeight: '1.4375rem' }}>음악</div>
+                            <div className="notoMedium" style={{ color: '#acacac', lineHeight: '1.4375rem' }}>
+                                {
+                                    data.registerType === 'SERVER' ?
+                                        data.serverCategory : data.customCategory
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div style={{ display: 'flex', marginTop: '0.3125rem' }}>
-                    <img src={ActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
-                    <img src={ActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
-                    <img src={ActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
-                    <img src={DeActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
+                    {
+                        Array(data.personnel).fill(1).map((e, index) => {
+                            return (
+                                <img key={index} src={index < data.currentUserCount ? ActiveDuckIcon : DeActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
+                            )
+                        })
+                    }
                 </div>
                 <div className="spoqaBold" style={{ position: 'absolute', right: '0.75rem', bottom: '0.6875rem', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
-                    3,533원
+                    {priceToString(data.price)}원
                 </div>
             </ContentWrap>
 
@@ -164,12 +249,17 @@ const PartyContent = (props) => {
                     <DetailRowWrap>
                         <DetailItemWrap>
                             <DetailItemTitle>서비스</DetailItemTitle>
-                            <DetailItemFillContent>스포티파이</DetailItemFillContent>
+                            <DetailItemFillContent>
+                                {
+                                    data.registerType === 'SERVER' ?
+                                        data.serverName : data.customName
+                                }
+                            </DetailItemFillContent>
                         </DetailItemWrap>
                         <DetailItemWrap>
                             <DetailItemTitle>멤버십 종류</DetailItemTitle>
-                            {true ?
-                                <DetailItemFillContent>프리미엄 맴버십</DetailItemFillContent> :
+                            {data.membership ?
+                                <DetailItemFillContent>{data.membership}</DetailItemFillContent> :
                                 <DetailItemContent>없음 </DetailItemContent>
                             }
                         </DetailItemWrap>
@@ -189,7 +279,6 @@ const PartyContent = (props) => {
 }
 
 
-
 const CardWrap = styled.div`
     z-index: 10;
     flex-grow: 1;
@@ -197,7 +286,7 @@ const CardWrap = styled.div`
     border-radius: 0.4375rem;
     box-shadow: 0 0 0.25rem 0.0625rem rgba(0, 0, 0, 0.15);
 
-    padding:0.9375rem 0rem;
+    padding:0.8313rem 0rem;
 `;
 
 const PartyIconWrap = styled.div`
@@ -215,7 +304,7 @@ const CategoryWrap = styled.div`
 `;
 const CategoryItem = styled.div`
     padding:0.25rem 0.75rem 0.3125rem 0.75rem;
-    background-color:${props => props.isSeleted ? '#ffeeb5' : '#ffffff'};
+    background-color:${props => props.isSelected ? '#ffeeb5' : '#ffffff'};
 
     border-radius:0.875rem;
     font-size:0.75rem;

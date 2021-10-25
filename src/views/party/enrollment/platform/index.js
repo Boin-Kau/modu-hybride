@@ -26,10 +26,7 @@ import { customApiClient } from '../../../../shared/apiClient';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../../containers/pageTransContext';
-
-
-//이제 이걸 리덕스로 바꾸면 됨 ~~!!!
-let selectedPlatformIdx = 1;
+import { UpdatePlatformAction } from '../../../../reducers/party/enrollment';
 
 const PartyPlatform = () => {
 
@@ -38,11 +35,15 @@ const PartyPlatform = () => {
     const history = useHistory();
 
     //store
-
     const {
         serverPlatformList,
         categoryPlatformList,
     } = useSelector(state => state.main.platform);
+
+    const {
+        selectedPlatformIdx,
+        selectedPlatformImgUrl
+    } = useSelector(state => state.party.enrollment);
 
     const {
         totalReloadStatus,
@@ -51,7 +52,6 @@ const PartyPlatform = () => {
 
     //context
     const { setPageTrans } = useContext(PageTransContext);
-
 
     //state
     const [totalMenuStatus, setTotalMenuStatus] = useState(true);
@@ -99,7 +99,7 @@ const PartyPlatform = () => {
 
     const openSearchPage = () => {
 
-        //redux에 selectedPlatformIdx 초기화 시켜주기
+        //redux에 selectedPlatformIdx 초기화 시켜주기 ??
 
         setPageTrans('trans toRight');
         history.push('/party/enroll/platform/search');
@@ -151,17 +151,34 @@ const PartyPlatform = () => {
         categoryReloadStatus
     ]);
 
+    //직접 선택
+    const onClickCustomEnroll = () => {
+        dispatch(UpdatePlatformAction({
+            selectedPlatformIdx: 0,
+            selectedPlatformName: null,
+            selectedPlatformCategoryIdx: null,
+            selectedPlatformImgUrl: null,
+            selectedPlatformImgColor: null,
+            selectedPlatformImgInitial: null,
+        }))
+    }
+
     //구독 서비스 선택 후 확인 버튼 
     const onClickConfrim = () => {
 
         //selectedIdx가 없으면 종료처리
-
+        if (selectedPlatformIdx === null) return
 
         //직접입력하기 혹은 이미지가 없는 플랫폼 클릭시 detail 설정 페이지로 이동시키기
-        setPageTrans('trans toRight');
-        history.push('/party/enroll/platform/detail');
-
+        if (!selectedPlatformImgUrl) {
+            setPageTrans('trans toRight');
+            history.push('/party/enroll/platform/detail');
+        }
         //그게 아니라면 뒤로 이동
+        else {
+            setPageTrans('trans toLeft');
+            history.goBack();
+        }
     }
 
     const reloadTotalPlatform = async () => {
@@ -232,7 +249,7 @@ const PartyPlatform = () => {
                         <ItemListView selectedStatus={totalMenuStatus}>
 
                             {/* 직접입력 */}
-                            <ItemWrap style={{ border: "none" }}>
+                            <ItemWrap onClick={onClickCustomEnroll} style={{ border: "none" }}>
                                 <ItemImgWrap>
                                     <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
                                 </ItemImgWrap>
@@ -241,6 +258,9 @@ const PartyPlatform = () => {
                                         직접 입력하기
                                     </TextMiddle>
                                 </ItemTitleWrap>
+                                <ItemIconWrap>
+                                    {selectedPlatformIdx === 0 && <ItemIcon src={icon_check}></ItemIcon>}
+                                </ItemIconWrap>
                             </ItemWrap>
 
                             {/* 그외 리스트 */}
@@ -249,7 +269,6 @@ const PartyPlatform = () => {
                                     serverPlatformList.map((list, index) => {
                                         return (<TotalItemComponent data={list} key={index}></TotalItemComponent>)
                                     })
-
                             }
 
                         </ItemListView>
@@ -258,15 +277,18 @@ const PartyPlatform = () => {
                         <ItemListView selectedStatus={categoryMenuStatus}>
 
                             {/* 직접입력 */}
-                            <ItemWrap style={{ border: "none", paddingBottom: '0' }}>
+                            <ItemWrap onClick={onClickCustomEnroll} style={{ border: "none", paddingBottom: '0' }}>
                                 <ItemImgWrap>
                                     <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
                                 </ItemImgWrap>
                                 <ItemTitleWrap>
                                     <TextMiddle>
                                         직접 입력하기
-                                </TextMiddle>
+                                    </TextMiddle>
                                 </ItemTitleWrap>
+                                <ItemIconWrap>
+                                    {selectedPlatformIdx === 0 && <ItemIcon src={icon_check}></ItemIcon>}
+                                </ItemIconWrap>
                             </ItemWrap>
 
                             {/* 그외 리스트 */}
@@ -288,7 +310,7 @@ const PartyPlatform = () => {
                     </ItemListWrap>
                 </MainWrap>
 
-                <ButtonWrap onClick={onClickConfrim} className="spoqaBold" isSelected={false}>
+                <ButtonWrap onClick={onClickConfrim} className="spoqaBold" isSelected={selectedPlatformIdx !== null}>
                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>확인</div>
                 </ButtonWrap>
             </PageWrap>
@@ -300,12 +322,25 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
 
     const dispatch = useDispatch();
 
+    const {
+        selectedPlatformIdx,
+    } = useSelector(state => state.party.enrollment);
+
     const onClickItem = async () => {
+
+        dispatch(UpdatePlatformAction({
+            selectedPlatformIdx: data.idx,
+            selectedPlatformName: data.name,
+            selectedPlatformCategoryIdx: data.categoryIdx,
+            selectedPlatformImgUrl: data.imgUrl,
+            selectedPlatformImgColor: null,
+            selectedPlatformImgInitial: null,
+        }))
 
     };
 
     return (
-        <ItemWrap isCategory={isCategory} isCategoryLast={isLastItem} isSelected={data.idx == selectedPlatformIdx}>
+        <ItemWrap onClick={onClickItem} isCategory={isCategory} isCategoryLast={isLastItem} isSelected={data.idx == selectedPlatformIdx}>
             <ItemImgWrap>
                 <img src={data.imgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
             </ItemImgWrap>
@@ -316,7 +351,7 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
                     </TextMiddle>
                 </TextMiddle>
             </ItemTitleWrap>
-            <ItemIconWrap onClick={onClickItem}>
+            <ItemIconWrap>
                 {data.idx == selectedPlatformIdx && <ItemIcon src={icon_check}></ItemIcon>}
             </ItemIconWrap>
         </ItemWrap>

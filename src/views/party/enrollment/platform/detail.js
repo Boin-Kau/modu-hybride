@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useContext, useEffect, useState, useCallback } from "react";
 import { PageTransContext } from "../../../../containers/pageTransContext";
 import { BottomNavCloseAction } from "../../../../reducers/container/bottomNav";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TitleWrap, ItemWrap, InputWrap, Input } from "../../../../styled/main/enrollment";
 
 
@@ -17,6 +17,7 @@ import icon_check from "../../../../assets/icon-check-white.svg";
 import { ImgColorList, ImgInitialList } from '../../../main/subscribe/enrollment';
 
 import Fade from 'react-reveal/Fade';
+import { UpdatePlatformAction } from "../../../../reducers/party/enrollment";
 
 const PartyPlatformDetail = () => {
 
@@ -25,9 +26,27 @@ const PartyPlatformDetail = () => {
 
     const { setPageTrans } = useContext(PageTransContext);
 
+    //store
+    const {
+        platformCategoryList: categoryList
+    } = useSelector(state => state.main.platform);
+
+    const {
+        selectedPlatformIdx,
+        selectedPlatformName,
+        selectedPlatformCategoryIdx,
+    } = useSelector(state => state.party.enrollment);
+
     const [imgColor, setImgColor] = useState('');
     const [imgInitial, setImgInitial] = useState('');
     const [imgEnrollOpen, setImgEnrollOpen] = useState(false);
+
+    const [platformName, setPlatformName] = useState('');
+
+    const [categoryIndex, setCategoryIndex] = useState(-1);
+    const [categoryOpen, setCategoryOpen] = useState(false);
+
+    const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
 
     //inital logic
     useEffect(() => {
@@ -46,6 +65,24 @@ const PartyPlatformDetail = () => {
         setImgEnrollOpen(false);
     }
 
+    const onChangePlatformNme = (e) => {
+        setPlatformName(e.target.value);
+    }
+
+    const onClickCategoryOpen = useCallback(() => {
+        if (categoryOpen) {
+            setCategoryOpen(false);
+        }
+        else {
+            setCategoryOpen(true);
+        }
+    }, [categoryOpen]);
+
+    const onClickCategoryContent = (index) => {
+        setCategoryIndex(index);
+        setCategoryOpen(false);
+    }
+
     const onClickImgColor = (index) => {
         setImgColor(ImgColorList[index]);
     }
@@ -61,12 +98,63 @@ const PartyPlatformDetail = () => {
         }
     }, [imgColor, imgInitial]);
 
+    //페이지 벨리데이션
+    useEffect(() => {
 
+        //서버 플랫폼이라면 img color, initial만 체크
+        if (selectedPlatformIdx) {
+            if (imgColor && imgInitial) {
+                setPageConfirmStatus(true);
+            }
+            else {
+                setPageConfirmStatus(false);
+            }
+        }
+        else {
+            if (platformName && categoryIndex !== -1 && imgColor && imgInitial) {
+                setPageConfirmStatus(true);
+            }
+            else {
+                setPageConfirmStatus(false);
+            }
+        }
+
+    }, [
+        selectedPlatformIdx,
+        platformName, categoryIndex,
+        imgColor, imgInitial
+    ])
 
     //구독 서비스 디테일 후 확인 버튼 
     const onClickConfrim = () => {
 
         //모두 만적하지 않으면 종료처리
+        if (!pageConfirmStatus) return
+
+        let data = {};
+
+        if (selectedPlatformIdx) {
+            data = {
+                selectedPlatformIdx: selectedPlatformIdx,
+                selectedPlatformName: selectedPlatformName,
+                selectedPlatformCategoryIdx: selectedPlatformCategoryIdx,
+                selectedPlatformImgUrl: null,
+                selectedPlatformImgColor: imgColor,
+                selectedPlatformImgInitial: imgInitial,
+            };
+        }
+        else {
+            data = {
+                selectedPlatformIdx: null,
+                selectedPlatformName: platformName,
+                selectedPlatformCategoryIdx: categoryIndex,
+                selectedPlatformImgUrl: null,
+                selectedPlatformImgColor: imgColor,
+                selectedPlatformImgInitial: imgInitial,
+            };
+        }
+
+        dispatch(UpdatePlatformAction(data));
 
         setPageTrans('trans toLeft');
         history.push('/party/enroll');
@@ -78,7 +166,9 @@ const PartyPlatformDetail = () => {
                 <div id="back_link" onClick={closeEnrollmentPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
-                <TextMiddle>직접 입력하기 or 선택한 플랫폼 이름</TextMiddle>
+                <TextMiddle>
+                    {selectedPlatformName ? selectedPlatformName : "직접 입력하기"}
+                </TextMiddle>
             </HeaderWrap>
 
             <div style={{ position: 'absolute', top: '3.0625rem', bottom: '0', left: '0', right: '0', padding: '1.25rem', overflowY: 'scroll' }}>
@@ -106,7 +196,10 @@ const PartyPlatformDetail = () => {
                     <TitleWrap>구독 서비스명</TitleWrap>
                     <ItemWrap>
                         <InputWrap>
-                            <Input placeholder="구독 서비스명을 입력하세요" ></Input>
+                            {selectedPlatformIdx ?
+                                selectedPlatformName
+                                : <Input value={platformName} onChange={onChangePlatformNme} placeholder="구독 서비스명을 입력하세요" ></Input>
+                            }
                         </InputWrap>
                     </ItemWrap>
 
@@ -114,47 +207,54 @@ const PartyPlatformDetail = () => {
                     <TitleWrap>
                         <div>구독 카테고리</div>
                     </TitleWrap>
-                    <ItemWrap>
-                        <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={false} isBlocked={!false}>
-                            <div>
-                                {
-                                    false ? 1 :
-                                        '카테고리를 선택하세요'
-                                }
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div>
-                                {
-                                    false ?
-                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
-                                }
-                            </div>
-                        </InputWrap>
-                    </ItemWrap>
 
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
-                            <Fade collapse when={false} duration={500}>
-                                <SelectWrap>
+                    {
+                        selectedPlatformCategoryIdx ?
+                            <ItemWrap>
+                                <InputWrap>
+                                    {categoryList.map((data) => {
+                                        if (data.idx === selectedPlatformCategoryIdx) return data.name;
+                                    })}
+                                </InputWrap>
+                            </ItemWrap> :
+                            <ItemWrap onClick={onClickCategoryOpen}>
+                                <InputWrap openStatus={categoryOpen} isBlocked={categoryIndex == -1}>
+                                    <div>
+                                        {categoryIndex != -1 ? categoryList.map((data) => {
+                                            if (data.idx == categoryIndex) return data.name;
+                                        }) : '카테고리를 선택해주세요'}
+                                    </div>
+                                    <div style={{ flexGrow: "1" }}></div>
+                                    <div>
+                                        {
+                                            categoryOpen ?
+                                                <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                        }
+                                    </div>
+                                </InputWrap>
+                            </ItemWrap>
+                    }
+                    <Fade collapse when={categoryOpen} duration={500}>
+                        <SelectWrap>
 
-                                    {
-                                        [1, 2, 3, 4, 5].map((data, index) => {
-                                            return (
-                                                <SelectContent selectSatus={data == 1} key={index}>
-                                                    {data}
-                                                </SelectContent>
-                                            )
-                                        })
-                                    }
+                            {
+                                categoryList.map((data) => {
+                                    return (
+                                        <SelectContent selectSatus={data.idx == categoryIndex} onClick={() => { onClickCategoryContent(data.idx) }} key={data.idx}>
+                                            {data.name}
+                                        </SelectContent>
+                                    )
+                                })
+                            }
 
-                                </SelectWrap>
-                            </Fade>
-                        </div>
-                    </div>
+                        </SelectWrap>
+                    </Fade>
+
+
 
                 </SectionWrap>
-                <ButtonWrap onClick={onClickConfrim} className="spoqaBold">
+                <ButtonWrap onClick={onClickConfrim} isConfirm={pageConfirmStatus} className="spoqaBold" >
                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>확인</div>
                 </ButtonWrap>
 
@@ -265,7 +365,7 @@ const ButtonWrap = styled.div`
     right:0;
     height: 2.9375rem;
     margin: 0 1.25rem 1.375rem 1.25rem;
-    background-color: ${props => props.isSelected ? '#ffbc26' : '#e3e3e3'};
+    background-color: ${props => props.isConfirm ? '#ffbc26' : '#e3e3e3'};
     border-radius: 0.375rem;
 `;
 

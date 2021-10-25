@@ -8,15 +8,13 @@ import icon_back from "../../../../assets/icon-back-arrow.svg";
 
 import { TextMiddle } from '../../../../styled/shared';
 
-import icon_plus from "../../../../assets/icon-plus.svg";
+import icon_check from "../../../../assets/icon-main-check.svg";
+
 import { customApiClient } from '../../../../shared/apiClient';
 import { GetPopularPlatformList, GetSearchPlatformList } from '../../../../reducers/main/platform';
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../../../containers/pageTransContext';
-
-
-//이제 이걸 리덕스로 바꾸면 됨 ~~!!!
-let selectedPlatformIdx = 1;
+import { UpdatePlatformAction } from '../../../../reducers/party/enrollment';
 
 const PartyPlatformSearch = () => {
 
@@ -28,6 +26,11 @@ const PartyPlatformSearch = () => {
         popularPlatformList,
         searchPlatformList,
     } = useSelector(state => state.main.platform);
+
+    const {
+        selectedPlatformIdx,
+        selectedPlatformImgUrl
+    } = useSelector(state => state.party.enrollment);
 
     //context
     const { setPageTrans } = useContext(PageTransContext);
@@ -84,8 +87,6 @@ const PartyPlatformSearch = () => {
     }, []);
 
     const closeSearchPage = () => {
-        //redux에 selectedPlatformIdx 초기화 시켜주기
-
         setPageTrans('trans toLeft');
         history.goBack();
     };
@@ -120,12 +121,17 @@ const PartyPlatformSearch = () => {
     const onClickConfrim = () => {
 
         //selectedIdx가 없으면 종료처리
+        if (selectedPlatformIdx === null) return
 
-        //직접입력하기 혹은 이미지가 없는 플랫폼 클릭시 detail 설정 페이지로 이동시키기
-        setPageTrans('trans toRight');
-        history.push('/party/enroll/platform/detail');
-
-        //그게 아니라면 뒤로 이동
+        if (!selectedPlatformImgUrl) {
+            setPageTrans('trans toRight');
+            history.push('/party/enroll/platform/detail');
+        }
+        //그게 아니라면 등록 페이지로 이동
+        else {
+            setPageTrans('trans toLeft');
+            history.push('/party/enroll');
+        }
     }
 
 
@@ -186,7 +192,7 @@ const PartyPlatformSearch = () => {
 
             </PageWrap>
 
-            <ButtonWrap onClick={onClickConfrim} className="spoqaBold" isSelected={false}>
+            <ButtonWrap onClick={onClickConfrim} className="spoqaBold" isSelected={selectedPlatformIdx !== null}>
                 <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>완료</div>
             </ButtonWrap>
         </div>
@@ -199,12 +205,23 @@ const TotalItemComponent = ({ data }) => {
 
     const dispatch = useDispatch();
 
-    const onClickItem = async () => {
+    const {
+        selectedPlatformIdx,
+    } = useSelector(state => state.party.enrollment);
 
+    const onClickItem = async () => {
+        dispatch(UpdatePlatformAction({
+            selectedPlatformIdx: data.idx,
+            selectedPlatformName: data.name,
+            selectedPlatformCategoryIdx: data.categoryIdx,
+            selectedPlatformImgUrl: data.imgUrl,
+            selectedPlatformImgColor: null,
+            selectedPlatformImgInitial: null,
+        }))
     };
 
     return (
-        <ItemWrap className="notoMedium" isSelected={selectedPlatformIdx == data.idx}>
+        <ItemWrap onClick={onClickItem} className="notoMedium" isSelected={selectedPlatformIdx == data.idx}>
             <ItemImgWrap>
                 {
                     data.imgUrl ?
@@ -223,8 +240,8 @@ const TotalItemComponent = ({ data }) => {
                     </TextMiddle>
                 </TextMiddle>
             </ItemTitleWrap>
-            <ItemIconWrap onClick={onClickItem}>
-                {selectedPlatformIdx == data.idx && <ItemIcon src={icon_plus}></ItemIcon>}
+            <ItemIconWrap>
+                {selectedPlatformIdx == data.idx && <ItemIcon src={icon_check}></ItemIcon>}
             </ItemIconWrap>
         </ItemWrap>
     )
