@@ -9,6 +9,7 @@ import ReportIcon from '../../assets/icon-report.svg';
 import MyPartyIcon from '../../assets/my_party_icon.svg';
 import ActiveDuckIcon from '../../assets/icon-activate-people.svg';
 import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
+import PartyEmprtyImg from '../../assets/banner-main-new-party.svg';
 
 
 import { useHistory } from 'react-router-dom';
@@ -88,7 +89,6 @@ const Party = () => {
 
         setTotalPartyList(partyListData.result);
         setPartyList(partyListData.result);
-        console.log(partyListData.result);
 
         //배경색 logic
         const userPlatform = checkMobile();
@@ -168,7 +168,14 @@ const Party = () => {
                     <div style={{ position: 'relative', overflowY: 'scroll', height: '25rem' }}>
 
                         {partyList.length === 0 ?
-                            <div>파티 리스트가 없습니다.</div>
+                            <div className="spoqaBold" style={{ textAlign: 'center' }}>
+                                <div style={{ marginTop: '6.25rem', marginBottom: '3rem' }}>
+                                    <img src={PartyEmprtyImg} style={{ width: '17.95rem', height: '7.5rem' }} />
+                                </div>
+                                <div style={{ fontSize: '0.8125rem', opacity: '0.25' }}>
+                                    새로운 구독 파티를 등록해주세요!
+                                </div>
+                            </div>
                             :
                             partyList.map((data, index) => {
                                 return (<PartyContent data={data} key={index} />)

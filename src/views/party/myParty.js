@@ -9,6 +9,9 @@ import icon_back from "../../assets/icon-back-arrow.svg";
 import icon_party_memeber from "../../assets/icon-party-member.svg";
 import icon_party_host from "../../assets/icon-party-host.svg";
 import ReportIcon from '../../assets/icon-report.svg';
+import MyPartyEmptyImg from '../../assets/banner-party-new-party-activated.svg';
+
+
 
 import { TextMiddle } from '../../styled/shared';
 import { customApiClient } from '../../shared/apiClient';
@@ -19,493 +22,6 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { PageTransContext } from '../../containers/pageTransContext';
 import { priceToString, ContentWrap, ContentDetailWrap } from '../../components/main/bottomCard';
-
-
-const { result: ProgressData } = {
-    result: [
-        {
-            "idx": 28,
-            "status": "ACTIVATE",
-            "createdAt": "2021-10-04T14:50:32.686Z",
-            "updatedAt": "2021-10-05T15:44:57.731Z",
-            "deletedAt": null,
-            "partyRoom": {
-                "idx": 29,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 15,
-                "color": null,
-                "initial": null,
-                "price": 4500,
-                "openChatLink": "https://naver.com",
-                "membership": null,
-                "personnel": 4,
-                "status": "MATCHING",
-                "createdAt": "2021-09-29T16:38:17.817Z",
-                "deletedAt": "2021-09-30T15:00:00.000Z",
-                "partyUser": [
-                    {
-                        "idx": 27,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-09-29T16:38:17.831Z",
-                        "updatedAt": "2021-10-05T15:44:57.709Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 2,
-                            "name": "테스트",
-                            "phone": "01000000000",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401594",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    },
-                    {
-                        "idx": 28,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-10-04T14:50:32.686Z",
-                        "updatedAt": "2021-10-05T15:44:57.731Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 1,
-                            "name": "이기택",
-                            "phone": "01092756351",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401597",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    }
-                ]
-            },
-            "partyDetail": {
-                "idx": 29,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 15,
-                "price": 4500,
-                "color": null,
-                "initial": null,
-                "membership": null,
-                "personnel": 4,
-                "openChatLink": "https://naver.com",
-                "customName": null,
-                "customCategoryIdx": null,
-                "customCategory": null,
-                "serverName": "윌라",
-                "serverImgUrl": "https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2FWelaaa.png?alt=media&token=e1bf1ec0-8ddb-446f-9c3f-9dfbd94fef1d",
-                "serverCategoryIdx": 3,
-                "serverCategory": "독서·학습",
-                "IsHost": "Y"
-            }
-        },
-        {
-            "idx": 25,
-            "status": "ACTIVATE",
-            "createdAt": "2021-09-29T16:38:15.774Z",
-            "updatedAt": "2021-09-29T16:38:15.774Z",
-            "deletedAt": null,
-            "partyRoom": {
-                "idx": 28,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 2,
-                "color": null,
-                "initial": null,
-                "price": 4500,
-                "openChatLink": "https://naver.com",
-                "membership": null,
-                "personnel": 4,
-                "status": "MATCHING",
-                "createdAt": "2021-09-29T16:38:15.759Z",
-                "deletedAt": null,
-                "partyUser": [
-                    {
-                        "idx": 25,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-09-29T16:38:15.774Z",
-                        "updatedAt": "2021-09-29T16:38:15.774Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 1,
-                            "name": "이기택",
-                            "phone": "01092756351",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401597",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    }
-                ]
-            },
-            "partyDetail": {
-                "idx": 28,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 2,
-                "price": 4500,
-                "color": null,
-                "initial": null,
-                "membership": null,
-                "personnel": 4,
-                "openChatLink": "https://naver.com",
-                "customName": null,
-                "customCategoryIdx": null,
-                "customCategory": null,
-                "serverName": "왓챠",
-                "serverImgUrl": "https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2Fwatcha.png?alt=media&token=cb80e781-d453-4224-9bce-505305174bd1",
-                "serverCategoryIdx": 1,
-                "serverCategory": "OTT",
-                "IsHost": "Y"
-            }
-        },
-        {
-            "idx": 24,
-            "status": "ACTIVATE",
-            "createdAt": "2021-09-29T16:38:13.763Z",
-            "updatedAt": "2021-09-29T16:38:13.763Z",
-            "deletedAt": null,
-            "partyRoom": {
-                "idx": 27,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 1,
-                "color": null,
-                "initial": null,
-                "price": 4500,
-                "openChatLink": "https://naver.com",
-                "membership": null,
-                "personnel": 4,
-                "status": "MATCHING",
-                "createdAt": "2021-09-29T16:38:13.743Z",
-                "deletedAt": null,
-                "partyUser": [
-                    {
-                        "idx": 24,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-09-29T16:38:13.763Z",
-                        "updatedAt": "2021-09-29T16:38:13.763Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 1,
-                            "name": "이기택",
-                            "phone": "01092756351",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401597",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    }
-                ]
-            },
-            "partyDetail": {
-                "idx": 27,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 1,
-                "price": 4500,
-                "color": null,
-                "initial": null,
-                "membership": null,
-                "personnel": 4,
-                "openChatLink": "https://naver.com",
-                "customName": null,
-                "customCategoryIdx": null,
-                "customCategory": null,
-                "serverName": "넷플릭스",
-                "serverImgUrl": "https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2Fnetflix.png?alt=media&token=96cf7411-2b79-4050-97cc-6ba683532b14",
-                "serverCategoryIdx": 1,
-                "serverCategory": "OTT",
-                "IsHost": "Y"
-            }
-        },
-        {
-            "idx": 23,
-            "status": "ACTIVATE",
-            "createdAt": "2021-09-23T17:03:10.871Z",
-            "updatedAt": "2021-10-05T15:44:57.682Z",
-            "deletedAt": null,
-            "partyRoom": {
-                "idx": 25,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 9,
-                "color": null,
-                "initial": null,
-                "price": 4500,
-                "openChatLink": "https://naver.com",
-                "membership": null,
-                "personnel": 2,
-                "status": "COMPELETE",
-                "createdAt": "2021-09-23T16:04:02.687Z",
-                "deletedAt": null,
-                "partyUser": [
-                    {
-                        "idx": 14,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-09-23T16:31:56.984Z",
-                        "updatedAt": "2021-09-23T16:33:25.766Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 2,
-                            "name": "테스트",
-                            "phone": "01000000000",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401594",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    },
-                    {
-                        "idx": 23,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-09-23T17:03:10.871Z",
-                        "updatedAt": "2021-10-05T15:44:57.682Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 1,
-                            "name": "이기택",
-                            "phone": "01092756351",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401597",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    }
-                ]
-            },
-            "partyDetail": {
-                "idx": 25,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 9,
-                "price": 4500,
-                "color": null,
-                "initial": null,
-                "membership": null,
-                "personnel": 2,
-                "openChatLink": "https://naver.com",
-                "customName": null,
-                "customCategoryIdx": null,
-                "customCategory": null,
-                "serverName": "바이브",
-                "serverImgUrl": "https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2Fvibe.png?alt=media&token=f81f2f2a-f068-48f3-8858-724a5c25cc43",
-                "serverCategoryIdx": 2,
-                "serverCategory": "음악",
-                "IsHost": "N"
-            }
-        }
-    ],
-    statusCode: 200,
-    message: "나의 리스트 조회 성공"
-}
-
-
-const { result: FinishData } = {
-    result: [
-        {
-            "idx": 28,
-            "status": "ACTIVATE",
-            "createdAt": "2021-10-04T14:50:32.686Z",
-            "updatedAt": "2021-10-05T15:44:57.731Z",
-            "deletedAt": null,
-            "partyRoom": {
-                "idx": 29,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 15,
-                "color": null,
-                "initial": null,
-                "price": 4500,
-                "openChatLink": "https://naver.com",
-                "membership": null,
-                "personnel": 4,
-                "status": "MATCHING",
-                "createdAt": "2021-09-29T16:38:17.817Z",
-                "deletedAt": "2021-09-30T15:00:00.000Z",
-                "partyUser": [
-                    {
-                        "idx": 27,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-09-29T16:38:17.831Z",
-                        "updatedAt": "2021-10-05T15:44:57.709Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 2,
-                            "name": "테스트",
-                            "phone": "01000000000",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401594",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    },
-                    {
-                        "idx": 28,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-10-04T14:50:32.686Z",
-                        "updatedAt": "2021-10-05T15:44:57.731Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 1,
-                            "name": "이기택",
-                            "phone": "01092756351",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401597",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    }
-                ]
-            },
-            "partyDetail": {
-                "idx": 29,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 15,
-                "price": 4500,
-                "color": null,
-                "initial": null,
-                "membership": null,
-                "personnel": 4,
-                "openChatLink": "https://naver.com",
-                "customName": null,
-                "customCategoryIdx": null,
-                "customCategory": null,
-                "serverName": "윌라",
-                "serverImgUrl": "https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2FWelaaa.png?alt=media&token=e1bf1ec0-8ddb-446f-9c3f-9dfbd94fef1d",
-                "serverCategoryIdx": 3,
-                "serverCategory": "독서·학습",
-                "IsHost": "Y"
-            }
-        },
-        {
-            "idx": 25,
-            "status": "ACTIVATE",
-            "createdAt": "2021-09-29T16:38:15.774Z",
-            "updatedAt": "2021-09-29T16:38:15.774Z",
-            "deletedAt": null,
-            "partyRoom": {
-                "idx": 28,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 2,
-                "color": null,
-                "initial": null,
-                "price": 4500,
-                "openChatLink": "https://naver.com",
-                "membership": null,
-                "personnel": 4,
-                "status": "MATCHING",
-                "createdAt": "2021-09-29T16:38:15.759Z",
-                "deletedAt": null,
-                "partyUser": [
-                    {
-                        "idx": 25,
-                        "status": "ACTIVATE",
-                        "createdAt": "2021-09-29T16:38:15.774Z",
-                        "updatedAt": "2021-09-29T16:38:15.774Z",
-                        "deletedAt": null,
-                        "user": {
-                            "idx": 1,
-                            "name": "이기택",
-                            "phone": "01092756351",
-                            "sex": "MALE",
-                            "age": 1,
-                            "uniqueNumber": "401597",
-                            "isAlert": "Y",
-                            "isMarketing": "Y",
-                            "isMarketingUpdatedAt": "2021-07-08T04:34:37.263Z",
-                            "fcmToken": null,
-                            "platform": "WEB",
-                            "status": "ACTIVATE",
-                            "createdAt": "2021-07-08T04:34:37.263Z",
-                            "updatedAt": "2021-09-15T05:26:11.000Z"
-                        }
-                    }
-                ]
-            },
-            "partyDetail": {
-                "idx": 28,
-                "title": "쏘카 같이하실분 ~~",
-                "registerType": "SERVER",
-                "platformIdx": 2,
-                "price": 4500,
-                "color": null,
-                "initial": null,
-                "membership": null,
-                "personnel": 4,
-                "openChatLink": "https://naver.com",
-                "customName": null,
-                "customCategoryIdx": null,
-                "customCategory": null,
-                "serverName": "왓챠",
-                "serverImgUrl": "https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2Fwatcha.png?alt=media&token=cb80e781-d453-4224-9bce-505305174bd1",
-                "serverCategoryIdx": 1,
-                "serverCategory": "OTT",
-                "IsHost": "Y"
-            }
-        },
-    ],
-    statusCode: 200,
-    message: "나의 리스트 조회 성공"
-}
 
 
 const MyParty = () => {
@@ -524,9 +40,38 @@ const MyParty = () => {
     const [progressMenuStatus, setProgressMenuStatus] = useState(true);
     const [terminateMenuStatus, setTerminateMenuStatus] = useState(false);
 
+    const [progressData, setProgressData] = useState([]);
+    const [finishData, setFinishData] = useState([]);
+
     useEffect(() => {
         dispatch(BottomNavCloseAction);
+
+        //게시물 조회
+        getMyPartyList("PROGRESS");
+        getMyPartyList("TERMINATE");
+
     }, []);
+
+    const getMyPartyList = async (type) => {
+
+        const data = await customApiClient('get', `/party/my?type=${type}`);
+
+        //서버에러
+        if (!data) return
+
+        //벨리데이션
+        if (data.statusCode != 200) {
+            return
+        }
+
+        if (type === 'PROGRESS') {
+            setProgressData(data.result);
+        }
+        else {
+            setFinishData(data.result);
+        }
+
+    };
 
     const closeSubscribePage = () => {
         setPageTrans('trans toLeft');
@@ -576,15 +121,15 @@ const MyParty = () => {
                         {/* 참여중 리스트 */}
                         <ItemListView selectedStatus={progressMenuStatus}>
                             {
-                                ProgressData.length != 0 ?
-                                    ProgressData.map((data, index) => {
+                                progressData.length != 0 ?
+                                    progressData.map((data, index) => {
                                         return (<BottomContent data={data.partyDetail} room={data.partyRoom} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
-                                    <div style={{ marginTop: "3.4375rem", textAlign: "center" }}>
-                                        <div>
-                                            없음
-                                    </div>
-                                        <div className="notoMedium" style={{ fontSize: "0.8125rem", color: "#313131", opacity: "0.25" }}>구독 서비스를 등록해주세요</div>
+                                    <div style={{ marginTop: "4.5938rem", marginBottom: '4.25rem', textAlign: "center" }}>
+                                        <div style={{ marginBottom: '0.75rem' }}>
+                                            <img src={MyPartyEmptyImg} style={{ width: '12rem', height: '2.8125rem' }} />
+                                        </div>
+                                        <div className="spoqaBold" style={{ fontSize: "0.8125rem", color: "#313131", opacity: "0.25" }}>구독 파티에 참여해보세요!</div>
                                     </div>
                             }
                         </ItemListView>
@@ -592,15 +137,15 @@ const MyParty = () => {
                         {/* 종료됨 리스트 */}
                         <ItemListView selectedStatus={terminateMenuStatus}>
                             {
-                                FinishData.length != 0 ?
-                                    FinishData.map((data, index) => {
+                                finishData.length != 0 ?
+                                    finishData.map((data, index) => {
                                         return (<BottomContent data={data.partyDetail} room={data.partyRoom} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
-                                    <div style={{ marginTop: "3.4375rem", textAlign: "center" }}>
-                                        <div>
-                                            없음
-                                    </div>
-                                        <div className="notoMedium" style={{ fontSize: "0.8125rem", color: "#313131", opacity: "0.25" }}>구독 서비스를 등록해주세요</div>
+                                    <div style={{ marginTop: "4.5938rem", marginBottom: '4.25rem', textAlign: "center" }}>
+                                        <div style={{ marginBottom: '0.75rem' }}>
+                                            <img src={MyPartyEmptyImg} style={{ width: '12rem', height: '2.8125rem' }} />
+                                        </div>
+                                        <div className="spoqaBold" style={{ fontSize: "0.8125rem", color: "#313131", opacity: "0.25" }}>구독 파티에 참여해보세요!</div>
                                     </div>
                             }
                         </ItemListView>
@@ -628,9 +173,6 @@ const BottomContent = ({ data, room, isProgress }) => {
             setOpenStatus(true);
         }
     }
-
-    console.log(data)
-    console.log(room);
 
     return (
         <>

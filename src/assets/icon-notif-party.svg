@@ -1,0 +1,19 @@
+<svg id="Icon_notif_party" data-name="Icon / notif / party" xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
+    <defs>
+        <style>
+            .cls-1{fill:#ffca17}
+        </style>
+    </defs>
+    <g id="그룹_843" data-name="그룹 843" transform="translate(-20.5 -315)">
+        <g id="Icon_sub_멜론" data-name="Icon / sub / 멜론" transform="translate(20.5 315)">
+            <rect id="Rectangle_Copy_13" data-name="Rectangle Copy 13" class="cls-1" width="37" height="37" rx="6"/>
+        </g>
+    </g>
+    <g id="그룹_842" data-name="그룹 842" transform="translate(-20.5 -315)">
+        <g id="Icon_party" data-name="Icon / party" transform="translate(29 323)">
+            <path id="message_1576_" data-name="message [#1576]" d="M20 17.218a1 1 0 0 1-1 1h-6.42c-.914 1.7-.5.988-2.024 3.5A.583.583 0 0 1 10.1 22a.506.506 0 0 1-.454-.222 22.609 22.609 0 0 1-2.009-3.56H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1z" style="fill:#fff"/>
+            <path id="Rectangle" class="cls-1" transform="translate(3 11)" d="M0 0h14v2H0z"/>
+            <path id="Rectangle_Copy" data-name="Rectangle Copy" class="cls-1" d="M0 0h7v2H0z" transform="translate(3 7)"/>
+        </g>
+    </g>
+</svg>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from "styled-components";
 
 import { useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { priceToString } from './bottomCard';
 import notice_icon from '../../assets/icon-alarm.svg';
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../containers/pageTransContext';
+import { customApiClient } from '../../shared/apiClient';
 
 const TopCard = () => {
 
@@ -21,10 +22,29 @@ const TopCard = () => {
     //context
     const { setPageTrans } = useContext(PageTransContext);
 
+    //state
+    const [unreadCount, setUnreadCount] = useState(0);
+
     const openAlertPage = () => {
         setPageTrans('trans toRight');
         history.push('/alert');
     };
+
+
+    useEffect(async () => {
+
+        const data = await customApiClient('get', '/notification/unread/count');
+
+        //서버에러
+        if (!data) return
+
+        //벨리데이션
+        if (data.statusCode != 200) {
+            return
+        }
+
+        setUnreadCount(data.result);
+    }, []);
 
     return (
         <TopCardWrap className="spoqaBold">
@@ -40,7 +60,9 @@ const TopCard = () => {
             </PriceWrap>
             <NoticeWrap onClick={openAlertPage}>
                 <NoticeIcon src={notice_icon} />
-                {/* <NoticeCount>1</NoticeCount> */}
+                {
+                    unreadCount !== 0 && <NoticeCount>{unreadCount}</NoticeCount>
+                }
             </NoticeWrap>
         </TopCardWrap>
     )
@@ -84,16 +106,20 @@ const NoticeIcon = styled.img`
 const NoticeCount = styled.div`
 
     position: absolute;
-    top:0.25rem;
-    right:1.25rem;
+    top:0.75rem;
+    left:2rem;
 
-    padding:0 0.1875rem;
-    background-color:red;
+    padding:0 0.25rem;
+
+    line-height:1.125rem;
+
+    background-color:#fc4a3f;
+
     font-size:0.625rem;
-    line-height:1.3125rem;
-    color:white;
+    
+    color:#ffffff;
     text-align:center;
-    border-radius:0.5rem;
+    border-radius:0.4375rem;
 `;
 
 export default TopCard;
