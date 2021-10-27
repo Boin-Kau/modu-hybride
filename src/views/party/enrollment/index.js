@@ -47,7 +47,7 @@ const PartyEnrollment = () => {
     const [partyPersonel, setPartyPersonel] = useState(0);
     const [personelOpen, setPersonelOpen] = useState(false);
 
-    const [partyPrice, setPartyPrice] = useState(null);
+    const [partyPrice, setPartyPrice] = useState('');
     const [partyMembership, setPartyMembership] = useState('');
     const [partyOpenChat, setPartyOpenChat] = useState('');
 

@@ -10,6 +10,7 @@ import MyPartyIcon from '../../assets/my_party_icon.svg';
 import ActiveDuckIcon from '../../assets/icon-activate-people.svg';
 import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
 import PartyEmprtyImg from '../../assets/banner-main-new-party.svg';
+import PartyEnrollDuckImg from '../../assets/character-main-party-paticipate.svg';
 
 
 import { useHistory } from 'react-router-dom';
@@ -20,6 +21,9 @@ import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { customApiClient } from '../../shared/apiClient';
 import { GetPlatformCategoryList } from '../../reducers/main/platform';
+import { DangerWrapPopup, DangerPopup } from '../../styled/shared';
+import ReportPopUp from './popup/reportPopup';
+import { ReportPopupOpenAction, SetReportCategoryListAction } from '../../reducers/party/popup';
 
 const Party = () => {
 
@@ -30,6 +34,9 @@ const Party = () => {
     const {
         platformCategoryList: categoryList
     } = useSelector(state => state.main.platform);
+    const {
+        reportPopupStatus,
+    } = useSelector(state => state.party.popup);
 
     //페이지 전환
     const { setPageTrans } = useContext(PageTransContext);
@@ -40,6 +47,12 @@ const Party = () => {
     const [seletedCategoryName, setSelectedCategoryName] = useState('전체');
     const [totalPartyList, setTotalPartyList] = useState([]);
     const [partyList, setPartyList] = useState([]);
+
+    const [enrollPartyIdx, setEnrollPartyIdx] = useState(0);
+    const [enrollPartyChatLink, setEnrollPartyChatLink] = useState('');
+    const [enrollPopupStatus, setEnrollPopupStatus] = useState(false);
+
+    const [completePopupStatus, setCompletePopupStatus] = useState(false);
 
     //페이지 열기
     const openPage = (path) => {
@@ -53,7 +66,7 @@ const Party = () => {
         //bottom nav logic
         dispatch(BottomNavOpenAction);
 
-        //카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        //구독 카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (categoryList.length < 1) {
 
             //인기 구독 플랫폼 리스트 조회
@@ -75,6 +88,22 @@ const Party = () => {
 
         }
 
+        getPartyList();
+
+        //배경색 logic
+        const userPlatform = checkMobile();
+        if (userPlatform == 'ios') {
+            //IOS 배경색 설정
+            try {
+                window.webkit.messageHandlers.setColorGray.postMessage("hihi");
+            }
+            catch (err) {
+            }
+        }
+
+    }, []);
+
+    const getPartyList = async () => {
         //파티 리스트 조회
         const partyUri = `/party?categoryIdx=${seletedCategory}`;
 
@@ -87,20 +116,12 @@ const Party = () => {
         //벨리데이션
         if (partyListData.statusCode != 200) { return }
 
+        setSelectedCategory(0);
+        setSelectedCategoryName('전체');
         setTotalPartyList(partyListData.result);
         setPartyList(partyListData.result);
 
-        //배경색 logic
-        const userPlatform = checkMobile();
-        if (userPlatform == 'ios') {
-            //IOS 배경색 설정
-            try {
-                window.webkit.messageHandlers.setColorGray.postMessage("hihi");
-            }
-            catch (err) {
-            }
-        }
-    }, []);
+    }
 
     const onClickCategory = async (index, name) => {
 
@@ -128,6 +149,42 @@ const Party = () => {
             setPartyList(partyResult);
         }
 
+    }
+
+
+    const onClickEnrollButton = (partyIdx, chatLink) => {
+        setEnrollPartyIdx(partyIdx);
+        setEnrollPartyChatLink(chatLink);
+        setEnrollPopupStatus(true);
+    }
+    const onClickEnrollCancel = () => {
+        setEnrollPartyIdx(0);
+        setEnrollPartyChatLink('');
+        setEnrollPopupStatus(false);
+    }
+    const onClickEnrollConfirm = async () => {
+        if (enrollPartyIdx === 0) return
+
+        //서버통신
+        const data = await customApiClient('post', `/party/${enrollPartyIdx}`);
+
+        //서버에러
+        if (!data) return
+
+        //벨리데이션
+        if (data.statusCode != 200) {
+            return
+        }
+
+        setEnrollPopupStatus(false);
+        setCompletePopupStatus(true);
+        getPartyList();
+    }
+
+    const onClickCompleteClose = () => {
+        setCompletePopupStatus(false);
+        setPageTrans('trans toRight');
+        history.push('/party/my');
     }
 
     return (
@@ -178,24 +235,107 @@ const Party = () => {
                             </div>
                             :
                             partyList.map((data, index) => {
-                                return (<PartyContent data={data} key={index} />)
+                                return (<PartyContent data={data} key={index} onClickEnrollButton={onClickEnrollButton} />)
                             })
                         }
                         <div style={{ height: '6.25rem' }} />
                     </div>
                 </CardWrap>
-
-
             </div>
 
+            {/* 참여하기 버튼 팝업 */}
+            <DangerWrapPopup openStatus={enrollPopupStatus}>
+                <DangerPopup openStatus={enrollPopupStatus}>
+                    <div style={{ position: 'relative', height: '1.25rem' }}>
+                    </div>
+                    <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem' }}>
+                        파티 참여하기
+                    </div>
+                    <div className="notoMedium" style={{ marginTop: '0.625rem', marginBottom: '1.625rem', fontSize: '0.75rem', color: 'rgba(49,49,49,0.4)' }}>정말 해당 파티에 참여 하시겠어요?</div>
+                    <div className="spoqaBold" style={{ display: 'flex' }}>
+                        <div onClick={onClickEnrollCancel} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>취소</div>
+                        </div>
+                        <div onClick={onClickEnrollConfirm} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#ffca17', borderRadius: '0.375rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: '#ffffff' }}>참여하기</div>
+                        </div>
+                    </div>
+                </DangerPopup>
+            </DangerWrapPopup>
+
+            {/* 참여 완료 팝업 */}
+            <EnrollCompeletePopUp
+                openStatus={completePopupStatus}
+                openChatLink={enrollPartyChatLink}
+                onClickCompleteClose={onClickCompleteClose} />
+
+            {/* 신고 하기 팝업 */}
+            <ReportPopUp
+                openStatus={reportPopupStatus}
+            />
         </>
     )
 };
 
+const EnrollCompeletePopUp = ({ openStatus, openChatLink, onClickCompleteClose }) => {
+    return (
+        <DangerWrapPopup openStatus={openStatus}>
+            <DangerPopup openStatus={openStatus} style={{ zIndex: '10', left: '1.125rem', right: '1.125rem', transform: 'translate(0,-50%)' }}>
+                <img src={PartyEnrollDuckImg} style={{ width: '5.625rem', height: '8.125rem', margin: '1.875rem 0 1.3125rem 0' }} />
+                <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>참가 신청 완료</div>
+                <div className="notoMedium" style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem', marginBottom: '2.25rem' }}>
+                    파티 참가 신청이 완료되었습니다.<br />
+                    오픈 카톡방에서 파티원들과 만나보세요.
+                </div>
+                <a href={openChatLink} target="blank" style={{ textDecoration: 'none' }}>
+                    <div className="spoqaBold" style={{ position: 'relative', backgroundColor: '#ffbc26', borderRadius: '0.375rem', height: '2.4375rem' }}>
+                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>오픈카톡방 연결</div>
+                    </div>
+                </a>
+            </DangerPopup>
+            <div onClick={onClickCompleteClose} style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0' }} />
+        </DangerWrapPopup >
+    )
+}
 
-const PartyContent = ({ data }) => {
+const PartyContent = ({ data, onClickEnrollButton }) => {
+
+    const dispatch = useDispatch();
+
+    const {
+        reportCategoryList,
+    } = useSelector(state => state.party.popup);
 
     const [openStatus, setOpenStatue] = useState(false);
+
+    const onClickReport = async () => {
+
+        //신고 카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        if (reportCategoryList.length < 1) {
+
+            //리스트 조회
+            const data = await customApiClient('get', '/party/report/category');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch(SetReportCategoryListAction({
+                reportCategoryList: data.result
+            }));
+
+        }
+
+
+        dispatch(ReportPopupOpenAction({
+            reportPartyIdx: data.idx
+        }))
+    }
 
     return (
         <>
@@ -272,10 +412,17 @@ const PartyContent = ({ data }) => {
                         </DetailItemWrap>
                     </DetailRowWrap>
                     <div className="spoqaBold" style={{ display: 'flex' }}>
-                        <div style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
-                        </div>
-                        <div style={{ padding: '0.4375rem 0.875rem 0.5rem 0.9187rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                        {
+                            data.IsEnrolled === "Y" ?
+                                <div style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem' }}>
+                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
+                                </div>
+                                :
+                                <div onClick={() => { onClickEnrollButton(data.idx, data.openChatLink) }} style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
+                                </div>
+                        }
+                        <div onClick={onClickReport} style={{ padding: '0.4375rem 0.875rem 0.5rem 0.9187rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
                             <img src={ReportIcon} style={{ width: '1.3938rem', height: '1.5rem' }} />
                         </div>
                     </div>

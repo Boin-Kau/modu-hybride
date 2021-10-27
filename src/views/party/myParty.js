@@ -22,6 +22,8 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { PageTransContext } from '../../containers/pageTransContext';
 import { priceToString, ContentWrap, ContentDetailWrap } from '../../components/main/bottomCard';
+import { SetReportCategoryListAction, ReportPopupOpenAction } from '../../reducers/party/popup';
+import ReportPopUp from './popup/reportPopup';
 
 
 const MyParty = () => {
@@ -31,6 +33,9 @@ const MyParty = () => {
     const history = useHistory();
 
     //store
+    const {
+        reportPopupStatus,
+    } = useSelector(state => state.party.popup);
 
     //context
     const { setPageTrans } = useContext(PageTransContext);
@@ -55,6 +60,8 @@ const MyParty = () => {
     const getMyPartyList = async (type) => {
 
         const data = await customApiClient('get', `/party/my?type=${type}`);
+
+        console.log(data.result);
 
         //서버에러
         if (!data) return
@@ -123,7 +130,7 @@ const MyParty = () => {
                             {
                                 progressData.length != 0 ?
                                     progressData.map((data, index) => {
-                                        return (<BottomContent data={data.partyDetail} room={data.partyRoom} isProgress={progressMenuStatus} key={index}></BottomContent>)
+                                        return (<BottomContent data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
                                     <div style={{ marginTop: "4.5938rem", marginBottom: '4.25rem', textAlign: "center" }}>
                                         <div style={{ marginBottom: '0.75rem' }}>
@@ -139,7 +146,7 @@ const MyParty = () => {
                             {
                                 finishData.length != 0 ?
                                     finishData.map((data, index) => {
-                                        return (<BottomContent data={data.partyDetail} room={data.partyRoom} isProgress={progressMenuStatus} key={index}></BottomContent>)
+                                        return (<BottomContent data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
                                     <div style={{ marginTop: "4.5938rem", marginBottom: '4.25rem', textAlign: "center" }}>
                                         <div style={{ marginBottom: '0.75rem' }}>
@@ -152,15 +159,24 @@ const MyParty = () => {
                     </ItemListWrap>
                 </MainWrap>
             </PageWrap>
+
+            {/* 신고 하기 팝업 */}
+            <ReportPopUp
+                openStatus={reportPopupStatus}
+            />
         </div >
     )
 };
 
 
-const BottomContent = ({ data, room, isProgress }) => {
+const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
 
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const {
+        reportCategoryList,
+    } = useSelector(state => state.party.popup);
 
     const [openStatus, setOpenStatus] = useState(false);
 
@@ -172,6 +188,35 @@ const BottomContent = ({ data, room, isProgress }) => {
         else {
             setOpenStatus(true);
         }
+    }
+
+    const onClickReport = async () => {
+
+        //신고 카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        if (reportCategoryList.length < 1) {
+
+            //리스트 조회
+            const data = await customApiClient('get', '/party/report/category');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch(SetReportCategoryListAction({
+                reportCategoryList: data.result
+            }));
+
+        }
+
+
+        dispatch(ReportPopupOpenAction({
+            reportPartyIdx: data.idx
+        }))
     }
 
     return (
@@ -244,12 +289,12 @@ const BottomContent = ({ data, room, isProgress }) => {
                     <DetailRowWrap>
                         <DetailItemWrap mr>
                             <DetailItemTitle>파티 가입일</DetailItemTitle>
-                            <DetailItemFillContent>2021-01-01</DetailItemFillContent>
+                            <DetailItemFillContent>{String(enrolledAt).substring(0, 10)}</DetailItemFillContent>
                         </DetailItemWrap>
                         {!isProgress &&
                             <DetailItemWrap>
                                 <DetailItemTitle>파티 종료일</DetailItemTitle>
-                                <DetailItemFillContent>2021-01-01</DetailItemFillContent>
+                                <DetailItemFillContent>{String(endedAt).substring(0, 10)}</DetailItemFillContent>
                             </DetailItemWrap>
                         }
                     </DetailRowWrap>
@@ -258,9 +303,13 @@ const BottomContent = ({ data, room, isProgress }) => {
 
                     <DetailRowWrap style={{ margin: "0" }}>
                         <div className="spoqaBold" style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>오픈채팅방 열기</div>
+                            <a href={data.openChatLink} target="blank" style={{ textDecoration: 'none' }}>
+                                <div style={{ height: '100%' }}>
+                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>오픈채팅방 열기</div>
+                                </div>
+                            </a>
                         </div>
-                        <div style={{ padding: '0.5rem 0.875rem 0.5437rem 0.9187rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                        <div onClick={onClickReport} style={{ padding: '0.5rem 0.875rem 0.5437rem 0.9187rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
                             <img src={ReportIcon} style={{ width: '1.2563rem', height: '1.3938rem' }} />
                         </div>
                     </DetailRowWrap>

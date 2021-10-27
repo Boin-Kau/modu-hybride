@@ -120,7 +120,7 @@ const AlertPage = () => {
 
 
                             return (
-                                <AlertWrap isRead={data.viewedAt !== null}>
+                                <AlertWrap isRead={data.viewedAt !== null} key={index}>
                                     <div style={{ display: 'flex', paddingBottom: '1.25rem', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
                                         <div style={{ marginRight: '1rem' }}>
                                             <div>
