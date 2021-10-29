@@ -22,8 +22,11 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { PageTransContext } from '../../containers/pageTransContext';
 import { priceToString, ContentWrap, ContentDetailWrap } from '../../components/main/bottomCard';
-import { SetReportCategoryListAction, ReportPopupOpenAction } from '../../reducers/party/popup';
+import { SetReportCategoryListAction, ReportPopupOpenAction, TerminatePopupOpenAction, BanishPopupOpenAction } from '../../reducers/party/popup';
 import ReportPopUp from './popup/reportPopup';
+import TerminatePopUp from './popup/terminatePopup';
+import { onClickTerminate } from '../../App';
+import BanishPopUp from './popup/banishPopup';
 
 
 const MyParty = () => {
@@ -35,6 +38,8 @@ const MyParty = () => {
     //store
     const {
         reportPopupStatus,
+        terminatePopupStatus,
+        banishPopupStatus,
     } = useSelector(state => state.party.popup);
 
     //context
@@ -61,8 +66,6 @@ const MyParty = () => {
 
         const data = await customApiClient('get', `/party/my?type=${type}`);
 
-        console.log(data.result);
-
         //서버에러
         if (!data) return
 
@@ -84,7 +87,6 @@ const MyParty = () => {
         setPageTrans('trans toLeft');
         history.goBack();
     };
-
 
     const onClickMenu = useCallback(async (type) => {
 
@@ -161,9 +163,13 @@ const MyParty = () => {
             </PageWrap>
 
             {/* 신고 하기 팝업 */}
-            <ReportPopUp
-                openStatus={reportPopupStatus}
-            />
+            <ReportPopUp openStatus={reportPopupStatus} />
+
+            {/* 파티 나가기 팝업 */}
+            <TerminatePopUp openStatus={terminatePopupStatus} />
+
+            {/* 추방하기 팝업 */}
+            <BanishPopUp openStatus={banishPopupStatus} />
         </div >
     )
 };
@@ -171,7 +177,6 @@ const MyParty = () => {
 
 const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
 
-    const history = useHistory();
     const dispatch = useDispatch();
 
     const {
@@ -216,6 +221,26 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
 
         dispatch(ReportPopupOpenAction({
             reportPartyIdx: data.idx
+        }))
+    }
+
+    const onClickTerminate = () => {
+
+        const role = data.IsHost === 'Y' ? "HOST" : "USER";
+
+        dispatch(TerminatePopupOpenAction({
+            terminatePartyIdx: data.idx,
+            terminatePartyRole: role
+        }))
+    }
+
+    const onClickBanishUser = () => {
+        console.log(room);
+        if (room.partyUser.length <= 1) return
+
+        dispatch(BanishPopupOpenAction({
+            banishPartyIdx: data.idx,
+            banishUserList: room.partyUser,
         }))
     }
 
@@ -315,14 +340,14 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
                     </DetailRowWrap>
                     {isProgress &&
                         <DetailRowWrap style={{ margin: "0", marginTop: '1rem' }}>
-                            <div className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                            <div onClick={onClickTerminate} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
                                 <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 나가기</div>
                             </div>
 
                             {data.IsHost === 'Y' &&
-                                <div className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem', marginLeft: '0.75rem' }}>
+                                <ButtonWrap onClick={onClickBanishUser} className="spoqaBold" isComplte={room.partyUser.length > 1} style={{ marginLeft: '0.75rem' }}>
                                     <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티원 강제 퇴장</div>
-                                </div>
+                                </ButtonWrap>
                             }
                         </DetailRowWrap>
                     }
@@ -416,6 +441,15 @@ const ItemListWrap = styled.div`
 const ItemListView = styled.div`
     display:${props => props.selectedStatus ? 'block' : 'none'};
     position: relative;
+`;
+
+
+const ButtonWrap = styled.div`
+    position: relative;
+    flex-grow: 1;
+    padding: 0.5625rem 0 0.75rem 0;
+    background-color: ${props => props.isComplte ? '#ffbc26' : '#e3e3e3'};
+    border-radius: 0.375rem;
 `;
 
 

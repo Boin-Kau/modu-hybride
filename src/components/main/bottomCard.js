@@ -74,6 +74,7 @@ const BottomContent = ({ data, cardOpen }) => {
         }
     }
 
+
     return (
         <>
             <ContentWrap onClick={onclickOpenContent}>

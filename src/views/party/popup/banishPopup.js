@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import TeminateDuckImg from "../../../assets/character-main-party-ban.svg";
 import ReportDuckImg from "../../../assets/character-main-report.svg";
 
 import { DangerWrapPopup, DangerPopup } from "../../../styled/shared";
 import { useDispatch, useSelector } from "react-redux";
-import { ReportPopupCloseAction } from "../../../reducers/party/popup";
+import { ReportPopupCloseAction, BanishPopupCloseAction } from "../../../reducers/party/popup";
 import { ItemWrap, InputWrap, Input } from "../../../styled/main/enrollment";
 import styled from "styled-components";
 
@@ -15,68 +15,68 @@ import icon_arrow_up from "../../../assets/icon-arrow-up-gray.svg";
 
 import Fade from 'react-reveal/Fade';
 import { customApiClient } from "../../../shared/apiClient";
+import { PageTransContext } from "../../../containers/pageTransContext";
+import { useHistory } from "react-router-dom";
 
 
 
-const ReportPopUp = ({ openStatus }) => {
+const BanishPopUp = ({ openStatus }) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const {
-        reportCategoryList,
-        reportPartyIdx
+        banishPartyIdx,
+        banishUserList
     } = useSelector(state => state.party.popup);
+
+    const { setPageTrans } = useContext(PageTransContext);
+
 
     const [contentPagetatus, setContentPageStatus] = useState(true);
     const [completePagetatus, setCompletePageStatus] = useState(false);
 
-    const [reportCategoryIdx, setReportCategoryIdx] = useState(0);
-    const [reportCategoryName, setReportCategoryName] = useState('');
+    const [banishUserIdx, setBanishUserIdx] = useState(0);
+    const [banishUserName, setBanishUserName] = useState('');
 
-    const [reportContent, setReportContent] = useState('');
-
-    const [categoryOpen, setCategoryOpen] = useState(false);
+    const [banishUserOpen, setBanishUserOpen] = useState(false);
 
 
-    const onClickCategoryOpen = () => {
-        setCategoryOpen(!categoryOpen);
+    const onClickBanishUserOpen = () => {
+        setBanishUserOpen(!banishUserOpen);
     };
-    const onChangeCateogry = (idx, name) => {
-        setReportCategoryIdx(idx);
-        setReportCategoryName(name);
-        setCategoryOpen(!categoryOpen);
-    }
-    const onChangeReportContent = (e) => {
-        setReportContent(e.target.value);
+    const onChangeBanishUser = (idx, name) => {
+        setBanishUserIdx(idx);
+        setBanishUserName(name);
+        setBanishUserOpen(!banishUserOpen);
     }
     const onClickClose = () => {
 
-        dispatch(ReportPopupCloseAction());
+        dispatch(BanishPopupCloseAction());
 
         setContentPageStatus(true);
         setCompletePageStatus(false);
-        setReportCategoryIdx(0);
-        setReportCategoryName('');
-        setReportContent('');
-        setCategoryOpen(false);
+        setBanishUserIdx(0);
+        setBanishUserName('');
+        setBanishUserOpen(false);
+
+        if (completePagetatus) {
+            setPageTrans('trans toLeft');
+            history.push('/party');
+        }
     }
-    const onClickReport = async () => {
-        if (reportCategoryIdx === 0 || reportContent === '') return
+    const onClickBanishUser = async () => {
+        if (banishUserIdx === 0 || banishUserName === '') return
 
         //서버통신
-        const body = {
-            partyRoomIdx: reportPartyIdx,
-            categoryIdx: reportCategoryIdx,
-            content: reportContent,
-        }
-
-        const data = await customApiClient('post', '/party/report/user', body);
+        const data = await customApiClient('delete', `/party/${banishPartyIdx}/user/${banishUserIdx}`);
 
         //서버에러
         if (!data) return
 
         //벨리데이션
         if (data.statusCode != 200) {
+            alert(data.message);
             return
         }
 
@@ -97,27 +97,27 @@ const ReportPopUp = ({ openStatus }) => {
                     <div>
 
                         <img src={TeminateDuckImg} style={{ width: '3.9562rem', height: '5.8438rem', margin: '1.25rem 0 1.0313rem 0' }} />
-                        <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>구독 파티를 신고하실건가요?</div>
+                        <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>어떤 구독 파티원을 강제 퇴장할까요?</div>
                         <div className="notoMedium" style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem', marginBottom: '0.5rem' }}>
-                            구독파티를 신고하시면 검토 이후에 <br />
-                            파티방에 재제를 진행합니다.
+                            선택한 파티원은 다시 파티에 입장하실 수 <br />
+                            없습니다. 신중하게 선택하세요!
                         </div>
                         <div className="notoMedium" style={{ textAlign: 'left' }}>
                             <div style={{ fontSize: '0.75rem', lineHeight: '1.125rem', marginBottom: '0.5625rem' }}>
-                                신고 사유
+                                구독 파티원
                             </div>
-                            <ItemWrap onClick={() => { onClickCategoryOpen() }}>
-                                <InputWrap openStatus={categoryOpen} isBlocked={reportCategoryIdx === 0}>
+                            <ItemWrap onClick={() => { onClickBanishUserOpen() }}>
+                                <InputWrap openStatus={banishUserOpen} isBlocked={banishUserIdx === 0}>
                                     <div>
                                         {
-                                            reportCategoryIdx !== 0 ? reportCategoryName :
-                                                '신고 사유를 선택하세요'
+                                            banishUserIdx !== 0 ? banishUserName :
+                                                '구독 파티원을 선택하세요'
                                         }
                                     </div>
                                     <div style={{ flexGrow: "1" }}></div>
                                     <div>
                                         {
-                                            categoryOpen ?
+                                            banishUserOpen ?
                                                 <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
                                                 <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
                                         }
@@ -127,14 +127,14 @@ const ReportPopUp = ({ openStatus }) => {
 
                             <div style={{ display: 'flex' }}>
                                 <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
-                                    <Fade collapse when={categoryOpen} duration={500}>
+                                    <Fade collapse when={banishUserOpen} duration={500}>
                                         <SelectWrap>
 
                                             {
-                                                reportCategoryList.map((data, index) => {
+                                                banishUserList.map((data, index) => {
                                                     return (
-                                                        <SelectContent selectSatus={data.idx === reportCategoryIdx} onClick={() => { onChangeCateogry(data.idx, data.name) }} key={index}>
-                                                            {data.name}
+                                                        <SelectContent selectSatus={data.user.idx === banishUserIdx} onClick={() => { onChangeBanishUser(data.user.idx, data.user.name) }} key={index}>
+                                                            {data.user.name}
                                                         </SelectContent>
                                                     )
                                                 })
@@ -145,18 +145,9 @@ const ReportPopUp = ({ openStatus }) => {
                                 </div>
                             </div>
 
-                            <div style={{ fontSize: '0.75rem', lineHeight: '1.125rem', marginTop: '0.5625rem', marginBottom: '0.5625rem' }}>
-                                상세 내용
-                            </div>
-                            <ItemWrap>
-                                <InputWrap>
-                                    <TextImput value={reportContent} onChange={onChangeReportContent} placeholder="상세 신고 내용을 입력하세요" />
-                                </InputWrap>
-                            </ItemWrap>
-
                         </div>
-                        <ButtonWrap onClick={onClickReport} className="spoqaBold" isComplete={reportCategoryIdx !== 0 && reportContent !== ''}>
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 신고하기</div>
+                        <ButtonWrap onClick={onClickBanishUser} className="spoqaBold" isComplete={banishUserIdx !== 0 && banishUserName !== ''}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>해당 구독원 강제 퇴장</div>
                         </ButtonWrap>
                     </div>
 
@@ -166,10 +157,10 @@ const ReportPopUp = ({ openStatus }) => {
                     completePagetatus &&
                     <div>
                         <img src={ReportDuckImg} style={{ width: '3.9562rem', height: '5.8438rem', margin: '1.25rem 0 1.0313rem 0' }} />
-                        <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>선택하신 구독파티가 신고되었습니다.</div>
+                        <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>선택하신 구독파티원을 강제 퇴장했습니다.</div>
                         <div className="notoMedium" style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem', marginBottom: '0.5rem' }}>
-                            신고된 구독파티는 운영진의 검토 이후에 <br />
-                            파티방에 재제를 진행하겠습니다.
+                            선택하신 구독파티원은 자동으로 구독파티에 <br />
+                            강제퇴장됩니다. 감사합니다.
                         </div>
                         <ButtonWrap onClick={onClickClose} className="spoqaBold" isComplete>
                             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>확인</div>
@@ -237,4 +228,4 @@ const ButtonWrap = styled.div`
     margin-top: 1rem;
 `;
 
-export default ReportPopUp;
+export default BanishPopUp;
