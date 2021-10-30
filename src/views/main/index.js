@@ -28,6 +28,7 @@ import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { onClickTerminate, checkMobile } from '../../App';
 import { CloseItemFalseAction } from '../../reducers/main/subscribe';
 import { PageTransContext } from '../../containers/pageTransContext';
+import UpdatePopUp from '../popup/update';
 
 const CardStyle = {
     height: '100vh',
@@ -77,6 +78,9 @@ const Main = () => {
     const titleDivbRef = useRef();
     const bottomDivbRef = useRef();
     const bottomChildDivbRef = useRef();
+
+    //강제 업데이트 팝업
+    const [updatePopupStatus, setUpdatePopupStatus] = useState(false);
 
     //구독내역 하단 스크롤 배너 관련 함수
     const bind = useGesture(({ down, delta, velocity }) => {
@@ -347,6 +351,13 @@ const Main = () => {
             }
         }
 
+        //앱 버전 체크
+        const verson = localStorage.getItem('versonName');
+
+        if (!verson || verson < '2.0.0') {
+            setUpdatePopupStatus(true);
+        }
+
     }, []);
 
     //닫혀있을 때 내용물 클릭시 펼쳐지게 하기
@@ -402,6 +413,9 @@ const Main = () => {
 
                 <MainLoading isLoading={isLoading} style={{ background: `#ffca17 url(${mainLoading}) no-repeat top center`, backgroundSize: '100% auto' }} />
             </div>
+
+            {/* 업데이트 팝업 */}
+            <UpdatePopUp openStatus={updatePopupStatus} />
         </>
     )
 };

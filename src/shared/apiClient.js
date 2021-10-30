@@ -23,10 +23,11 @@ export const customApiClient = async (method, url, data) => {
     }
     catch (err) {
         console.log(err.response);
-        console.log(err.request);
         console.log(err.message);
 
-        alert("서버에러가 발생하였습니다. 잠시후 다시 시도해주세요.");
+        if (!err.response) {
+            return 'Network Error';
+        }
 
         return null
     }

@@ -1,0 +1,14 @@
+<svg id="main_choose_service" data-name="main / choose service" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+    <defs>
+        <style>
+            .cls-2{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:10;stroke-width:4px}
+        </style>
+    </defs>
+    <rect id="Rectangle_Copy_15" data-name="Rectangle Copy 15" width="80" height="80" rx="6" style="fill:#e3e3e3"/>
+    <g id="그룹_756" data-name="그룹 756">
+        <g id="Icon_main_service_choose" data-name="Icon / main / service choose" transform="translate(25.667 25.667)">
+            <path id="Stroke_1" data-name="Stroke 1" class="cls-2" d="M.5 0v28.666" transform="translate(13.834)"/>
+            <path id="Stroke_3" data-name="Stroke 3" class="cls-2" d="M28.666.5H0" transform="translate(0 13.833)"/>
+        </g>
+    </g>
+</svg>

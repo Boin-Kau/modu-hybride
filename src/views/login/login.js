@@ -32,6 +32,7 @@ import { onClickTerminate, checkMobile } from '../../App';
 import { PartyIconWrap, PartyIcon } from '../../styled/main/enrollment';
 
 import ReactGA from 'react-ga';
+import UpdatePopUp from '../popup/update';
 
 
 const Login = () => {
@@ -43,6 +44,9 @@ const Login = () => {
         openLoginPhonePageWrapStatus,
         openLoginPhonePageStatus
     } = useSelector(state => state.info.page);
+
+    //강제 업데이트 팝업
+    const [updatePopupStatus, setUpdatePopupStatus] = useState(false);
 
     //현재 페이지
     const [currentPage, setCurrentPage] = useState(1);
@@ -128,6 +132,13 @@ const Login = () => {
                 console.log(err);
             }
 
+        }
+
+        //앱 버전 체크
+        const verson = localStorage.getItem('versonName');
+
+        if (!verson || verson < '2.0.0') {
+            setUpdatePopupStatus(true);
         }
 
     }, []);
@@ -783,6 +794,9 @@ const Login = () => {
                     </div>
                 </Fade>
             </div>
+
+            {/* 업데이트 팝업 */}
+            <UpdatePopUp openStatus={updatePopupStatus} />
         </>
     )
 };
