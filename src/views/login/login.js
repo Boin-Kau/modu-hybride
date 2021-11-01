@@ -196,7 +196,28 @@ const Login = () => {
             //애플 검수를 위한 임시 로그인 처리
             if (name == '이기택' && phoneNumber == '01092756351') {
 
-                await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjIsIm5hbWUiOiLsnbTquLDtg50iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYyNDI4NjMxNCwiZXhwIjoxNjU1ODIyMzE0fQ.bnZz0MZW8VcRAAKOU8PzG8y68Ur1RoiFMJv9W3GYChI');
+                await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjEsIm5hbWUiOiLsnbTquLDtg50iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYyNzg5MjA2MCwiZXhwIjoxNjU5NDI4MDYwfQ.TjhLQIHqr3vjlqOabkmbAd8ZcHyuLUVCSGUOFXL90X4');
+
+                const authData = await customApiClient('get', '/user/jwt');
+
+                //벨리데이션
+                if (!authData || authData.statusCode != 200) {
+                    alert("오류가 발생하였습니다. 다시 시도해주세요.");
+                    return
+                }
+                dispatch({
+                    type: UserInfoUpdate,
+                    data: authData.result
+                })
+
+                dispatch(BottomNavOpenAction);
+                history.push('/main');
+                return
+
+            }
+            else if (name == '이기택' && phoneNumber == '01092756353') {
+
+                await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjEsIm5hbWUiOiLsnbTquLDtg50iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNTUwNjU2MywiZXhwIjoxNjY3MDQyNTYzfQ.GyZ1q9fG2anpQHDdCAPjI9Wh4PP-xJqCHTZjhUb352I');
 
                 const authData = await customApiClient('get', '/user/jwt');
 
