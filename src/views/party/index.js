@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Fade from 'react-reveal/Fade';
 
 import { onClickTerminate, checkMobile } from '../../App';
-import backgroundImg from '../../assets/back-money.svg';
+import backgroundImg from '../../assets/background-sub-party.svg';
 import partyPlusIcon from '../../assets/party_plus_icon.svg';
 import ReportIcon from '../../assets/icon-report.svg';
 import MyPartyIcon from '../../assets/my_party_icon.svg';
