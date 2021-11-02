@@ -41,14 +41,15 @@ const Inspection = () => {
     }, []);
 
 
-    const onClickTerminate = () => {
+    const onClickTerminateService = () => {
+
         const userPlatform = checkMobile();
 
         if (userPlatform == 'android') {
 
             //종료 함수 호출
             try {
-                window.android.closeSplash();
+                window.android.terminateService();
             }
             catch (err) {
                 console.log(err);
@@ -59,7 +60,7 @@ const Inspection = () => {
 
             //종료 함수 호출
             try {
-                window.webkit.messageHandlers.setColorGray.postMessage("hihi");
+                window.webkit.messageHandlers.terminateService.postMessage("hihi");
             }
             catch (err) {
                 console.log(err);
@@ -91,7 +92,7 @@ const Inspection = () => {
                             새롭게 찾아올 '모두' 기대해주세요!
                         </div>
 
-                        <DetailButton className="spoqaBold" revise style={{ marginTop: '1.5rem' }}>
+                        <DetailButton onClick={onClickTerminateService} className="spoqaBold" revise style={{ marginTop: '1.5rem' }}>
                             <div style={{ position: "relative", textAlign: 'center', width: '100%' }}>
                                 <div>모두 종료하기</div>
                             </div>
