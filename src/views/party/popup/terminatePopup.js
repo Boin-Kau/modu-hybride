@@ -52,6 +52,7 @@ const TerminatePopUp = ({ openStatus }) => {
 
         //벨리데이션
         if (data.statusCode != 200) {
+            alert(data.message);
             return
         }
 

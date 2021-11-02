@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { customApiClient } from '../../../shared/apiClient';
+import { checkMobile } from '../../../App';
 
 //카테고리별 아이콘 가져오기
 const getAlertCategoryIcon = (categoryIdx) => {
@@ -93,6 +94,17 @@ const AlertPage = () => {
         }
 
         setAlertList(data.result);
+
+        const userPlatform = checkMobile();
+
+        if (userPlatform == 'ios') {
+            //IOS 배경색 설정
+            try {
+                window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+            }
+            catch (err) {
+            }
+        }
 
     }, [])
 

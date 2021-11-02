@@ -25,7 +25,7 @@ import { priceToString, ContentWrap, ContentDetailWrap } from '../../components/
 import { SetReportCategoryListAction, ReportPopupOpenAction, TerminatePopupOpenAction, BanishPopupOpenAction } from '../../reducers/party/popup';
 import ReportPopUp from './popup/reportPopup';
 import TerminatePopUp from './popup/terminatePopup';
-import { onClickTerminate } from '../../App';
+import { onClickTerminate, checkMobile } from '../../App';
 import BanishPopUp from './popup/banishPopup';
 
 
@@ -59,6 +59,17 @@ const MyParty = () => {
         //게시물 조회
         getMyPartyList("PROGRESS");
         getMyPartyList("TERMINATE");
+
+        const userPlatform = checkMobile();
+
+        if (userPlatform == 'ios') {
+            //IOS 배경색 설정
+            try {
+                window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+            }
+            catch (err) {
+            }
+        }
 
     }, []);
 

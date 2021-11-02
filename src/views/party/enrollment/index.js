@@ -17,6 +17,7 @@ import icon_enroll_default from "../../../assets/party-enroll-choose.svg";
 import Fade from 'react-reveal/Fade';
 import { ResetPlatform } from "../../../reducers/party/enrollment";
 import { customApiClient } from "../../../shared/apiClient";
+import { checkMobile } from "../../../App";
 
 const PartyEnrollment = () => {
 
@@ -54,6 +55,17 @@ const PartyEnrollment = () => {
     //inital logic
     useEffect(() => {
         dispatch(BottomNavCloseAction);
+
+        const userPlatform = checkMobile();
+
+        if (userPlatform == 'ios') {
+            //IOS 배경색 설정
+            try {
+                window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+            }
+            catch (err) {
+            }
+        }
     }, [])
 
     //뒤로가기
