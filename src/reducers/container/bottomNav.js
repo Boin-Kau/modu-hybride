@@ -1,5 +1,5 @@
 export const initialState = {
-    openBottomNavStatus: false,
+    openBottomNavStatus: true,
 };
 
 const BottomNavOpen = 'BottomNavOpen';

@@ -69,7 +69,6 @@ const Splash = () => {
             type: UserInfoUpdate,
             data: data.result
         })
-        dispatch(BottomNavOpenAction);
         history.push('/main');
         return
 

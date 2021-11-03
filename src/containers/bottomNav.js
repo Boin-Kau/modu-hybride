@@ -62,6 +62,8 @@ const BottomNav = () => {
 
     const pathname = window.location.pathname;
 
+    const [viewStatus, setViewStatus] = useState(true);
+
     const [iconMain, setIconMain] = useState(true);
     const [iconParty, setIconParty] = useState(false);
     const [iconInfo, setIconInfo] = useState(false);
@@ -91,6 +93,17 @@ const BottomNav = () => {
         }
     })
 
+    useEffect(() => {
+        if (openBottomNavStatus) {
+            setViewStatus(true);
+        }
+        else {
+            setTimeout(() => {
+                setViewStatus(false);
+            }, 300);
+        }
+    }, [openBottomNavStatus])
+
     const handleOnClick = (index) => {
         const direction = getTransDirection(gnb, index)
         setPageTrans(direction)
@@ -116,7 +129,7 @@ const BottomNav = () => {
 
     return (
         <>
-            <BottomNavWrap openStatue={openBottomNavStatus}>
+            <BottomNavWrap openStatue={openBottomNavStatus} viewStatus={viewStatus}>
                 <Link
                     key={`gnb-1`}
                     to="/main"
@@ -164,9 +177,9 @@ const BottomNavWrap = styled.div`
 
     z-index:50;
 
-    position:fixed;
+    position: fixed;
 
-    display:flex;
+    display:${props => props.viewStatus ? 'flex' : 'none'};
 
     bottom:0;
     left: 0;
