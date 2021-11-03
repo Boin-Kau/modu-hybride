@@ -14,6 +14,11 @@ import { PageTransContext } from '../../../containers/pageTransContext';
 
 const noticeData = [
     {
+        idx: 4,
+        title: '개인정보 처리방침 및 이용약관 개정안내',
+        createdAt: '2021.11.03'
+    },
+    {
         idx: 3,
         title: '새로운 카테고리 및 플랫폼이 업데이트 되었습니다. \uD83C\uDF89',
         createdAt: '2021.09.16'

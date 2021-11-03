@@ -146,6 +146,85 @@ const NoticeDetailPage = () => {
 
                     </div>
                 }
+
+                {noticePageIdx == 4 &&
+                    <div style={{ padding: '0 1.25rem 0 1.25rem' }}>
+
+                        <div style={{ padding: '0.9688rem 0 1.0313rem 0', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
+                            <div className="spoqaBold" style={{ fontSize: '0.875rem', marginBottom: '0.3125rem' }}>
+                                개인정보 처리방침 및 이용약관 개정안내
+                            </div>
+                            <div className="notoMedium" style={{ fontSize: '0.8125rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
+                                2021.11.03
+                        </div>
+                        </div>
+
+                        <div className="notoRegular" style={{ margin: '0.9688rem 0', fontSize: '0.8125rem', lineHeight: '1.3125rem', wordBreak: 'keep-all' }}>
+                            유저 여러분 안녕하세요. '모두'입니다!<br /><br />
+                            2021년이 벌써 2개월만 남은 시점에 마무리는 잘 하고 계신가요?<br />
+                            저희 '모두'는 새로운 기능 업데이트를 위해 열심히 달리며 시간이 너무 빨리 지나간 것 같습니다.<br />
+                            <br />
+                            여러분께 새로운 모습으로 찾아뵌지 4달이 지나가는 시점에 곧 업데이트로 새 기능을 선보일 생각을 하니 벌써부터 떨리고 설레는 기분입니다.<br />
+                            <br />
+                            본 내용은 업데이트 전 새로운 기능과 서비스 소유주의 변화로 인한 개인정보 처리방침과 이용약관의 변경에 대한 사전공지의 형태입니다. 내용은 다음과 같습니다.<br />
+                            <br />
+
+                            1. 주요 변경 내용<br />
+                            <br />
+                            서비스 소유자 변경과 새로운 기능 업데이트로 인한 개인정보처리방침 및 이용약관 내용 개정<br />
+                            <br />
+                            2. 개정 공지일<br />
+                            <br />
+                            2021.11.03(수)<br />
+                            <br />
+                            3. 변경내용 적용일<br />
+                            <br />
+                            2021.11.10(수)<br />
+                            <br />
+                            4. 상세 변경 내용<br />
+                            <br />
+                            [개인정보 처리방침]<br />
+                            - '팀 모두'에서 '(주) 스프레드와이'로 변경<br />
+                            - 제 6조 필수항목 '선호 카테고리' 추가<br />
+                            - 제 6조 1번에 이용기간 추가<br />
+                            - 제 6조 2번 추가<br />
+                            - 제 9조 쿠기 사용으로 변경 및 목적 추가<br />
+                            - 제 11조 연락처 부분 변경('전화번호'에서 '이메일'로)<br />
+                            <br />
+                            [서비스 이용약관]<br />
+                            - 제 3조 3항 '서비스 초기화면'에서 '서비스 공지사항 화면'으로<br />
+                            - 제 10조 2항의 h추가<br />
+                            - 제 10조 5항 추가<br />
+                            - 제 12조 1항 e추가<br />
+                            - 제 14조 4,5항 추가<br />
+                            - 제 17조 8~12항 추가<br />
+                            <br />
+
+                            <a href="https://spready.modoo.at/?link=2qz0xwok&viewType=list&messageNo=4&mode=view&query=&queryType=0&myList=0&page=1" target="blank" style={{ textDecoration: 'none' }}>
+                                개정될 개인정보 처리방침
+                            </a>
+                            <br />
+                            <br />
+                            <a href="https://spready.modoo.at/?link=2qz0xwok&viewType=list&messageNo=6&mode=view&query=&queryType=0&myList=0&page=1" target="blank" style={{ textDecoration: 'none' }}>
+                                개정될 서비스 이용약관
+                            </a>
+                            <br />
+                            <br />
+                            <a href="https://spready.modoo.at/?link=2qz0xwok&viewType=list&messageNo=1&mode=view&query=&queryType=0&myList=0&page=1" target="blank" style={{ textDecoration: 'none' }}>
+                                이전 개인정보 처리방침
+                            </a>
+                            <br />
+                            <br />
+                            <a href="https://spready.modoo.at/?link=2qz0xwok&viewType=list&messageNo=3&mode=view&query=&queryType=0&myList=0&page=1" target="blank" style={{ textDecoration: 'none' }}>
+                                이전 서비스 이용약관
+                            </a>
+                            <br />
+                            <br />
+                            해당 공지사항 관련 문의사항은 앱 내 '고객센터'의 '문의하기'를 이용해주세요!
+                        </div>
+
+                    </div>
+                }
             </PageWrap>
 
         </>
