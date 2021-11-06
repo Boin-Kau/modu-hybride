@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="305.244" height="138.767" viewBox="0 0 305.244 138.767">
+    <defs>
+        <filter id="Rectangle_Copy_3" x="49" y="77.232" width="206.65" height="61.535" filterUnits="userSpaceOnUse">
+            <feOffset dy="3"/>
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feFlood flood-opacity=".161"/>
+            <feComposite operator="in" in2="blur"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <filter id="Rectangle_Copy_3-2" x="28" y="43.232" width="248.287" height="71.143" filterUnits="userSpaceOnUse">
+            <feOffset dy="3"/>
+            <feGaussianBlur stdDeviation="3" result="blur-2"/>
+            <feFlood flood-opacity=".161"/>
+            <feComposite operator="in" in2="blur-2"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <filter id="Rectangle_Copy_3-3" x="0" y="0" width="305.244" height="84.287" filterUnits="userSpaceOnUse">
+            <feOffset dy="3"/>
+            <feGaussianBlur stdDeviation="3" result="blur-3"/>
+            <feFlood flood-opacity=".161"/>
+            <feComposite operator="in" in2="blur-3"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <style>
+            .cls-1{isolation:isolate}.cls-2{fill:#fff}.cls-3{fill:#e3e3e3}
+        </style>
+    </defs>
+    <g id="Banner_main_new_party" data-name="Banner / main / new party" transform="translate(9 6)">
+        <g id="그룹_837" data-name="그룹 837" transform="translate(-.495 -245.268)">
+            <g id="Group_4" data-name="Group 4" class="cls-1" transform="translate(49.496 322.5)">
+                <g id="Group">
+                    <g transform="translate(-58 -83.23)" style="filter:url(#Rectangle_Copy_3)">
+                        <rect id="Rectangle_Copy_3-4" data-name="Rectangle Copy 3" class="cls-2" width="188.65" height="43.535" rx="8" transform="translate(58 83.23)"/>
+                    </g>
+                    <rect id="Rectangle_Copy_13" data-name="Rectangle Copy 13" class="cls-3" width="30.139" height="30.139" rx="4" transform="translate(7.814 6.698)"/>
+                    <path id="Rectangle" class="cls-3" transform="translate(46.883 11.95)" d="M0 0h38.09v5.581H0z"/>
+                    <path id="Rectangle_Copy" data-name="Rectangle Copy" class="cls-3" transform="translate(156.278 13.395)" d="M0 0h20.093v5.581H0z"/>
+                    <path id="Rectangle_Copy_2" data-name="Rectangle Copy 2" class="cls-3" transform="translate(46.883 25.674)" d="M0 0h75.32v5.581H0z"/>
+                </g>
+            </g>
+            <g id="그룹_834" data-name="그룹 834" transform="translate(62.612 330.735)">
+                <g id="그룹_704" data-name="그룹 704" transform="rotate(-20 13.46 2.373)">
+                    <path id="패스_181" data-name="패스 181" class="cls-2" d="M7.866 14.784c3.5-.587 6.013-4.4 6.013-7.845A6.939 6.939 0 1 0 0 6.939c0 3.445 2.516 7.258 6.013 7.845l-.957 1.276a.5.5 0 0 0 .4.793h.954a2.717 2.717 0 0 1-.393.993 3.777 3.777 0 0 0 0 3.962 2.573 2.573 0 0 1 .43 1.489.5.5 0 1 0 .991 0 3.519 3.519 0 0 0-.561-1.981 2.791 2.791 0 0 1 0-2.978 3.634 3.634 0 0 0 .523-1.485h1.026a.5.5 0 0 0 .4-.793zM5.177 3.387A3.953 3.953 0 0 0 3 6.5a.5.5 0 0 1-.492.441h-.055a.5.5 0 0 1-.438-.547A4.94 4.94 0 0 1 4.735 2.5a.5.5 0 1 1 .442.887z"/>
+                </g>
+            </g>
+        </g>
+        <g id="그룹_836" data-name="그룹 836" transform="translate(-21.496 -279.268)">
+            <g id="Group_4-2" data-name="Group 4" class="cls-1" transform="translate(49.496 322.5)">
+                <g id="Group-2" data-name="Group">
+                    <g transform="translate(-37 -49.23)" style="filter:url(#Rectangle_Copy_3-2)">
+                        <rect id="Rectangle_Copy_3-5" data-name="Rectangle Copy 3" class="cls-2" width="230.287" height="53.143" rx="8" transform="translate(37 49.23)"/>
+                    </g>
+                    <rect id="Rectangle_Copy_13-2" data-name="Rectangle Copy 13" class="cls-3" width="36.791" height="36.791" rx="4" transform="translate(9.539 8.176)"/>
+                    <path id="Rectangle-2" data-name="Rectangle" class="cls-3" transform="translate(57.231 14.587)" d="M0 0h46.497v6.813H0z"/>
+                    <path id="Rectangle_Copy-2" data-name="Rectangle Copy" class="cls-3" transform="translate(190.771 16.352)" d="M0 0h24.528v6.813H0z"/>
+                    <path id="Rectangle_Copy_2-2" data-name="Rectangle Copy 2" class="cls-3" transform="translate(57.231 31.341)" d="M0 0h91.944v6.813H0z"/>
+                </g>
+            </g>
+            <g id="그룹_834-2" data-name="그룹 834" transform="translate(65.507 332.553)">
+                <g id="그룹_704-2" data-name="그룹 704" transform="rotate(-20 16.433 2.897)">
+                    <path id="패스_181-2" data-name="패스 181" class="cls-2" d="M9.6 18.047c4.268-.717 7.34-5.37 7.34-9.576a8.471 8.471 0 1 0-16.94 0c0 4.206 3.072 8.859 7.34 9.576L6.172 19.6a.6.6 0 0 0 .484.968h1.165a3.317 3.317 0 0 1-.48 1.213 4.61 4.61 0 0 0 0 4.836 3.141 3.141 0 0 1 .525 1.818.605.605 0 1 0 1.21 0 4.3 4.3 0 0 0-.685-2.418 3.407 3.407 0 0 1 0-3.635 4.436 4.436 0 0 0 .639-1.813h1.256a.6.6 0 0 0 .484-.968zM6.32 4.134a4.825 4.825 0 0 0-2.66 3.8.605.605 0 0 1-.6.538.647.647 0 0 1-.067 0 .606.606 0 0 1-.536-.672A6.03 6.03 0 0 1 5.78 3.052a.6.6 0 1 1 .54 1.083z"/>
+                </g>
+            </g>
+        </g>
+        <g id="그룹_835" data-name="그룹 835" transform="translate(-49.496 -322.5)">
+            <g id="Group_4-3" data-name="Group 4" class="cls-1" transform="translate(49.496 322.5)">
+                <g id="Group-3" data-name="Group">
+                    <g transform="translate(-9 -6)" style="filter:url(#Rectangle_Copy_3-3)">
+                        <rect id="Rectangle_Copy_3-6" data-name="Rectangle Copy 3" class="cls-2" width="287.244" height="66.287" rx="8" transform="translate(9 6)"/>
+                    </g>
+                    <rect id="Rectangle_Copy_13-3" data-name="Rectangle Copy 13" class="cls-3" width="45.891" height="45.891" rx="4" transform="translate(11.898 10.198)"/>
+                    <path id="Rectangle-3" data-name="Rectangle" class="cls-3" transform="translate(71.386 18.195)" d="M0 0h57.997v8.498H0z"/>
+                    <path id="Rectangle_Copy-3" data-name="Rectangle Copy" class="cls-3" transform="translate(237.954 20.396)" d="M0 0h30.594v8.498H0z"/>
+                    <path id="Rectangle_Copy_2-3" data-name="Rectangle Copy 2" class="cls-3" transform="translate(71.386 39.092)" d="M0 0h114.685v8.498H0z"/>
+                </g>
+            </g>
+            <g id="그룹_834-3" data-name="그룹 834" transform="translate(46.851 337.415)">
+                <g id="그룹_704-3" data-name="그룹 704" transform="rotate(-20 25.067 -61.708)">
+                    <path id="패스_181-3" data-name="패스 181" class="cls-2" d="M11.977 22.511c5.324-.894 9.156-6.7 9.156-11.944A10.566 10.566 0 1 0 0 10.566c0 5.246 3.831 11.051 9.156 11.944L7.7 24.454a.754.754 0 0 0 .6 1.207h1.455a4.137 4.137 0 0 1-.6 1.512 5.751 5.751 0 0 0 0 6.032 3.918 3.918 0 0 1 .655 2.267.755.755 0 1 0 1.509 0 5.359 5.359 0 0 0-.854-3.016 4.25 4.25 0 0 1 0-4.534 5.534 5.534 0 0 0 .8-2.261h1.565a.754.754 0 0 0 .6-1.207zM7.883 5.157a6.019 6.019 0 0 0-3.317 4.738.755.755 0 0 1-.75.671.807.807 0 0 1-.084 0 .756.756 0 0 1-.667-.834A7.522 7.522 0 0 1 7.21 3.807a.755.755 0 1 1 .674 1.35z"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

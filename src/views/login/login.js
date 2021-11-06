@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +32,8 @@ import { onClickTerminate, checkMobile } from '../../App';
 import { PartyIconWrap, PartyIcon } from '../../styled/main/enrollment';
 
 import ReactGA from 'react-ga';
+import UpdatePopUp from '../popup/update';
+import { PageTransContext } from '../../containers/pageTransContext';
 
 
 const Login = () => {
@@ -43,6 +45,12 @@ const Login = () => {
         openLoginPhonePageWrapStatus,
         openLoginPhonePageStatus
     } = useSelector(state => state.info.page);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
+    //강제 업데이트 팝업
+    const [updatePopupStatus, setUpdatePopupStatus] = useState(false);
 
     //현재 페이지
     const [currentPage, setCurrentPage] = useState(1);
@@ -130,6 +138,13 @@ const Login = () => {
 
         }
 
+        //앱 버전 체크
+        const verson = localStorage.getItem('versonName');
+
+        if (!verson || verson < '2.0.0') {
+            // setUpdatePopupStatus(true);
+        }
+
     }, []);
 
 
@@ -185,6 +200,28 @@ const Login = () => {
             //애플 검수를 위한 임시 로그인 처리
             if (name == '이기택' && phoneNumber == '01092756351') {
 
+                await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjEsIm5hbWUiOiLsnbTquLDtg50iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYyNzg5MjA2MCwiZXhwIjoxNjU5NDI4MDYwfQ.TjhLQIHqr3vjlqOabkmbAd8ZcHyuLUVCSGUOFXL90X4');
+
+                const authData = await customApiClient('get', '/user/jwt');
+
+                //벨리데이션
+                if (!authData || authData.statusCode != 200) {
+                    alert("오류가 발생하였습니다. 다시 시도해주세요.");
+                    return
+                }
+                dispatch({
+                    type: UserInfoUpdate,
+                    data: authData.result
+                })
+
+                dispatch(BottomNavOpenAction);
+                setPageTrans('trans toRight');
+                history.push('/main');
+                return
+
+            }
+            else if (name == '이기택' && phoneNumber == '01092756353') {
+
                 await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjIsIm5hbWUiOiLsnbTquLDtg50iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYyNDI4NjMxNCwiZXhwIjoxNjU1ODIyMzE0fQ.bnZz0MZW8VcRAAKOU8PzG8y68Ur1RoiFMJv9W3GYChI');
 
                 const authData = await customApiClient('get', '/user/jwt');
@@ -200,6 +237,7 @@ const Login = () => {
                 })
 
                 dispatch(BottomNavOpenAction);
+                setPageTrans('trans toRight');
                 history.push('/main');
                 return
 
@@ -280,6 +318,7 @@ const Login = () => {
                 })
 
                 dispatch(BottomNavOpenAction);
+                setPageTrans('trans toRight');
                 history.push('/main');
                 return
             }
@@ -362,6 +401,7 @@ const Login = () => {
 
             //메인 페이지 이동 로직
             dispatch(BottomNavOpenAction);
+            setPageTrans('trans toRight');
             history.push('/main');
             return
         }
@@ -783,6 +823,9 @@ const Login = () => {
                     </div>
                 </Fade>
             </div>
+
+            {/* 업데이트 팝업 */}
+            <UpdatePopUp openStatus={updatePopupStatus} />
         </>
     )
 };

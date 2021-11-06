@@ -1,293 +1,328 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { TextMiddle } from "../../../styled/shared";
 import styled from "styled-components";
-
+import { useHistory } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { PageTransContext } from "../../../containers/pageTransContext";
+import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import { useDispatch, useSelector } from "react-redux";
+import { TitleWrap, ItemWrap, InputWrap, Input } from "../../../styled/main/enrollment";
 
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
-import party_notice_icon from "../../../assets/party-notice-icon.svg";
-import icon_info from "../../../assets/party-icon-info@2x.png";
-
-import crown_fill from "../../../assets/crown-fill.svg";
-import crown_none from "../../../assets/crown-none.svg";
-import user_fill from "../../../assets/user-fill.svg";
-import user_none from "../../../assets/user-none.svg";
-
-import party_netflix from "../../../assets/party-netflix.svg";
-import party_whatcha from "../../../assets/party-whatcha.svg";
-import party_wave from "../../../assets/party-wave.svg";
-
-import icon_party_time from "../../../assets/party-time-icon.svg";
-
-import check_icon from "../../../assets/card-check-icon.svg";
-
-import match_personal_icon from "../../../assets/match-personal-icon.svg";
-import match_auto_icon from "../../../assets/match-auto-icon.svg";
+import icon_arrow_down from "../../../assets/icon-arrow-down-gray.svg";
+import icon_arrow_up from "../../../assets/icon-arrow-up-gray.svg";
+import icon_enroll_default from "../../../assets/party-enroll-choose.svg";
 
 
-import { TextMiddle, LoginButton } from '../../../styled/shared';
-import { EnrollmentPageCloseAction, EnrollmentPageWrapCloseAction } from '../../../reducers/party/enrollment';
-import CardList from '../../../components/party/CardList';
+import Fade from 'react-reveal/Fade';
+import { ResetPlatform } from "../../../reducers/party/enrollment";
+import { customApiClient } from "../../../shared/apiClient";
+import { checkMobile } from "../../../App";
 
-
-const PartyEnrollmentPage = () => {
+const PartyEnrollment = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
+    //store
+    const {
+        selectedPlatformIdx,
+        selectedPlatformName,
+        selectedPlatformCategoryIdx,
+        selectedPlatformImgUrl,
+        selectedPlatformImgColor,
+        selectedPlatformImgInitial
+    } = useSelector(state => state.party.enrollment);
+
+    const {
+        platformCategoryList: categoryList
+    } = useSelector(state => state.main.platform);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
+    //state
+    const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
+    const [partyTitle, setPartyTitle] = useState('');
+
+    const [partyPersonel, setPartyPersonel] = useState(0);
+    const [personelOpen, setPersonelOpen] = useState(false);
+
+    const [partyPrice, setPartyPrice] = useState('');
+    const [partyMembership, setPartyMembership] = useState('');
+    const [partyOpenChat, setPartyOpenChat] = useState('');
+
+    //inital logic
+    useEffect(() => {
+        dispatch(BottomNavCloseAction);
+
+        const userPlatform = checkMobile();
+
+        if (userPlatform == 'ios') {
+            //IOS 배경색 설정
+            try {
+                window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+            }
+            catch (err) {
+            }
+        }
+    }, [])
+
+    //뒤로가기
     const closeEnrollmentPage = () => {
 
-        dispatch(EnrollmentPageCloseAction);
+        //선택한 플랫폼 초기화
+        dispatch({
+            type: ResetPlatform
+        });
 
-        setTimeout(() => {
-            dispatch(EnrollmentPageWrapCloseAction);
-        }, 300)
+        setPageTrans('trans toLeft');
+        history.push('/party');
+    }
+
+    //구독 서비스 선택 열기
+    const openSubscribePage = () => {
+
+        setPageTrans('trans toRight');
+        history.push('/party/enroll/platform');
+
     };
 
+    const onChangeTitle = (e) => {
+        setPartyTitle(e.target.value);
+    }
+
+    const onClickPersonelOpen = () => {
+        setPersonelOpen(!personelOpen);
+    };
+
+
+    const onChangePersonel = (personel) => {
+        setPartyPersonel(personel);
+        setPersonelOpen(false);
+    }
+
+    const onChangePrice = (e) => {
+        setPartyPrice(e.target.value);
+    }
+
+    const onChangeMembership = (e) => {
+        setPartyMembership(e.target.value);
+    }
+
+    const onChangeOpenChat = (e) => {
+        setPartyOpenChat(e.target.value);
+    }
+
+    //벨리데이션
+    useEffect(() => {
+
+        if (selectedPlatformName && partyTitle && partyPersonel && partyPrice && partyOpenChat) {
+
+
+            //카카오 오픈채팅 링크 벨리데이션
+            if (partyOpenChat.includes('https://open.kakao.com')) {
+                setPageConfirmStatus(true);
+                return
+            }
+
+        }
+
+        setPageConfirmStatus(false);
+
+    }, [selectedPlatformName, partyTitle, partyPersonel, partyPrice, partyMembership, partyOpenChat])
+
+    //파티 최종 등록
+    const onClickSubmit = async () => {
+        //필수사항 만족하지 않으면 return 처리
+        if (!pageConfirmStatus) return
+
+        //서버 통신 후 성공하면 성공 페이지 이동
+        let registerType = '';
+
+        if (selectedPlatformIdx) {
+            registerType = 'SERVER';
+        }
+        else {
+            registerType = 'CUSTOM';
+        }
+
+        const body = {
+            registerType: registerType,
+            platformIdx: selectedPlatformIdx,
+            name: selectedPlatformName,
+            categoryIdx: selectedPlatformCategoryIdx,
+            color: selectedPlatformImgColor,
+            initial: selectedPlatformImgInitial,
+            title: partyTitle,
+            price: parseInt(partyPrice),
+            personnel: partyPersonel,
+            membership: partyMembership,
+            openChatLink: partyOpenChat,
+        }
+
+        const data = await customApiClient('post', '/party', body);
+
+        //서버에러
+        if (!data) return
+
+        //벨리데이션
+        if (data.statusCode != 200) {
+            return
+        }
+
+        //선택한 플랫폼 초기화
+        dispatch({
+            type: ResetPlatform
+        });
+
+        setPageTrans('trans toRight');
+        history.push('/party/enroll/finish');
+    }
+
     return (
-        <PageWrap>
-            <HeaderWrap>
-                <div onClick={closeEnrollmentPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+        <div className="page" style={{ backgroundColor: "#f7f7f7" }}>
+            <HeaderWrap className="spoqaBold">
+                <div id="back_link" onClick={closeEnrollmentPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                     <img src={icon_back}></img>
                 </div>
-                <TextMiddle>파티 매칭</TextMiddle>
-                <div>
-                    <div style={{ position: 'absolute', bottom: '-0.1875rem', width: '33.33%', height: '0.1875rem', backgroundColor: '#ffca17' }}></div>
-                </div>
+                <TextMiddle>구독 파티 개설</TextMiddle>
             </HeaderWrap>
 
-            {/* 진행도 및 가이드 텍스트 */}
-            <div style={{ position: 'relative', margin: '1.1875rem 1.25rem 1.8125rem 1.25rem', fontSize: '1.25rem', lineHeight: '2rem' }}>
-                <span style={{ color: '#ffbc26' }}>어떤 포지션</span>으로 <br />
-                매칭하시겠어요?
+            <div style={{ position: 'absolute', top: '3.0625rem', bottom: '0', left: '0', right: '0', padding: '1.25rem', overflowY: 'scroll' }}>
+                <SectionWrap className="notoMedium">
 
-                <div style={{ position: 'absolute', top: '0.25rem', right: '0', lineHeight: '1.3125rem', fontSize: '0.8125rem', color: '#313131', opacity: '0.35' }}>
-                    1 / 3
-                </div>
-            </div>
+                    {/* 구독 서비스 */}
+                    <div style={{ display: 'flex', marginTop: '1.5rem' }}>
+                        <div onClick={openSubscribePage} style={{ width: '5rem', height: '5rem', marginLeft: '0.875rem', marginRight: '1.875rem' }}>
+                            {selectedPlatformName ?
+                                selectedPlatformImgUrl ?
+                                    <img src={selectedPlatformImgUrl} style={{ width: '100%', height: '100%' }} />
+                                    :
+                                    <div style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: selectedPlatformImgColor, borderRadius: '0.375rem' }}>
+                                        <div className="spoqaBold" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '2.1875rem', color: '#ffffff' }}>
+                                            {selectedPlatformImgInitial}
+                                        </div>
+                                    </div>
+                                :
+                                <img src={icon_enroll_default} style={{ width: '100%', height: '100%' }} />
+                            }
+                        </div>
+                        <div>
+                            <div style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem' }}>서비스</div>
+                            <div className="spoqaBold" style={{ fontSize: '0.6875rem', marginBottom: '0.375rem' }}>
+                                {selectedPlatformName ? selectedPlatformName : "없음"}
+                            </div>
+                            <div style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem' }}>카테고리</div>
+                            <div className="spoqaBold" style={{ fontSize: '0.6875rem' }}>
+                                {selectedPlatformCategoryIdx ?
+                                    categoryList.map((data) => {
+                                        if (data.idx === selectedPlatformCategoryIdx) return data.name;
+                                    })
+                                    : "없음"}
+                            </div>
+                        </div>
+                    </div>
 
-            {/* <공통> 첫번째 페이지 (파티장/파티원) */}
-            <div style={{ display: 'none' }}>
+                    {/* 플랫폼 이름 */}
+                    <TitleWrap>파티 개설 제목</TitleWrap>
+                    <ItemWrap>
+                        <InputWrap>
+                            <Input value={partyTitle} onChange={onChangeTitle} placeholder="파티 개설 제목을 입력하세요" />
+                        </InputWrap>
+                    </ItemWrap>
 
-                <div style={{ display: 'flex', textAlign: 'center', margin: '0 1.25rem' }}>
-                    <div style={{ flexGrow: '1', flexBasis: '0', marginRight: '0.625rem' }}>
-
-                        <div style={{ display: 'flex', height: '1.4375rem', borderRadius: '0.9688rem', marginBottom: '0.4375rem', fontSize: '0.75rem', color: '#ffb40c', backgroundColor: 'rgba(255, 202, 23,0.15)' }}>
+                    {/* 모집 인원 */}
+                    <TitleWrap>
+                        <div>파티 인원</div>
+                        <div style={{ marginLeft: '0.3125rem', fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
+                    </TitleWrap>
+                    <ItemWrap onClick={onClickPersonelOpen}>
+                        <InputWrap style={{ marginRight: "0.3125rem" }} openStatus={personelOpen} isBlocked={partyPersonel === 0}>
+                            <div>
+                                {
+                                    partyPersonel !== 0 ? partyPersonel :
+                                        '자신을 포함한 파티 인원을 선택하세요'
+                                }
+                            </div>
                             <div style={{ flexGrow: "1" }}></div>
-                            <div style={{ position: 'relative', width: '1.4375rem' }}>
-                                <TextMiddle>
-                                    추천
-                                </TextMiddle>
+                            <div>
+                                {
+                                    personelOpen ?
+                                        <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                                        <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                }
                             </div>
-                            <div style={{ position: 'relative', width: '0.75rem', marginLeft: '0.25rem' }}>
-                                <img style={{ position: 'absolute', top: '50%', left: '0', transform: 'translate(0,-50%)', width: '0.75rem', height: '0.75rem' }} src={party_notice_icon} />
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
+                        </InputWrap>
+                    </ItemWrap>
+
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ flexGrow: '1', flexBasis: '0', marginRight: "0.3125rem" }}>
+                            <Fade collapse when={personelOpen} duration={500}>
+                                <SelectWrap>
+
+                                    {
+                                        [2, 3, 4, 5, 6].map((data, index) => {
+                                            return (
+                                                <SelectContent selectSatus={data === partyPersonel} onClick={() => { onChangePersonel(data) }} key={index}>
+                                                    {data}
+                                                </SelectContent>
+                                            )
+                                        })
+                                    }
+
+                                </SelectWrap>
+                            </Fade>
                         </div>
-
-                        <RoleButton>
-                            <div style={{ flexGrow: '1' }}></div>
-                            <RoleTextWrap>
-                                <img style={{ width: '3.625rem', height: '2.75rem', marginBottom: '0.4375rem' }} src={crown_none} />
-                                <RoleText>파티장</RoleText>
-                            </RoleTextWrap>
-                        </RoleButton>
-
-                    </div>
-                    <div style={{ flexGrow: '1', flexBasis: '0' }}>
-                        <div style={{ height: '1.4375rem', borderRadius: '0.9688rem', marginBottom: '0.4375rem' }}></div>
-
-                        <RoleButton>
-                            <div style={{ flexGrow: '1' }}></div>
-                            <RoleTextWrap>
-                                <img style={{ width: '2.3125rem', height: '2.6875rem', marginBottom: '0.6875rem' }} src={user_none} />
-                                <RoleText>파티원</RoleText>
-                            </RoleTextWrap>
-                        </RoleButton>
-                    </div>
-                </div>
-
-            </div>
-
-            {/* <공통> 두번째 페이지 (플랫폼 선택) */}
-            <div style={{ display: 'none' }}>
-                <div style={{ margin: '0 1.25rem' }}>
-                    <PlatformWrap>
-                        <PlatformLogoWrap>
-                            <PlatformLogo style={{ width: '0.75rem', height: '1.5rem' }} src={party_netflix} />
-                        </PlatformLogoWrap>
-                        <PlatformTextWrap>
-                            <PlatformTextMiddle>넷플릭스</PlatformTextMiddle>
-                        </PlatformTextWrap>
-                        <PlatformPriceWrap>
-                            <PlatformTextMiddle>
-                                <span style={{ marginRight: '0.25rem' }}>매월</span>
-                                4,000원
-                            </PlatformTextMiddle>
-                        </PlatformPriceWrap>
-                    </PlatformWrap>
-
-                    <PlatformWrap>
-                        <PlatformLogoWrap>
-                            <PlatformLogo style={{ width: '1.125rem', height: '1.1875rem' }} src={party_whatcha} />
-                        </PlatformLogoWrap>
-                        <PlatformTextWrap>
-                            <PlatformTextMiddle>왓챠</PlatformTextMiddle>
-                        </PlatformTextWrap>
-                        <PlatformPriceWrap>
-                            <PlatformTextMiddle>
-                                <span style={{ marginRight: '0.25rem' }}>매월</span>
-                                4,000원
-                            </PlatformTextMiddle>
-                        </PlatformPriceWrap>
-                    </PlatformWrap>
-
-                    <PlatformWrap>
-                        <PlatformLogoWrap>
-                            <PlatformLogo style={{ width: '1.125rem', height: '1.4375rem' }} src={party_wave} />
-                        </PlatformLogoWrap>
-                        <PlatformTextWrap>
-                            <PlatformTextMiddle>웨이브</PlatformTextMiddle>
-                        </PlatformTextWrap>
-                        <PlatformPriceWrap>
-                            <PlatformTextMiddle>
-                                <span style={{ marginRight: '0.25rem' }}>매월</span>
-                                4,000원
-                            </PlatformTextMiddle>
-                        </PlatformPriceWrap>
-                    </PlatformWrap>
-
-
-                    <div style={{ marginTop: '0.875rem', display: 'flex' }}>
-                        <div style={{ marginRight: '0.3125rem' }}>
-                            <img src={icon_info} style={{ width: "0.875rem", height: "0.875rem" }} />
-                        </div>
-                        <div style={{ fontSize: '0.6875rem', opacity: '0.4', textDecoration: 'underline', textUnderlinePosition: 'under' }}>요금 책정 안내</div>
-                    </div>
-                </div>
-            </div>
-
-            {/* <파티원> 세번째 페이지 (카드등록) */}
-            <div style={{ display: 'none' }}>
-
-                <CardList />
-
-            </div>
-
-            {/* <파티원> 최종 완료 문구 */}
-            <div style={{ display: 'none', position: 'absolute', width: '100%', top: '40%', transform: 'translate(0,-40%)' }}>
-                <div style={{ position: 'relative', height: '2.625rem' }}>
-                    <div style={{ position: 'absolute', left: "50%", transform: 'translate(-50%,0)', width: '2.625rem', height: '2.625rem', backgroundColor: '#ffca17', borderRadius: '50%' }}>
-                        <img src={check_icon} style={{ position: 'absolute', width: '1.5rem', height: '1.125rem', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }} />
-                    </div>
-                </div>
-                <div style={{ margin: '0.875rem 0 0.625rem 0', textAlign: 'center', fontSize: '1.25rem', lineHeight: '1.75rem' }}>매칭 준비 완료!</div>
-                <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', opacity: '0.4', textAlign: 'center' }}>
-                    파티원이 모일 때까지 대기해주세요.<br />
-                    매칭이 완료되면 알림을 보내드립니다.
-                </div>
-            </div>
-
-
-            {/* <파티장> 매칭방식 페이지 */}
-            <div style={{ display: 'block' }}>
-
-                {/* 버튼 wrap */}
-                <div style={{ display: 'flex', textAlign: 'center', margin: '0 1.25rem' }}>
-
-                    {/* 직접 매칭 버튼 */}
-                    <div style={{ flexGrow: '1', flexBasis: '0', marginRight: '0.625rem' }}>
-
-                        <div style={{ height: '1.4375rem', borderRadius: '0.9688rem', marginBottom: '0.4375rem' }}></div>
-
-                        <div style={{ backgroundColor: '#f7f7f7', borderRadius: '0.25rem', padding: '1.375rem 0 0.875rem 0' }}>
-                            <div style={{ textAlign: 'center', marginBottom: '0.625rem' }}>
-                                <img src={match_personal_icon} style={{ width: '2.9375rem', height: '2.75rem' }} />
-                            </div>
-
-                            <div style={{ marginBottom: '0.75rem', fontSize: '1.0625rem' }}>직접 초대</div>
-                            <div style={{ fontSize: '0.75rem', lineHeight: '1.25rem', opacity: '0.5' }}>
-                                지인을 초대해 함께 <br />
-                                파티를 할 수 있어요
-                            </div>
-                        </div>
-
                     </div>
 
-                    {/* 자동 매칭 버튼 */}
-                    <div style={{ flexGrow: '1', flexBasis: '0' }}>
+                    {/* 결제금액 */}
+                    <TitleWrap>
+                        <div style={{ marginRight: "0.5rem" }}>1인당 결제 금액</div>
+                        {/* <div style={{ fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 1인당 결제금액으로 입력해주세요.</div> */}
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap style={{ flexGrow: "1", flexBasis: "0" }}>
+                            <Input value={partyPrice} onChange={onChangePrice} type="number" placeholder="결제금액을 입력하세요" ></Input>
+                            <div className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)' }}>￦(원)</div>
+                        </InputWrap>
+                    </ItemWrap>
 
-                        <div style={{ height: '1.4375rem', borderRadius: '0.9688rem', marginBottom: '0.4375rem' }}></div>
+                    {/* 맴버십 종류 */}
+                    <TitleWrap>
+                        <div>멤버십 종류</div>
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap>
+                            <Input value={partyMembership} onChange={onChangeMembership} placeholder="멤버십 종류를 입력해주세요"></Input>
+                        </InputWrap>
+                    </ItemWrap>
 
-                        <div style={{ backgroundColor: '#f7f7f7', borderRadius: '0.25rem', padding: '1.375rem 0 0.875rem 0' }}>
-                            <div style={{ textAlign: 'center', marginBottom: '0.625rem' }}>
-                                <img src={match_auto_icon} style={{ width: '2.9375rem', height: '2.75rem' }} />
-                            </div>
-
-                            <div style={{ marginBottom: '0.75rem', fontSize: '1.0625rem' }}>자동 매칭</div>
-                            <div style={{ fontSize: '0.75rem', lineHeight: '1.25rem', opacity: '0.5' }}>
-                                모두가 자동으로 <br />
-                                파티원들을 모아드려요
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+                    {/* 오픈 카카오톡 링크 */}
+                    <TitleWrap>
+                        <div>오픈 카카오톡 링크</div>
+                    </TitleWrap>
+                    <ItemWrap>
+                        <InputWrap>
+                            <Input value={partyOpenChat} onChange={onChangeOpenChat} placeholder="오픈 카카오톡 링크를 입력해주세요"></Input>
+                        </InputWrap>
+                    </ItemWrap>
+                </SectionWrap>
+                <ButtonWrap onClick={onClickSubmit} className="spoqaBold" isConfirm={pageConfirmStatus}>
+                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>완료</div>
+                </ButtonWrap>
             </div>
-
-
-
-            <div style={{ flexGrow: '1' }}></div>
-
-            <div style={{ margin: '1.25rem' }}>
-
-                {/* 예상 매칭 대기시간 */}
-                <div style={{ display: 'none' }}>
-                    <WaitingTimeWrap >
-                        <div style={{ flexGrow: '1' }}></div>
-                        <div style={{ position: 'relative', width: '1rem', marginRight: '0.625rem' }}>
-                            <img style={{ position: 'absolute', top: '50%', left: '0', transform: 'translate(0,-50%)' }} src={icon_party_time} />
-                        </div>
-                        <div style={{ position: 'relative', width: '6.5625rem' }}>
-                            <div style={{ position: 'absolute', top: '50%', left: '0', transform: 'translate(0,-50%)' }}>매칭 예상시간 10분</div>
-                        </div>
-                        <div style={{ flexGrow: '1' }}></div>
-                    </WaitingTimeWrap>
-                </div>
-
-                {/* 다음 페이지 */}
-                <NextButton>다음</NextButton>
-            </div>
-
-
-
-
-        </PageWrap >
+        </div>
     )
+}
 
-};
-
-const PageWrap = styled.div`
-
-    position:absolute;
-    top:2.5625rem;
-    left:0;
-    right:0;
-    bottom:0;
-
-    display:flex;
-    flex-direction:column;
-
-    overflow-y:scroll;
-
-`;
 const HeaderWrap = styled.div`
-    position: fixed;
+    position: relative;
     top:0;
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;
@@ -298,100 +333,43 @@ const HeaderWrap = styled.div`
     box-shadow: 0 0 0.25rem 0.0625rem #efefef;
 `;
 
-const RoleButton = styled.div`
-    display:flex;
-    flex-direction:column;
-    height: 8rem;
-    border-radius: 0.25rem;
-    background-color: #f7f7f7;
+const SectionWrap = styled.div`
+    padding: 0 0.9375rem 1.125rem 0.9375rem;
+    border:1px solid #ffffff;
+    border-radius: 0.4375rem;
+    box-shadow: 0 0 0.25rem 0.0625rem #efefef;
+    background-color: #ffffff;
 `;
 
-const RoleTextWrap = styled.div`
+const SelectWrap = styled.div`
+    background-color:#ffffff;
+    border:0.0625rem solid #e8e8e8;
+    border-radius:'0.25rem';
 
-    margin-bottom:1.625rem;
+    max-height:10.75rem;
+    overflow-y:scroll;
 
-    font-size:1.0625rem;
+    margin-top:0.3125rem;
+    margin-bottom:1.125rem;
+
+    box-shadow: 0 0 0.25rem 0.0625rem #efefef;
+
+`;
+const SelectContent = styled.div`
+    font-size:0.75rem;
     color:#313131;
+    height:0.75rem;
+    padding:0.8125rem 0.875rem;
+
+    background-color:${props => props.selectSatus ? 'rgba(216, 216, 216,0.15)' : '#ffffff'};
 `;
 
-const RoleText = styled.div`
-    opacity:0.49;
-`;
-
-
-
-
-const PlatformWrap = styled.div`
-    display:flex;
-    height: 3.5rem;
-
-    margin-bottom:0.5rem;
-
-    border-radius: 0.25rem;
-    background-color: #f7f7f7;
-`;
-const PlatformLogoWrap = styled.div`
+const ButtonWrap = styled.div`
     position: relative;
-    width:3.1875rem;
-`;
-const PlatformLogo = styled.img`
-    position:absolute;
-    top:50%;
-    left:1.3125rem;
-
-    transform:translate(0, -50%);
+    height: 2.9375rem;
+    margin-top: 1.25rem;
+    background-color: ${props => props.isConfirm ? '#ffbc26' : '#e3e3e3'};
+    border-radius: 0.375rem;
 `;
 
-const PlatformTextWrap = styled.div`
-    flex-grow:1;
-    position: relative;
-
-    font-size:0.875rem;
-`;
-const PlatformTextMiddle = styled.div`
-    position:absolute;
-    top:50%;
-    transform:translate(0,-50%);
-    width:100%;
-`;
-const PlatformPriceWrap = styled.div`
-    width:6.25rem;
-    position: relative;
-
-    font-size:0.875rem;
-`;
-
-const WaitingTimeWrap = styled.div`
-    position:relative;
-    display:flex;
-
-    text-align:center;
-
-    margin-bottom:0.625rem;
-    height:1.9375rem;
-
-    font-size:0.8125rem;
-    color:#ffb40c;
-
-    border-radius: 0.9688rem;
-    background-color:rgba(255, 202, 23,0.15);   
-`;
-
-
-
-const NextButton = styled.div`
-    cursor: pointer;
-
-    padding:0.8125rem 0 0.875rem 0;
-
-    font-size:0.875rem;
-    color:#ffffff;
-
-    text-align:center;
-
-    border-radius:0.375rem;
-
-    background-color: ${props => props.pageConfirmStatus ? '#ffca17' : '#e3e3e3'};
-`;
-
-export default PartyEnrollmentPage;
+export default PartyEnrollment;

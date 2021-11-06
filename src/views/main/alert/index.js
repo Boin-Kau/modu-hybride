@@ -1,64 +1,160 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
-import { AlertPageWrapCloseAction, AlertPageCloseAction } from "../../../reducers/main/alert";
+import { useDispatch } from "react-redux";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
 
-import { TextMiddle } from '../../../styled/shared';
+import SubscribeIcon from "../../../assets/icon-notif-billing.svg";
+import PartyIcon from "../../../assets/icon-notif-party.svg";
+import SystemIcon from "../../../assets/icon-notif-system.svg";
 
+import { TextMiddle } from '../../../styled/shared';
+import { useHistory } from 'react-router-dom';
+import { PageTransContext } from '../../../containers/pageTransContext';
+import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
+import { customApiClient } from '../../../shared/apiClient';
+import { checkMobile } from '../../../App';
+
+//카테고리별 아이콘 가져오기
+const getAlertCategoryIcon = (categoryIdx) => {
+
+    if (categoryIdx === 1) {
+        return SubscribeIcon
+    }
+    else if (categoryIdx === 2) {
+        return PartyIcon
+    }
+    else {
+        return SystemIcon
+    }
+
+}
+
+//카테고리별 이름 가져오기
+const getAlertCategoryName = (categoryIdx) => {
+    if (categoryIdx === 1) {
+        return "구독"
+    }
+    else if (categoryIdx === 2) {
+        return "파티"
+    }
+    else {
+        return "시스템"
+    }
+}
+
+//몇분전 시간 계산 함수
+const timeForToday = (value) => {
+    const today = new Date();
+    const timeValue = new Date(value);
+
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    if (betweenTime < 1) return '방금 전';
+    if (betweenTime < 60) {
+        return `${betweenTime}분 전`;
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+        return `${betweenTimeHour}시간 전`;
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+        return `${betweenTimeDay}일 전`;
+    }
+
+    return `${Math.floor(betweenTimeDay / 365)}년 전`;
+}
 
 const AlertPage = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    const closeAlertPage = useCallback(() => {
-        dispatch(AlertPageCloseAction);
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
-        setTimeout(() => {
-            dispatch(AlertPageWrapCloseAction);
-        }, 300)
-    }, []);
+    //state
+    const [alertList, setAlertList] = useState([]);
+
+    //inital logic
+    useEffect(async () => {
+        dispatch(BottomNavCloseAction);
+
+        const data = await customApiClient('get', '/notification');
+
+        //서버에러
+        if (!data) return
+
+        //벨리데이션
+        if (data.statusCode != 200) {
+            return
+        }
+
+        setAlertList(data.result);
+
+        const userPlatform = checkMobile();
+
+        if (userPlatform == 'ios') {
+            //IOS 배경색 설정
+            try {
+                window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+            }
+            catch (err) {
+            }
+        }
+
+    }, [])
+
+    const closeAlertPage = () => {
+        setPageTrans('trans toLeft');
+        history.goBack();
+    };
 
     return (
-        <PageWrap>
-            <HeaderWrap onClick={closeAlertPage}>
-                <div style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-                    <img src={icon_back}></img>
+
+        <div className="page" style={{ backgroundColor: "#ffffff" }}>
+            <PageWrap>
+                <HeaderWrap className="spoqaBold">
+                    <div id="back_link" onClick={closeAlertPage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+                        <img src={icon_back}></img>
+                    </div>
+
+                    <TextMiddle>알림</TextMiddle>
+                </HeaderWrap>
+
+                <div className="notoMedium">
+
+                    {alertList.length > 0 &&
+                        alertList.map((data, index) => {
+
+
+                            return (
+                                <AlertWrap isRead={data.viewedAt !== null} key={index}>
+                                    <div style={{ display: 'flex', paddingBottom: '1.25rem', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
+                                        <div style={{ marginRight: '1rem' }}>
+                                            <div>
+                                                <img style={{ width: '2.3125rem', height: '2.3125rem' }} src={getAlertCategoryIcon(data.category.idx)} />
+                                            </div>
+                                        </div>
+                                        <div style={{ flexGrow: '1' }}>
+                                            <div style={{ display: 'flex', fontSize: '0.75rem', marginBottom: '0.3125rem', opacity: '0.4' }}>
+                                                <div style={{ flexGrow: '1' }}>{getAlertCategoryName(data.category.idx)}</div>
+                                                <div>{timeForToday(data.createdAt)}</div>
+                                            </div>
+                                            <div style={{ fontSize: '0.8125rem', wordBreak: 'keep-all' }}>{data.content}</div>
+                                        </div>
+                                    </div>
+                                </AlertWrap>
+                            )
+                        })
+                    }
+
                 </div>
-
-                <TextMiddle>알림</TextMiddle>
-            </HeaderWrap>
-
-            <div>
-
-                <AlertWrap isRead={false}>
-                    <div style={{ marginRight: '0.875rem' }}>
-                        <div style={{ width: '2.25rem', height: '2.25rem', borderRadius: '50%', backgroundColor: '#fb5e5e' }}>
-                            <img />
-                        </div>
-                    </div>
-                    <div>
-                        <div style={{ fontSize: '0.8125rem', lineHeight: '1.375rem' }}>‘왓챠 프리미엄’ 파티가 해체되었어요. 해체 요인을 확인해주세요.</div>
-                        <div style={{ fontSize: '0.6875rem', marginTop: '0.1875rem', opacity: '0.4' }}>10분 전</div>
-                    </div>
-                </AlertWrap>
-
-                <AlertWrap isRead={true}>
-                    <div style={{ marginRight: '0.875rem' }}>
-                        <div style={{ width: '2.25rem', height: '2.25rem', borderRadius: '50%', backgroundColor: '#fb5e5e' }}>
-                            <img />
-                        </div>
-                    </div>
-                    <div>
-                        <div style={{ fontSize: '0.8125rem', lineHeight: '1.375rem' }}>‘넷플릭스 프리미엄’ 파티에서 추방되었어요. 추방 요인을 확인해주세요.</div>
-                        <div style={{ fontSize: '0.6875rem', marginTop: '0.1875rem', opacity: '0.4' }}>1일 전</div>
-                    </div>
-                </AlertWrap>
-
-            </div>
-        </PageWrap>
+            </PageWrap>
+        </div>
     )
 };
 
@@ -81,7 +177,7 @@ const HeaderWrap = styled.div`
     left:0;
     right:0;
 
-    height:2.5625rem;
+    height:3.0625rem;
 
     background-color:#ffffff;
     text-align:center;
@@ -93,8 +189,7 @@ const HeaderWrap = styled.div`
 `;
 
 const AlertWrap = styled.div`
-    display:flex;
-    padding:1.25rem 1.5625rem 1.0625rem 1.25rem;
+    padding:1.5rem 1.5625rem 0 1.25rem;
 
     background-color: ${props => props.isRead ? '#ffffff' : 'rgba(255, 202, 23,0.09)'};
 `;

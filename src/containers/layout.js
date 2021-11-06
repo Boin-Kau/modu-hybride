@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { Route, useHistory, useLocation } from 'react-router-dom'
+import { Route, useLocation } from 'react-router-dom'
 
 import Splash from '../views/login/splash';
 import Login from '../views/login/login';
 
 import Main from '../views/main';
-import Party from '../views/party';
 import MyInfo from '../views/info';
 import SubscribePage from '../views/main/subscribe';
 import EnrollmentRevisePage from '../views/main/subscribe/enrollment/revise';
@@ -21,6 +20,15 @@ import PhonePage from '../views/info/detail/phone';
 
 import ReactGA from 'react-ga';
 import AgreePage from '../views/info/agree';
+import MyParty from '../views/party/myParty';
+import PartyEnrollment from '../views/party/enrollment';
+import Party from '../views/party';
+import PartyPlatform from '../views/party/enrollment/platform';
+import PartyPlatformSearch from '../views/party/enrollment/platform/search';
+import PartyPlatformDetail from '../views/party/enrollment/platform/detail';
+import PartyEnrollFinish from '../views/party/enrollment/finish';
+import AlertPage from '../views/main/alert';
+import Inspection from '../views/login/inspection';
 
 const AppLayout = () => {
 
@@ -37,13 +45,21 @@ const AppLayout = () => {
         <>
             <Route path='/' exact component={Splash} />
             <Route path='/login' exact component={Login} />
-            <Route path='/main' component={Main} />
+            <Route path='/inspection' exact component={Inspection} />
+            <Route path='/main' exact component={Main} />
+            <Route path='/alert' exact component={AlertPage} />
             <Route path='/subscribe' exact component={SubscribePage} />
             <Route path='/subscribe/revise' exact component={EnrollmentRevisePage} />
             <Route path='/subscribe/enroll' exact component={EnrollmentPage} />
             <Route path='/search' exact component={SearchPage} />
             <Route path='/analysis' exact component={AnalysisPage} />
-            <Route path='/party' component={Party} />
+            <Route path='/party' exact component={Party} />
+            <Route path='/party/my' exact component={MyParty} />
+            <Route path='/party/enroll' exact component={PartyEnrollment} />
+            <Route path='/party/enroll/platform' exact component={PartyPlatform} />
+            <Route path='/party/enroll/platform/search' exact component={PartyPlatformSearch} />
+            <Route path='/party/enroll/platform/detail' exact component={PartyPlatformDetail} />
+            <Route path='/party/enroll/finish' exact component={PartyEnrollFinish} />
             <Route path='/info' exact component={MyInfo} />
             <Route path='/info/detail' exact component={DetailPage} />
             <Route path='/info/detail/name' exact component={NamePage} />

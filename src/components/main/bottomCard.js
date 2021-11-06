@@ -74,6 +74,7 @@ const BottomContent = ({ data, cardOpen }) => {
         }
     }
 
+
     return (
         <>
             <ContentWrap onClick={onclickOpenContent}>
@@ -239,11 +240,11 @@ const BottomCard = ({ cardOpen, loadingFalse }) => {
     )
 };
 
-const ContentWrap = styled.div`
+export const ContentWrap = styled.div`
 
     display:flex;
 
-    margin:0.75rem 1.25rem 0 1.25rem;
+    margin:0.75rem 0.75rem 0 0.75rem;
     background-color:#ffffff;
 
     border-radius:0.4375rem;
@@ -255,9 +256,9 @@ const ContentWrap = styled.div`
     font-size:0.8125rem;
 `;
 
-const ContentDetailWrap = styled.div`
+export const ContentDetailWrap = styled.div`
 
-    margin:0 1.25rem;
+    margin:0 0.75rem;
     background-color:#ffffff;
 
     border-radius:0.4375rem;
