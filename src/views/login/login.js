@@ -142,7 +142,7 @@ const Login = () => {
         const verson = localStorage.getItem('versonName');
 
         if (!verson || verson < '2.0.0') {
-            // setUpdatePopupStatus(true);
+            setUpdatePopupStatus(true);
         }
 
     }, []);

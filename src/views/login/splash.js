@@ -52,13 +52,13 @@ const Splash = () => {
 
         const data = await customApiClient('get', '/user/jwt');
 
-        history.push('/inspection');
-        return
+        // history.push('/inspection');
+        // return
 
-        // if (data == 'Network Error') {
-        //     history.push('/inspection');
-        //     return
-        // }
+        if (data == 'Network Error') {
+            history.push('/inspection');
+            return
+        }
 
         //벨리데이션
         if (!data || data.statusCode != 200) {
