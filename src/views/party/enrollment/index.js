@@ -121,7 +121,7 @@ const PartyEnrollment = () => {
 
 
             //카카오 오픈채팅 링크 벨리데이션
-            if (partyOpenChat.includes('https://open.kakao.com')) {
+            if (partyOpenChat.startsWith('https://open.kakao.com')) {
                 setPageConfirmStatus(true);
                 return
             }
@@ -301,6 +301,7 @@ const PartyEnrollment = () => {
                     {/* 오픈 카카오톡 링크 */}
                     <TitleWrap>
                         <div>오픈 카카오톡 링크</div>
+                        <div style={{ marginLeft: '0.3125rem', fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 공백 없이 링크만 입력해주세요.</div>
                     </TitleWrap>
                     <ItemWrap>
                         <InputWrap>
