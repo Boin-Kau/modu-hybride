@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import MainCard from '../../../components/main/analysis/mainCard';
 
@@ -10,6 +10,8 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { checkMobile } from '../../../App';
+import { customApiClient } from '../../../shared/apiClient';
+import { GetAnalyPageList } from '../../../reducers/main/analysis';
 
 
 const AnalysisPage = () => {
@@ -20,12 +22,17 @@ const AnalysisPage = () => {
     //context
     const { setPageTrans } = useContext(PageTransContext);
 
+    const {
+        analysisList,
+        analysisReloadStatus
+    } = useSelector(state => state.main.analysis);
+
     const closeAnalyPage = useCallback(() => {
         setPageTrans('trans toLeft');
         histroy.goBack();
     }, []);
 
-    useEffect(() => {
+    useEffect(async () => {
         dispatch(BottomNavCloseAction);
 
         const userPlatform = checkMobile();
@@ -38,6 +45,28 @@ const AnalysisPage = () => {
             catch (err) {
             }
         }
+
+        if (analysisList.length < 1) {
+
+            //소비분석 리스트 조회
+            const data = await customApiClient('get', '/subscribe/analysis');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch({
+                type: GetAnalyPageList,
+                data: data.result
+            })
+
+        }
+
     }, []);
 
     return (

@@ -7,7 +7,7 @@ import icon_back from "../../assets/icon-back-arrow.svg";
 
 import { TextMiddle } from '../../styled/shared';
 
-import { IsAlertUpdate, IsMarketingUpdate } from '../../reducers/info/user';
+import { IsAlertUpdate, IsMarketingUpdate, UserInfoUpdate } from '../../reducers/info/user';
 import { customApiClient } from '../../shared/apiClient';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../reducers/container/message';
 import { useHistory } from 'react-router-dom';
@@ -36,13 +36,35 @@ const SettingPage = () => {
     const [isRecentVerson, setIsRecentVerson] = useState(false);
 
     //첫 로딩시 실행 로직
-    useEffect(() => {
+    useEffect(async () => {
 
         dispatch(BottomNavCloseAction);
 
         //앱 버전 체크
         const verson = localStorage.getItem('versonName');
         setVersonName(verson);
+
+        //유저 정보
+        if (!isAlert || !isMarketing || !marketingUpdatedAt) {
+            const data = await customApiClient('get', '/user/jwt');
+
+            if (data == 'Network Error') {
+                history.push('/inspection');
+                return
+            }
+
+            //벨리데이션
+            if (!data || data.statusCode != 200) {
+                localStorage.removeItem('x-access-token');
+                history.push('/login');
+                return
+            }
+
+            dispatch({
+                type: UserInfoUpdate,
+                data: data.result
+            })
+        }
 
     }, [])
 

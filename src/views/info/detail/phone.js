@@ -9,10 +9,11 @@ import { TextMiddle } from '../../../styled/shared';
 
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../../styled/main/enrollment';
 import { customApiClient } from '../../../shared/apiClient';
-import { PhoneUpdate } from '../../../reducers/info/user';
+import { PhoneUpdate, UserInfoUpdate } from '../../../reducers/info/user';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../reducers/container/message';
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../../containers/pageTransContext';
+import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 
 
 const PhonePage = () => {
@@ -54,6 +55,31 @@ const PhonePage = () => {
 
         setPhone(e.target.value);
     }
+
+    useEffect(async () => {
+        dispatch(BottomNavCloseAction);
+
+        if (!currentPhone) {
+            const data = await customApiClient('get', '/user/jwt');
+
+            if (data == 'Network Error') {
+                history.push('/inspection');
+                return
+            }
+
+            //벨리데이션
+            if (!data || data.statusCode != 200) {
+                localStorage.removeItem('x-access-token');
+                history.push('/login');
+                return
+            }
+
+            dispatch({
+                type: UserInfoUpdate,
+                data: data.result
+            })
+        }
+    }, [])
 
     useEffect(() => {
 

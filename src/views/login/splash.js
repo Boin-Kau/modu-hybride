@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { customApiClient } from '../../shared/apiClient';
-import { BottomNavOpenAction, BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { useDispatch } from "react-redux";
 import { UserInfoUpdate } from '../../reducers/info/user';
 import { checkMobile } from '../../App';
@@ -60,7 +59,6 @@ const Splash = () => {
         //벨리데이션
         if (!data || data.statusCode != 200) {
             localStorage.removeItem('x-access-token');
-            dispatch(BottomNavCloseAction);
             history.push('/login');
             return
         }

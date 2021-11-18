@@ -8,11 +8,16 @@ import duck_con from "../../assets/safe-con@3x.png";
 import { onClickTerminate, checkMobile } from '../../App';
 // import { LoginButton } from '../../styled/shared';
 import { DetailButton } from '../../styled/main';
+import { BottomNavCloseAction } from '../../reducers/container/bottomNav';
+import { useDispatch } from 'react-redux';
 
 const Inspection = () => {
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const userPlatform = checkMobile();
+        dispatch(BottomNavCloseAction);
 
         if (userPlatform == 'android') {
 
