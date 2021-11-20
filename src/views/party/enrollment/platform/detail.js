@@ -54,6 +54,17 @@ const PartyPlatformDetail = () => {
     }, [])
 
     const closeEnrollmentPage = () => {
+        const data = {
+            selectedPlatformIdx: null,
+            selectedPlatformName: null,
+            selectedPlatformCategoryIdx: null,
+            selectedPlatformImgUrl: null,
+            selectedPlatformImgColor: null,
+            selectedPlatformImgInitial: null,
+        };
+
+        dispatch(UpdatePlatformAction(data));
+
         setPageTrans('trans toLeft');
         history.goBack();
     }
