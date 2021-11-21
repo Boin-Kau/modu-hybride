@@ -22,7 +22,7 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { PageTransContext } from '../../containers/pageTransContext';
 import { priceToString, ContentWrap, ContentDetailWrap } from '../../components/main/bottomCard';
-import { SetReportCategoryListAction, ReportPopupOpenAction, TerminatePopupOpenAction, BanishPopupOpenAction, BanishPopupCloseAction } from '../../reducers/party/popup';
+import { SetReportCategoryListAction, ReportPopupOpenAction, TerminatePopupOpenAction, BanishPopupOpenAction, BanishPopupCloseAction, ReportPopupCloseAction } from '../../reducers/party/popup';
 import ReportPopUp from './popup/reportPopup';
 import TerminatePopUp from './popup/terminatePopup';
 import { onClickTerminate, checkMobile } from '../../App';
@@ -96,6 +96,7 @@ const MyParty = () => {
 
     const closeSubscribePage = () => {
         dispatch(BanishPopupCloseAction());
+        dispatch(ReportPopupCloseAction());
         setPageTrans('trans toLeft');
         history.goBack();
     };
