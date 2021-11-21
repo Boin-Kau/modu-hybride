@@ -14,6 +14,11 @@ import { PageTransContext } from '../../../containers/pageTransContext';
 
 const noticeData = [
     {
+        idx: 5,
+        title: '파티기능 업데이트 안내',
+        createdAt: '2021.11.22'
+    },
+    {
         idx: 4,
         title: '개인정보 처리방침 및 이용약관 개정안내',
         createdAt: '2021.11.03'
