@@ -22,8 +22,8 @@ export const customApiClient = async (method, url, data) => {
         return result.data;
     }
     catch (err) {
-        console.log(err.response);
-        console.log(err.message);
+        // console.log(err.response);
+        // console.log(err.message);
 
         if (!err.response) {
             return 'Network Error';

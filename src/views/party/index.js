@@ -12,6 +12,7 @@ import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
 import PartyEmprtyImg from '../../assets/banner-main-new-party.svg';
 import PartyEnrollDuckImg from '../../assets/character-main-party-paticipate.svg';
 
+import partyLoading from '../../assets/party-loading.gif';
 
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../containers/pageTransContext';
@@ -56,6 +57,8 @@ const Party = () => {
     const [completePopupStatus, setCompletePopupStatus] = useState(false);
 
     const [contentHeight, setContentHeight] = useState(0);
+
+    const [isLoading, setIsLoading] = useState(true);
 
     //페이지 열기
     const openPage = (path) => {
@@ -128,6 +131,10 @@ const Party = () => {
         setTotalPartyList(partyListData.result);
         setPartyList(partyListData.result);
         setMatchingCount(partyListData.result.filter(data => data.roomStatus === "MATCHING").length);
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 350);
     }
 
     const onClickCategory = async (index, name) => {
@@ -249,6 +256,9 @@ const Party = () => {
                         <div style={{ height: '6.25rem' }} />
                     </PartyListWrap>
                 </CardWrap>
+
+                <PartyLoading isLoading={isLoading} style={{ background: `#ffca17 url(${partyLoading}) no-repeat top center`, backgroundSize: '100% auto' }} />
+
             </div>
 
             {/* 참여하기 버튼 팝업 */}
@@ -513,5 +523,24 @@ const PartyListWrap = styled.div`
     position: relative;
     overflow-y: scroll;
     height:${props => props.contentHeight + 'px'};
+`;
+
+const PartyLoading = styled.div`
+    visibility:${props => props.isLoading ? 'visible' : 'hidden'};
+    opacity:${props => props.isLoading ? '1' : '0'};
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+
+    border:'1px solid red';
+
+    background-repeat:no-repeat;
+
+    /* 애니메이션 적용 */
+    transition: visibility 0.1s, opacity 0.1s linear;
 `;
 export default Party;
