@@ -29,6 +29,7 @@ import PartyPlatformDetail from '../views/party/enrollment/platform/detail';
 import PartyEnrollFinish from '../views/party/enrollment/finish';
 import AlertPage from '../views/main/alert';
 import Inspection from '../views/login/inspection';
+import NoticeDetailPage from '../views/info/notice/detail';
 
 const AppLayout = () => {
 
@@ -65,6 +66,7 @@ const AppLayout = () => {
             <Route path='/info/detail/name' exact component={NamePage} />
             <Route path='/info/detail/phone' exact component={PhonePage} />
             <Route path='/notice' exact component={NoticePage} />
+            <Route path='/notice/detail' exact component={NoticeDetailPage} />
             <Route path='/faq' exact component={QuestionPage} />
             <Route path='/setting' exact component={SettingPage} />
             <Route path='/agree' exact component={AgreePage} />

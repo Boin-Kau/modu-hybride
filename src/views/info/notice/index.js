@@ -1,44 +1,14 @@
-import React, { useEffect, useCallback, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import { TextMiddle } from '../../../styled/shared';
 
-import Fade from 'react-reveal/Fade';
-import NoticeDetailPage from './detail';
-import { PageWrapOpen, PageOpen, NoticePageIdx } from '../../../reducers/info/page';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../containers/pageTransContext';
-
-const noticeData = [
-    {
-        idx: 5,
-        title: '파티기능 업데이트 안내',
-        createdAt: '2021.11.22'
-    },
-    {
-        idx: 4,
-        title: '개인정보 처리방침 및 이용약관 개정안내',
-        createdAt: '2021.11.03'
-    },
-    {
-        idx: 3,
-        title: '새로운 카테고리 및 플랫폼이 업데이트 되었습니다. \uD83C\uDF89',
-        createdAt: '2021.09.16'
-    },
-    {
-        idx: 2,
-        title: '일부 기능이 업데이트 되었습니다!',
-        createdAt: '2021.07.19'
-    },
-    {
-        idx: 1,
-        title: '모두가 개편되었습니다!',
-        createdAt: '2021.06.26'
-    }
-]
+import { customApiClient } from '../../../shared/apiClient';
 
 const NoticePage = () => {
 
@@ -48,11 +18,7 @@ const NoticePage = () => {
     //context
     const { setPageTrans } = useContext(PageTransContext);
 
-    //페이지 상태값
-    const {
-        openNoticeDetailPageWrapStatus,
-        openNoticeDetailPageStatus
-    } = useSelector(state => state.info.page);
+    const [notice, setNotice] = useState([]);
 
     const closePage = () => {
         setPageTrans('trans toLeft');
@@ -60,28 +26,34 @@ const NoticePage = () => {
     };
 
     //페이지 열기
-    const openPage = useCallback(async (data, index) => {
+    const openPage = (idx) => {
 
-        test = true;
-
-        dispatch({
-            type: NoticePageIdx,
-            data: index
+        setPageTrans('trans toRight');
+        history.push({
+            pathname: '/notice/detail',
+            state: {
+                idx
+            }
         })
 
-        dispatch({
-            type: PageWrapOpen,
-            data: data
-        });
-        dispatch({
-            type: PageOpen,
-            data: data
-        });
+    };
 
-    }, []);
-
-    useEffect(() => {
+    useEffect(async () => {
         dispatch(BottomNavCloseAction);
+
+        //공지사항 리스트 조회
+        const data = await customApiClient('get', '/user/notice');
+
+        //서버에러
+        if (!data) return
+
+        //벨리데이션
+        if (data.statusCode != 200) {
+            return
+        }
+
+        setNotice(data.result);
+
     }, [])
 
 
@@ -99,23 +71,13 @@ const NoticePage = () => {
 
                 {/* 새부내용 */}
                 {
-                    noticeData.map((value) => {
+                    notice.map((value) => {
                         return (
-                            <NoticeContent title={value.title} createdAt={value.createdAt} action={() => { openPage('noticeDetail', value.idx) }} key={value.idx} />
+                            <NoticeContent title={value.title} createdAt={value.createdAt} action={() => { openPage(value.idx) }} key={value.idx} />
                         )
                     })
                 }
             </PageWrap>
-
-
-            {/* 이름 변경 페이지 */}
-            <div style={openNoticeDetailPageWrapStatus ? { display: "block" } : { display: "none" }}>
-                <Fade right when={openNoticeDetailPageStatus} duration={300}>
-                    <div style={{ zIndex: "1000", position: "absolute", top: "0", right: "0", left: "0", bottom: "0", backgroundColor: "#f7f7f7" }}>
-                        <NoticeDetailPage />
-                    </div>
-                </Fade>
-            </div>
 
         </div>
     )
@@ -131,7 +93,7 @@ const NoticeContent = (props) => {
                     {props.title}
                 </div>
                 <div style={{ fontSize: '0.75rem', lineHeight: '1.3125rem', color: 'rgba(49,49,49,0.4)' }}>
-                    {props.createdAt}
+                    {props.createdAt.substr(0, 10)}
                 </div>
             </div>
 
