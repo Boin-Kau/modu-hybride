@@ -191,10 +191,14 @@ const MyParty = () => {
 const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const {
         reportCategoryList,
     } = useSelector(state => state.party.popup);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     const [openStatus, setOpenStatus] = useState(false);
 
@@ -245,6 +249,14 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
             terminatePartyIdx: data.idx,
             terminatePartyRole: role
         }))
+    }
+
+    const handleClickRevise = () => {
+        setPageTrans('trans toLRight');
+        history.push({
+            pathname: '/party/revise',
+            data: data
+        })
     }
 
     const onClickBanishUser = () => {
@@ -353,9 +365,15 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
                     </DetailRowWrap>
                     {isProgress &&
                         <DetailRowWrap style={{ margin: "0", marginTop: '1rem' }}>
-                            <div onClick={onClickTerminate} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                                <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 나가기</div>
-                            </div>
+                            {data.IsHost === 'Y' ?
+                                <div onClick={handleClickRevise} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                                    <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 수정하기</div>
+                                </div>
+                                :
+                                <div onClick={onClickTerminate} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                                    <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 나가기</div>
+                                </div>
+                            }
 
                             {data.IsHost === 'Y' &&
                                 <ButtonWrap onClick={onClickBanishUser} className="spoqaBold" isComplte={room.partyUser.length > 1} style={{ marginLeft: '0.75rem' }}>
