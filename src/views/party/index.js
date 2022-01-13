@@ -192,7 +192,6 @@ const Party = () => {
         }
 
         //링크 이동
-        console.log(enrollPartyChatLink);
         window.open(enrollPartyChatLink, '_blank');
 
 

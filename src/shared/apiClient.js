@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 export const apiClient = axios.create({
-    // baseURL: "https://api.team-modu.com/", // 기본 서버 주소 입력
-    baseURL: "http://localhost:3030/", // 기본 서버 주소 입력
-    // baseURL: "https://api.spread-y.com/", // 기본 서버 주소 입력
+    // baseURL: "http://localhost:3030/", // 기본 서버 주소 입력
+    baseURL: "https://api.spread-y.com/", // 기본 서버 주소 입력
 });
 
 

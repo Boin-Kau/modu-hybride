@@ -5,8 +5,8 @@ import ReportDuckImg from "../../../assets/character-main-report.svg";
 
 import { DangerWrapPopup, DangerPopup } from "../../../styled/shared";
 import { useDispatch, useSelector } from "react-redux";
-import { ReportPopupCloseAction, BanishPopupCloseAction } from "../../../reducers/party/popup";
-import { ItemWrap, InputWrap, Input } from "../../../styled/main/enrollment";
+import { BanishPopupCloseAction } from "../../../reducers/party/popup";
+import { ItemWrap, InputWrap } from "../../../styled/main/enrollment";
 import styled from "styled-components";
 
 import icon_arrow_down from "../../../assets/icon-arrow-down-gray.svg";
@@ -75,7 +75,7 @@ const BanishPopUp = ({ openStatus }) => {
         if (!data) return
 
         //벨리데이션
-        if (data.statusCode != 200) {
+        if (data.statusCode !== 200) {
             alert(data.message);
             return
         }
@@ -198,25 +198,6 @@ const SelectContent = styled.div`
     padding:0.8125rem 0.875rem;
 
     background-color:${props => props.selectSatus ? 'rgba(216, 216, 216,0.15)' : '#ffffff'};
-`;
-
-const TextImput = styled.textarea`
-    flex-grow:1;
-    flex-basis:0;
-
-    border:none;
-    font-size:0.8125rem;
-
-    padding:0;
-
-    resize:none;
-
-    :focus {
-        outline:none;
-    }
-    ::placeholder {
-        opacity:0.3;
-    }
 `;
 
 

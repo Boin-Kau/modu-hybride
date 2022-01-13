@@ -164,15 +164,6 @@ const Main = () => {
 
 
     })
-
-    //구독등록 페이지 열기
-    const openSubscribePage = () => {
-
-        setPageTrans('trans toRight');
-        history.push('/subscribe');
-
-    };
-
     // 소비분석 데이터
     useEffect(async () => {
         if (analysisList.length < 1) {
@@ -380,6 +371,11 @@ const Main = () => {
         }
 
     }, [closeItemClick])
+    //구독등록 페이지 열기
+    const openSubscribePage = () => {
+        setPageTrans('trans toRight');
+        history.push('/subscribe');
+    };
 
 
     return (

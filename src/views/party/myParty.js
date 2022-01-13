@@ -16,7 +16,7 @@ import MyPartyEmptyImg from '../../assets/banner-party-new-party-activated.svg';
 import { TextMiddle } from '../../styled/shared';
 import { customApiClient } from '../../shared/apiClient';
 
-import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailButton, DetailItemFillContent } from '../../styled/main';
+import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailItemFillContent } from '../../styled/main';
 
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../reducers/container/bottomNav';
@@ -25,7 +25,7 @@ import { priceToString, ContentWrap, ContentDetailWrap } from '../../components/
 import { SetReportCategoryListAction, ReportPopupOpenAction, TerminatePopupOpenAction, BanishPopupOpenAction, BanishPopupCloseAction, ReportPopupCloseAction } from '../../reducers/party/popup';
 import ReportPopUp from './popup/reportPopup';
 import TerminatePopUp from './popup/terminatePopup';
-import { onClickTerminate, checkMobile } from '../../App';
+import { checkMobile } from '../../App';
 import BanishPopUp from './popup/banishPopup';
 
 
@@ -62,7 +62,7 @@ const MyParty = () => {
 
         const userPlatform = checkMobile();
 
-        if (userPlatform == 'ios') {
+        if (userPlatform === 'ios') {
             //IOS 배경색 설정
             try {
                 window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
@@ -81,7 +81,7 @@ const MyParty = () => {
         if (!data) return
 
         //벨리데이션
-        if (data.statusCode != 200) {
+        if (data.statusCode !== 200) {
             return
         }
 
@@ -104,12 +104,12 @@ const MyParty = () => {
     const onClickMenu = useCallback(async (type) => {
 
         //똑같은 탭 누르면 리턴 처리
-        if (progressMenuStatus && type == 'progress') return
-        if (terminateMenuStatus && type == 'terminate') return
+        if (progressMenuStatus && type === 'progress') return
+        if (terminateMenuStatus && type === 'terminate') return
 
         //전체 조회와 카테고리를 동기화 해줘야함! 구독 값이 바뀌면 각 탭 리스트를 다시한번 조회해줘야함
 
-        if (type == 'progress') {
+        if (type === 'progress') {
             setProgressMenuStatus(true);
             setTerminateMenuStatus(false);
         }
@@ -143,7 +143,7 @@ const MyParty = () => {
                         {/* 참여중 리스트 */}
                         <ItemListView selectedStatus={progressMenuStatus}>
                             {
-                                progressData.length != 0 ?
+                                progressData.length !== 0 ?
                                     progressData.map((data, index) => {
                                         return (<BottomContent data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
@@ -159,7 +159,7 @@ const MyParty = () => {
                         {/* 종료됨 리스트 */}
                         <ItemListView selectedStatus={terminateMenuStatus}>
                             {
-                                finishData.length != 0 ?
+                                finishData.length !== 0 ?
                                     finishData.map((data, index) => {
                                         return (<BottomContent data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
@@ -224,7 +224,7 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
             if (!data) return
 
             //벨리데이션
-            if (data.statusCode != 200) {
+            if (data.statusCode !== 200) {
                 return
             }
 
