@@ -224,28 +224,28 @@ const Login = () => {
                 return
 
             }
-            else if (name == '이기택' && phoneNumber == '01092756353') {
+            // else if (name == '이기택' && phoneNumber == '01092756353') {
 
-                await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjEsIm5hbWUiOiLsnbTquLDtg50iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNTUwNjU2MywiZXhwIjoxNjY3MDQyNTYzfQ.GyZ1q9fG2anpQHDdCAPjI9Wh4PP-xJqCHTZjhUb352I');
+            //     await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjEsIm5hbWUiOiLsnbTquLDtg50iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYzNTUwNjU2MywiZXhwIjoxNjY3MDQyNTYzfQ.GyZ1q9fG2anpQHDdCAPjI9Wh4PP-xJqCHTZjhUb352I');
 
-                const authData = await customApiClient('get', '/user/jwt');
+            //     const authData = await customApiClient('get', '/user/jwt');
 
-                //벨리데이션
-                if (!authData || authData.statusCode != 200) {
-                    alert("오류가 발생하였습니다. 다시 시도해주세요.");
-                    return
-                }
-                dispatch({
-                    type: UserInfoUpdate,
-                    data: authData.result
-                })
+            //     //벨리데이션
+            //     if (!authData || authData.statusCode != 200) {
+            //         alert("오류가 발생하였습니다. 다시 시도해주세요.");
+            //         return
+            //     }
+            //     dispatch({
+            //         type: UserInfoUpdate,
+            //         data: authData.result
+            //     })
 
-                dispatch(BottomNavOpenAction);
-                setPageTrans('trans toRight');
-                history.push('/main');
-                return
+            //     dispatch(BottomNavOpenAction);
+            //     setPageTrans('trans toRight');
+            //     history.push('/main');
+            //     return
 
-            }
+            // }
 
             //인증번호 전송 API 호출
             const data = await customApiClient('post', '/user/code/generate', {

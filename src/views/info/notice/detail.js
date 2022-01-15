@@ -1,14 +1,12 @@
 import React, { useCallback, useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
-import duck_family from "../../../assets/duck-family@2x.png";
 
 import { TextMiddle } from '../../../styled/shared';
 
-import { PageClose, PageWrapClose } from '../../../reducers/info/page';
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { customApiClient } from '../../../shared/apiClient';
@@ -17,16 +15,10 @@ import '../../../styled/css/textEditer.css';
 
 const NoticeDetailPage = ({ location }) => {
 
-    const dispatch = useDispatch();
     const history = useHistory();
 
     //context
     const { setPageTrans } = useContext(PageTransContext);
-
-    //페이지 상태값
-    const {
-        noticePageIdx
-    } = useSelector(state => state.info.page);
 
     const [noticeDetail, setNoticeDetail] = useState({
         title: '',
@@ -66,7 +58,7 @@ const NoticeDetailPage = ({ location }) => {
 
         <div className="page">
             <PageWrap>
-                <HeaderWrap className="spoqaBold" onClick={closePage}>
+                <HeaderWrap id="back_link" className="spoqaBold" onClick={closePage}>
                     <div className="back_link_sub" style={{ position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
                         <img src={icon_back}></img>
                     </div>

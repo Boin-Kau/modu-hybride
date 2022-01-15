@@ -192,8 +192,9 @@ const Party = () => {
         }
 
         //링크 이동
-        window.open(enrollPartyChatLink, '_blank');
-
+        setTimeout(() => {
+            window.open(enrollPartyChatLink, '_blank');
+        }, 300);
 
         setEnrollPopupStatus(false);
         setCompletePopupStatus(true);
