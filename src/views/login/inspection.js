@@ -16,6 +16,8 @@ const Inspection = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(BottomNavCloseAction);
+
         const userPlatform = checkMobile();
         dispatch(BottomNavCloseAction);
 
