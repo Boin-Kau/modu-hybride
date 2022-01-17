@@ -37,17 +37,19 @@ import { PageTransContext } from '../../containers/pageTransContext';
 
 
 const Login = () => {
+
+    //모듈 선언
     const history = useHistory();
     const dispatch = useDispatch();
 
-    //페이지 상태값
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
+
+    //Global State 선언
     const {
         openLoginPhonePageWrapStatus,
         openLoginPhonePageStatus
     } = useSelector(state => state.info.page);
-
-    //context
-    const { setPageTrans } = useContext(PageTransContext);
 
     //강제 업데이트 팝업
     const [updatePopupStatus, setUpdatePopupStatus] = useState(false);
@@ -150,6 +152,28 @@ const Login = () => {
         }
 
     }, []);
+
+    //개별선택 이벤트 감지
+    useEffect(() => {
+        //선택 처리 로직
+        if (serviceAgree && personAgree) {
+            setPageConfirmStatus(true);
+            setAgreePageStatus(true);
+        }
+        else {
+            setPageConfirmStatus(false);
+            setAgreePageStatus(false);
+        }
+
+        //전체선택 처리 로직
+        if (serviceAgree && personAgree && marketAgree) {
+            setTotalAgree(true);
+        }
+        else {
+            setTotalAgree(false);
+        }
+
+    }, [serviceAgree, personAgree, marketAgree])
 
 
     const onClickBackButton = () => {
@@ -576,7 +600,7 @@ const Login = () => {
         setMarketAgree(!totalAgree);
     }
 
-    //개발선택 클릭
+    //개별선택 클릭
     const handleOnclickSub = (index) => {
 
         if (index == 0) {
@@ -591,31 +615,8 @@ const Login = () => {
 
     }
 
-    //개별선택 이벤트 감지
-    useEffect(() => {
-        //선택 처리 로직
-        if (serviceAgree && personAgree) {
-            setPageConfirmStatus(true);
-            setAgreePageStatus(true);
-        }
-        else {
-            setPageConfirmStatus(false);
-            setAgreePageStatus(false);
-        }
-
-        //전체선택 처리 로직
-        if (serviceAgree && personAgree && marketAgree) {
-            setTotalAgree(true);
-        }
-        else {
-            setTotalAgree(false);
-        }
-
-    }, [serviceAgree, personAgree, marketAgree])
-
-
     //페이지 열기
-    const openPage = useCallback(async (data) => {
+    const openPage = (data) => {
 
         test = true;
 
@@ -633,7 +634,7 @@ const Login = () => {
             data: 'loginPhone'
         });
 
-    }, []);
+    };
 
     return (
         <>

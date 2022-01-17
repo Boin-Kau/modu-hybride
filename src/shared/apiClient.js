@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-export const apiClient = axios.create({
-    // baseURL: "http://10.20.181.253:3030/", // 기본 서버 주소 입력
-    baseURL: "https://api.spread-y.com/", // 기본 서버 주소 입력
-});
+const devServerURL = "http://3.36.199.93/"; //개발 서버
+const prodServerURL = "https://api.spread-y.com/"; //실 서버
 
+export const apiClient = axios.create({
+    baseURL: process.env.NODE_ENV !== 'development' ? prodServerURL : devServerURL,
+});
 
 
 export const customApiClient = async (method, url, data) => {

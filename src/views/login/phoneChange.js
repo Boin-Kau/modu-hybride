@@ -13,12 +13,12 @@ const PhoneChangePage = () => {
 
     const dispatch = useDispatch();
 
-    //페이지 상태값
+    //global state
     const {
         loginSubPageKind
     } = useSelector(state => state.info.page);
 
-    //state
+    //local state
     const [title, setTitle] = useState('');
 
     useEffect(() => {

@@ -8,7 +8,11 @@ import rootReducer from './reducers';
 import { Provider } from 'react-redux';
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('UA-204802541-1');
+//실서버 ga 연동
+if (process.env.NODE_ENV !== 'development') {
+  ReactGA.initialize('UA-204802541-1');
+}
+
 const store = createStore(rootReducer);
 
 ReactDOM.render(
