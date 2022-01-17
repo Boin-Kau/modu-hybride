@@ -19,6 +19,7 @@ const Inspection = () => {
         dispatch(BottomNavCloseAction);
 
         const userPlatform = checkMobile();
+        dispatch(BottomNavCloseAction);
 
         if (userPlatform == 'android') {
 

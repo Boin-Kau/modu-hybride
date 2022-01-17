@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 export const apiClient = axios.create({
-    // baseURL: "https://api.team-modu.com/", // 기본 서버 주소 입력
-    // baseURL: "http://localhost:3030/", // 기본 서버 주소 입력
+    // baseURL: "http://10.20.181.253:3030/", // 기본 서버 주소 입력
     baseURL: "https://api.spread-y.com/", // 기본 서버 주소 입력
 });
 
@@ -22,8 +21,8 @@ export const customApiClient = async (method, url, data) => {
         return result.data;
     }
     catch (err) {
-        console.log(err.response);
-        console.log(err.message);
+        // console.log(err.response);
+        // console.log(err.message);
 
         if (!err.response) {
             return 'Network Error';

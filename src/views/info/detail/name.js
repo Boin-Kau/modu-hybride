@@ -6,10 +6,11 @@ import icon_back from "../../../assets/icon-back-arrow.svg";
 import { TextMiddle, LoginButton } from '../../../styled/shared';
 import { TitleWrap, ItemWrap, InputWrap, Input } from '../../../styled/main/enrollment';
 import { customApiClient } from '../../../shared/apiClient';
-import { NameUpdate } from '../../../reducers/info/user';
+import { NameUpdate, UserInfoUpdate } from '../../../reducers/info/user';
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../reducers/container/message';
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../../containers/pageTransContext';
+import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 
 
 const NamePage = () => {
@@ -36,6 +37,32 @@ const NamePage = () => {
 
         setName(e.target.value);
     }
+
+    useEffect(async () => {
+        dispatch(BottomNavCloseAction);
+
+        if (!currentName) {
+            const data = await customApiClient('get', '/user/jwt');
+
+            if (data == 'Network Error') {
+                history.push('/inspection');
+                return
+            }
+
+            //벨리데이션
+            if (!data || data.statusCode != 200) {
+                localStorage.removeItem('x-access-token');
+                history.push('/login');
+                return
+            }
+
+            dispatch({
+                type: UserInfoUpdate,
+                data: data.result
+            })
+        }
+    }, [])
+
     useEffect(() => {
 
         //이름 벨리데이션

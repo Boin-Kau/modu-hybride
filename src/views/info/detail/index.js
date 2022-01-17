@@ -18,6 +18,7 @@ import { PageTransContext } from '../../../containers/pageTransContext';
 import { checkMobile } from '../../../App';
 
 import ReactGA from 'react-ga';
+import { UserInfoUpdate } from '../../../reducers/info/user';
 
 const DetailPage = () => {
 
@@ -43,8 +44,29 @@ const DetailPage = () => {
     const { setPageTrans } = useContext(PageTransContext);
 
     //inital logic
-    useEffect(() => {
+    useEffect(async () => {
         dispatch(BottomNavCloseAction);
+
+        if (!name || !uniqueNumber) {
+            const data = await customApiClient('get', '/user/jwt');
+
+            if (data == 'Network Error') {
+                history.push('/inspection');
+                return
+            }
+
+            //벨리데이션
+            if (!data || data.statusCode != 200) {
+                localStorage.removeItem('x-access-token');
+                history.push('/login');
+                return
+            }
+
+            dispatch({
+                type: UserInfoUpdate,
+                data: data.result
+            })
+        }
     }, [])
 
     //뒤로가기 버튼

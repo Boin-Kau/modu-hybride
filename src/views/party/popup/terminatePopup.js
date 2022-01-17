@@ -51,7 +51,7 @@ const TerminatePopUp = ({ openStatus }) => {
         if (!data) return
 
         //벨리데이션
-        if (data.statusCode != 200) {
+        if (data.statusCode !== 200) {
             alert(data.message);
             return
         }
@@ -72,7 +72,7 @@ const TerminatePopUp = ({ openStatus }) => {
                     contentPagetatus &&
                     <div>
 
-                        <img src={TeminateDuckImg} style={{ width: '4.5625rem', height: '6.7188rem', margin: '1.7625rem 0 1.6438rem 0' }} />
+                        <img src={TeminateDuckImg} style={{ width: '4.5625rem', height: '6.7188rem', margin: '1.7625rem 0 1.6438rem 0' }} alt="duckImg" />
                         <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>구독 파티 나가기를 나가실건가요?</div>
                         <div className="notoMedium" style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem', marginBottom: '0.5rem' }}>
                             파티를 나가시면 다시 파티에 입장하실 수 <br />
@@ -88,7 +88,7 @@ const TerminatePopUp = ({ openStatus }) => {
                 {
                     completePagetatus &&
                     <div>
-                        <img src={ReportDuckImg} style={{ width: '3.9562rem', height: '5.8438rem', margin: '1.25rem 0 1.0313rem 0' }} />
+                        <img src={ReportDuckImg} style={{ width: '3.9562rem', height: '5.8438rem', margin: '1.25rem 0 1.0313rem 0' }} alt="duckImg" />
                         <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>선택하신 구독파티를 나가셨습니다.</div>
                         <div className="notoMedium" style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem', marginBottom: '0.5rem' }}>
                             종료된 파티는 내파티에서 확인 가능합니다. <br />

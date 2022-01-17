@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Fade from 'react-reveal/Fade';
 
@@ -12,6 +12,7 @@ import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
 import PartyEmprtyImg from '../../assets/banner-main-new-party.svg';
 import PartyEnrollDuckImg from '../../assets/character-main-party-paticipate.svg';
 
+import partyLoading from '../../assets/party-loading.gif';
 
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../containers/pageTransContext';
@@ -46,6 +47,7 @@ const Party = () => {
     const [seletedCategory, setSelectedCategory] = useState(0);
     const [seletedCategoryName, setSelectedCategoryName] = useState('전체');
     const [totalPartyList, setTotalPartyList] = useState([]);
+    const [matchingCount, setMatchingCount] = useState(0);
     const [partyList, setPartyList] = useState([]);
 
     const [enrollPartyIdx, setEnrollPartyIdx] = useState(0);
@@ -54,17 +56,25 @@ const Party = () => {
 
     const [completePopupStatus, setCompletePopupStatus] = useState(false);
 
+    const [contentHeight, setContentHeight] = useState(0);
+
+    const [isLoading, setIsLoading] = useState(true);
+
     //페이지 열기
     const openPage = (path) => {
         setPageTrans('trans toRight');
         history.push(path);
     }
 
+    const contentDivRef = useRef();
+
     //initial logic
     useEffect(async () => {
 
         //bottom nav logic
         dispatch(BottomNavOpenAction);
+
+        setContentHeight(window.innerHeight - contentDivRef.current.getBoundingClientRect().top);
 
         //구독 카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (categoryList.length < 1) {
@@ -120,7 +130,11 @@ const Party = () => {
         setSelectedCategoryName('전체');
         setTotalPartyList(partyListData.result);
         setPartyList(partyListData.result);
+        setMatchingCount(partyListData.result.filter(data => data.roomStatus === "MATCHING").length);
 
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 350);
     }
 
     const onClickCategory = async (index, name) => {
@@ -177,6 +191,11 @@ const Party = () => {
             return
         }
 
+        //링크 이동
+        setTimeout(() => {
+            window.open(enrollPartyChatLink, '_blank');
+        }, 300);
+
         setEnrollPopupStatus(false);
         setCompletePopupStatus(true);
         getPartyList();
@@ -202,7 +221,7 @@ const Party = () => {
                         <img src={MyPartyIcon} style={{ width: '1.5rem', height: '1.4375rem' }} />
                     </PartyIconWrap>
                     <div className="spoqaBold" style={{ marginTop: '0.375rem', marginLeft: '1.25rem', fontSize: '1.25rem', lineHeight: '1.625rem' }}>
-                        <span style={{ color: '#ffffff' }}>{totalPartyList.length}</span> 개의 파티가<br />
+                        <span style={{ color: '#ffffff' }}>{matchingCount}</span> 개의 파티가<br />
                         파티원을 찾고 있어요!
                     </div>
                     <CategoryWrap className="spoqaBold">
@@ -223,7 +242,7 @@ const Party = () => {
                     <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginLeft: '1.25rem' }}>
                         {seletedCategoryName}
                     </div>
-                    <div style={{ position: 'relative', overflowY: 'scroll', height: '25rem' }}>
+                    <PartyListWrap ref={contentDivRef} contentHeight={contentHeight}>
 
                         {partyList.length === 0 ?
                             <div className="spoqaBold" style={{ textAlign: 'center' }}>
@@ -240,8 +259,11 @@ const Party = () => {
                             })
                         }
                         <div style={{ height: '6.25rem' }} />
-                    </div>
+                    </PartyListWrap>
                 </CardWrap>
+
+                <PartyLoading isLoading={isLoading} style={{ background: `#ffca17 url(${partyLoading}) no-repeat top center`, backgroundSize: '100% auto' }} />
+
             </div>
 
             {/* 참여하기 버튼 팝업 */}
@@ -338,9 +360,14 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
         }))
     }
 
+    const openCard = () => {
+        if (data.roomStatus === "COMPELETE") return
+        setOpenStatue(!openStatus)
+    }
+
     return (
         <>
-            <ContentWrap onClick={() => { setOpenStatue(!openStatus) }} style={{ display: 'block', position: 'relative' }}>
+            <ContentWrap onClick={openCard} style={{ display: 'block', position: 'relative' }}>
                 <div style={{ display: 'flex' }}>
                     <div>
                         {
@@ -390,6 +417,9 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                 <div className="spoqaBold" style={{ position: 'absolute', right: '0.75rem', bottom: '0.6875rem', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
                     {priceToString(data.price)}원
                 </div>
+                <CompleteWrap isCompelte={data.roomStatus === "COMPELETE"}>
+                    <CompleteTextWrap className="spoqaBold">매칭 완료 🎉</CompleteTextWrap>
+                </CompleteWrap>
             </ContentWrap>
 
             <Fade collapse when={openStatus} duration={500}>
@@ -435,6 +465,7 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
 
 
 const CardWrap = styled.div`
+    position: relative;
     z-index: 10;
     flex-grow: 1;
     background-color: #f7f7f7;
@@ -468,4 +499,53 @@ const CategoryItem = styled.div`
     margin-right:0.3125rem;
 `;
 
+const CompleteWrap = styled.div`
+    display:${props => props.isCompelte ? 'block' : 'none'};
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+    background-color:rgba(0,0,0,0.25);
+
+    border-radius: 0.4375rem;
+`;
+const CompleteTextWrap = styled.div`
+    position:absolute;
+    top:50%;
+    left:0;
+    right:0;
+    transform:translate(0,-50%);
+
+    text-align:center;
+    color:white;
+    font-size:1.25rem;
+`;
+
+
+const PartyListWrap = styled.div`
+    position: relative;
+    overflow-y: scroll;
+    height:${props => props.contentHeight + 'px'};
+`;
+
+const PartyLoading = styled.div`
+    visibility:${props => props.isLoading ? 'visible' : 'hidden'};
+    opacity:${props => props.isLoading ? '1' : '0'};
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+
+    border:'1px solid red';
+
+    background-repeat:no-repeat;
+
+    /* 애니메이션 적용 */
+    transition: visibility 0.1s, opacity 0.1s linear;
+`;
 export default Party;

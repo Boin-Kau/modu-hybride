@@ -570,7 +570,11 @@ const SubscribePage = () => {
 
 const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
 
+    const history = useHistory();
     const dispatch = useDispatch();
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     const [status, setStatus] = useState(data.isSubscribe);
 
@@ -627,6 +631,14 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
             dispatch(TotalReloadTrueAction);
             dispatch(SubscribeReloadTrueAction);
 
+
+            setPageTrans('trans toRight');
+            history.push({
+                pathname: "/subscribe/revise",
+                state: {
+                    data: res.result,
+                }
+            })
         }
         //삭제 로직
         else {

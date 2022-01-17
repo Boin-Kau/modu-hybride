@@ -19,6 +19,7 @@ import { UpdateSubscribeStatus, DeletePopupClose, DeletePopupOpen, GetPopularPla
 import { AnalyPageReloadTrueAction } from '../../../../reducers/main/analysis';
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../../../containers/pageTransContext';
+import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
 
 
 const SearchPage = () => {
@@ -47,6 +48,8 @@ const SearchPage = () => {
     const [searchPlatform, setSearchPlatform] = useState([]);
 
     useEffect(async () => {
+
+        dispatch(BottomNavCloseAction);
 
         //인기 리스트, 전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (popularPlatformList.length < 1) {
