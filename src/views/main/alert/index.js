@@ -113,6 +113,23 @@ const AlertPage = () => {
         history.goBack();
     };
 
+    const clickContent = ({ category, contentIdx }) => {
+        if (category.name === "SYSTEM" && contentIdx) {
+            setPageTrans('trans toRight');
+            history.push({
+                pathname: '/notice/detail',
+                state: {
+                    idx: contentIdx
+                }
+            })
+        }
+        //우선 파티 페이지로만 이동시키기
+        else if (category.name === "PARTY") {
+            setPageTrans('trans toRight');
+            history.push('/party/my');
+        }
+    };
+
     return (
 
         <div className="page" style={{ backgroundColor: "#ffffff" }}>
@@ -129,10 +146,8 @@ const AlertPage = () => {
 
                     {alertList.length > 0 &&
                         alertList.map((data, index) => {
-
-
                             return (
-                                <AlertWrap isRead={data.viewedAt !== null} key={index}>
+                                <AlertWrap onClick={() => { clickContent(data) }} isRead={data.viewedAt !== null} key={index} >
                                     <div style={{ display: 'flex', paddingBottom: '1.25rem', borderBottom: '0.0437rem solid rgba(0,0,0,0.06)' }}>
                                         <div style={{ marginRight: '1rem' }}>
                                             <div>
@@ -154,7 +169,7 @@ const AlertPage = () => {
 
                 </div>
             </PageWrap>
-        </div>
+        </div >
     )
 };
 

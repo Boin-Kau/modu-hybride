@@ -6,7 +6,7 @@ import ReportDuckImg from "../../../assets/character-main-report.svg";
 import { DangerWrapPopup, DangerPopup } from "../../../styled/shared";
 import { useDispatch, useSelector } from "react-redux";
 import { ReportPopupCloseAction } from "../../../reducers/party/popup";
-import { ItemWrap, InputWrap, Input } from "../../../styled/main/enrollment";
+import { ItemWrap, InputWrap } from "../../../styled/main/enrollment";
 import styled from "styled-components";
 
 import icon_arrow_down from "../../../assets/icon-arrow-down-gray.svg";
@@ -76,7 +76,7 @@ const ReportPopUp = ({ openStatus }) => {
         if (!data) return
 
         //벨리데이션
-        if (data.statusCode != 200) {
+        if (data.statusCode !== 200) {
             return
         }
 
@@ -96,7 +96,7 @@ const ReportPopUp = ({ openStatus }) => {
                     contentPagetatus &&
                     <div>
 
-                        <img src={TeminateDuckImg} style={{ width: '3.9562rem', height: '5.8438rem', margin: '1.25rem 0 1.0313rem 0' }} />
+                        <img src={TeminateDuckImg} style={{ width: '3.9562rem', height: '5.8438rem', margin: '1.25rem 0 1.0313rem 0' }} alt="duckImg" />
                         <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>구독 파티를 신고하실건가요?</div>
                         <div className="notoMedium" style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem', marginBottom: '0.5rem' }}>
                             구독파티를 신고하시면 검토 이후에 <br />
@@ -118,8 +118,8 @@ const ReportPopUp = ({ openStatus }) => {
                                     <div>
                                         {
                                             categoryOpen ?
-                                                <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                                                <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} alt="arrowIcon" /> :
+                                                <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} alt="arrowIcon" />
                                         }
                                     </div>
                                 </InputWrap>
@@ -165,7 +165,7 @@ const ReportPopUp = ({ openStatus }) => {
                 {
                     completePagetatus &&
                     <div>
-                        <img src={ReportDuckImg} style={{ width: '3.9562rem', height: '5.8438rem', margin: '1.25rem 0 1.0313rem 0' }} />
+                        <img src={ReportDuckImg} style={{ width: '3.9562rem', height: '5.8438rem', margin: '1.25rem 0 1.0313rem 0' }} alt="duckImg" />
                         <div className="spoqaBold" style={{ marginBottom: '0.5rem', fontSize: '0.875rem', color: '#000000' }}>선택하신 구독파티가 신고되었습니다.</div>
                         <div className="notoMedium" style={{ fontSize: '0.75rem', opacity: '0.4', lineHeight: '1.3125rem', marginBottom: '0.5rem' }}>
                             신고된 구독파티는 운영진의 검토 이후에 <br />

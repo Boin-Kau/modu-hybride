@@ -1,13 +1,10 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import ReportDuckImg from "../../assets/character-main-report.svg";
-import TeminateDuckImg from "../../assets/character-main-party-ban.svg";
 
 import { DangerWrapPopup, DangerPopup } from "../../styled/shared";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import { useHistory } from "react-router-dom";
 import { checkMobile } from "../../App";
 
 
@@ -36,7 +33,7 @@ const UpdatePopUp = ({ openStatus }) => {
 
                 <div>
                     <div className="spoqaBold" style={{ marginTop: '0.9375rem', fontSize: "1.25rem", lineHeight: '1.9375rem', textAlign: 'left' }}>버전 업데이트</div>
-                    <img src={ReportDuckImg} style={{ height: '10rem', margin: '1.7625rem 0 1.6438rem 0' }} />
+                    <img src={ReportDuckImg} style={{ height: '10rem', margin: '1.7625rem 0 1.6438rem 0' }} alt="duckImg" />
                     <div className="notoMedium" style={{ fontSize: '0.875rem', lineHeight: '1.3125rem', color: '#5b5b5b', marginBottom: '1.5rem' }}>
                         점검을 통해 버그와 기능을 업데이트 했습니다. <br />
                         새로운 기능으로 달라진 모두를 확인해보세요!

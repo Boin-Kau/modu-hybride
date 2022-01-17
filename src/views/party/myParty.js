@@ -16,16 +16,16 @@ import MyPartyEmptyImg from '../../assets/banner-party-new-party-activated.svg';
 import { TextMiddle } from '../../styled/shared';
 import { customApiClient } from '../../shared/apiClient';
 
-import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailButton, DetailItemFillContent } from '../../styled/main';
+import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailItemFillContent } from '../../styled/main';
 
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { PageTransContext } from '../../containers/pageTransContext';
 import { priceToString, ContentWrap, ContentDetailWrap } from '../../components/main/bottomCard';
-import { SetReportCategoryListAction, ReportPopupOpenAction, TerminatePopupOpenAction, BanishPopupOpenAction } from '../../reducers/party/popup';
+import { SetReportCategoryListAction, ReportPopupOpenAction, TerminatePopupOpenAction, BanishPopupOpenAction, BanishPopupCloseAction, ReportPopupCloseAction } from '../../reducers/party/popup';
 import ReportPopUp from './popup/reportPopup';
 import TerminatePopUp from './popup/terminatePopup';
-import { onClickTerminate, checkMobile } from '../../App';
+import { checkMobile } from '../../App';
 import BanishPopUp from './popup/banishPopup';
 
 
@@ -62,7 +62,7 @@ const MyParty = () => {
 
         const userPlatform = checkMobile();
 
-        if (userPlatform == 'ios') {
+        if (userPlatform === 'ios') {
             //IOS 배경색 설정
             try {
                 window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
@@ -81,7 +81,7 @@ const MyParty = () => {
         if (!data) return
 
         //벨리데이션
-        if (data.statusCode != 200) {
+        if (data.statusCode !== 200) {
             return
         }
 
@@ -95,6 +95,8 @@ const MyParty = () => {
     };
 
     const closeSubscribePage = () => {
+        dispatch(BanishPopupCloseAction());
+        dispatch(ReportPopupCloseAction());
         setPageTrans('trans toLeft');
         history.goBack();
     };
@@ -102,12 +104,12 @@ const MyParty = () => {
     const onClickMenu = useCallback(async (type) => {
 
         //똑같은 탭 누르면 리턴 처리
-        if (progressMenuStatus && type == 'progress') return
-        if (terminateMenuStatus && type == 'terminate') return
+        if (progressMenuStatus && type === 'progress') return
+        if (terminateMenuStatus && type === 'terminate') return
 
         //전체 조회와 카테고리를 동기화 해줘야함! 구독 값이 바뀌면 각 탭 리스트를 다시한번 조회해줘야함
 
-        if (type == 'progress') {
+        if (type === 'progress') {
             setProgressMenuStatus(true);
             setTerminateMenuStatus(false);
         }
@@ -141,7 +143,7 @@ const MyParty = () => {
                         {/* 참여중 리스트 */}
                         <ItemListView selectedStatus={progressMenuStatus}>
                             {
-                                progressData.length != 0 ?
+                                progressData.length !== 0 ?
                                     progressData.map((data, index) => {
                                         return (<BottomContent data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
@@ -157,7 +159,7 @@ const MyParty = () => {
                         {/* 종료됨 리스트 */}
                         <ItemListView selectedStatus={terminateMenuStatus}>
                             {
-                                finishData.length != 0 ?
+                                finishData.length !== 0 ?
                                     finishData.map((data, index) => {
                                         return (<BottomContent data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
@@ -189,10 +191,14 @@ const MyParty = () => {
 const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const {
         reportCategoryList,
     } = useSelector(state => state.party.popup);
+
+    //context
+    const { setPageTrans } = useContext(PageTransContext);
 
     const [openStatus, setOpenStatus] = useState(false);
 
@@ -218,7 +224,7 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
             if (!data) return
 
             //벨리데이션
-            if (data.statusCode != 200) {
+            if (data.statusCode !== 200) {
                 return
             }
 
@@ -243,6 +249,14 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
             terminatePartyIdx: data.idx,
             terminatePartyRole: role
         }))
+    }
+
+    const handleClickRevise = () => {
+        setPageTrans('trans toLRight');
+        history.push({
+            pathname: '/party/revise',
+            data: data
+        })
     }
 
     const onClickBanishUser = () => {
@@ -351,9 +365,15 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
                     </DetailRowWrap>
                     {isProgress &&
                         <DetailRowWrap style={{ margin: "0", marginTop: '1rem' }}>
-                            <div onClick={onClickTerminate} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                                <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 나가기</div>
-                            </div>
+                            {data.IsHost === 'Y' ?
+                                <div onClick={handleClickRevise} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                                    <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 수정하기</div>
+                                </div>
+                                :
+                                <div onClick={onClickTerminate} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                                    <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 나가기</div>
+                                </div>
+                            }
 
                             {data.IsHost === 'Y' &&
                                 <ButtonWrap onClick={onClickBanishUser} className="spoqaBold" isComplte={room.partyUser.length > 1} style={{ marginLeft: '0.75rem' }}>

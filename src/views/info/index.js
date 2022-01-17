@@ -12,6 +12,8 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { onClickTerminate, checkMobile } from '../../App';
 import { PageTransContext } from '../../containers/pageTransContext';
+import { customApiClient } from '../../shared/apiClient';
+import { UserInfoUpdate } from '../../reducers/info/user';
 
 const Info = () => {
 
@@ -44,7 +46,7 @@ const Info = () => {
         history.push(domain);
     }
 
-    useEffect(() => {
+    useEffect(async () => {
         dispatch(BottomNavOpenAction);
 
         const userPlatform = checkMobile();
@@ -56,6 +58,27 @@ const Info = () => {
             }
             catch (err) {
             }
+        }
+
+        if (!name || !uniqueNumber) {
+            const data = await customApiClient('get', '/user/jwt');
+
+            if (data == 'Network Error') {
+                history.push('/inspection');
+                return
+            }
+
+            //벨리데이션
+            if (!data || data.statusCode != 200) {
+                localStorage.removeItem('x-access-token');
+                history.push('/login');
+                return
+            }
+
+            dispatch({
+                type: UserInfoUpdate,
+                data: data.result
+            })
         }
 
     }, [])
