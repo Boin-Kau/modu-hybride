@@ -72,7 +72,7 @@ const SettingPage = () => {
     useEffect(() => {
 
         //최신
-        if (versonName == '2.0.0') {
+        if (versonName == '2.0.1') {
             setIsRecentVerson(true);
         }
         else {
