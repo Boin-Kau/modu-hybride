@@ -31,6 +31,8 @@ import AlertPage from '../views/main/alert';
 import Inspection from '../views/login/inspection';
 import NoticeDetailPage from '../views/info/notice/detail';
 import PartyRevise from '../views/party/enrollment/revise';
+import Name from '../views/login/findName/name';
+import PhoneForName from '../views/login/findName/phonePage';
 
 const AppLayout = () => {
 
@@ -72,6 +74,9 @@ const AppLayout = () => {
             <Route path='/faq' exact component={QuestionPage} />
             <Route path='/setting' exact component={SettingPage} />
             <Route path='/agree' exact component={AgreePage} />
+            <Route path='/phone' exact component={PhoneForName} />
+            <Route path='/findName' exact component={Name} />
+
         </>
     );
 
