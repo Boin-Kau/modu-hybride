@@ -27,6 +27,7 @@ const Name = () => {
   }
 
   useEffect(() => {
+    //이름 가져오기
     setName(location.props.name);
   }, []);
 
