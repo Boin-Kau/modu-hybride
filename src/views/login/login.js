@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect, useContext } from 'react';
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { LoginButton, LoginInput, TextMiddle } from '../../styled/shared';
 
@@ -41,6 +41,7 @@ const Login = () => {
     //모듈 선언
     const history = useHistory();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     //context
     const { setPageTrans } = useContext(PageTransContext);
@@ -151,10 +152,22 @@ const Login = () => {
             }
         }
 
+        //이름 찾기 완료시 바로 입력되게 처리
+        if (location.props && location.props.name) {
+            setName(location.props.name);
+            setNameErrorText("");
+            setPageConfirmStatus(true);
+            setNamePageStatus(true);
+        }
+
     }, []);
 
     //개별선택 이벤트 감지
     useEffect(() => {
+
+        //초기 실행 로직 방지
+        if (!phoneAuthPageStatus) return
+
         //선택 처리 로직
         if (serviceAgree && personAgree) {
             setPageConfirmStatus(true);
@@ -636,6 +649,12 @@ const Login = () => {
 
     };
 
+    //이름찾기 페이지 이동
+    const handleClickFindName = () => {
+        setPageTrans('trans toRight');
+        history.push('phone');
+    }
+
     return (
         <>
             <div className="page" style={{ backgroundColor: "#ffffff", position: 'relative' }}>
@@ -664,7 +683,7 @@ const Login = () => {
                         <div className="spoqaRegular" style={{ height: '1.0625rem', margin: "0.125rem 0 1.125rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
                             {nameErrorText}
                         </div>
-                        <div className="spoqaRegular" onClick={() => { history.push('phone') }} style={{ display: "flex" }}>
+                        <div className="spoqaRegular" onClick={handleClickFindName} style={{ display: "flex" }}>
                             <div style={{ marginRight: "0.3125rem" }}>
                                 <img src={icon_info} style={{ width: "0.875rem", height: "0.875rem" }} />
                             </div>

@@ -371,6 +371,8 @@ const Main = () => {
         }
 
     }, [closeItemClick])
+
+
     //구독등록 페이지 열기
     const openSubscribePage = () => {
         setPageTrans('trans toRight');

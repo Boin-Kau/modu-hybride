@@ -1,27 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
 
-import {TextMiddle} from "../../../styled/shared";
-import { useHistory,useLocation } from 'react-router-dom';
+import { TextMiddle } from "../../../styled/shared";
+import { useHistory, useLocation } from 'react-router-dom';
+import { PageTransContext } from "../../../containers/pageTransContext";
 
 const Name = () => {
   const history = useHistory();
   const location = useLocation();
 
-  //state
-  const [name,setName] = useState('');
+  //context
+  const { setPageTrans } = useContext(PageTransContext);
 
-  const goToLogin=()=>{
-    history.push('login');
+  //state
+  const [name, setName] = useState('');
+
+  const goToLogin = () => {
+    setPageTrans('trans toRight');
+    history.push({
+      pathname: 'login',
+      props: {
+        name: name
+      }
+    });
   }
 
   useEffect(() => {
     setName(location.props.name);
   }, []);
-  
+
   return (
-    <div className="page"  style={{ backgroundColor: "#ffffff", position: 'relative' }}>
+    <div className="page" style={{ backgroundColor: "#ffffff", position: 'relative' }}>
       <PageWrap>
         <HeaderWrap className="spoqaBold">
           <TextMiddle>이름 찾기</TextMiddle>
@@ -29,8 +39,10 @@ const Name = () => {
 
         <NameWrap className="notoMedium">
           <NameText>
-            회원님의 이름은<br/>
-            {name}입니다.
+            <div>회원님의 이름은</div>
+            <div>
+              <span className="name spoqaBold">{name}</span>입니다.
+            </div>
           </NameText>
 
           <SubmitButton className="spoqaBold" onClick={goToLogin}>
@@ -86,21 +98,27 @@ const NameWrap = styled.div`
 `;
 
 const NameText = styled.div`
-  display:flex;
-  font-size: 1.275rem;
+  font-size: 1rem;
   align-self: center;
   text-align: center;
+
+  color:rgba(49,49,49,0.5);
+
+  .name {
+    margin-right:0.125rem;
+    color:rgba(49,49,49,1);
+  }
 `;
 
 const SubmitButton = styled.div`
   display:flex;
   align-self : center;
   position: relative;
-  width: 10.5rem;
+  width: 13.125rem;
   height: 3rem;
 
   background: #ffca17;
-  border-radius: 1.3rem;
+  border-radius: 1.5625rem;
 `;
 
 const SubmitText = styled.div`

@@ -125,9 +125,10 @@ const PhoneForName = () => {
         }
 
         //200->이름찾기 결과페이지로 이동
+        setPageTrans('trans toRight');
         history.push({
-            pathname:'findName',
-            props:{
+            pathname: 'findName',
+            props: {
                 name: res.name
             }
         });
