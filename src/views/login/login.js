@@ -661,8 +661,17 @@ const Login = () => {
                 {currentPage == 1 &&
                     <ContentWrap>
                         <LoginInput className="spoqaBold" value={name} onChange={handleName} type="text" placeholder="이름" />
-                        <div style={{ height: '1.0625rem', margin: "0.125rem 0 0.0625rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
+                        <div className="spoqaRegular" style={{ height: '1.0625rem', margin: "0.125rem 0 1.125rem 0", fontSize: "0.6875rem", color: "#fb5e5e", lineHeight: "1.0625rem" }}>
                             {nameErrorText}
+                        </div>
+                        <div className="spoqaRegular" onClick={() => { history.push('phone') }} style={{ display: "flex" }}>
+                            <div style={{ marginRight: "0.3125rem" }}>
+                                <img src={icon_info} style={{ width: "0.875rem", height: "0.875rem" }} />
+                            </div>
+                            <div style={{ paddingTop: '0.1563rem', fontSize: "0.6875rem", color: "#313131", opacity: "0.4", textDecoration: "underline", textDecorationColor: "#adadad", textUnderlinePosition: "under" }}>
+                                휴대폰 번호로 이름찾기
+                            </div>
+                            <div style={{ flexGrow: "1" }}></div>
                         </div>
                     </ContentWrap>
                 }
