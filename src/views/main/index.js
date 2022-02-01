@@ -326,7 +326,8 @@ const Main = () => {
                 //fcm 등록
                 customApiClient('patch', '/user/fcm', {
                     fcmToken: fcmToken,
-                    platform: platform
+                    platform: platform,
+                    type: "UPDATE"
                 });
 
             }, 3000);

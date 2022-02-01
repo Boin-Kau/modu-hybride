@@ -111,7 +111,8 @@ const DetailPage = () => {
 
         await customApiClient('patch', '/user/fcm', {
             fcmToken: null,
-            platform: platform
+            platform: platform,
+            type: "DELETE"
         });
 
         localStorage.removeItem('x-access-token');
@@ -152,7 +153,8 @@ const DetailPage = () => {
 
         await customApiClient('patch', '/user/fcm', {
             fcmToken: null,
-            platform: platform
+            platform: platform,
+            type: "DELETE"
         });
 
         //서버통신
