@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { TextMiddle } from "../../../styled/shared";
 import { useHistory, useLocation } from 'react-router-dom';
 import { PageTransContext } from "../../../containers/pageTransContext";
+import { GAEventSubmit, GA_CATEOGRY, GA_USER_ACTION } from "../../../shared/gaSetting";
 
 const Name = () => {
   const history = useHistory();
@@ -17,6 +18,7 @@ const Name = () => {
   const [name, setName] = useState('');
 
   const goToLogin = () => {
+    GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.FINDNAME);
     setPageTrans('trans toRight');
     history.push({
       pathname: 'login',

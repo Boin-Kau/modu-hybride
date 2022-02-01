@@ -260,7 +260,6 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
     }
 
     const onClickBanishUser = () => {
-        console.log(room);
         if (room.partyUser.length <= 1) return
 
         dispatch(BanishPopupOpenAction({

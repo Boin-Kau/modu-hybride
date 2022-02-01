@@ -17,8 +17,8 @@ import { customApiClient } from '../../../shared/apiClient';
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { checkMobile } from '../../../App';
 
-import ReactGA from 'react-ga';
 import { UserInfoUpdate } from '../../../reducers/info/user';
+import { GAEventSubmit, GA_CATEOGRY, GA_USER_ACTION } from '../../../shared/gaSetting';
 
 const DetailPage = () => {
 
@@ -83,11 +83,6 @@ const DetailPage = () => {
 
     //로그아웃 버튼 클릭
     const onCickLogout = () => {
-        ReactGA.event({
-            category: 'User',
-            action: 'Logout an Account'
-        });
-
         setLogoutPopupWrap(true);
         setLogoutPopup(true);
     }
@@ -120,16 +115,19 @@ const DetailPage = () => {
         dispatch({
             type: 'RESET'
         });
+
+        // ReactGA.event({
+        //     category: 'User',
+        //     action: 'Logout an Account'
+        // });
+
+        GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGOUT);
+
         histroy.push('/login');
     }
 
     //회원탈퇴 버튼 클릭
     const onClickDelete = async () => {
-        ReactGA.event({
-            category: 'User',
-            action: 'Delete an Account'
-        });
-
         setDangerPopupWrap(true);
         setDangerPopup(true);
     }
@@ -174,6 +172,14 @@ const DetailPage = () => {
         dispatch({
             type: 'RESET'
         })
+
+        // ReactGA.event({
+        //     category: 'User',
+        //     action: 'Delete an Account'
+        // });
+
+        GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.SIGNOUT);
+
         histroy.push('/login');
     }
 

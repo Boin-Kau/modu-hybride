@@ -25,6 +25,7 @@ import { GetPlatformCategoryList } from '../../reducers/main/platform';
 import { DangerWrapPopup, DangerPopup } from '../../styled/shared';
 import ReportPopUp from './popup/reportPopup';
 import { ReportPopupOpenAction, SetReportCategoryListAction } from '../../reducers/party/popup';
+import { GA_CATEOGRY, GA_PARTY_ACTION, GAEventSubmit } from '../../shared/gaSetting';
 
 const Party = () => {
 
@@ -190,6 +191,8 @@ const Party = () => {
             alert(data.message);
             return
         }
+
+        GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.JOIN);
 
         //링크 이동
         setTimeout(() => {
@@ -362,6 +365,10 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
 
     const openCard = () => {
         if (data.roomStatus === "COMPELETE") return
+
+        if (!openStatus) {
+            GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DETAIL);
+        }
         setOpenStatue(!openStatus)
     }
 

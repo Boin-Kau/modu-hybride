@@ -17,6 +17,7 @@ import Fade from 'react-reveal/Fade';
 import { customApiClient } from "../../../shared/apiClient";
 import { PageTransContext } from "../../../containers/pageTransContext";
 import { useHistory } from "react-router-dom";
+import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
 
 
 
@@ -79,6 +80,9 @@ const BanishPopUp = ({ openStatus }) => {
             alert(data.message);
             return
         }
+
+        GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.BANISH);
+
 
         //콘텐츠 전환
         setContentPageStatus(false);
