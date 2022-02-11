@@ -33,6 +33,7 @@ import NoticeDetailPage from '../views/info/notice/detail';
 import PartyRevise from '../views/party/enrollment/revise';
 import Name from '../views/login/findName/name';
 import PhoneForName from '../views/login/findName/phonePage';
+import PartyDetail from '../views/party/detail';
 
 const AppLayout = () => {
 
@@ -58,6 +59,7 @@ const AppLayout = () => {
             <Route path='/search' exact component={SearchPage} />
             <Route path='/analysis' exact component={AnalysisPage} />
             <Route path='/party' exact component={Party} />
+            <Route path='/party/detail' exact component={PartyDetail}/>
             <Route path='/party/my' exact component={MyParty} />
             <Route path='/party/enroll' exact component={PartyEnrollment} />
             <Route path='/party/enroll/platform' exact component={PartyPlatform} />
