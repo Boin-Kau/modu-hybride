@@ -19,6 +19,7 @@ import {
   PartyText,
   DeleteButtonWrap,
 } from "../../styled/main/enrollment";
+import { customApiClient } from "../../shared/apiClient";
 
 const CardRegister = () => {
   const dispatch = useDispatch();
@@ -29,19 +30,22 @@ const CardRegister = () => {
 
   //state
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
-  const [isFree, setIsFree] = useState("N");
 
   //state-카드정보
-  const [num1,setNum1] = useState('');
-  const [num2,setNum2] = useState('');
-  const [num3,setNum3] = useState('');
-  const [num4,setNum4] = useState('');
-  const [max,setMax] = useState('');
-  const [cardNum, setCardNum] = useState('');
-  const [cardPw, setCardPw] = useState('');
-  const [expireYear, setExpireYear] = useState('');
-  const [expireMonth, setExpireMonth] = useState('');
-  const [identifyNumber, setIdentiryNumber] = useState('');
+  const [num1, setNum1] = useState("");
+  const [num2, setNum2] = useState("");
+  const [num3, setNum3] = useState("");
+  const [num4, setNum4] = useState("");
+  const [cardNum, setCardNum] = useState("");
+  const [cardPw, setCardPw] = useState("");
+  const [expire, setExpire] = useState("");
+  const [identifyNumber, setIdentifyNumber] = useState("");
+
+  //state-약관
+  const [isFreeOne, setIsFreeOne] = useState("N");
+  const [isFreeTwo, setIsFreeTwo] = useState("N");
+  const [isFreeThree, setIsFreeThree] = useState("N");
+  const [isFreeFour, setIsFreeFour] = useState("N");
 
   //initial logic
   useEffect(() => {
@@ -53,37 +57,154 @@ const CardRegister = () => {
     history.goBack();
   };
 
-  //inputMove
-  // const inputMoveNumber = (num) =>{
+  //input autoFocusing
+  const handleNextFocus = (e, next) => {
+    const { value, maxLength } = e.target;
+    if (value.length === maxLength) {
+      if (next) {
+        const nextRef = document.getElementById(next);
+        if (nextRef) {
+          nextRef.focus();
+        }
+      }
+    }
+  };
 
-  //   if(!isFinite(num)){
-  //     alert('숫자만 입력해주세요');
-  //   }
-  //   setMax(num.maxLength);
+  //cardNum
+  const handleChangeOne = (e) => {
+    if (e.target.value.length == 5) return false;
+    setNum1(e.target.value);
+    handleNextFocus(e, "num2");
+  };
 
-  //   if(num.length >= max){
-      
-  //   }
-  // }
+  const handleChangeTwo = (e) => {
+    if (e.target.value.length == 5) return false;
+    setNum2(e.target.value);
+    handleNextFocus(e, "num3");
+  };
+
+  const handleChangeThree = (e) => {
+    if (e.target.value.length == 5) return false;
+    setNum3(e.target.value);
+    handleNextFocus(e, "num4");
+  };
+
+  const handleChangeFour = (e) => {
+    if (e.target.value.length == 5) return false;
+    setNum4(e.target.value);
+    setCardNum(num1 + num2 + num3 + num4);
+    console.log(cardNum);
+    handleNextFocus(e, "expire");
+  };
+
+  const onChangeExpire = (e) => {
+    setExpire(e.target.value);
+    handleNextFocus(e, "cardPw");
+  };
+
+  const onChangePw = (e) => {
+    setCardPw(e.target.value);
+    handleNextFocus(e, "identifyNumber");
+  };
+
+  const onChangeId = (e) => {
+    if (e.target.value.length == 11) return false;
+    setIdentifyNumber(e.target.value);
+  };
 
   //isFree
-  const onClickIsFree = useCallback(() => {
-    if (isFree == "N") {
-      setIsFree("Y");
+  const onClickIsFreeOne = useCallback(() => {
+    if (isFreeOne == "N") {
+      setIsFreeOne("Y");
     } else {
-      setIsFree("N");
+      setIsFreeOne("N");
     }
-  }, [isFree]);
+  }, [isFreeOne]);
+
+  const onClickIsFreeTwo = useCallback(() => {
+    if (isFreeTwo == "N") {
+      setIsFreeTwo("Y");
+    } else {
+      setIsFreeTwo("N");
+    }
+  }, [isFreeTwo]);
+
+  const onClickIsFreeThree = useCallback(() => {
+    if (isFreeThree == "N") {
+      setIsFreeThree("Y");
+    } else {
+      setIsFreeThree("N");
+    }
+  }, [isFreeThree]);
+
+  const onClickIsFreeFour = useCallback(() => {
+    if (isFreeFour == "N") {
+      setIsFreeFour("Y");
+    } else {
+      setIsFreeFour("N");
+    }
+  }, [isFreeFour]);
 
   //정보 입력 완료
   const onClickRevise = useCallback(async () => {
     if (!pageConfirmStatus) return;
+    else {
+      const data = await customApiClient("post", "/party/user/card", {
+        cardNum: cardNum,
+        cardPw: cardPw,
+        expireYear: expire.substring(0, 2),
+        expireMonth: expire.substring(2),
+        identifyNumber: identifyNumber,
+      });
 
-    //뒤로가기
-    setPageTrans("trans toLeft");
-    history.goBack();
-  }, []);
+      //서버에러
+      if (!data) return;
 
+      //벨리데이션
+      if (data.statusCode != 200) {
+        return;
+      }
+
+      //뒤로가기
+      setPageTrans("trans toLeft");
+      history.goBack();
+    }
+  }, [pageConfirmStatus, cardNum, cardPw, expire, identifyNumber]);
+
+  //페이지 벨리데이션
+  useEffect(() => {
+    if (
+      num1 &&
+      num2 &&
+      num3 &&
+      num4 &&
+      cardNum &&
+      cardPw &&
+      expire &&
+      identifyNumber &&
+      isFreeOne == "Y" &&
+      isFreeTwo == "Y" &&
+      isFreeThree == "Y" &&
+      isFreeFour == "Y"
+    ) {
+      setPageConfirmStatus(true);
+    } else {
+      setPageConfirmStatus(false);
+    }
+  }, [
+    num1,
+    num2,
+    num3,
+    num4,
+    cardNum,
+    cardPw,
+    expire,
+    identifyNumber,
+    isFreeOne,
+    isFreeTwo,
+    isFreeThree,
+    isFreeFour,
+  ]);
 
   return (
     <div className="page">
@@ -120,19 +241,47 @@ const CardRegister = () => {
             <TitleWrap className="notoMedium">카드번호</TitleWrap>
             <ItemWrap style={{ flexDirection: "row" }}>
               <InputWrap>
-                <Input type="number" id="num1" placeholder="0000" onKeyUp={inputMoveNumber(num1)} maxLength={4} value={num1}></Input>
+                <Input
+                  id="num1"
+                  type="number"
+                  placeholder="0000"
+                  maxLength={4}
+                  value={num1}
+                  onChange={handleChangeOne}
+                ></Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap>
-                <Input type="number" id="num2" placeholder="0000" onKeyUp={inputMoveNumber(num2)} maxLength={4} value={num2}></Input>
+                <Input
+                  id="num2"
+                  type="number"
+                  placeholder="0000"
+                  maxLength={4}
+                  value={num2}
+                  onChange={handleChangeTwo}
+                ></Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap>
-                <Input type="password" id="num3" placeholder="0000" onKeyUp={inputMoveNumber(num3)} maxLength={4} value={num3}></Input>
+                <Input
+                  id="num3"
+                  type="password"
+                  placeholder="0000"
+                  maxLength={4}
+                  value={num3}
+                  onChange={handleChangeThree}
+                ></Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap>
-                <Input type="password" id="num4" placeholder="0000" maxLength={4} value={num4}></Input>
+                <Input
+                  id="num4"
+                  type="password"
+                  placeholder="0000"
+                  maxLength={4}
+                  value={num4}
+                  onChange={handleChangeFour}
+                ></Input>
               </InputWrap>
             </ItemWrap>
           </div>
@@ -147,39 +296,50 @@ const CardRegister = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "9.5625rem",
+                width: "48%",
               }}
             >
               <TitleWrap className="notoMedium">유효기간</TitleWrap>
               <InputWrap>
-                <Input type="number" placeholder="MMYY"></Input>
+                <Input
+                  id="expire"
+                  type="password"
+                  placeholder="MMYY"
+                  value={expire}
+                  maxLength={4}
+                  onChange={onChangeExpire}
+                ></Input>
               </InputWrap>
             </div>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "9.5625rem",
+                width: "48%",
               }}
             >
-              <TitleWrap className="notoMedium">CVC</TitleWrap>
+              <TitleWrap className="notoMedium">카드 비밀번호</TitleWrap>
               <InputWrap>
-                <Input type="number" placeholder="카드 뒷면 3자리 숫자"></Input>
+                <Input
+                  id="cardPw"
+                  type="password"
+                  placeholder="비밀번호 앞 2자리 숫자"
+                  value={cardPw}
+                  maxLength={2}
+                  onChange={onChangePw}
+                ></Input>
               </InputWrap>
             </div>
-          </div>
-          <div>
-            <TitleWrap className="notoMedium">카드 비밀번호</TitleWrap>
-            <InputWrap>
-              <Input type="number" placeholder="비밀번호 앞 2자리 숫자"></Input>
-            </InputWrap>
           </div>
           <div>
             <TitleWrap className="notoMedium">생년월일 / 사업자번호</TitleWrap>
             <InputWrap>
               <Input
+                id="identifyNumber"
                 type="number"
                 placeholder="생년월일 6자리 또는 사업자번호 10자리"
+                value={identifyNumber}
+                onChange={onChangeId}
               ></Input>
             </InputWrap>
           </div>
@@ -190,9 +350,9 @@ const CardRegister = () => {
                 alignItems: "center",
                 marginBottom: "0.625rem",
               }}
-              onClick={onClickIsFree}
+              onClick={onClickIsFreeOne}
             >
-              <PartyIconWrap isFree={isFree} style={{}}>
+              <PartyIconWrap isFree={isFreeOne}>
                 <PartyIcon src={icon_check} />
               </PartyIconWrap>
               <PartyText className="notoMedium">
@@ -205,9 +365,9 @@ const CardRegister = () => {
                 alignItems: "center",
                 marginBottom: "0.625rem",
               }}
-              onClick={onClickIsFree}
+              onClick={onClickIsFreeTwo}
             >
-              <PartyIconWrap isFree={isFree} style={{}}>
+              <PartyIconWrap isFree={isFreeTwo}>
                 <PartyIcon src={icon_check} />
               </PartyIconWrap>
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
@@ -220,9 +380,9 @@ const CardRegister = () => {
                 alignItems: "center",
                 marginBottom: "0.625rem",
               }}
-              onClick={onClickIsFree}
+              onClick={onClickIsFreeThree}
             >
-              <PartyIconWrap isFree={isFree} style={{}}>
+              <PartyIconWrap isFree={isFreeThree}>
                 <PartyIcon src={icon_check} />
               </PartyIconWrap>
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
@@ -235,9 +395,9 @@ const CardRegister = () => {
                 alignItems: "center",
                 marginBottom: "0.625rem",
               }}
-              onClick={onClickIsFree}
+              onClick={onClickIsFreeFour}
             >
-              <PartyIconWrap isFree={isFree} style={{}}>
+              <PartyIconWrap isFree={isFreeFour}>
                 <PartyIcon src={icon_check} />
               </PartyIconWrap>
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
@@ -256,18 +416,31 @@ const CardRegister = () => {
       </PageWrap>
 
       {/* 오류 알림창 */}
-      <DangerWrapPopup openStatus={false} style={{backgroundColor:'rgba(110,110,110,0.35)'}}>
+      <DangerWrapPopup
+        openStatus={false}
+        style={{ backgroundColor: "rgba(110,110,110,0.35)" }}
+      >
         <Popup className="spoqaBold" openStatus={true}>
-          
-          <div style={{ fontSize: "0.875rem"}}>
-            카드 오류
-          </div>
-          <div className="spoqaRegular" style={{fontSize:'0.75rem', margin:'0.625rem 0 1.5625rem 0', padding:'0 1.25rem 0 1.25rem'}}>
-            [C00001] 등록할 수 없는 카드입니다.<br/>
+          <div style={{ fontSize: "0.875rem" }}>카드 오류</div>
+          <div
+            className="spoqaRegular"
+            style={{
+              fontSize: "0.75rem",
+              margin: "0.625rem 0 1.5625rem 0",
+              padding: "0 1.25rem 0 1.25rem",
+            }}
+          >
+            [C00001] 등록할 수 없는 카드입니다.
+            <br />
             입력하신 카드번호를 다시 한번 확인해주십시오.
           </div>
-          <div style={{width:'100%', border:'solid 0.7px #b4b4b4'}}/>
-          <div className="spoqaRegular" style={{ fontSize: "0.875rem", marginTop:'0.6875rem'}}>확인</div>
+          <div style={{ width: "100%", border: "solid 0.7px #b4b4b4" }} />
+          <div
+            className="spoqaRegular"
+            style={{ fontSize: "0.875rem", marginTop: "0.6875rem" }}
+          >
+            확인
+          </div>
         </Popup>
       </DangerWrapPopup>
     </div>
@@ -379,30 +552,28 @@ const SaveButton = styled.div`
 `;
 
 const Popup = styled.div`
+  position: absolute;
 
-  position:absolute;
-
-  top:45%;
-  left:50%;
+  top: 45%;
+  left: 50%;
 
   padding: 2rem 0 0.75rem 0;
 
-  width:17.375rem;
+  width: 17.375rem;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
 
-  transform:translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 
   border-radius: 0.4375rem;
   box-shadow: 0 0 0.25rem 0.0625rem rgba(0, 0, 0, 0.05);
   background-color: #ffffff;
 
-
-  text-align:center;
+  text-align: center;
 
   /* 애니메이션 적용 */
   transition: opacity 300ms ease-out;
-  opacity : ${props => props.openStatus ? '1' : '0'};
+  opacity: ${(props) => (props.openStatus ? "1" : "0")};
 `;
 
 export default CardRegister;
