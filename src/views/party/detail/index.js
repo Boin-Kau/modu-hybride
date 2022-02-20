@@ -11,9 +11,10 @@ import icon_back from "../../../assets/icon-back-arrow.svg";
 import icon_more from "../../../assets/icon-partydetail-more.svg";
 import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
 import PartyDataListItem from "../../../components/party/PartyList";
+import { customApiClient } from "../../../shared/apiClient";
 
 // Page Root Component
-const PartyDetail = () => {
+const PartyDetail = ({ location }) => {
 
   // Module
   const dispatch = useDispatch();
@@ -25,15 +26,21 @@ const PartyDetail = () => {
   // Global State
 
   // Local State
-  
+  const [partyIdx, setPartyIdx] = useState(location.state.idx);
+  const [partyDetailResult, setPartyDetailResult] = useState({});
+
 
   // Lifecycle - Initial Logic
   useEffect(() => {
     // Bottom Nav 
     dispatch(BottomNavCloseAction);
 
-    const userPlatform = checkMobile();
+    setPartyIdx(location.state.idx);
 
+    getPartyDetail();
+
+    // 배경색 LOGIC
+    const userPlatform = checkMobile();
     if (userPlatform == 'ios') {
       //IOS 배경색 설정
       try {
@@ -46,7 +53,18 @@ const PartyDetail = () => {
 
   // Function
   const getPartyDetail = async () => {
-    const partyDetailUri = `/party`
+    // 파티 상세 조회 
+    const partyDetailUri = `/party/${partyIdx}`;
+    const partyDetailData = await customApiClient('get', partyDetailUri);
+
+    // Server Error
+    if(!partyDetailData) { return };
+    // Validation 
+    if(partyDetailData.statusCode !== 200) { return };
+
+    setPartyDetailResult(partyDetailData.result);
+
+    console.log(`API 호출 성공 : ${partyDetailData.result}`);
   };
 
   const closePage = () => {
@@ -72,7 +90,7 @@ const PartyDetail = () => {
           </div>
         </HeaderWrap>
         <MainWrap>
-          <PartyDetailContent/>
+          <PartyDetailContent result={partyDetailResult}/>
           <BottomButtonWrap className="spoqaBold">
             <div className="bottomButtonText">파티참가</div>
           </BottomButtonWrap>
@@ -86,22 +104,60 @@ const PartyDetail = () => {
 export default PartyDetail;
 
 // Child Component(Top Data, 파티정보, 멤버십정보) - 내 파티 상세보기에서 Recycle
-export const PartyDetailContent = () => {
+export const PartyDetailContent = ({result}) => {
+
+  // Local Value
+  let list = [];
 
   // Local State
-  const [memberCount, setMemberCount] = useState(0);
-  const [paymentCycle, setPaymentCycle] = useState('매달 15일');
-  const [payment, setPayment] = useState('5,000원');
-  const [membershipType, setMembershipType] = useState('평생소장');
-  const [category, setCategory] = useState('OTT');
+  const [partyTitle, setPartyTitle] = useState('');
+  const [partyCategory, setPartyCategory] = useState('');
+  const [partyImgUrl, setPartyImgUrl] = useState('');
+  const [personnel, setPersonnel] = useState(0);
+  const [currentUserCount, setCurrentUserCount] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [membership, setMembership] = useState('');
+  const [typeList, setTypeList] = useState([]);
 
+  const [paymentCycle, setPaymentCycle] = useState('?????');
+  
+  
+
+  // Lifecycle - Initial Logic
+
+  
+  // Lifecycle - When result is changed
+  useEffect(() => {
+    if(!result) return;
+
+    console.log(`언제 실행되는지 보자: `, result);
+    setPartyTitle(result.title);
+    setPartyCategory(result.serverCategory);
+    setPartyImgUrl(result.serverImgUrl);
+    setCurrentUserCount(result.currentUserCount);
+    setPersonnel(result.personnel);
+    setPrice(result.price);
+    setMembership(result.membership);
+
+    list = [];
+    if(result.currentUserCount && result.personnel) {
+      list.push('boss');
+      for(let i=0; i<result.currentUserCount-1; i++) list.push('complete');
+      for(let i=0; i<result.personnel-result.currentUserCount; i++) list.push('waiting');
+    }
+    setTypeList(list);
+  }, [result]);
+
+  // Function
+  
+  
   return (
     <div style={{ flexGrow: '1' }}>
       <TopContentWrap>
-        <img className="topContentImg" src="https://firebasestorage.googleapis.com/v0/b/modu-b210e.appspot.com/o/Platform%2FPlatformImg%2Fnetflix.png?alt=media&token=96cf7411-2b79-4050-97cc-6ba683532b14" alt="구독서비스이미지"/>
+        <img className="topContentImg" src={partyImgUrl} alt="구독서비스이미지"/>
         <div>
-          <div className="topContentTitle spoqaBold">왓챠 2명 나눠내실 분!</div>
-          <div className="topContentCategory spoqaBold">OTT</div>
+          <div className="topContentTitle spoqaBold">{partyTitle}</div>
+          <div className="topContentCategory spoqaBold">{partyCategory}</div>
         </div>
       </TopContentWrap>
       <PartyDataWrap>
@@ -109,18 +165,19 @@ export const PartyDetailContent = () => {
           <span className="partyDataTitle spoqaBold">파티 정보</span>
           <div className="memberCountBox">
             <img className="memberCountImg" src={icon_small_duck} alt="오리" />
-            <div className="memberCountSpan spoqaBold">{memberCount}명</div>
+            <div className="memberCountSpan spoqaBold">{personnel}명</div>
           </div>
         </div>
         <PartyDataListWrap>
-          <PartyDataListItem/>
-          <PartyDataListItem/>
-          <PartyDataListItem/>
-          <PartyDataListItem/>
-          <PartyDataListItem/>
-          <PartyDataListItem/>
-          <PartyDataListItem/>
-        
+          {
+            typeList.map((item, idx) => {
+              if(personnel > 4) {
+                return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
+              } else {
+                return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
+              }
+            })
+          }
         </PartyDataListWrap>
       </PartyDataWrap>
       <MembershipDataWrap>
@@ -133,17 +190,17 @@ export const PartyDetailContent = () => {
           {/* 중간 border */}
           <div className="membershipYellowDivRight">
             <div className="membershipYellowTitle notoMedium">구독금액</div>
-            <div className="membershipYellowText spoqaBold">{payment}</div>
+            <div className="membershipYellowText spoqaBold">{price}원</div>
           </div>
         </div>
         <div className="membershipGrayDiv notoMedium">
           <div style={{display:"flex", marginBottom:"0.75rem"}}>
             <div className="membershipGrayTitle">멤버십 종류</div>
-            <div className="membershipGrayText">{membershipType}</div>
+            <div className="membershipGrayText">{membership? membership : '없음'}</div>
           </div>
           <div style={{display:"flex"}}>
             <div className="membershipGrayTitle">카테고리</div>
-            <div className="membershipGrayText">{category}</div>
+            <div className="membershipGrayText">{partyCategory}</div>
           </div>
 
         </div>
@@ -279,6 +336,8 @@ const PartyDataListWrap = styled.div`
   flex-direction: row;
   flex-wrap: nowrap;
   overflow-x: auto;
+
+  padding-left: 1.25rem;
 `;
 
 const MembershipDataWrap = styled.div`

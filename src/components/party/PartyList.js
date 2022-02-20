@@ -1,13 +1,47 @@
 import styled from "styled-components";
 import icon_party_boss from "../../assets/icon-partydetail-partyboss.svg";
+import icon_party_waiting from "../../assets/icon-partydetail-partynotyet.svg";
+import icon_party_nothing from "../../assets/icon-partydetail-partynope.svg";
+import { useState } from "react";
 
+const PartyDataListItem = ({type, margin}) => {
 
-const PartyDataListItem = () => {
+  const setMemberType = () => {
+    switch (type) {
+      case 'boss': 
+        return (
+          <PartyItemWrap marginRight={margin} color="#ffca35">
+            <img className="itemImg" src={icon_party_boss} alt="boss" />
+            <div className="itemTag notoBold">파티장</div>
+          </PartyItemWrap>
+        );
+      case 'complete':
+        return (
+          <PartyItemWrap marginRight={margin} color="#ffca35">
+            <img className="itemImg" src={icon_party_boss} alt="" />
+            <div className="itemTag notoMedium">참가완료</div>
+          </PartyItemWrap>
+        );
+      case 'waiting':
+        return (
+          <PartyItemWrap marginRight={margin} color="rgba(49,49,49,.6)">
+            <img className="itemImg" src={icon_party_waiting} alt="" />
+            <div className="itemTag notoMedium">대기중</div>
+          </PartyItemWrap>
+        );
+      default:
+        return (
+          <PartyItemWrap marginRight={margin} color="rgba(49,49,49,.57)">
+            <img className="itemImg" src={icon_party_nothing} alt="" />
+            <div className="itemTag notoMedium">-</div>
+          </PartyItemWrap>
+        );
+    }
+
+  };
+  
   return (
-    <PartyItemWrap>
-      <img src={icon_party_boss} alt="" />
-      <div>파티장</div>
-    </PartyItemWrap>
+    <> {setMemberType()} </>
   );
 };
 
@@ -17,4 +51,16 @@ const PartyItemWrap = styled.div`
   display: flex;
   flex-direction: column;
 
+  margin-right: ${props => props.marginRight};
+  color: ${props => props.color};
+
+  .itemImg {
+    width: 4rem;
+    height: 4rem;
+  }
+  .itemTag {
+    margin: 0.25rem auto 0;
+    font-size: 0.875rem;
+    line-height: 1.79;
+  }
 `;
