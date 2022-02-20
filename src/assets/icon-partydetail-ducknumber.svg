@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="10.022" height="10.021" viewBox="0 0 10.022 10.021">
+    <path data-name="합치기 1" d="M0 4.86A4.864 4.864 0 0 1 6.611.325c.655-.151 2.706-.486 2.041 1.436 0 0 .988-.039.52.853A4.861 4.861 0 1 1 0 4.86z" transform="translate(.15 .15)" style="fill:#fff;stroke:#eaeaea;stroke-width:.3px"/>
+    <path data-name="Fill 8" d="M1.783.9a.158.158 0 0 1-.147-.1.721.721 0 0 0-.667-.476A.712.712 0 0 0 .3.788a.156.156 0 0 1-.2.09.164.164 0 0 1-.089-.21A1.026 1.026 0 0 1 .969 0a1.028 1.028 0 0 1 .814.411 1.017 1.017 0 0 1 1.772.257.163.163 0 0 1-.088.21.156.156 0 0 1-.2-.091A.712.712 0 0 0 2.6.324a.72.72 0 0 0-.667.47.158.158 0 0 1-.147.1" transform="translate(3.356 3.177)" style="stroke:transparent"/>
+    <path data-name="Fill 10" d="M4.047 1.8H.874A.886.886 0 0 1 0 .9.886.886 0 0 1 .874 0h3.173a.886.886 0 0 1 .874.9.886.886 0 0 1-.874.9" transform="translate(2.654 5.773)" style="fill:#f5881f;stroke:transparent"/>
+    <path data-name="Fill 12" d="M3.767.4H.2A.2.2 0 0 1 0 .2.2.2 0 0 1 .2 0h3.567a.2.2 0 0 1 .2.2.2.2 0 0 1-.2.2" transform="translate(3.133 6.473)" style="fill:#ae4f08;stroke:transparent"/>
+    <path data-name="Fill 14" d="M.307.158a.156.156 0 0 1-.154.158A.156.156 0 0 1 0 .158.156.156 0 0 1 .153 0a.156.156 0 0 1 .154.158" transform="translate(4.123 4.892)" style="stroke:transparent"/>
+    <path data-name="Fill 16" d="M.24.492A.243.243 0 0 1 0 .246.243.243 0 0 1 .24 0a.243.243 0 0 1 .239.246.243.243 0 0 1-.239.246zm0-.315a.069.069 0 1 0 .067.069A.069.069 0 0 0 .24.177z" transform="translate(4.038 4.803)" style="stroke:transparent"/>
+    <path data-name="Fill 18" d="M.307.158a.156.156 0 0 1-.154.158A.156.156 0 0 1 0 .158.156.156 0 0 1 .153 0a.156.156 0 0 1 .154.158" transform="translate(5.694 4.892)" style="stroke:transparent"/>
+    <path data-name="Fill 20" d="M.24.492A.243.243 0 0 1 0 .246.243.243 0 0 1 .24 0a.243.243 0 0 1 .239.246.243.243 0 0 1-.239.246zm0-.315a.069.069 0 1 0 .067.069A.069.069 0 0 0 .24.177z" transform="translate(5.608 4.803)" style="stroke:transparent"/>
+</svg>
