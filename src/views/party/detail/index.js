@@ -144,6 +144,7 @@ export const PartyDetailContent = ({result}) => {
       list.push('boss');
       for(let i=0; i<result.currentUserCount-1; i++) list.push('complete');
       for(let i=0; i<result.personnel-result.currentUserCount; i++) list.push('waiting');
+      for(let i=result.personnel; i!=4; i++) list.push('nothing');
     }
     setTypeList(list);
   }, [result]);
