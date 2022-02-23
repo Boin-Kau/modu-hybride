@@ -147,7 +147,7 @@ const QuestionPage = () => {
                     <QuestionButtonWrap className="spoqaBold" pageConfirmStatus={false}>
                         <div style={{ width: '100%', textAlign: 'center' }}>
                             1:1 문의하기
-                    </div>
+                        </div>
                     </QuestionButtonWrap>
                 </a>
             </PageWrap>

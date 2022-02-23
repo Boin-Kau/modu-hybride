@@ -18,6 +18,7 @@ import Fade from 'react-reveal/Fade';
 import { customApiClient } from "../../../shared/apiClient";
 import { checkMobile } from "../../../App";
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../../reducers/container/message";
+import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
 
 const PartyRevise = ({ location }) => {
 
@@ -170,6 +171,8 @@ const PartyRevise = ({ location }) => {
             })
         }, 2300);
 
+        GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.UPDATE);
+
         setPageTrans('trans toLeft');
         history.goBack();
     }
@@ -219,6 +222,9 @@ const PartyRevise = ({ location }) => {
                 type: MessageWrapClose
             })
         }, 2300);
+
+        GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DELETE);
+
 
         //뒤로가기
         setPageTrans('trans toLeft');

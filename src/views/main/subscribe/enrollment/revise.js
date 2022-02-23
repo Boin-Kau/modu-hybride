@@ -31,6 +31,7 @@ import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
 import { GetPlatformCategoryList } from '../../../../reducers/main/platform';
 import { PageTransContext } from '../../../../containers/pageTransContext';
 import { checkMobile } from '../../../../App';
+import { GAEventSubmit, GA_CATEOGRY, GA_SUBSCRIBE_ACTION } from '../../../../shared/gaSetting';
 
 
 const EnrollmentRevisePage = ({ location }) => {
@@ -439,6 +440,8 @@ const EnrollmentRevisePage = ({ location }) => {
         //소비분석 리로드 
         dispatch(AnalyPageReloadTrueAction);
 
+        GAEventSubmit(GA_CATEOGRY.SUBSCRIBE, GA_SUBSCRIBE_ACTION.UPDATE);
+
         //뒤로가기
         setPageTrans('trans toLeft');
         history.goBack();
@@ -501,6 +504,8 @@ const EnrollmentRevisePage = ({ location }) => {
 
         //소비분석 리로드 
         dispatch(AnalyPageReloadTrueAction);
+
+        GAEventSubmit(GA_CATEOGRY.SUBSCRIBE, GA_SUBSCRIBE_ACTION.DELETE);
 
         //뒤로가기
         setPageTrans('trans toLeft');

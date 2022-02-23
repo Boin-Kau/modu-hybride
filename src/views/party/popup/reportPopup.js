@@ -15,6 +15,7 @@ import icon_arrow_up from "../../../assets/icon-arrow-up-gray.svg";
 
 import Fade from 'react-reveal/Fade';
 import { customApiClient } from "../../../shared/apiClient";
+import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
 
 
 
@@ -79,6 +80,8 @@ const ReportPopUp = ({ openStatus }) => {
         if (data.statusCode !== 200) {
             return
         }
+
+        GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.REPORT);
 
         //콘텐츠 전환
         setContentPageStatus(false);

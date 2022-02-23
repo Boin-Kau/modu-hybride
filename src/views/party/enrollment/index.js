@@ -18,6 +18,7 @@ import Fade from 'react-reveal/Fade';
 import { ResetPlatform } from "../../../reducers/party/enrollment";
 import { customApiClient } from "../../../shared/apiClient";
 import { checkMobile } from "../../../App";
+import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
 
 const PartyEnrollment = () => {
 
@@ -175,6 +176,8 @@ const PartyEnrollment = () => {
         dispatch({
             type: ResetPlatform
         });
+
+        GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.SUBMIT);
 
         setPageTrans('trans toRight');
         history.push('/party/enroll/finish');

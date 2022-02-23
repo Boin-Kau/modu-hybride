@@ -13,6 +13,7 @@ import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '..
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../reducers/container/bottomNav';
 import { PageTransContext } from '../../containers/pageTransContext';
+import { GAEventSubmit, GA_CATEOGRY, GA_SYSTEM_ACTION } from '../../shared/gaSetting';
 
 
 const SettingPage = () => {
@@ -112,12 +113,14 @@ const SettingPage = () => {
                 type: IsAlertUpdate,
                 data: 'N'
             })
+            GAEventSubmit(GA_CATEOGRY.SYSTEM, GA_SYSTEM_ACTION.PUSHNOTIOFF);
         }
         else {
             dispatch({
                 type: IsAlertUpdate,
                 data: 'Y'
             })
+            GAEventSubmit(GA_CATEOGRY.SYSTEM, GA_SYSTEM_ACTION.PUSHNOTION);
         }
 
 
@@ -168,6 +171,7 @@ const SettingPage = () => {
                     marketingUpdatedAt: currentDate
                 }
             })
+            GAEventSubmit(GA_CATEOGRY.SYSTEM, GA_SYSTEM_ACTION.MARKETINGNOTIOFF);
         }
         else {
             dispatch({
@@ -177,6 +181,7 @@ const SettingPage = () => {
                     marketingUpdatedAt: currentDate
                 }
             })
+            GAEventSubmit(GA_CATEOGRY.SYSTEM, GA_SYSTEM_ACTION.MARKETINGNOTION);
         }
 
 

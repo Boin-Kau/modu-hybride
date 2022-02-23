@@ -31,9 +31,9 @@ import { PageWrapOpen, PageOpen, LoginSubPageKind } from '../../reducers/info/pa
 import { onClickTerminate, checkMobile } from '../../App';
 import { PartyIconWrap, PartyIcon } from '../../styled/main/enrollment';
 
-import ReactGA from 'react-ga';
 import UpdatePopUp from '../popup/update';
 import { PageTransContext } from '../../containers/pageTransContext';
+import { GA_CATEOGRY, GA_USER_ACTION, GAEventSubmit } from '../../shared/gaSetting';
 
 
 const Login = () => {
@@ -348,10 +348,12 @@ const Login = () => {
                     return
                 }
 
-                ReactGA.event({
-                    category: 'User',
-                    action: 'Login an Account'
-                });
+                // ReactGA.event({
+                //     category: 'User',
+                //     action: 'Login an Account'
+                // });
+
+                GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGIN);
 
                 dispatch({
                     type: UserInfoUpdate,
@@ -435,10 +437,12 @@ const Login = () => {
                 data: authData.result
             })
 
-            ReactGA.event({
-                category: 'User',
-                action: 'SignUp an Account'
-            });
+            // ReactGA.event({
+            //     category: 'User',
+            //     action: 'SignUp an Account'
+            // });
+
+            GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.SIGNIN);
 
             //메인 페이지 이동 로직
             dispatch(BottomNavOpenAction);

@@ -32,6 +32,7 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { checkMobile } from '../../../App';
+import { GAEventSubmit, GA_CATEOGRY, GA_SUBSCRIBE_ACTION } from '../../../shared/gaSetting';
 
 
 const SubscribePage = () => {
@@ -166,6 +167,8 @@ const SubscribePage = () => {
         //전체 조회와 카테고리를 동기화 해줘야함! 구독 값이 바뀌면 각 탭 리스트를 다시한번 조회해줘야함
 
         if (type == 'total') {
+
+            GAEventSubmit(GA_CATEOGRY.SUBSCRIBE, GA_SUBSCRIBE_ACTION.TOTAL);
             setTotalMenuStatus(true);
             setcategoryMenuStatus(false);
 
@@ -174,7 +177,7 @@ const SubscribePage = () => {
             }
         }
         else {
-
+            GAEventSubmit(GA_CATEOGRY.SUBSCRIBE, GA_SUBSCRIBE_ACTION.CATEGORY);
             setTotalMenuStatus(false);
             setcategoryMenuStatus(true);
 
@@ -295,6 +298,8 @@ const SubscribePage = () => {
 
         reloadTotalPlatform();
         reloadCategoryPlatform();
+
+        GAEventSubmit(GA_CATEOGRY.SUBSCRIBE, GA_SUBSCRIBE_ACTION.DELETE);
 
     }, [deletePlatformIdx]);
 
@@ -631,7 +636,7 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
             dispatch(TotalReloadTrueAction);
             dispatch(SubscribeReloadTrueAction);
 
-
+            GAEventSubmit(GA_CATEOGRY.SUBSCRIBE, GA_SUBSCRIBE_ACTION.SUBMIT);
             setPageTrans('trans toRight');
             history.push({
                 pathname: "/subscribe/revise",
@@ -643,6 +648,7 @@ const TotalItemComponent = ({ data, isCategory, isLastItem }) => {
         //삭제 로직
         else {
 
+            GAEventSubmit(GA_CATEOGRY.SUBSCRIBE, GA_SUBSCRIBE_ACTION.DELETE);
             dispatch({
                 type: DeletePopupOpen,
                 data: {

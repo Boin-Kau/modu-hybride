@@ -25,6 +25,7 @@ import { GetPlatformCategoryList } from '../../reducers/main/platform';
 import { DangerWrapPopup, DangerPopup } from '../../styled/shared';
 import ReportPopUp from './popup/reportPopup';
 import { ReportPopupOpenAction, SetReportCategoryListAction } from '../../reducers/party/popup';
+import { GA_CATEOGRY, GA_PARTY_ACTION, GAEventSubmit } from '../../shared/gaSetting';
 
 const Party = () => {
 
@@ -167,9 +168,22 @@ const Party = () => {
 
 
     const onClickEnrollButton = (partyIdx, chatLink) => {
-        setEnrollPartyIdx(partyIdx);
-        setEnrollPartyChatLink(chatLink);
-        setEnrollPopupStatus(true);
+        // 결제기능 업데이트 후
+        if(partyIdx === 0) return;
+
+        setPageTrans('trans toRight');
+        history.push({
+            pathname: "/party/detail",
+            state: {
+                idx: partyIdx,
+            }
+        });
+
+
+        // 결제기능 업데이트 전
+        // setEnrollPartyIdx(partyIdx);
+        // setEnrollPartyChatLink(chatLink);
+        // setEnrollPopupStatus(true);
     }
     const onClickEnrollCancel = () => {
         setEnrollPartyIdx(0);
@@ -190,6 +204,8 @@ const Party = () => {
             alert(data.message);
             return
         }
+
+        GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.JOIN);
 
         //링크 이동
         setTimeout(() => {
@@ -362,6 +378,10 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
 
     const openCard = () => {
         if (data.roomStatus === "COMPELETE") return
+
+        if (!openStatus) {
+            GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DETAIL);
+        }
         setOpenStatue(!openStatus)
     }
 

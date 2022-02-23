@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { customApiClient } from "../../../shared/apiClient";
 import { useHistory } from "react-router-dom";
 import { PageTransContext } from "../../../containers/pageTransContext";
+import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
 
 
 
@@ -55,6 +56,8 @@ const TerminatePopUp = ({ openStatus }) => {
             alert(data.message);
             return
         }
+
+        GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.LEAVE);
 
         //콘텐츠 전환
         setContentPageStatus(false);

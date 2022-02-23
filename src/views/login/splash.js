@@ -4,7 +4,7 @@ import { customApiClient } from '../../shared/apiClient';
 import { useDispatch } from "react-redux";
 import { UserInfoUpdate } from '../../reducers/info/user';
 import { checkMobile } from '../../App';
-
+import { GAEventSubmit, GA_CATEOGRY, GA_USER_ACTION } from '../../shared/gaSetting';
 
 const Splash = () => {
 
@@ -70,6 +70,9 @@ const Splash = () => {
             type: UserInfoUpdate,
             data: data.result
         })
+
+        GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGIN);
+
         history.push('/main');
         return
 

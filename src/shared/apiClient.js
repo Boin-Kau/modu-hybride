@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// const devServerURL = "http://localhost:3030/"; //로컬 서버
 const devServerURL = "http://3.36.199.93/"; //개발 서버
 const prodServerURL = "https://api.spread-y.com/"; //실 서버
 

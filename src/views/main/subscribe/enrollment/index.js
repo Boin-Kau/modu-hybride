@@ -24,6 +24,7 @@ import { useHistory } from 'react-router-dom';
 import { GetPlatformCategoryList } from '../../../../reducers/main/platform';
 import { PageTransContext } from '../../../../containers/pageTransContext';
 import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
+import { GAEventSubmit, GA_CATEOGRY, GA_SUBSCRIBE_ACTION } from '../../../../shared/gaSetting';
 
 
 export const ImgColorList = ['#e96a6a', '#fa9754', '#f8cc54', '#9de154', '#82e3cd', '#76d7fd', '#54b5fd', '#9578fd', '#cd6ae9', '#9c9c9c'];
@@ -418,6 +419,8 @@ const EnrollmentPage = () => {
 
             //소비분석 리로드
             dispatch(AnalyPageReloadTrueAction);
+
+            GAEventSubmit(GA_CATEOGRY.SUBSCRIBE, GA_SUBSCRIBE_ACTION.SUBMIT);
 
             //뒤로가기
             setPageTrans('trans toLeft');

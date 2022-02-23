@@ -12,6 +12,7 @@ import { PageTransContext } from '../../../containers/pageTransContext';
 import { customApiClient } from '../../../shared/apiClient';
 
 import '../../../styled/css/textEditer.css';
+import { GAEventSubmit, GA_CATEOGRY, GA_SYSTEM_ACTION } from '../../../shared/gaSetting';
 
 const NoticeDetailPage = ({ location }) => {
 
@@ -43,7 +44,7 @@ const NoticeDetailPage = ({ location }) => {
             }
 
             setNoticeDetail(data.result);
-
+            GAEventSubmit(GA_CATEOGRY.SYSTEM, GA_SYSTEM_ACTION.NOTICE);
         }
 
 
