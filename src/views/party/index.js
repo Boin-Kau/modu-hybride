@@ -168,9 +168,22 @@ const Party = () => {
 
 
     const onClickEnrollButton = (partyIdx, chatLink) => {
-        setEnrollPartyIdx(partyIdx);
-        setEnrollPartyChatLink(chatLink);
-        setEnrollPopupStatus(true);
+        // 결제기능 업데이트 후
+        if(partyIdx === 0) return;
+
+        setPageTrans('trans toRight');
+        history.push({
+            pathname: "/party/detail",
+            state: {
+                idx: partyIdx,
+            }
+        });
+
+
+        // 결제기능 업데이트 전
+        // setEnrollPartyIdx(partyIdx);
+        // setEnrollPartyChatLink(chatLink);
+        // setEnrollPopupStatus(true);
     }
     const onClickEnrollCancel = () => {
         setEnrollPartyIdx(0);
