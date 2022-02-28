@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { PageTransContext } from "../../containers/pageTransContext";
-import { TextMiddle, DangerPopup, DangerWrapPopup } from "../../styled/shared";
+import { TextMiddle, DangerWrapPopup } from "../../styled/shared";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 
 import icon_check from "../../assets/icon-check-white.svg";
@@ -17,9 +17,9 @@ import {
   PartyIconWrap,
   PartyIcon,
   PartyText,
-  DeleteButtonWrap,
 } from "../../styled/main/enrollment";
 import { customApiClient } from "../../shared/apiClient";
+import { MainText } from "../../styled/main/text";
 
 const CardRegister = () => {
   const dispatch = useDispatch();
@@ -30,6 +30,8 @@ const CardRegister = () => {
 
   //state
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   //state-카드정보
   const [num1, setNum1] = useState("");
@@ -47,15 +49,17 @@ const CardRegister = () => {
   const [isFreeThree, setIsFreeThree] = useState("N");
   const [isFreeFour, setIsFreeFour] = useState("N");
 
-  //initial logic
-  useEffect(() => {
-    dispatch(BottomNavCloseAction);
-  }, []);
-
   const closePage = () => {
     setPageTrans("trans toLeft");
     history.goBack();
   };
+
+  useEffect(async() => {
+    dispatch(BottomNavCloseAction);
+
+    setCardNum(num1 + num2 + num3 + num4);
+    console.log(cardNum);
+  }, [num1,num2,num3,num4,cardNum]);
 
   //input autoFocusing
   const handleNextFocus = (e, next) => {
@@ -92,8 +96,6 @@ const CardRegister = () => {
   const handleChangeFour = (e) => {
     if (e.target.value.length == 5) return false;
     setNum4(e.target.value);
-    setCardNum(num1 + num2 + num3 + num4);
-    console.log(cardNum);
     handleNextFocus(e, "expire");
   };
 
@@ -148,27 +150,29 @@ const CardRegister = () => {
   //정보 입력 완료
   const onClickRevise = useCallback(async () => {
     if (!pageConfirmStatus) return;
-    else {
-      const data = await customApiClient("post", "/party/user/card", {
-        cardNum: cardNum,
-        cardPw: cardPw,
-        expireYear: expire.substring(0, 2),
-        expireMonth: expire.substring(2),
-        identifyNumber: identifyNumber,
-      });
 
-      //서버에러
-      if (!data) return;
+    const data = await customApiClient("post", "/party/user/card", {
+      cardNum: cardNum,
+      cardPw: cardPw,
+      expireYear: expire.substring(0, 2),
+      expireMonth: expire.substring(2),
+      identifyNumber: identifyNumber,
+    });
 
-      //벨리데이션
-      if (data.statusCode != 200) {
-        return;
-      }
+    //서버에러
+    if (!data) return;
 
-      //뒤로가기
-      setPageTrans("trans toLeft");
-      history.goBack();
+    //벨리데이션
+    if (data.statusCode != 200) {
+      setError(true);
+      setErrorMsg(data.message);
+      console.log(errorMsg);
+      return;
     }
+
+    //뒤로가기
+    setPageTrans("trans toLeft");
+    history.goBack();
   }, [pageConfirmStatus, cardNum, cardPw, expire, identifyNumber]);
 
   //페이지 벨리데이션
@@ -224,18 +228,10 @@ const CardRegister = () => {
         </HeaderWrap>
 
         <ContentWrap>
-          <div
-            className="spoqaBold"
-            style={{
-              fontsize: "1.25rem",
-              lineHeight: "1.6",
-              margin: "1rem 5.375rem 1.5rem 0",
-            }}
-          >
-            <span style={{ color: "#ffbc26" }}>구독파티</span> 정기결제에 사용할
-            <br />
-            카드를 등록해주세요.
-          </div>
+          <MainText className="spoqaBold">
+            <span className="yellowText">구독파티 </span>
+            정기결제에 사용할<br/> 카드를 등록해주세요
+          </MainText>
           {/* 카드번호 입력 */}
           <div>
             <TitleWrap className="notoMedium">카드번호</TitleWrap>
@@ -323,7 +319,7 @@ const CardRegister = () => {
                 <Input
                   id="cardPw"
                   type="password"
-                  placeholder="비밀번호 앞 2자리 숫자"
+                  placeholder="비밀번호 앞 2자리"
                   value={cardPw}
                   maxLength={2}
                   onChange={onChangePw}

@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from "styled-components";
 
+import ic_pay_duck from '../../assets/ic_pay_duck.png';
+
 const Register = () => {
   return (
     <Container>
         <div style={{display:'flex', flexDirection:'column', alignItems:'center', marginTop:'0.975rem'}}>
-            <img style={{width:'7.475rem', height:'5.3375rem'}} src="../assets/ic_pay_duck.png"/>
+            <img style={{width:'7.475rem', height:'5.3375rem'}} src={ic_pay_duck}/>
             <RegisterButton className='notoBold'>
                 <span style={{fontSize: '0.75rem', textAlign: 'center', color: '#fff'}}>+ 카드 등록하기</span>
             </RegisterButton>

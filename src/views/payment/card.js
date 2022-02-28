@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 
-const Card = () => {
+const Card = ({ data }) => {
+  console.log(data.result);
   return (
     <Container
-    className="spoqaBold"
+      className="spoqaBold"
       style={{
         backgroundImage: `url(${ic_pay_cardtab})`,
         backgroundPosition: "center",
@@ -14,10 +15,24 @@ const Card = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div style={{display:'flex', flexDirection:'column', width:'80%', height:'40%', justifyContent:'space-between', marginTop:'20%'}}>
-        <span style={{fontSize:'0.875rem'}}>신한카드</span>
-        <span style={{fontSize:'1.5625rem'}}>1234********5678</span>
-      </div>
+      {data.result.map((cardData) => {
+        return (
+          <div
+            key={cardData.idx}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "80%",
+              height: "40%",
+              justifyContent: "space-between",
+              marginTop: "20%",
+            }}
+          >
+            <span style={{ fontSize: "0.875rem" }}>{cardData.cardName}</span>
+            <span style={{ fontSize: "1.5625rem" }}>{cardData.cardNo}</span>
+          </div>
+        );
+      })}
     </Container>
   );
 };
@@ -30,12 +45,12 @@ const Container = styled.div`
   border: dashed 0.4px #bcbcbc;
   background-color: #f5f5f5;
   margin-top: 1.125rem;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 
-  span{
-    color:#fff;
+  span {
+    color: #fff;
     text-align: left;
   }
 `;
