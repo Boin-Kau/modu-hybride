@@ -12,6 +12,8 @@ import icon_more from "../../../assets/icon-partydetail-more.svg";
 import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
 import PartyDataListItem from "../../../components/party/PartyList";
 import { customApiClient } from "../../../shared/apiClient";
+import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
+
 
 // Page Root Component
 const PartyDetail = ({ location }) => {
@@ -28,7 +30,6 @@ const PartyDetail = ({ location }) => {
   // Local State
   const [partyIdx, setPartyIdx] = useState(location.state.idx);
   const [partyDetailResult, setPartyDetailResult] = useState({});
-
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -112,6 +113,7 @@ export const PartyDetailContent = ({result}) => {
   // Local State
   const [partyTitle, setPartyTitle] = useState('');
   const [partyCategory, setPartyCategory] = useState('');
+  const [serviceName, setServiceName] = useState('');
   const [partyImgUrl, setPartyImgUrl] = useState('');
   const [personnel, setPersonnel] = useState(0);
   const [currentUserCount, setCurrentUserCount] = useState(0);
@@ -132,6 +134,7 @@ export const PartyDetailContent = ({result}) => {
 
     console.log(`언제 실행되는지 보자: `, result);
     setPartyTitle(result.title);
+    setServiceName(result.serverName);
     setPartyCategory(result.serverCategory);
     setPartyImgUrl(result.serverImgUrl);
     setCurrentUserCount(result.currentUserCount);
@@ -155,12 +158,10 @@ export const PartyDetailContent = ({result}) => {
   return (
     <div style={{ flexGrow: '1' }}>
       <TopContentWrap>
-        <img className="topContentImg" src={partyImgUrl} alt="구독서비스이미지"/>
-        <div>
-          <div className="topContentTitle spoqaBold">{partyTitle}</div>
-          <div className="topContentCategory spoqaBold">{partyCategory}</div>
-        </div>
+        {/* 파티 제목 컴포넌트 */}
+        <PartyTitleDiv imgUrl={partyImgUrl} title={partyTitle} name={serviceName} category={partyCategory} isDetail={true}/>
       </TopContentWrap>
+      
       <PartyDataWrap>
         <div className="partyDataTitleDiv">
           <span className="partyDataTitle spoqaBold">파티 정보</span>
@@ -276,7 +277,7 @@ const TopContentWrap = styled.div`
   display: flex;
   padding: 0 1.25rem 1.2188rem;
 
-  .topContentImg {
+  /* .topContentImg {
     width: 3.25rem;
     height: 3.25rem;
     margin-right: 0.875rem;
@@ -290,7 +291,7 @@ const TopContentWrap = styled.div`
     font-size: 0.875rem;
     color: #000000;
     opacity: 0.35;
-  }
+  } */
 
 `;
 
