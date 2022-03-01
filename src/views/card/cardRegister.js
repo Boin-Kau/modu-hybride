@@ -160,11 +160,12 @@ const CardRegister = () => {
     const data = await customApiClient("post", "/party/user/card", {
       cardNum: cardNum,
       cardPw: cardPw,
-      expireYear: expire.substring(0, 2),
-      expireMonth: expire.substring(2),
+      expireMonth: expire.substring(0, 2),
+      expireYear: expire.substring(2),
       identifyNumber: identifyNumber,
     });
 
+    console.log(data);
     //서버에러
     if (!data) return;
 

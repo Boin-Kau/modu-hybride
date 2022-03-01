@@ -28,7 +28,19 @@ const Slide = () => {
 
   return (
     <div>
-      {cardData.length === 0 ? <Register /> : <Card data={cardData}></Card>}
+      {cardData.length === 0 ? (
+        <Register />
+      ) : (
+        <Slider {...settings}>
+          {cardData.result.map((cardData)=>{
+            return(
+              <div key={cardData.idx}>
+                <Card cardName={cardData.cardName} cardNo={cardData.cardNo}></Card>
+              </div>
+            )
+          })}
+        </Slider>
+      )}
     </div>
   );
 };
@@ -40,7 +52,7 @@ const settings = {
   dots: false,
   centerMode: true,
   infinite: false,
-  centerPadding: "60px",
+  centerPadding: "0",
   slidesToshow: 1,
   speed: 500,
 };

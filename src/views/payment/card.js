@@ -3,8 +3,7 @@ import styled from "styled-components";
 
 import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 
-const Card = ({ data }) => {
-  console.log(data.result);
+const Card = ({ cardName, cardNo }) => {
   return (
     <Container
       className="spoqaBold"
@@ -15,24 +14,19 @@ const Card = ({ data }) => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {data.result.map((cardData) => {
-        return (
-          <div
-            key={cardData.idx}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "80%",
-              height: "40%",
-              justifyContent: "space-between",
-              marginTop: "20%",
-            }}
-          >
-            <span style={{ fontSize: "0.875rem" }}>{cardData.cardName}</span>
-            <span style={{ fontSize: "1.5625rem" }}>{cardData.cardNo}</span>
-          </div>
-        );
-      })}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "80%",
+          height: "40%",
+          justifyContent: "space-between",
+          marginTop: "20%",
+        }}
+      >
+        <span style={{ fontSize: "0.875rem" }}>{cardName}</span>
+        <span style={{ fontSize: "1.5625rem" }}>{cardNo}</span>
+      </div>
     </Container>
   );
 };
