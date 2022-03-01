@@ -39,6 +39,7 @@ const Slide = () => {
               </div>
             )
           })}
+          <Register/>
         </Slider>
       )}
     </div>
