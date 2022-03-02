@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { PageTransContext } from "../../containers/pageTransContext";
 import { TextMiddle, DangerWrapPopup } from "../../styled/shared";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
-import { PageWrap, HeaderWrap, ContentWrap } from "../../styled/main/wrap";
+import { PageWrap, HeaderWrap, ContentWrap } from "../../styled/shared/wrap";
 
 import icon_check from "../../assets/icon-check-white.svg";
 import icon_back from "../../assets/icon-back-arrow.svg";
@@ -20,7 +20,7 @@ import {
   PartyText,
 } from "../../styled/main/enrollment";
 import { customApiClient } from "../../shared/apiClient";
-import { MainText } from "../../styled/main/text";
+import { MainText } from "../../styled/shared/text";
 
 const CardRegister = () => {
   const dispatch = useDispatch();
@@ -56,17 +56,19 @@ const CardRegister = () => {
     history.goBack();
   };
 
-  useEffect(async() => {
+  useEffect(async () => {
     dispatch(BottomNavCloseAction);
+  }, []);
 
+  useEffect(async () => {
     setCardNum(num1 + num2 + num3 + num4);
     console.log(cardNum);
-  }, [num1,num2,num3,num4,cardNum]);
+  }, [num1, num2, num3, num4, cardNum]);
 
+  // const InputFocusing = () => {
+  //   setIsFocus();
+  // };
 
-  const InputFocusing = () =>{
-    setIsFocus()
-  }
   //input autoFocusing
   const handleNextFocus = (e, next) => {
     const { value, maxLength } = e.target;
@@ -237,7 +239,8 @@ const CardRegister = () => {
         <ContentWrap>
           <MainText className="spoqaBold">
             <span className="yellowText">구독파티 </span>
-            정기결제에 사용할<br/> 카드를 등록해주세요
+            정기결제에 사용할
+            <br /> 카드를 등록해주세요
           </MainText>
           {/* 카드번호 입력 */}
           <div>
@@ -449,8 +452,6 @@ const CardRegister = () => {
     </div>
   );
 };
-
-
 
 const InputWrap = styled.div`
   display: flex;

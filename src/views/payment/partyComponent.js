@@ -140,7 +140,6 @@ const PartyContainer = () => {
 };
 
 const ContainerWrap = styled.div`
-  width: 100%;
   height: 14.75rem;
 
   display: flex;

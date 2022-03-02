@@ -15,7 +15,7 @@ const Slide = () => {
   useEffect(async () => {
     const data = await customApiClient("get", "/party/user/card");
     setCardData(data);
-    console.log(cardData);
+    console.log(data);
 
     //서버에러
     if (!data) return;
@@ -31,15 +31,18 @@ const Slide = () => {
       {cardData.length === 0 ? (
         <Register />
       ) : (
-        <Slider {...settings}>
-          {cardData.result.map((cardData)=>{
-            return(
-              <div key={cardData.idx}>
-                <Card cardName={cardData.cardName} cardNo={cardData.cardNo}></Card>
+        <Slider {...settings} style={{padding:'0 10px 0 0'}}>
+          {cardData.result.map((cardData) => {
+            return (
+              <div key={cardData.idx} style={{ border: "1px solid blue" }}>
+                <Card
+                  cardName={cardData.cardName}
+                  cardNo={cardData.cardNo}
+                ></Card>
               </div>
-            )
+            );
           })}
-          <Register/>
+          <Register />
         </Slider>
       )}
     </div>
@@ -54,6 +57,6 @@ const settings = {
   centerMode: true,
   infinite: false,
   centerPadding: "0",
-  slidesToshow: 1,
-  speed: 500,
+  slidesToshow: 1.1,
+  speed: 400,
 };
