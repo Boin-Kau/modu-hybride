@@ -11,6 +11,8 @@ import PartyComponent from "./partyComponent";
 import Register from "./register";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 import Price from "./price";
+import Card from "./card";
+import Slide from "./slide";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -90,7 +92,9 @@ const Payment = () => {
           >
             결제 수단
           </span>
-          <Register></Register>
+          <Slide></Slide>
+          {/* <Register></Register> */}
+          {/* <Card></Card> */}
         </ContentWrap>
         <div><Line /></div>
         <ContentWrap>

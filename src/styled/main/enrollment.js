@@ -58,6 +58,7 @@ export const PartyIconWrap = styled.div`
     width:0.9375rem;
     height: 0.9375rem;
 
+
     border-radius:50%;
 
     background-color: ${props => props.isFree == 'Y' ? '#ffca17' : '#e3e3e3'};

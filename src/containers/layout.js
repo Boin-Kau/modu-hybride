@@ -35,6 +35,9 @@ import PartyRevise from '../views/party/enrollment/revise';
 import Name from '../views/login/findName/name';
 import PhoneForName from '../views/login/findName/phonePage';
 import PartyDetail from '../views/party/detail';
+import Payment from '../views/payment/payment';
+import CardRegister from '../views/card/cardRegister';
+import Finish from '../views/payment/finish';
 
 const AppLayout = () => {
 
@@ -80,7 +83,9 @@ const AppLayout = () => {
             <Route path='/agree' exact component={AgreePage} />
             <Route path='/phone' exact component={PhoneForName} />
             <Route path='/findName' exact component={Name} />
-
+            <Route path='/payment' exact component={Payment} />
+            <Route path='/payment/finish' exact component={Finish} />
+            <Route path='/card' exact component={CardRegister} />
         </>
     );
 
