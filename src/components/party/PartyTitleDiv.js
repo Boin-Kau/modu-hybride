@@ -6,7 +6,7 @@ const PartyTitleDiv = ({imgUrl, title, name, category, isDetail}) => {
       <TitleImg src={imgUrl} alt="구독서비스이미지" isDetail={isDetail} />
       <TitleDiv isDetail={isDetail}>
         <div className="topContentTitle spoqaBold">{title}</div>
-        <div className="topContentDescription spoqaBold">{`${name} • ${category}`}</div>
+        <span className="topContentDescription spoqaBold">{`${name} • ${category}`}</span>
       </TitleDiv >
     </>
   )
