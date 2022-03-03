@@ -354,6 +354,7 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
 
             //리스트 조회
             const data = await customApiClient('get', '/party/report/category');
+            
 
             //서버에러
             if (!data) return

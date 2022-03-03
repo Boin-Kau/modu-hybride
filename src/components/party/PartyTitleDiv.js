@@ -1,9 +1,25 @@
 import styled from "styled-components";
 
-const PartyTitleDiv = ({imgUrl, title, name, category, isDetail}) => {
+const PartyTitleDiv = ({color, initial, imgUrl, title, name, category, isDetail}) => {
   return (
     <>
-      <TitleImg src={imgUrl} alt="구독서비스이미지" isDetail={isDetail} />
+      {
+        imgUrl ?
+          <TitleImg src={imgUrl} alt="구독서비스이미지" isDetail={isDetail} />
+          :
+          color && initial ? 
+            <CustomImg isDetail={isDetail} color={color}>
+              <CustomInitial isDetail={isDetail} className="spoqaBold">
+                {initial}
+              </CustomInitial>
+            </CustomImg>
+            :
+            <CustomImg isDetail={isDetail} color="#e1e1e1">
+              <CustomInitial isDetail={isDetail} className="spoqaBold">
+                ?
+              </CustomInitial>
+            </CustomImg>
+      }
       <TitleDiv isDetail={isDetail}>
         <div className="topContentTitle spoqaBold">{title}</div>
         <span className="topContentDescription spoqaBold">{`${name} • ${category}`}</span>
@@ -13,6 +29,26 @@ const PartyTitleDiv = ({imgUrl, title, name, category, isDetail}) => {
 };
 
 export default PartyTitleDiv;
+
+const CustomImg = styled.div`
+  position: relative;
+  background-color: ${(props) => props.color};
+  border-radius: 0.375rem;
+
+  width: ${(props) => props.isDetail ? '3.25rem' : '2.3125rem'};
+  height: ${(props) => props.isDetail ? '3.25rem' : '2.3125rem'};
+  margin-right: ${(props) => props.isDetail ? '0.875rem' : '0.9375rem'};
+`;
+
+const CustomInitial = styled.div`
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%,-30%);
+  color: #ffffff;
+  /* 수정필요 */
+  font-size: ${(props) => props.isDetail ? '1.375rem' : '1.375rem'};
+`;
 
 const TitleImg = styled.img` 
   width: ${(props) => props.isDetail ? '3.25rem' : '2.3125rem'};

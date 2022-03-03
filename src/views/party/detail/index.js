@@ -112,6 +112,8 @@ export const PartyDetailContent = ({result}) => {
   let list = [];
 
   // Local State
+  const [partyCustomColor, setPartyCustomColor] = useState('');
+  const [partyCustomInitial, setPartyCustomInitial] = useState('');
   const [partyTitle, setPartyTitle] = useState('');
   const [partyCategory, setPartyCategory] = useState('');
   const [serviceName, setServiceName] = useState('');
@@ -125,6 +127,7 @@ export const PartyDetailContent = ({result}) => {
   const [typeList, setTypeList] = useState([]);
 
   const [paymentCycle, setPaymentCycle] = useState('?????');
+
   
   
 
@@ -136,6 +139,8 @@ export const PartyDetailContent = ({result}) => {
     if(!result) return;
 
     console.log(`언제 실행되는지 보자: `, result);
+    setPartyCustomColor(result.color);
+    setPartyCustomInitial(result.initial);
     setPartyTitle(result.title);
     setServiceName(result.serverName);
     setPartyCategory(result.serverCategory);
@@ -163,6 +168,8 @@ export const PartyDetailContent = ({result}) => {
       <TopContentWrap>
         {/* 파티 제목 컴포넌트 */}
         <PartyTitleDiv 
+          color={partyCustomColor}
+          initial={partyCustomInitial}
           imgUrl={partyImgUrl} 
           title={partyTitle} 
           name={serviceName} 
