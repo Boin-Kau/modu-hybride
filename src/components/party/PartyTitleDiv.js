@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+// isDetail이 true일 경우, 파티 상세보기에서 컴포넌트 사용(찰스)
+// isDetail이 false일 경우, 결제하기에서 컴포넌트 사용(디모)
+
 const PartyTitleDiv = ({color, initial, imgUrl, title, name, category, isDetail}) => {
   return (
     <>
