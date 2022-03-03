@@ -12,6 +12,9 @@ import icon_more from "../../../assets/icon-partydetail-more.svg";
 import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
 import PartyDataListItem from "../../../components/party/PartyList";
 import { customApiClient } from "../../../shared/apiClient";
+import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
+import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
+
 
 // Page Root Component
 const PartyDetail = ({ location }) => {
@@ -28,7 +31,6 @@ const PartyDetail = ({ location }) => {
   // Local State
   const [partyIdx, setPartyIdx] = useState(location.state.idx);
   const [partyDetailResult, setPartyDetailResult] = useState({});
-
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -110,16 +112,22 @@ export const PartyDetailContent = ({result}) => {
   let list = [];
 
   // Local State
+  const [partyCustomColor, setPartyCustomColor] = useState('');
+  const [partyCustomInitial, setPartyCustomInitial] = useState('');
   const [partyTitle, setPartyTitle] = useState('');
   const [partyCategory, setPartyCategory] = useState('');
+  const [serviceName, setServiceName] = useState('');
   const [partyImgUrl, setPartyImgUrl] = useState('');
+  
   const [personnel, setPersonnel] = useState(0);
   const [currentUserCount, setCurrentUserCount] = useState(0);
+
   const [price, setPrice] = useState(0);
   const [membership, setMembership] = useState('');
   const [typeList, setTypeList] = useState([]);
 
   const [paymentCycle, setPaymentCycle] = useState('?????');
+
   
   
 
@@ -131,7 +139,10 @@ export const PartyDetailContent = ({result}) => {
     if(!result) return;
 
     console.log(`언제 실행되는지 보자: `, result);
+    setPartyCustomColor(result.color);
+    setPartyCustomInitial(result.initial);
     setPartyTitle(result.title);
+    setServiceName(result.serverName);
     setPartyCategory(result.serverCategory);
     setPartyImgUrl(result.serverImgUrl);
     setCurrentUserCount(result.currentUserCount);
@@ -155,12 +166,17 @@ export const PartyDetailContent = ({result}) => {
   return (
     <div style={{ flexGrow: '1' }}>
       <TopContentWrap>
-        <img className="topContentImg" src={partyImgUrl} alt="구독서비스이미지"/>
-        <div>
-          <div className="topContentTitle spoqaBold">{partyTitle}</div>
-          <div className="topContentCategory spoqaBold">{partyCategory}</div>
-        </div>
+        {/* 파티 제목 컴포넌트 */}
+        <PartyTitleDiv 
+          color={partyCustomColor}
+          initial={partyCustomInitial}
+          imgUrl={partyImgUrl} 
+          title={partyTitle} 
+          name={serviceName} 
+          category={partyCategory} 
+          isDetail={true}/>
       </TopContentWrap>
+
       <PartyDataWrap>
         <div className="partyDataTitleDiv">
           <span className="partyDataTitle spoqaBold">파티 정보</span>
@@ -183,28 +199,15 @@ export const PartyDetailContent = ({result}) => {
       </PartyDataWrap>
       <MembershipDataWrap>
         <span className="membershipDataTitle spoqaBold">멤버십 정보</span>
-        <div className="membershipYellowDiv">
-          <div className="membershipYellowDivLeft">
-            <div className="membershipYellowTitle notoMedium">파티 결제주기</div>
-            <div className="membershipYellowText spoqaBold">{paymentCycle}</div>
-          </div>
-          {/* 중간 border */}
-          <div className="membershipYellowDivRight">
-            <div className="membershipYellowTitle notoMedium">구독금액</div>
-            <div className="membershipYellowText spoqaBold">{price}원</div>
-          </div>
-        </div>
-        <div className="membershipGrayDiv notoMedium">
-          <div style={{display:"flex", marginBottom:"0.75rem"}}>
-            <div className="membershipGrayTitle">멤버십 종류</div>
-            <div className="membershipGrayText">{membership? membership : '없음'}</div>
-          </div>
-          <div style={{display:"flex"}}>
-            <div className="membershipGrayTitle">카테고리</div>
-            <div className="membershipGrayText">{partyCategory}</div>
-          </div>
+        
+        {/* 파티 멤버십 정보 컴포넌트 */}
+        <PartyMembershipDiv
+          paymentCycle={'매달 5일'}
+          price={price}
+          membership={membership}
+          partyCategory={partyCategory}
+          isDetail={true}/>
 
-        </div>
       </MembershipDataWrap>
     </div>
   );
@@ -275,23 +278,6 @@ const TopContentWrap = styled.div`
   border-bottom: 0.5rem #f7f7f7 solid;
   display: flex;
   padding: 0 1.25rem 1.2188rem;
-
-  .topContentImg {
-    width: 3.25rem;
-    height: 3.25rem;
-    margin-right: 0.875rem;
-  }
-  .topContentTitle {
-    font-size: 1.0625rem;
-    color: #313131;
-    margin-bottom: 0.3125rem;
-  }
-  .topContentCategory {
-    font-size: 0.875rem;
-    color: #000000;
-    opacity: 0.35;
-  }
-
 `;
 
 const PartyDataWrap = styled.div`
@@ -352,53 +338,6 @@ const MembershipDataWrap = styled.div`
     color: #313131;
     display: block;
     margin-bottom: 1.0938rem;
-  }
-
-  .membershipYellowDiv {
-    background-color: #ffca2c;
-    padding: 0.75rem 0;
-    border-radius: 7px;
-    margin-bottom: 0.5rem;
-
-    display: flex;
-  }
-
-  .membershipYellowDivLeft {
-    flex: 1;
-    border-right: 0.0625rem solid rgba(0,0,0,.09);
-  }
-  .membershipYellowDivRight {
-    flex: 1;
-  }
-  .membershipYellowTitle {
-    width: 100%;
-    text-align: center;
-    font-size: 0.75rem;
-    color: #313131;
-    opacity: 0.79;
-    margin-bottom: 0.4375rem;
-  }
-  .membershipYellowText {
-    width: 100%;
-    text-align: center;
-    font-size: 0.875rem;
-    color: #313131;
-
-  }
-
-  .membershipGrayDiv {
-    background-color: #f7f7f7;
-    padding: 1.0625rem 1.1875rem;
-    border-radius: 7px;
-  }
-  .membershipGrayTitle {
-    flex: 1;
-    font-size: 0.8125rem;
-    color: #313131;
-  }
-  .membershipGrayText {
-    font-size: 0.8125rem;
-    color: #696969;
   }
 `;
 
