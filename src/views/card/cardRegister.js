@@ -237,7 +237,7 @@ const CardRegister = () => {
         </HeaderWrap>
 
         <ContentWrap>
-          <MainText className="spoqaBold">
+          <MainText>
             <span className="yellowText">구독파티 </span>
             정기결제에 사용할
             <br /> 카드를 등록해주세요
