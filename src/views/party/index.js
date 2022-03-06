@@ -392,15 +392,15 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                 <div style={{ display: 'flex' }}>
                     <div>
                         {
-                            data.color && data.initial ?
-                                <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
+                            data.platformInfo.color && data.platformInfo.initial ?
+                                <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.platformInfo.color }}>
                                     <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
-                                        {data.initial}
+                                        {data.platformInfo.initial}
                                     </div>
                                 </div>
                                 :
-                                data.serverImgUrl ?
-                                    <img src={data.serverImgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} /> :
+                                data.platformInfo.serverImgUrl ?
+                                    <img src={data.platformInfo.serverImgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} /> :
                                     <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: '#e1e1e1' }}>
                                         <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
                                             ?
@@ -419,8 +419,8 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                             }
                             <div className="notoMedium" style={{ color: '#acacac', lineHeight: '1.4375rem' }}>
                                 {
-                                    data.registerType === 'SERVER' ?
-                                        data.serverCategory : data.customCategory
+                                    data.platformInfo.registerType === 'SERVER' ?
+                                        data.platformInfo.serverCategory : data.platformInfo.customCategory
                                 }
                             </div>
                         </div>
@@ -428,15 +428,15 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                 </div>
                 <div style={{ display: 'flex', marginTop: '0.3125rem' }}>
                     {
-                        Array(data.personnel).fill(1).map((e, index) => {
+                        Array(data.partyInfo.personnel).fill(1).map((e, index) => {
                             return (
-                                <img key={index} src={index < data.currentUserCount ? ActiveDuckIcon : DeActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
+                                <img key={index} src={index < data.partyInfo.currentUserCount ? ActiveDuckIcon : DeActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
                             )
                         })
                     }
                 </div>
                 <div className="spoqaBold" style={{ position: 'absolute', right: '0.75rem', bottom: '0.6875rem', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
-                    {priceToString(data.price)}원
+                    {priceToString(data.membershipInfo.price)}원
                 </div>
                 <CompleteWrap isCompelte={data.roomStatus === "COMPELETE"}>
                     <CompleteTextWrap className="spoqaBold">매칭 완료 🎉</CompleteTextWrap>
@@ -450,15 +450,15 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                             <DetailItemTitle>서비스</DetailItemTitle>
                             <DetailItemFillContent>
                                 {
-                                    data.registerType === 'SERVER' ?
-                                        data.serverName : data.customName
+                                    data.platformInfo.registerType === 'SERVER' ?
+                                        data.platformInfo.serverName : data.platformInfo.customName
                                 }
                             </DetailItemFillContent>
                         </DetailItemWrap>
                         <DetailItemWrap>
                             <DetailItemTitle>멤버십 종류</DetailItemTitle>
-                            {data.membership ?
-                                <DetailItemFillContent>{data.membership}</DetailItemFillContent> :
+                            {data.membershipInfo.membership ?
+                                <DetailItemFillContent>{data.membershipInfo.membership}</DetailItemFillContent> :
                                 <DetailItemContent>없음 </DetailItemContent>
                             }
                         </DetailItemWrap>

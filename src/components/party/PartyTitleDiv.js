@@ -3,17 +3,20 @@ import styled from "styled-components";
 // isDetail이 true일 경우, 파티 상세보기에서 컴포넌트 사용(찰스)
 // isDetail이 false일 경우, 결제하기에서 컴포넌트 사용(디모)
 
-const PartyTitleDiv = ({color, initial, imgUrl, title, name, category, isDetail}) => {
+const PartyTitleDiv = ({title, info, isDetail}) => {
+
+  console.log(title);
+  console.log(info);
   return (
     <>
       {
-        imgUrl ?
-          <TitleImg src={imgUrl} alt="구독서비스이미지" isDetail={isDetail} />
+        info.serverImgUrl ?
+          <TitleImg src={info.serverImgUrl} alt="구독서비스이미지" isDetail={isDetail} />
           :
-          color && initial ? 
-            <CustomImg isDetail={isDetail} color={color}>
+          info.color && info.initial ? 
+            <CustomImg isDetail={isDetail} color={info.color}>
               <CustomInitial isDetail={isDetail} className="spoqaBold">
-                {initial}
+                {info.initial}
               </CustomInitial>
             </CustomImg>
             :
@@ -25,7 +28,7 @@ const PartyTitleDiv = ({color, initial, imgUrl, title, name, category, isDetail}
       }
       <TitleDiv isDetail={isDetail}>
         <div className="topContentTitle spoqaBold">{title}</div>
-        <span className="topContentDescription spoqaBold">{`${name} • ${category}`}</span>
+        <span className="topContentDescription spoqaBold">{`${info.serverName} • ${info.serverCategory}`}</span>
       </TitleDiv >
     </>
   )

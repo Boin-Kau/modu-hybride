@@ -76,6 +76,7 @@ const MyParty = () => {
     const getMyPartyList = async (type) => {
 
         const data = await customApiClient('get', `/party/my?type=${type}`);
+        console.log(data);
 
         //서버에러
         if (!data) return
@@ -123,6 +124,19 @@ const MyParty = () => {
         terminateMenuStatus,
     ]);
 
+    // 내 파티 상세보기 버튼 클릭 
+    const onClickDetailButton = (partyIdx) => {
+        if(partyIdx === 0) return;
+
+        setPageTrans('trans toRight');
+        history.push({
+            pathname: "/party/my/detail",
+            state: {
+                idx: partyIdx,
+            }
+        });
+    }
+
     return (
         <div className="page">
 
@@ -145,7 +159,7 @@ const MyParty = () => {
                             {
                                 progressData.length !== 0 ?
                                     progressData.map((data, index) => {
-                                        return (<BottomContent data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
+                                        return (<BottomContent onClickDetailButton={onClickDetailButton} data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
                                     <div style={{ marginTop: "4.5938rem", marginBottom: '4.25rem', textAlign: "center" }}>
                                         <div style={{ marginBottom: '0.75rem' }}>
@@ -161,7 +175,7 @@ const MyParty = () => {
                             {
                                 finishData.length !== 0 ?
                                     finishData.map((data, index) => {
-                                        return (<BottomContent data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
+                                        return (<BottomContent onClickDetailButton={onClickDetailButton} data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
                                     }) :
                                     <div style={{ marginTop: "4.5938rem", marginBottom: '4.25rem', textAlign: "center" }}>
                                         <div style={{ marginBottom: '0.75rem' }}>
@@ -188,7 +202,7 @@ const MyParty = () => {
 };
 
 
-const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
+const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress, onClickDetailButton }) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -351,12 +365,10 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress }) => {
 
 
                     <DetailRowWrap style={{ margin: "0" }}>
-                        <div className="spoqaBold" style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                            <a href={data.openChatLink} target="blank" style={{ textDecoration: 'none' }}>
-                                <div style={{ height: '100%' }}>
-                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>오픈채팅방 열기</div>
-                                </div>
-                            </a>
+                        <div onClick={() => {onClickDetailButton(data.idx)}}  className="spoqaBold" style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                            <div style={{ height: '100%' }}>
+                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>내 파티 상세보기</div>
+                            </div>
                         </div>
                         <div onClick={onClickReport} style={{ padding: '0.5rem 0.875rem 0.5437rem 0.9187rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
                             <img src={ReportIcon} style={{ width: '1.2563rem', height: '1.3938rem' }} />
