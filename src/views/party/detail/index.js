@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import { TextMiddle } from '../../../styled/shared';
 import { PageTransContext } from '../../../containers/pageTransContext';
@@ -14,6 +14,7 @@ import PartyDataListItem from "../../../components/party/PartyList";
 import { customApiClient } from "../../../shared/apiClient";
 import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
+import { ResetParty } from "../../../reducers/party/detail";
 
 
 // Page Root Component
@@ -23,23 +24,46 @@ const PartyDetail = ({ location }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Store
+  const { 
+    selectedPartyId, 
+    selectedPartyTitle, 
+    selectedPartyOpenChatLink, 
+    selectedPartyRoomStatus, 
+    selectedPartyIsEnrolled,
+    selectedPartyPlatformInfo,
+    selectedPartyPartyInfo,
+    selectedPartyMembershipInfo, 
+  } = useSelector(state => state.party.detail);
+
   //Context
   const { setPageTrans } = useContext(PageTransContext);
 
   // Global State
 
   // Local State
-  const [partyIdx, setPartyIdx] = useState(location.state.idx);
-  const [partyDetailResult, setPartyDetailResult] = useState({});
+  const [partyId, setPartyId] = useState(0);
+  const [partyTitle, setPartyTitle] = useState('');
+  const [partyOpenChatLink, setPartyOpenChatLink] = useState('');
+  const [partyRoomStatus, setPartyRoomStatus] = useState('');
+  const [partyIsEnrolled, setPartyIsEnrolled] = useState('');
+  const [platformInfoObj, setPlatformInfoObj] = useState({});
+  const [partyInfoObj, setPartyInfoObj] = useState({});
+  const [membershipInfoObj, setMembershipInfoObj] = useState({});
 
   // Lifecycle - Initial Logic
   useEffect(() => {
     // Bottom Nav 
     dispatch(BottomNavCloseAction);
 
-    setPartyIdx(location.state.idx);
-
-    getPartyDetail();
+    setPartyId(selectedPartyId);
+    setPartyTitle(selectedPartyTitle);
+    setPartyOpenChatLink(selectedPartyOpenChatLink);
+    setPartyRoomStatus(selectedPartyRoomStatus);
+    setPartyIsEnrolled(selectedPartyIsEnrolled);
+    setPlatformInfoObj(selectedPartyPlatformInfo);
+    setPartyInfoObj(selectedPartyPartyInfo);
+    setMembershipInfoObj(selectedPartyMembershipInfo);
 
     // 배경색 LOGIC
     const userPlatform = checkMobile();
@@ -56,20 +80,26 @@ const PartyDetail = ({ location }) => {
   // Function
   const getPartyDetail = async () => {
     // 파티 상세 조회 
-    const partyDetailUri = `/party/${partyIdx}`;
-    const partyDetailData = await customApiClient('get', partyDetailUri);
+    //const partyDetailUri = `/party/${partyIdx}`;
+    //const partyDetailData = await customApiClient('get', partyDetailUri);
 
-    // Server Error
-    if(!partyDetailData) { return };
-    // Validation 
-    if(partyDetailData.statusCode !== 200) { return };
+    // // Server Error
+    // if(!partyDetailData) { return };
+    // // Validation 
+    // if(partyDetailData.statusCode !== 200) { return };
 
-    setPartyDetailResult(partyDetailData.result);
+    // setPartyDetailResult(partyDetailData.result);
 
-    console.log(`API 호출 성공 : ${partyDetailData.result}`);
+    // console.log(`API 호출 성공 : ${partyDetailData.result}`);
   };
 
   const closePage = () => {
+    // 리덕스 설정 (ResetParty)
+    dispatch({
+      type: ResetParty
+    });
+
+    // 페이지 뒤로가기
     setPageTrans('trans toLeft');
     history.goBack();
   };
@@ -79,9 +109,16 @@ const PartyDetail = ({ location }) => {
     console.log('파티원 : 신고하기 / 취소');
   }
 
+  const openPage = () => {
+    // 페이지 전환
+    setPageTrans('trans toRight');
+    history.push('/payment');
+  }
+
   return (
     <div className="page">
       <PageWrap>
+        {/* 상단바 */}
         <HeaderWrap className="spoqaBold">
           <div id="back_link" onClick={closePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
             <img src={icon_back} alt="뒤로가기"></img>
@@ -91,13 +128,22 @@ const PartyDetail = ({ location }) => {
             <img src={icon_more} alt="BottomDialog 띄우기" style={{ position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)" }}></img>
           </div>
         </HeaderWrap>
+
         <MainWrap>
-          <PartyDetailContent result={partyDetailResult}/>
-          <BottomButtonWrap className="spoqaBold">
+          {/* 메인 컨텐츠 */}
+          <div style={{flexGrow: '1'}}>
+            {/* 파티 제목 컴포넌트 */}
+            <TopContentWrap>
+              <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true}/>
+            </TopContentWrap>
+          </div>
+
+
+          {/* 최하단 Yellow 버튼 */}
+          <BottomButtonWrap onClick={()=>{openPage()}} className="spoqaBold">
             <div className="bottomButtonText">파티참가</div>
           </BottomButtonWrap>
         </MainWrap>
-        
       </PageWrap>
     </div>
   );
@@ -106,7 +152,7 @@ const PartyDetail = ({ location }) => {
 export default PartyDetail;
 
 // Child Component(Top Data, 파티정보, 멤버십정보) - 내 파티 상세보기에서 Recycle
-export const PartyDetailContent = ({result}) => {
+const PartyDetailContent = ({result}) => {
 
   // Local Value
   let list = [];
@@ -212,7 +258,6 @@ export const PartyDetailContent = ({result}) => {
     </div>
   );
 };
-
 
 // Root Styled Component
 const PageWrap = styled.div`

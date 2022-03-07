@@ -26,6 +26,7 @@ import { DangerWrapPopup, DangerPopup } from '../../styled/shared';
 import ReportPopUp from './popup/reportPopup';
 import { ReportPopupOpenAction, SetReportCategoryListAction } from '../../reducers/party/popup';
 import { GA_CATEOGRY, GA_PARTY_ACTION, GAEventSubmit } from '../../shared/gaSetting';
+import { UpdatePartyAction } from '../../reducers/party/detail';
 
 const Party = () => {
 
@@ -166,25 +167,6 @@ const Party = () => {
 
     }
 
-
-    const onClickEnrollButton = (partyIdx, chatLink) => {
-        // 결제기능 업데이트 후
-        if(partyIdx === 0) return;
-
-        setPageTrans('trans toRight');
-        history.push({
-            pathname: "/party/detail",
-            state: {
-                idx: partyIdx,
-            }
-        });
-
-
-        // 결제기능 업데이트 전
-        // setEnrollPartyIdx(partyIdx);
-        // setEnrollPartyChatLink(chatLink);
-        // setEnrollPopupStatus(true);
-    }
     const onClickEnrollCancel = () => {
         setEnrollPartyIdx(0);
         setEnrollPartyChatLink('');
@@ -271,7 +253,7 @@ const Party = () => {
                             </div>
                             :
                             partyList.map((data, index) => {
-                                return (<PartyContent data={data} key={index} onClickEnrollButton={onClickEnrollButton} />)
+                                return (<PartyContent data={data} key={index} />)
                             })
                         }
                         <div style={{ height: '6.25rem' }} />
@@ -337,9 +319,13 @@ const EnrollCompeletePopUp = ({ openStatus, openChatLink, onClickCompleteClose }
     )
 }
 
-const PartyContent = ({ data, onClickEnrollButton }) => {
+const PartyContent = ({ data }) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
+
+    //페이지 전환
+    const { setPageTrans } = useContext(PageTransContext);
 
     const {
         reportCategoryList,
@@ -384,6 +370,24 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
             GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DETAIL);
         }
         setOpenStatue(!openStatus)
+    }
+
+    const onClickDetailButton = () => {
+        // 리덕스 설정
+        dispatch(UpdatePartyAction({
+            selectedPartyIdx: data.idx,
+            selectedPartyTitle: data.title,
+            selectedPartyOpenChatLink: data.openChatLink,
+            selectedPartyRoomStatus: data.roomStatus,
+            selectedPartyIsEnrolled: data.IsEnrolled,
+            selectedPartyPlatformInfo: data.platformInfo,
+            selectedPartyPartyInfo: data.partyInfo,
+            selectedPartyMembershipInfo: data.membershipInfo,
+        }))
+        
+        // 페이지 전환
+        setPageTrans('trans toRight');
+        history.push('/party/detail');
     }
 
     return (
@@ -470,7 +474,7 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
                                 </div>
                                 :
-                                <div onClick={() => { onClickEnrollButton(data.idx, data.openChatLink) }} style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                                <div onClick={() => { onClickDetailButton() }} style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
                                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
                                 </div>
                         }

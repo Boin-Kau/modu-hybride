@@ -5,8 +5,6 @@ import styled from "styled-components";
 
 const PartyTitleDiv = ({title, info, isDetail}) => {
 
-  console.log(title);
-  console.log(info);
   return (
     <>
       {
