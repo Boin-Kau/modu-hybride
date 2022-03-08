@@ -39,10 +39,6 @@ const Keyboard = () => {
     [password]
   );
 
-  const erasePasswordAll = useCallback((e) => {
-    setPassword("");
-  }, []);
-
   const shuffleNums = useCallback(
     (num) => (e) => {
       // 0 ~ 9 섞어주기
