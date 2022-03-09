@@ -18,13 +18,14 @@ import { ResetParty } from "../../../reducers/party/detail";
 
 
 // Page Root Component
-const PartyDetail = ({ location }) => {
+const PartyDetail = () => {
 
   // Module
   const dispatch = useDispatch();
   const history = useHistory();
 
   // Store
+  // 파티 상세 데이터 스토어에서 가져오기
   const { 
     selectedPartyId, 
     selectedPartyTitle, 
@@ -78,21 +79,6 @@ const PartyDetail = ({ location }) => {
   }, []);
 
   // Function
-  const getPartyDetail = async () => {
-    // 파티 상세 조회 
-    //const partyDetailUri = `/party/${partyIdx}`;
-    //const partyDetailData = await customApiClient('get', partyDetailUri);
-
-    // // Server Error
-    // if(!partyDetailData) { return };
-    // // Validation 
-    // if(partyDetailData.statusCode !== 200) { return };
-
-    // setPartyDetailResult(partyDetailData.result);
-
-    // console.log(`API 호출 성공 : ${partyDetailData.result}`);
-  };
-
   const closePage = () => {
     // 리덕스 설정 (ResetParty)
     dispatch({
