@@ -27,7 +27,7 @@ const PartyDetail = () => {
   // Store
   // 파티 상세 데이터 스토어에서 가져오기
   const { 
-    selectedPartyId, 
+    selectedPartyIdx, 
     selectedPartyTitle, 
     selectedPartyOpenChatLink, 
     selectedPartyRoomStatus, 
@@ -57,7 +57,7 @@ const PartyDetail = () => {
     // Bottom Nav 
     dispatch(BottomNavCloseAction);
 
-    setPartyId(selectedPartyId);
+    setPartyId(selectedPartyIdx);
     setPartyTitle(selectedPartyTitle);
     setPartyOpenChatLink(selectedPartyOpenChatLink);
     setPartyRoomStatus(selectedPartyRoomStatus);
@@ -66,6 +66,27 @@ const PartyDetail = () => {
     setPartyInfoObj(selectedPartyPartyInfo);
     setMembershipInfoObj(selectedPartyMembershipInfo);
 
+    if(selectedPartyIdx&&
+      selectedPartyTitle&&
+      selectedPartyOpenChatLink&&
+      selectedPartyRoomStatus&&
+      selectedPartyIsEnrolled&&
+      selectedPartyPlatformInfo&&
+      selectedPartyPartyInfo&&
+      selectedPartyMembershipInfo) {
+      setPartyId(selectedPartyIdx);
+      setPartyTitle(selectedPartyTitle);
+      setPartyOpenChatLink(selectedPartyOpenChatLink);
+      setPartyRoomStatus(selectedPartyRoomStatus);
+      setPartyIsEnrolled(selectedPartyIsEnrolled);
+      setPlatformInfoObj(selectedPartyPlatformInfo);
+      setPartyInfoObj(selectedPartyPartyInfo);
+      setMembershipInfoObj(selectedPartyMembershipInfo);
+    } else {
+      console.log('리덕스 초기화 감지')
+      closePage();
+    }
+    
     // 배경색 LOGIC
     const userPlatform = checkMobile();
     if (userPlatform == 'ios') {
@@ -285,7 +306,6 @@ const MainWrap = styled.div`
 
   background-color:#ffffff;
 `;
-
 const BottomButtonWrap = styled.div`
     display:flex;
     margin:1.25rem;
@@ -303,8 +323,6 @@ const BottomButtonWrap = styled.div`
       text-align: center;
     }
 `;
-
-// Child Styled Component
 const TopContentWrap = styled.div`
   border-bottom: 0.5rem #f7f7f7 solid;
   display: flex;

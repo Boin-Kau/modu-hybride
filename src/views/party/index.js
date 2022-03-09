@@ -373,6 +373,8 @@ const PartyContent = ({ data }) => {
     }
 
     const onClickDetailButton = () => {
+        console.log(data);
+
         // 리덕스 설정
         dispatch(UpdatePartyAction({
             selectedPartyIdx: data.idx,
