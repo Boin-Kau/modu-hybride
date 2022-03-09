@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
+import { BottomNavCloseAction, BottomNavOpenAction } from "../../../reducers/container/bottomNav";
 import { TextMiddle } from '../../../styled/shared';
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { checkMobile } from "../../../App";
@@ -75,6 +75,7 @@ const PartyDetail = () => {
       setMembershipInfoObj(selectedPartyMembershipInfo);
     } else {
       console.log('리덕스 초기화 감지')
+      dispatch(BottomNavOpenAction);
       closePage();
     }
     
