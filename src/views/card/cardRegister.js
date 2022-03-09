@@ -22,6 +22,8 @@ import {
 import { customApiClient } from "../../shared/apiClient";
 import { MainText } from "../../styled/shared/text";
 
+import InputComponent from "./inputComponent";
+
 const CardRegister = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -33,6 +35,7 @@ const CardRegister = () => {
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
   const [isFocus, setIsFocus] = useState(false);
 
   //state-카드정보
@@ -62,12 +65,8 @@ const CardRegister = () => {
 
   useEffect(async () => {
     setCardNum(num1 + num2 + num3 + num4);
-    console.log(cardNum);
+    // console.log(cardNum);
   }, [num1, num2, num3, num4, cardNum]);
-
-  // const InputFocusing = () => {
-  //   setIsFocus();
-  // };
 
   //input autoFocusing
   const handleNextFocus = (e, next) => {
@@ -237,7 +236,7 @@ const CardRegister = () => {
         </HeaderWrap>
 
         <ContentWrap>
-          <MainText className="spoqaBold">
+          <MainText>
             <span className="yellowText">구독파티 </span>
             정기결제에 사용할
             <br /> 카드를 등록해주세요
@@ -246,49 +245,41 @@ const CardRegister = () => {
           <div>
             <TitleWrap className="notoMedium">카드번호</TitleWrap>
             <ItemWrap style={{ flexDirection: "row" }}>
-              <InputWrap>
-                <Input
-                  id="num1"
-                  type="number"
-                  placeholder="0000"
-                  maxLength={4}
-                  value={num1}
-                  onChange={handleChangeOne}
-                ></Input>
-              </InputWrap>
+              <InputComponent
+                id={"num1"}
+                type={"number"}
+                placeholder={"0000"}
+                maxLength={4}
+                value={num1}
+                onChange={handleChangeOne}
+              />
               <Hypen>-</Hypen>
-              <InputWrap>
-                <Input
-                  id="num2"
-                  type="number"
-                  placeholder="0000"
-                  maxLength={4}
-                  value={num2}
-                  onChange={handleChangeTwo}
-                ></Input>
-              </InputWrap>
+              <InputComponent
+                id={"num2"}
+                type={"number"}
+                placeholder={"0000"}
+                maxLength={4}
+                value={num2}
+                onChange={handleChangeTwo}
+              />
               <Hypen>-</Hypen>
-              <InputWrap>
-                <Input
-                  id="num3"
-                  type="password"
-                  placeholder="0000"
-                  maxLength={4}
-                  value={num3}
-                  onChange={handleChangeThree}
-                ></Input>
-              </InputWrap>
+              <InputComponent
+                id={"num3"}
+                type={"password"}
+                placeholder={"0000"}
+                maxLength={4}
+                value={num3}
+                onChange={handleChangeThree}
+              />
               <Hypen>-</Hypen>
-              <InputWrap>
-                <Input
-                  id="num4"
-                  type="password"
-                  placeholder="0000"
-                  maxLength={4}
-                  value={num4}
-                  onChange={handleChangeFour}
-                ></Input>
-              </InputWrap>
+              <InputComponent
+                id={"num4"}
+                type={"password"}
+                placeholder={"0000"}
+                maxLength={4}
+                value={num4}
+                onChange={handleChangeFour}
+              />
             </ItemWrap>
           </div>
           <div
@@ -306,16 +297,14 @@ const CardRegister = () => {
               }}
             >
               <TitleWrap className="notoMedium">유효기간</TitleWrap>
-              <InputWrap>
-                <Input
-                  id="expire"
-                  type="password"
-                  placeholder="MMYY"
-                  value={expire}
-                  maxLength={4}
-                  onChange={onChangeExpire}
-                ></Input>
-              </InputWrap>
+              <InputComponent
+                id={"expire"}
+                type={"password"}
+                placeholder={"MMYY"}
+                maxLength={4}
+                value={expire}
+                onChange={onChangeExpire}
+              />
             </div>
             <div
               style={{
@@ -325,29 +314,26 @@ const CardRegister = () => {
               }}
             >
               <TitleWrap className="notoMedium">카드 비밀번호</TitleWrap>
-              <InputWrap>
-                <Input
-                  id="cardPw"
-                  type="password"
-                  placeholder="비밀번호 앞 2자리"
-                  value={cardPw}
-                  maxLength={2}
-                  onChange={onChangePw}
-                ></Input>
-              </InputWrap>
+              <InputComponent
+                id={"cardPw"}
+                type={"password"}
+                placeholder={"비밀번호 앞 2자리"}
+                maxLength={4}
+                value={cardPw}
+                onChange={onChangePw}
+              />
             </div>
           </div>
           <div>
             <TitleWrap className="notoMedium">생년월일 / 사업자번호</TitleWrap>
-            <InputWrap>
-              <Input
-                id="identifyNumber"
-                type="number"
-                placeholder="생년월일 6자리 또는 사업자번호 10자리"
+            <InputComponent
+                id={"identifyNumber"}
+                type={"number"}
+                placeholder={"생년월일 6자리 또는 사업자번호 10자리"}
+                maxLength={4}
                 value={identifyNumber}
                 onChange={onChangeId}
-              ></Input>
-            </InputWrap>
+              />
           </div>
           <div style={{ margin: "1.4375rem 0 0.75rem 0" }}>
             <div

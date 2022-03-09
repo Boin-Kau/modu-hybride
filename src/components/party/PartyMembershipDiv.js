@@ -16,7 +16,7 @@ const PartyMembershipDiv = ({paymentCycle, price, membership, partyCategory, isD
         </div>
       </MembershipYellowDiv>
       {/* 멤버십 정보에서 회색 Div */}
-      <MembershipGrayDiv isDetail={isDetail}>
+      <MembershipGrayDiv isDetail={isDetail} className="notoMedium">
         <div style={{display:"flex", marginBottom:"0.75rem"}}>
           <div className="membershipGrayTitle">멤버십 종류</div>
           <div className="membershipGrayText">{membership? membership : '없음'}</div>
