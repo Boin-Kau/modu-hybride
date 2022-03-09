@@ -57,15 +57,6 @@ const PartyDetail = () => {
     // Bottom Nav 
     dispatch(BottomNavCloseAction);
 
-    setPartyId(selectedPartyIdx);
-    setPartyTitle(selectedPartyTitle);
-    setPartyOpenChatLink(selectedPartyOpenChatLink);
-    setPartyRoomStatus(selectedPartyRoomStatus);
-    setPartyIsEnrolled(selectedPartyIsEnrolled);
-    setPlatformInfoObj(selectedPartyPlatformInfo);
-    setPartyInfoObj(selectedPartyPartyInfo);
-    setMembershipInfoObj(selectedPartyMembershipInfo);
-
     if(selectedPartyIdx&&
       selectedPartyTitle&&
       selectedPartyOpenChatLink&&
