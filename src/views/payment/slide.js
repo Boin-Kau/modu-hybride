@@ -31,10 +31,10 @@ const Slide = () => {
       {cardData.length === 0 ? (
         <Register />
       ) : (
-        <Slider {...settings} style={{padding:'0 10px 0 0'}}>
+        <Slider {...settings}>
           {cardData.result.map((cardData) => {
             return (
-              <div key={cardData.idx} style={{ border: "1px solid blue" }}>
+              <div key={cardData.idx}>
                 <Card
                   cardName={cardData.cardName}
                   cardNo={cardData.cardNo}
@@ -56,7 +56,7 @@ const settings = {
   dots: false,
   centerMode: true,
   infinite: false,
-  centerPadding: "0",
-  slidesToshow: 1.1,
+  centerPadding: "8px",
+  slidesToshow: 1,
   speed: 400,
 };
