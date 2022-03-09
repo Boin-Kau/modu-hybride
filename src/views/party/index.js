@@ -26,6 +26,7 @@ import { DangerWrapPopup, DangerPopup } from '../../styled/shared';
 import ReportPopUp from './popup/reportPopup';
 import { ReportPopupOpenAction, SetReportCategoryListAction } from '../../reducers/party/popup';
 import { GA_CATEOGRY, GA_PARTY_ACTION, GAEventSubmit } from '../../shared/gaSetting';
+import { UpdatePartyAction } from '../../reducers/party/detail';
 
 const Party = () => {
 
@@ -166,25 +167,6 @@ const Party = () => {
 
     }
 
-
-    const onClickEnrollButton = (partyIdx, chatLink) => {
-        // 결제기능 업데이트 후
-        if(partyIdx === 0) return;
-
-        setPageTrans('trans toRight');
-        history.push({
-            pathname: "/party/detail",
-            state: {
-                idx: partyIdx,
-            }
-        });
-
-
-        // 결제기능 업데이트 전
-        // setEnrollPartyIdx(partyIdx);
-        // setEnrollPartyChatLink(chatLink);
-        // setEnrollPopupStatus(true);
-    }
     const onClickEnrollCancel = () => {
         setEnrollPartyIdx(0);
         setEnrollPartyChatLink('');
@@ -271,7 +253,7 @@ const Party = () => {
                             </div>
                             :
                             partyList.map((data, index) => {
-                                return (<PartyContent data={data} key={index} onClickEnrollButton={onClickEnrollButton} />)
+                                return (<PartyContent data={data} key={index} />)
                             })
                         }
                         <div style={{ height: '6.25rem' }} />
@@ -337,9 +319,13 @@ const EnrollCompeletePopUp = ({ openStatus, openChatLink, onClickCompleteClose }
     )
 }
 
-const PartyContent = ({ data, onClickEnrollButton }) => {
+const PartyContent = ({ data }) => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
+
+    //페이지 전환
+    const { setPageTrans } = useContext(PageTransContext);
 
     const {
         reportCategoryList,
@@ -386,21 +372,41 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
         setOpenStatue(!openStatus)
     }
 
+    const onClickDetailButton = () => {
+        console.log(data);
+
+        // 리덕스 설정
+        dispatch(UpdatePartyAction({
+            selectedPartyIdx: data.idx,
+            selectedPartyTitle: data.title,
+            selectedPartyOpenChatLink: data.openChatLink,
+            selectedPartyRoomStatus: data.roomStatus,
+            selectedPartyIsEnrolled: data.IsEnrolled,
+            selectedPartyPlatformInfo: data.platformInfo,
+            selectedPartyPartyInfo: data.partyInfo,
+            selectedPartyMembershipInfo: data.membershipInfo,
+        }))
+        
+        // 페이지 전환
+        setPageTrans('trans toRight');
+        history.push('/party/detail');
+    }
+
     return (
         <>
             <ContentWrap onClick={openCard} style={{ display: 'block', position: 'relative' }}>
                 <div style={{ display: 'flex' }}>
                     <div>
                         {
-                            data.color && data.initial ?
-                                <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.color }}>
+                            data.platformInfo.color && data.platformInfo.initial ?
+                                <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: data.platformInfo.color }}>
                                     <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
-                                        {data.initial}
+                                        {data.platformInfo.initial}
                                     </div>
                                 </div>
                                 :
-                                data.serverImgUrl ?
-                                    <img src={data.serverImgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} /> :
+                                data.platformInfo.serverImgUrl ?
+                                    <img src={data.platformInfo.serverImgUrl} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem" }} /> :
                                     <div className="spoqaBold" style={{ position: 'relative', width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem", marginRight: "0.9375rem", backgroundColor: '#e1e1e1' }}>
                                         <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%,-30%)', fontSize: '1.375rem', color: '#ffffff' }}>
                                             ?
@@ -419,8 +425,8 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                             }
                             <div className="notoMedium" style={{ color: '#acacac', lineHeight: '1.4375rem' }}>
                                 {
-                                    data.registerType === 'SERVER' ?
-                                        data.serverCategory : data.customCategory
+                                    data.platformInfo.registerType === 'SERVER' ?
+                                        data.platformInfo.serverCategory : data.platformInfo.customCategory
                                 }
                             </div>
                         </div>
@@ -428,15 +434,15 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                 </div>
                 <div style={{ display: 'flex', marginTop: '0.3125rem' }}>
                     {
-                        Array(data.personnel).fill(1).map((e, index) => {
+                        Array(data.partyInfo.personnel).fill(1).map((e, index) => {
                             return (
-                                <img key={index} src={index < data.currentUserCount ? ActiveDuckIcon : DeActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
+                                <img key={index} src={index < data.partyInfo.currentUserCount ? ActiveDuckIcon : DeActiveDuckIcon} style={{ width: '1.5625rem', height: '1.5625rem', marginRight: '0.5rem' }} />
                             )
                         })
                     }
                 </div>
                 <div className="spoqaBold" style={{ position: 'absolute', right: '0.75rem', bottom: '0.6875rem', fontSize: '0.8125rem', lineHeight: '1.4375rem' }}>
-                    {priceToString(data.price)}원
+                    {priceToString(data.membershipInfo.price)}원
                 </div>
                 <CompleteWrap isCompelte={data.roomStatus === "COMPELETE"}>
                     <CompleteTextWrap className="spoqaBold">매칭 완료 🎉</CompleteTextWrap>
@@ -450,15 +456,15 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                             <DetailItemTitle>서비스</DetailItemTitle>
                             <DetailItemFillContent>
                                 {
-                                    data.registerType === 'SERVER' ?
-                                        data.serverName : data.customName
+                                    data.platformInfo.registerType === 'SERVER' ?
+                                        data.platformInfo.serverName : data.platformInfo.customName
                                 }
                             </DetailItemFillContent>
                         </DetailItemWrap>
                         <DetailItemWrap>
                             <DetailItemTitle>멤버십 종류</DetailItemTitle>
-                            {data.membership ?
-                                <DetailItemFillContent>{data.membership}</DetailItemFillContent> :
+                            {data.membershipInfo.membership ?
+                                <DetailItemFillContent>{data.membershipInfo.membership}</DetailItemFillContent> :
                                 <DetailItemContent>없음 </DetailItemContent>
                             }
                         </DetailItemWrap>
@@ -470,7 +476,7 @@ const PartyContent = ({ data, onClickEnrollButton }) => {
                                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
                                 </div>
                                 :
-                                <div onClick={() => { onClickEnrollButton(data.idx, data.openChatLink) }} style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                                <div onClick={() => { onClickDetailButton() }} style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
                                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
                                 </div>
                         }
