@@ -1,14 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
-
-const Card = ({ cardName, cardNo }) => {
+const Card = ({ cardName, cardNo, cardImg }) => {
   return (
     <Container
       className="spoqaBold"
       style={{
-        backgroundImage: `url(${ic_pay_cardtab})`,
+        backgroundImage: `url(${cardImg})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
