@@ -38,11 +38,12 @@ const CardManagement = () => {
   //life cycle
   useEffect(async () => {
     const data = await customApiClient("get", "/party/user/card");
-    setCardData(data.result);
-
-
     //서버에러
     if (!data) return;
+
+    if(data.statusCode == 200){
+      setCardData(data.result);
+    }
 
     //벨리데이션
     if (data.statusCode != 200) {
