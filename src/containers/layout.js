@@ -38,6 +38,8 @@ import PartyDetail from '../views/party/detail';
 import Payment from '../views/payment/payment';
 import CardRegister from '../views/card/cardRegister';
 import Finish from '../views/payment/finish';
+import Keyboard from '../views/card/keyboard';
+import CardManagement from '../views/card/cardManagement';
 
 const AppLayout = () => {
 
@@ -86,6 +88,7 @@ const AppLayout = () => {
             <Route path='/payment' exact component={Payment} />
             <Route path='/payment/finish' exact component={Finish} />
             <Route path='/card' exact component={CardRegister} />
+            <Route path='/card/manage' exact component={CardManagement} />
         </>
     );
 

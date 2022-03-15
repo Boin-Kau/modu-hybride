@@ -7,9 +7,13 @@ import Card from "./card";
 import Register from "./register";
 import { customApiClient } from "../../shared/apiClient";
 
+import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
+import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
+
 const Slide = () => {
   //state
   const [cardData, setCardData] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState('0');
 
   //life cycle
   useEffect(async () => {
@@ -28,17 +32,33 @@ const Slide = () => {
 
   return (
     <div>
+      <style>{cssStyle}</style>
       {cardData.length === 0 ? (
         <Register />
       ) : (
-        <Slider {...settings}>
-          {cardData.result.map((cardData) => {
+        <Slider
+          {...settings}
+          afterChange={(current, next) => {
+            setCurrentSlide(current);
+            console.log(currentSlide);
+          }}
+        >
+          {cardData.result.map((cardData, index) => {
             return (
               <div key={cardData.idx}>
-                <Card
-                  cardName={cardData.cardName}
-                  cardNo={cardData.cardNo}
-                ></Card>
+                {(currentSlide) == index ? (
+                  <Card
+                    cardImg={ic_pay_cardtab}
+                    cardName={cardData.cardName}
+                    cardNo={cardData.cardNo}
+                  />
+                ) : (
+                  <Card
+                    cardImg={ic_pay_cardtab_g}
+                    cardName={cardData.cardName}
+                    cardNo={cardData.cardNo}
+                  />
+                )}
               </div>
             );
           })}
@@ -56,7 +76,15 @@ const settings = {
   dots: false,
   centerMode: true,
   infinite: false,
-  centerPadding: "8px",
-  slidesToshow: 1,
+  centerPadding: "2%", //px아니면 slick-slider에서 인식을 안해줌..
+  slidesToshow: 2,
   speed: 400,
+  focusOnSelect: true,
+  // beforeChange: (crruent, next) => setImageIndex(next)
 };
+
+const cssStyle = `
+.center .slick-center{
+  
+}
+`;
