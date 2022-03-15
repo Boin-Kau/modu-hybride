@@ -49,10 +49,6 @@ const CardManagement = () => {
       return;
     }
   }, []);
-  
-  useEffect(async () => {
-
-  }, [cardData]);
 
   return (
     <div className="page">
