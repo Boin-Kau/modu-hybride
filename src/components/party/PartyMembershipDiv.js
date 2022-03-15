@@ -36,7 +36,8 @@ const PartyMembershipDiv = ({membershipInfo, platformInfo, isDetail}) => {
       <MembershipGrayDiv isDetail={isDetail} className="notoMedium">
         <div style={{display:"flex", marginBottom:"0.75rem"}}>
           <div className="membershipGrayTitle">멤버십 종류</div>
-          <div className="membershipGrayText">{membershipInfo.membership? membershipInfo.membership : '없음'}</div>
+          <div className="membershipGrayText">
+            {membershipInfo.membership&&membershipInfo.membership.length>0? membershipInfo.membership : '없음'}</div>
         </div>
         <div style={{display:"flex"}}>
           <div className="membershipGrayTitle">카테고리</div>
