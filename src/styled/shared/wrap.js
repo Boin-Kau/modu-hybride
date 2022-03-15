@@ -15,7 +15,7 @@ export const PageWrap = styled.div`
   background-color: #ffffff;
 `;
 
- export const HeaderWrap = styled.div`
+export const HeaderWrap = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -42,3 +42,9 @@ export const ContentWrap = styled.div`
 
   padding: 0 1.25rem 1.25rem 1.25rem;
 `;
+
+// 파티 상세페이지에서 파티 정보를 감싸주는 Wrapper입니다. 
+export const PartyDetailSubWrap = styled.div`
+  padding: 1.3438rem 0;
+`
+

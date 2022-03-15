@@ -11,3 +11,11 @@ export const MainText = styled.div`
     color: #ffbc26;
   }
 `;
+
+// 파티정보, 멤버십정보 등 파티 상세페이지에서 사용하는 Subtitle Span Style
+export const PartyDetailSubtitleSpan = styled.span`
+  font-size: 0.875rem;
+  color: #313131;
+  font-family: 'Spoqa Han Sans';
+  font-weight: bold;
+`

@@ -96,6 +96,7 @@ const MyPartyDetail = ({ location }) => {
         </TopContentWrap>
         {/* 파티 정보 컴포넌트 - 컴포넌트 분리 작업 예정 */}
         <div style={{height:'161px', borderBottom:'solid #f7f7f7 0.5rem'}}>파티 정보(작업예정)</div>
+        
       </MainWrap>
     </div>
   )

@@ -15,10 +15,16 @@ import { customApiClient } from "../../../shared/apiClient";
 import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import { ResetParty } from "../../../reducers/party/detail";
+import { PartyDetailSubWrap } from "../../../styled/shared/wrap";
+import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 
 
 // Page Root Component
 const PartyDetail = () => {
+
+  // 테스트 코드
+  let list = [];
+  const [typeList, setTypeList] = useState([]);
 
   // Module
   const dispatch = useDispatch();
@@ -54,7 +60,7 @@ const PartyDetail = () => {
 
   // Lifecycle - Initial Logic
   useEffect(() => {
-    // Bottom Nav 
+    // Bottom Nav
     dispatch(BottomNavCloseAction);
 
     if(selectedPartyIdx&&
@@ -73,6 +79,18 @@ const PartyDetail = () => {
       setPlatformInfoObj(selectedPartyPlatformInfo);
       setPartyInfoObj(selectedPartyPartyInfo);
       setMembershipInfoObj(selectedPartyMembershipInfo);
+
+      // 테스트 코드
+      list = [];
+      if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+        list.push('boss');
+        for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('complete');
+        for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('waiting');
+        for(let i=partyInfoObj.personnel; i!==4; i++) list.push('nothing');
+      }
+      
+      setTypeList(list);
+      console.log(typeList);
     } else {
       console.log('리덕스 초기화 감지')
       dispatch(BottomNavOpenAction);
@@ -131,10 +149,47 @@ const PartyDetail = () => {
         <MainWrap>
           {/* 메인 컨텐츠 */}
           <div style={{flexGrow: '1'}}>
-            {/* 파티 제목 컴포넌트 */}
+            {/* 파티 제목  */}
             <TopContentWrap>
               <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true}/>
             </TopContentWrap>
+
+            {/* 파티 정보 */}
+            <PartyDetailSubWrap style={{borderBottom: '0.5rem #f7f7f7 solid'}}>
+              {/* 서브 타이틀 & 인원 수 */}
+              <PartyDataTitleDiv>
+                <PartyDetailSubtitleSpan>파티 정보</PartyDetailSubtitleSpan>
+                <div className="memberCountBox">
+                  <img className="memberCountImg" src={icon_small_duck} alt="오리" />
+                  <div className="memberCountSpan spoqaBold">{partyInfoObj.personnel}명</div>
+                </div>
+              </PartyDataTitleDiv>
+              {/* 참여인원 내용 **수정필요** */}
+              <PartyDataContentWrap personnel={partyInfoObj.personnel}>
+                {
+                  typeList.map((item, idx) => {
+                    if(partyInfoObj.personnel > 4) {
+                      return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
+                    } else {
+                      return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
+                    }
+                  })
+                }
+              </PartyDataContentWrap>
+            </PartyDetailSubWrap>
+
+            {/* 멤버십 정보 */}
+            <PartyDetailSubWrap style={{paddingLeft:'1.25rem', paddingRight:'1.25rem'}}>
+              <div style={{ marginBottom:'17.5px'}}>
+                <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
+              </div>
+              {/* 파티 멤버십 정보 컴포넌트 */}
+              <PartyMembershipDiv
+                membershipInfo={membershipInfoObj}
+                platformInfo={platformInfoObj}
+                isDetail={true}/>
+            </PartyDetailSubWrap>
+
           </div>
 
 
@@ -173,12 +228,7 @@ const PartyDetailContent = ({result}) => {
 
   const [paymentCycle, setPaymentCycle] = useState('?????');
 
-  
-  
 
-  // Lifecycle - Initial Logic
-
-  
   // Lifecycle - When result is changed
   useEffect(() => {
     if(!result) return;
@@ -195,65 +245,13 @@ const PartyDetailContent = ({result}) => {
     setPrice(result.price);
     setMembership(result.membership);
 
-    list = [];
-    if(result.currentUserCount && result.personnel) {
-      list.push('boss');
-      for(let i=0; i<result.currentUserCount-1; i++) list.push('complete');
-      for(let i=0; i<result.personnel-result.currentUserCount; i++) list.push('waiting');
-      for(let i=result.personnel; i!=4; i++) list.push('nothing');
-    }
-    setTypeList(list);
   }, [result]);
 
   // Function
   
-  
   return (
     <div style={{ flexGrow: '1' }}>
-      <TopContentWrap>
-        {/* 파티 제목 컴포넌트 */}
-        <PartyTitleDiv 
-          color={partyCustomColor}
-          initial={partyCustomInitial}
-          imgUrl={partyImgUrl} 
-          title={partyTitle} 
-          name={serviceName} 
-          category={partyCategory} 
-          isDetail={true}/>
-      </TopContentWrap>
-
-      <PartyDataWrap>
-        <div className="partyDataTitleDiv">
-          <span className="partyDataTitle spoqaBold">파티 정보</span>
-          <div className="memberCountBox">
-            <img className="memberCountImg" src={icon_small_duck} alt="오리" />
-            <div className="memberCountSpan spoqaBold">{personnel}명</div>
-          </div>
-        </div>
-        <PartyDataListWrap>
-          {
-            typeList.map((item, idx) => {
-              if(personnel > 4) {
-                return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
-              } else {
-                return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
-              }
-            })
-          }
-        </PartyDataListWrap>
-      </PartyDataWrap>
-      <MembershipDataWrap>
-        <span className="membershipDataTitle spoqaBold">멤버십 정보</span>
-        
-        {/* 파티 멤버십 정보 컴포넌트 */}
-        <PartyMembershipDiv
-          paymentCycle={'매달 5일'}
-          price={price}
-          membership={membership}
-          partyCategory={partyCategory}
-          isDetail={true}/>
-
-      </MembershipDataWrap>
+      
     </div>
   );
 };
@@ -320,52 +318,42 @@ const TopContentWrap = styled.div`
   display: flex;
   padding: 0 1.25rem 1.2188rem;
 `;
+const PartyDataTitleDiv = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  margin-bottom: 1.5rem;
 
-const PartyDataWrap = styled.div`
-  border-bottom: 0.5rem #f7f7f7 solid;
-  padding: 1.3438rem 0;
-
-  .partyDataTitleDiv {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding: 0 1.25rem;
-  }
-
-  .partyDataTitle {
-    font-size: 0.875rem;
-    color: #313131;
-    margin-right: 0.2188rem;
-  }
+  border: 1px red solid;
 
   .memberCountBox {
-    background-color: #ffca35;
-    border-radius: 8px;
-    padding: 0.0625rem 0.3125rem 0.125rem 0.3125rem;
     display: flex;
-    justify-content: center;
+    margin-left: 0.2188rem;
+    background-color: #ffca35;
+    border-radius: 0.5rem;
     align-items: center;
+    padding: 0.0625rem 0.3125rem 0.125rem 0.3125rem;
   }
-
   .memberCountImg {
     width: 0.6062rem;
     height: 0.6062rem;
     margin-right: 0.2rem;
   }
-
   .memberCountSpan {
     color: #ffffff;
     font-size: 0.5rem;
   }
 `;
-
-const PartyDataListWrap = styled.div`
+const PartyDataContentWrap = styled.div`
   display: flex;
-  flex-direction: row;
   flex-wrap: nowrap;
+  padding-left: 1.25rem;
+  padding-right: ${props => props.personnel > 4 ? '0rem' : '1.25rem'};
+  justify-content: space-between;
   overflow-x: auto;
 
-  padding-left: 1.25rem;
+
+  border: 1px red solid;
 `;
 
 const MembershipDataWrap = styled.div`
@@ -379,6 +367,7 @@ const MembershipDataWrap = styled.div`
     color: #313131;
     display: block;
     margin-bottom: 1.0938rem;
+
   }
 `;
 
