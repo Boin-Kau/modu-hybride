@@ -89,7 +89,6 @@ const AppLayout = () => {
             <Route path='/payment/finish' exact component={Finish} />
             <Route path='/card' exact component={CardRegister} />
             <Route path='/card/manage' exact component={CardManagement} />
-            <Route path='/keyboard' exact component={Keyboard}/>
         </>
     );
 
