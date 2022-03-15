@@ -1,16 +1,14 @@
-import React from 'react'
-
+import React from "react";
+import styled from "styled-components";
 import { customApiClient } from "../../shared/apiClient";
 
-import delete_icon from '../../assets/ic_cardadmin_delete.svg';
-import card_img from '../../assets/ic_partydetail_paysucess.svg';
+import delete_icon from "../../assets/ic_cardadmin_delete.svg";
+import card_img from "../../assets/ic_partydetail_paysucess.svg";
 
-
-const CardComponent = ({cardName, cardNo, id, cardData, setCardData}) => {
-
+const CardComponent = ({ cardName, cardNo, id, cardData, setCardData }) => {
   console.log(cardData);
   //회원탈퇴 버튼 최종 클릭
-  const onClickDeleteCard = async ( cardIdx ) => {
+  const onClickDeleteCard = async (cardIdx) => {
     //서버통신
     const res = await customApiClient("delete", `party/user/card/${cardIdx}`);
     console.log(res);
@@ -24,20 +22,49 @@ const CardComponent = ({cardName, cardNo, id, cardData, setCardData}) => {
       return;
     }
 
-    if(res.statusCode == 200){
-      setCardData(cardData.filter(cardData=>cardData.idx !== cardIdx));
+    if (res.statusCode == 200) {
+      setCardData(cardData.filter((cardData) => cardData.idx !== cardIdx));
       console.log(cardData);
     }
-
   };
 
   return (
-    <div style={{display:'flex', flexDirection:'row', marginBottom:'1.25rem', height:'1.625rem', alignItems:'center'}}>
-        <img src={delete_icon} style={{width:'1.125rem'}} onClick={()=>onClickDeleteCard(id)}></img>
-        <img src={card_img} style={{wieth:'2.8125rem', margin:'0 10px'}}></img>
-        <span className='spoqaRegular' style={{fontSize:'0.875rem'}}>{cardName} ({cardNo})</span>
-    </div>
-  )
-}
+    <ListWrap>
+      <img
+        className="delete_icon"
+        src={delete_icon}
+        onClick={() => onClickDeleteCard(id)}
+      ></img>
+      <img
+        src={card_img}
+        className="card_img"
+      ></img>
+      <span className="spoqaRegular font_style">
+        {cardName} ({cardNo})
+      </span>
+    </ListWrap>
+  );
+};
 
-export default CardComponent
+const ListWrap = styled.div`
+  display:flex;
+  flex-direction:row;
+  margin-bottom:1.25rem; 
+  height:1.625rem;
+  align-items:center;
+
+  .delete_icon{
+    width: 1.125rem;
+  }
+
+  .card_img{
+    width: 2.8125rem;
+    margin: 0 0.625rem;
+  }
+
+  .font_style{
+    font-size: 0.875rem;
+  }
+`;
+
+export default CardComponent;
