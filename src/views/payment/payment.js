@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { PageTransContext } from "../../containers/pageTransContext";
 import { TextMiddle } from "../../styled/shared";
@@ -18,16 +18,59 @@ const Payment = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Store
+  // 파티 상세 데이터 스토어에서 가져오기
+  const { 
+    selectedPartyIdx, 
+    selectedPartyTitle, 
+    selectedPartyOpenChatLink, 
+    selectedPartyRoomStatus, 
+    selectedPartyIsEnrolled,
+    selectedPartyPlatformInfo,
+    selectedPartyPartyInfo,
+    selectedPartyMembershipInfo, 
+  } = useSelector(state => state.party.detail);
+
   //context
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
   const [isFree, setIsFree] = useState("N");
+  const [partyId, setPartyId] = useState(0);
+  const [partyTitle, setPartyTitle] = useState('');
+  const [partyOpenChatLink, setPartyOpenChatLink] = useState('');
+  const [partyRoomStatus, setPartyRoomStatus] = useState('');
+  const [partyIsEnrolled, setPartyIsEnrolled] = useState('');
+  const [platformInfoObj, setPlatformInfoObj] = useState({});
+  const [partyInfoObj, setPartyInfoObj] = useState({});
+  const [membershipInfoObj, setMembershipInfoObj] = useState({});
 
   //initial logic
   useEffect(() => {
     dispatch(BottomNavCloseAction);
+
+    if(selectedPartyIdx&&
+      selectedPartyTitle&&
+      selectedPartyOpenChatLink&&
+      selectedPartyRoomStatus&&
+      selectedPartyIsEnrolled&&
+      selectedPartyPlatformInfo&&
+      selectedPartyPartyInfo&&
+      selectedPartyMembershipInfo) {
+      setPartyId(selectedPartyIdx);
+      setPartyTitle(selectedPartyTitle);
+      setPartyOpenChatLink(selectedPartyOpenChatLink);
+      setPartyRoomStatus(selectedPartyRoomStatus);
+      setPartyIsEnrolled(selectedPartyIsEnrolled);
+      setPlatformInfoObj(selectedPartyPlatformInfo);
+      setPartyInfoObj(selectedPartyPartyInfo);
+      setMembershipInfoObj(selectedPartyMembershipInfo);
+
+      console.log(platformInfoObj);
+    } else {
+      console.log('리덕스 초기화 감지');
+    }
   }, []);
 
   const closePage = () => {
@@ -80,7 +123,7 @@ const Payment = () => {
               구독내역
             </span>
           </div>
-          <PartyComponent />
+          <PartyComponent partyTitle={partyTitle} partyInfo={platformInfoObj} membershipInfo={membershipInfoObj}/>
         </ContentWrap>
         <div><Line /></div>
         <ContentWrap>
