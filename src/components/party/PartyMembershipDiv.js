@@ -1,29 +1,47 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const PartyMembershipDiv = ({paymentCycle, price, membership, partyCategory, isDetail}) => {
+const PartyMembershipDiv = ({membershipInfo, platformInfo, isDetail}) => {
+  const [date, setDate] = useState('');
+
+  const isNotEmpty = (param) => Object.keys(param).length !== 0;
+
+  useEffect(() => {
+    if(isNotEmpty(membershipInfo)) {
+      setDate(
+        (membershipInfo.paymentCycleDate).split('-')[2][0] === '0'?
+        (membershipInfo.paymentCycleDate).split('-')[2][1]
+        :
+        (membershipInfo.paymentCycleDate).split('-')[2]
+      );
+    } 
+  },[membershipInfo])
+
   return (
     <>
       {/* 멤버십 정보에서 노란 Div */}
       <MembershipYellowDiv isDetail={isDetail}>
         <div className="membershipYellowDivLeft">
           <div className="membershipYellowTitle notoMedium">파티 결제주기</div>
-          <div className="membershipYellowText spoqaBold">{paymentCycle}</div>
+          <div className="membershipYellowText spoqaBold">매 달 {date}일</div>
         </div>
-          
+        
+        {/* 금액 파트 확인 필요 */}
         <div className="membershipYellowDivRight">
           <div className="membershipYellowTitle notoMedium">구독금액</div>
-          <div className="membershipYellowText spoqaBold">{price}원</div>
+          <div className="membershipYellowText spoqaBold">{membershipInfo.price}원</div>
         </div>
       </MembershipYellowDiv>
       {/* 멤버십 정보에서 회색 Div */}
       <MembershipGrayDiv isDetail={isDetail} className="notoMedium">
         <div style={{display:"flex", marginBottom:"0.75rem"}}>
           <div className="membershipGrayTitle">멤버십 종류</div>
-          <div className="membershipGrayText">{membership? membership : '없음'}</div>
+          <div className="membershipGrayText">
+            {membershipInfo.membership&&membershipInfo.membership.length>0? membershipInfo.membership : '없음'}</div>
         </div>
         <div style={{display:"flex"}}>
           <div className="membershipGrayTitle">카테고리</div>
-          <div className="membershipGrayText">{partyCategory}</div>
+          <div className="membershipGrayText">{platformInfo.serverCategory? platformInfo.serverCategory : platformInfo.customCategory}</div>
         </div>
       </MembershipGrayDiv>
     </>
