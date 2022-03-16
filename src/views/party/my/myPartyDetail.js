@@ -163,7 +163,7 @@ const MyPartyDetail = ({ location }) => {
               <img className="notice_img" src={icon_notice_duck}></img>
               <div className="notice_text_div">
                 <span>이번달 </span>
-                <span className="notice_text_yellow">9000원</span>
+                <span className="notice_text_yellow">{membershipInfoObj.originlPrice-membershipInfoObj.price}원</span>
                 <span>이나 </span>
                 <span>아꼈어요!</span>
               </div>
@@ -188,14 +188,14 @@ const MyPartyDetail = ({ location }) => {
             <AccountInfoComponent
               isHostUser={isHostUser}
               accountInfo={accountInfoObj}/>
-
-
-
-
           </PartyDetailSubWrap>
           :
           <></>
         }
+
+        {/* 파티장은 정산정보, 파티원은 결제수단 */}
+
+
 
 
 
