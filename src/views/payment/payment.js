@@ -149,7 +149,7 @@ const Payment = () => {
           >
             결제 금액
           </span>
-            <Price/>
+            <Price priceInfo={membershipInfoObj}/>
           <div
             className="notoMedium"
             style={{
