@@ -195,7 +195,7 @@ const MyPartyDetail = ({ location }) => {
 
         {/* 계정 정보 */}
         {
-          isNotEmpty(accountInfoObj) ? 
+          isNotEmpty(accountInfoObj) && 
           <PartyDetailSubWrap style={{paddingLeft:'1.25rem',paddingRight:'1.25rem',borderBottom: '0.5rem #f7f7f7 solid'}} >
             {/* 서브타이틀 */}
             <div style={{ marginBottom:'1.25rem'}}>
@@ -206,8 +206,6 @@ const MyPartyDetail = ({ location }) => {
               isHostUser={isHostUser}
               accountInfo={accountInfoObj}/>
           </PartyDetailSubWrap>
-          :
-          <></>
         }
 
         {/* 파티장은 정산정보, 파티원은 결제수단 */}
