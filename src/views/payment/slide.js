@@ -40,7 +40,6 @@ const Slide = () => {
           {...settings}
           afterChange={(current, next) => {
             setCurrentSlide(current);
-            console.log(currentSlide);
           }}
         >
           {cardData.result.map((cardData, index) => {
