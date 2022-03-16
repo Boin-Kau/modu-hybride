@@ -9,7 +9,7 @@ import icon_notice_duck from '../../../assets/icon-notice-duck.svg';
 
 import { useHistory } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import styled from "styled-components";
 import { checkMobile } from "../../../App";
@@ -17,8 +17,8 @@ import { customApiClient } from "../../../shared/apiClient";
 import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import PartyDataListItem from "../../../components/party/PartyList";
-import NoticeComponent from "../../../components/party/NoticeComponent";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
+import AccountInfoComponent from "./AccountInfoComponent";
 
 const MyPartyDetail = ({ location }) => {
 
@@ -37,9 +37,11 @@ const MyPartyDetail = ({ location }) => {
   const [partyIdx, setPartyIdx] = useState(location.state.idx);
 
   const [partyTitle, setPartyTitle] = useState('');
+  const [isHostUser, setIsHostUser] = useState('');
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
+  const [accountInfoObj, setAccountInfoObj] = useState({});
 
 
   // Lifecycle - Initial Logic
@@ -76,9 +78,11 @@ const MyPartyDetail = ({ location }) => {
     console.log('API 호출 성공 :', partyDetailData);
 
     setPartyTitle(partyDetailData.result.title);
+    setIsHostUser(partyDetailData.result.isHostUser);
     setPlatformInfoObj(partyDetailData.result.platformInfo);
     setPartyInfoObj(partyDetailData.result.partyInfo);
     setMembershipInfoObj(partyDetailData.result.membershipInfo);
+    setAccountInfoObj(partyDetailData.result.accountInfo);
 
     // 테스트 코드
     list = [];
@@ -103,6 +107,7 @@ const MyPartyDetail = ({ location }) => {
   const openBottomDialog = () => {
     console.log('Open Bottom Dialog');
   }
+  const isNotEmpty = (param) => Object.keys(param).length !== 0;
 
   return (
     <div className="page">
@@ -170,6 +175,31 @@ const MyPartyDetail = ({ location }) => {
             platformInfo={platformInfoObj}
             isDetail={true}/>
         </PartyDetailSubWrap>
+
+        {/* 계정 정보 */}
+        {
+          isNotEmpty(accountInfoObj) ? 
+          <PartyDetailSubWrap style={{paddingLeft:'1.25rem',paddingRight:'1.25rem',borderBottom: '0.5rem #f7f7f7 solid'}} >
+            {/* 서브타이틀 */}
+            <div style={{ marginBottom:'1.25rem'}}>
+              <PartyDetailSubtitleSpan>계정 정보</PartyDetailSubtitleSpan>
+            </div>
+            {/* 파티장은 계정변경, 파티원은 계정복사로 버튼 구성 */}
+            <AccountInfoComponent
+              isHostUser={isHostUser}
+              accountInfo={accountInfoObj}/>
+
+
+
+
+          </PartyDetailSubWrap>
+          :
+          <></>
+        }
+
+
+
+
       </MainWrap>
     </div>
   )
