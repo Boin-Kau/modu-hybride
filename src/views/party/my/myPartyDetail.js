@@ -67,6 +67,23 @@ const MyPartyDetail = ({ location }) => {
     }
   },[]);
 
+  useEffect(() => {
+    if(isNotEmpty(membershipInfoObj)) {
+      setPayMonth(
+        (membershipInfoObj.paymentCycleDate).split('-')[1][0] === '0'?
+          (membershipInfoObj.paymentCycleDate).split('-')[1][1]
+          :
+          (membershipInfoObj.paymentCycleDate).split('-')[1]
+      );
+      setPayDay(
+        (membershipInfoObj.paymentCycleDate).split('-')[2][0] === '0'?
+          (membershipInfoObj.paymentCycleDate).split('-')[2][1]
+          :
+          (membershipInfoObj.paymentCycleDate).split('-')[2]
+      );
+    }
+  },[membershipInfoObj])
+
   // Function 
   const getPartyDetail = async () => {
     // 파티 상세 조회 
@@ -85,19 +102,6 @@ const MyPartyDetail = ({ location }) => {
     setPartyInfoObj(partyDetailData.result.partyInfo);
     setMembershipInfoObj(partyDetailData.result.membershipInfo);
     setAccountInfoObj(partyDetailData.result.accountInfo);
-
-    setPayMonth(
-      (membershipInfoObj.paymentCycleDate).split('-')[1][0] === '0'?
-        (membershipInfoObj.paymentCycleDate).split('-')[1][1]
-        :
-        (membershipInfoObj.paymentCycleDate).split('-')[1]
-    );
-    setPayDay(
-      (membershipInfoObj.paymentCycleDate).split('-')[2][0] === '0'?
-        (membershipInfoObj.paymentCycleDate).split('-')[2][1]
-        :
-        (membershipInfoObj.paymentCycleDate).split('-')[2]
-    );
 
     // 테스트 코드
     list = [];
@@ -315,6 +319,7 @@ const PaymentContentsWrap = styled.div`
 
 `;
 
+// 하단 노란색 버튼
 const BottomButtonWrap = styled.div`
     display:flex;
     margin:1.25rem;
