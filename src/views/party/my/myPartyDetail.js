@@ -1,9 +1,11 @@
 import { TextMiddle } from "../../../styled/shared";
-import { ContentWrap, HeaderWrap } from "../../../styled/shared/wrap";
+import { ContentWrap, HeaderWrap, NoticeWrap, PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PageTransContext } from '../../../containers/pageTransContext';
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import icon_more from "../../../assets/icon-partydetail-more.svg";
+import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
+import icon_notice_duck from '../../../assets/icon-notice-duck.svg';
 
 import { useHistory } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
@@ -13,8 +15,16 @@ import styled from "styled-components";
 import { checkMobile } from "../../../App";
 import { customApiClient } from "../../../shared/apiClient";
 import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
+import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
+import PartyDataListItem from "../../../components/party/PartyList";
+import NoticeComponent from "../../../components/party/NoticeComponent";
+import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 
 const MyPartyDetail = ({ location }) => {
+
+  // 테스트 코드
+  let list = [];
+  const [typeList, setTypeList] = useState([]);
 
   // Module
   const history = useHistory();
@@ -27,7 +37,10 @@ const MyPartyDetail = ({ location }) => {
   const [partyIdx, setPartyIdx] = useState(location.state.idx);
 
   const [partyTitle, setPartyTitle] = useState('');
-  const [platformInfo, setPlatformInfo] = useState({});
+  const [partyInfoObj, setPartyInfoObj] = useState({});
+  const [platformInfoObj, setPlatformInfoObj] = useState({});
+  const [membershipInfoObj, setMembershipInfoObj] = useState({});
+
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -63,7 +76,20 @@ const MyPartyDetail = ({ location }) => {
     console.log('API 호출 성공 :', partyDetailData);
 
     setPartyTitle(partyDetailData.result.title);
-    setPlatformInfo(partyDetailData.result.platformInfo);
+    setPlatformInfoObj(partyDetailData.result.platformInfo);
+    setPartyInfoObj(partyDetailData.result.partyInfo);
+    setMembershipInfoObj(partyDetailData.result.membershipInfo);
+
+    // 테스트 코드
+    list = [];
+    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+      list.push('boss');
+      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('complete');
+      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('waiting');
+      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('nothing');
+    }
+    
+    setTypeList(list);
 
   };
 
@@ -92,11 +118,58 @@ const MyPartyDetail = ({ location }) => {
       <MainWrap>
         {/* 파티 제목 컴포넌트 */}
         <TopContentWrap>
-          <PartyTitleDiv title={partyTitle} info={platformInfo} isDetail={true}/>
+          <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true}/>
         </TopContentWrap>
-        {/* 파티 정보 컴포넌트 - 컴포넌트 분리 작업 예정 */}
-        <div style={{height:'161px', borderBottom:'solid #f7f7f7 0.5rem'}}>파티 정보(작업예정)</div>
-        
+
+        {/* 파티 정보 */}
+        <PartyDetailSubWrap style={{borderBottom: '0.5rem #f7f7f7 solid'}}>
+          {/* 서브 타이틀 & 인원 수 */}
+          <PartyDataTitleDiv>
+            <PartyDetailSubtitleSpan>파티 정보</PartyDetailSubtitleSpan>
+            <div className="memberCountBox">
+              <img className="memberCountImg" src={icon_small_duck} alt="오리" />
+              <div className="memberCountSpan spoqaBold">{partyInfoObj.personnel}명</div>
+            </div>
+          </PartyDataTitleDiv>
+          {/* 참여인원 내용 */}
+          {/* 수정필요!!!! */}
+          <PartyDataContentWrap personnel={partyInfoObj.personnel}>
+            {
+              typeList.map((item, idx) => {
+                if(partyInfoObj.personnel > 4) {
+                  return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
+                } else {
+                  return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
+                }
+              })
+            }
+          </PartyDataContentWrap>
+        </PartyDetailSubWrap>
+
+        {/* 멤버십 정보 */}
+        <PartyDetailSubWrap style={{paddingLeft:'1.25rem',paddingRight:'1.25rem',borderBottom: '0.5rem #f7f7f7 solid'}}>
+          {/* 서브타이틀 */}
+          <div style={{ marginBottom:'0.625rem'}}>
+            <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
+          </div>
+          {/* 아낀금액 알려주기 */}
+          <NoticeWrap>
+            <div className="notice_sub_wrap align_center">
+              <img className="notice_img" src={icon_notice_duck}></img>
+              <div className="notice_text_div">
+                <span>이번달 </span>
+                <span className="notice_text_yellow">9000원</span>
+                <span>이나 </span>
+                <span>아꼈어요!</span>
+              </div>
+            </div>
+          </NoticeWrap>
+          {/* 파티 멤버십 정보 컴포넌트 */}
+          <PartyMembershipDiv
+            membershipInfo={membershipInfoObj}
+            platformInfo={platformInfoObj}
+            isDetail={true}/>
+        </PartyDetailSubWrap>
       </MainWrap>
     </div>
   )
@@ -125,4 +198,43 @@ const TopContentWrap = styled.div`
   border-bottom: 0.5rem #f7f7f7 solid;
   display: flex;
   padding: 0 1.25rem 1.2188rem;
+`;
+
+const PartyDataTitleDiv = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  margin-bottom: 1.5rem;
+
+  border: 1px red solid;
+
+  .memberCountBox {
+    display: flex;
+    margin-left: 0.2188rem;
+    background-color: #ffca35;
+    border-radius: 0.5rem;
+    align-items: center;
+    padding: 0.0625rem 0.3125rem 0.125rem 0.3125rem;
+  }
+  .memberCountImg {
+    width: 0.6062rem;
+    height: 0.6062rem;
+    margin-right: 0.2rem;
+  }
+  .memberCountSpan {
+    color: #ffffff;
+    font-size: 0.5rem;
+  }
+`;
+
+const PartyDataContentWrap = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  padding-left: 1.25rem;
+  padding-right: ${props => props.personnel > 4 ? '0rem' : '1.25rem'};
+  justify-content: space-between;
+  overflow-x: auto;
+
+
+  border: 1px red solid;
 `;

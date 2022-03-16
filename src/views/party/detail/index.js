@@ -164,7 +164,8 @@ const PartyDetail = () => {
                   <div className="memberCountSpan spoqaBold">{partyInfoObj.personnel}명</div>
                 </div>
               </PartyDataTitleDiv>
-              {/* 참여인원 내용 **수정필요** */}
+              {/* 참여인원 내용 */}
+              {/* 수정필요!!!! */}
               <PartyDataContentWrap personnel={partyInfoObj.personnel}>
                 {
                   typeList.map((item, idx) => {
@@ -180,7 +181,7 @@ const PartyDetail = () => {
 
             {/* 멤버십 정보 */}
             <PartyDetailSubWrap style={{paddingLeft:'1.25rem', paddingRight:'1.25rem'}}>
-              <div style={{ marginBottom:'17.5px'}}>
+              <div style={{ marginBottom:'1.0938rem'}}>
                 <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
               </div>
               {/* 파티 멤버십 정보 컴포넌트 */}
