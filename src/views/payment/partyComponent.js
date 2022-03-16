@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PartyMembershipDiv from "../../components/party/PartyMembershipDiv";
 import PartyTitleDiv from "../../components/party/PartyTitleDiv";
 
-const PartyContainer = ({ partyTitle, partyInfo, membershipInfo }) => {
+const PartyContainer = ({ partyTitle, partyInfo, membershipInfo, platformInfo }) => {
   return (
     <ContainerWrap>
       <div className="spoqaRegular container">
@@ -11,10 +11,8 @@ const PartyContainer = ({ partyTitle, partyInfo, membershipInfo }) => {
           <PartyTitleDiv title={partyTitle} isDetail={false} info={partyInfo} />
         </div>
         <PartyMembershipDiv
-          paymentCycle={membershipInfo.paymentCycleData}
-          price={membershipInfo.price}
-          membership={membershipInfo.membership}
-          partyCategory={partyInfo.serverCategory}
+          membershipInfo={membershipInfo}
+          platformInfo={platformInfo}
         />
       </div>
     </ContainerWrap>

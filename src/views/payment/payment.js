@@ -123,7 +123,7 @@ const Payment = () => {
               구독내역
             </span>
           </div>
-          <PartyComponent partyTitle={partyTitle} partyInfo={platformInfoObj} membershipInfo={membershipInfoObj}/>
+          <PartyComponent partyTitle={partyTitle} partyInfo={platformInfoObj} membershipInfo={membershipInfoObj} platformInfo={platformInfoObj}/>
         </ContentWrap>
         <div><Line /></div>
         <ContentWrap>
@@ -149,7 +149,7 @@ const Payment = () => {
           >
             결제 금액
           </span>
-            <Price></Price>
+            <Price/>
           <div
             className="notoMedium"
             style={{
