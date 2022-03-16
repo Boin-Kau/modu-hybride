@@ -58,6 +58,7 @@ export const NoticeWrap = styled.div`
 
   .notice_sub_wrap {
     display: flex;
+    line-height: 1.3125rem;
   }
   .align_center {
     align-items: center;

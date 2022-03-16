@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const AccountInfoComponent = ({isHostUser, accountInfo}) => {
-  console.log(isHostUser);
   return (
     <>
       <AccountInfoDiv isHost={isHostUser}>
@@ -9,7 +8,7 @@ const AccountInfoComponent = ({isHostUser, accountInfo}) => {
           <div className="subtitle">아이디</div>
           <div className="content">{accountInfo.accountId}</div>
         </div>
-        <button className="pasteBtn" >복사</button>
+        <button className="pasteBtn">복사</button>
       </AccountInfoDiv>
       <AccountInfoDiv isHost={isHostUser} style={{marginTop:'1.75rem'}}>
         <div>
@@ -19,7 +18,6 @@ const AccountInfoComponent = ({isHostUser, accountInfo}) => {
         <button className="pasteBtn">복사</button>
         <button className="changeBtn">변경</button>
       </AccountInfoDiv>
-      
     </>
   );
 }

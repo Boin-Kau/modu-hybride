@@ -35,6 +35,8 @@ const MyPartyDetail = ({ location }) => {
 
   // Local State
   const [partyIdx, setPartyIdx] = useState(location.state.idx);
+  const [payMonth, setPayMonth] = useState(0);
+  const [payDay, setPayDay] = useState(0);
 
   const [partyTitle, setPartyTitle] = useState('');
   const [isHostUser, setIsHostUser] = useState('');
@@ -84,6 +86,19 @@ const MyPartyDetail = ({ location }) => {
     setMembershipInfoObj(partyDetailData.result.membershipInfo);
     setAccountInfoObj(partyDetailData.result.accountInfo);
 
+    setPayMonth(
+      (membershipInfoObj.paymentCycleDate).split('-')[1][0] === '0'?
+        (membershipInfoObj.paymentCycleDate).split('-')[1][1]
+        :
+        (membershipInfoObj.paymentCycleDate).split('-')[1]
+    );
+    setPayDay(
+      (membershipInfoObj.paymentCycleDate).split('-')[2][0] === '0'?
+        (membershipInfoObj.paymentCycleDate).split('-')[2][1]
+        :
+        (membershipInfoObj.paymentCycleDate).split('-')[2]
+    );
+
     // 테스트 코드
     list = [];
     if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
@@ -92,9 +107,7 @@ const MyPartyDetail = ({ location }) => {
       for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('waiting');
       for(let i=partyInfoObj.personnel; i!==4; i++) list.push('nothing');
     }
-    
     setTypeList(list);
-
   };
 
   
@@ -154,11 +167,11 @@ const MyPartyDetail = ({ location }) => {
         {/* 멤버십 정보 */}
         <PartyDetailSubWrap style={{paddingLeft:'1.25rem',paddingRight:'1.25rem',borderBottom: '0.5rem #f7f7f7 solid'}}>
           {/* 서브타이틀 */}
-          <div style={{ marginBottom:'0.625rem'}}>
+          <div style={{marginBottom:'0.625rem'}}>
             <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
           </div>
           {/* 아낀금액 알려주기 */}
-          <NoticeWrap>
+          <NoticeWrap style={{marginBottom:'0.5313rem'}}>
             <div className="notice_sub_wrap align_center">
               <img className="notice_img" src={icon_notice_duck}></img>
               <div className="notice_text_div">
@@ -194,12 +207,36 @@ const MyPartyDetail = ({ location }) => {
         }
 
         {/* 파티장은 정산정보, 파티원은 결제수단 */}
+        <PartyDetailSubWrap style={{paddingLeft:'1.25rem',paddingRight:'1.25rem'}}>
+          {/* 서브타이틀 */}
+          <div style={{ marginBottom:'0.625rem'}}>
+            <PartyDetailSubtitleSpan>{isHostUser==='Y'? '정산정보':'결제수단'}</PartyDetailSubtitleSpan>
+          </div>
+          {/* 정산정보or결제수단 Notice Wrap */}
+          <NoticeWrap style={{marginBottom:'0.5rem'}}>
+            <div className="notice_sub_wrap">
+              <img className="notice_img" src={icon_notice_duck}></img>
+              <div className="notice_text_div">
+                <span>다음 </span>
+                <span>{isHostUser==='Y'? '정산':'결제'}</span>
+                <span>예정일은 </span>
+                <span className="notice_text_yellow">{payMonth}월 {payDay}일</span>
+                <span>입니다!</span><br/>
+                <span>될 예정이에요.</span>
+              </div>
+            </div>
+          </NoticeWrap>
+          {/* 정산정보or결제수단 Contents */}
+          <PaymentContentsWrap>
+            
+          </PaymentContentsWrap>
 
+        </PartyDetailSubWrap>
 
-
-
-
-
+        {/* 최하단 Yellow 버튼 */}
+        <BottomButtonWrap onClick={()=>{}} className="spoqaBold">
+          <div className="bottomButtonText">오픈채팅방 열기</div>
+        </BottomButtonWrap>
       </MainWrap>
     </div>
   )
@@ -267,4 +304,31 @@ const PartyDataContentWrap = styled.div`
 
 
   border: 1px red solid;
+`;
+
+const PaymentContentsWrap = styled.div`
+  border-radius: 0.4375rem;
+  box-shadow: 0 0.1875rem 0.25rem 0 rgba(233, 233, 233, 0.38);
+  background-color: #fff;
+
+  padding: 1.25rem 1.1563rem 1.125rem 1.1875rem;
+
+`;
+
+const BottomButtonWrap = styled.div`
+    display:flex;
+    margin:1.25rem;
+
+    background-color:#ffca17;
+    border-radius:0.375rem;
+
+    padding:0.875rem 0 0.8125rem 0;
+
+    font-size:0.8125rem;
+    color:#ffffff;
+
+    .bottomButtonText {
+      width: 100%;
+      text-align: center;
+    }
 `;
