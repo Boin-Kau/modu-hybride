@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { PageTransContext } from "../../containers/pageTransContext";
 import { TextMiddle } from "../../styled/shared";
 import icon_back from "../../assets/icon-back-arrow.svg";
+import notice_icon from "../../assets/ic_pay_guide.svg";
+
 import PartyComponent from "./partyComponent";
 import Register from "./register";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
@@ -20,16 +22,16 @@ const Payment = () => {
 
   // Store
   // 파티 상세 데이터 스토어에서 가져오기
-  const { 
-    selectedPartyIdx, 
-    selectedPartyTitle, 
-    selectedPartyOpenChatLink, 
-    selectedPartyRoomStatus, 
+  const {
+    selectedPartyIdx,
+    selectedPartyTitle,
+    selectedPartyOpenChatLink,
+    selectedPartyRoomStatus,
     selectedPartyIsEnrolled,
     selectedPartyPlatformInfo,
     selectedPartyPartyInfo,
-    selectedPartyMembershipInfo, 
-  } = useSelector(state => state.party.detail);
+    selectedPartyMembershipInfo,
+  } = useSelector((state) => state.party.detail);
 
   //context
   const { setPageTrans } = useContext(PageTransContext);
@@ -38,10 +40,10 @@ const Payment = () => {
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
   const [isFree, setIsFree] = useState("N");
   const [partyId, setPartyId] = useState(0);
-  const [partyTitle, setPartyTitle] = useState('');
-  const [partyOpenChatLink, setPartyOpenChatLink] = useState('');
-  const [partyRoomStatus, setPartyRoomStatus] = useState('');
-  const [partyIsEnrolled, setPartyIsEnrolled] = useState('');
+  const [partyTitle, setPartyTitle] = useState("");
+  const [partyOpenChatLink, setPartyOpenChatLink] = useState("");
+  const [partyRoomStatus, setPartyRoomStatus] = useState("");
+  const [partyIsEnrolled, setPartyIsEnrolled] = useState("");
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
@@ -50,14 +52,16 @@ const Payment = () => {
   useEffect(() => {
     dispatch(BottomNavCloseAction);
 
-    if(selectedPartyIdx&&
-      selectedPartyTitle&&
-      selectedPartyOpenChatLink&&
-      selectedPartyRoomStatus&&
-      selectedPartyIsEnrolled&&
-      selectedPartyPlatformInfo&&
-      selectedPartyPartyInfo&&
-      selectedPartyMembershipInfo) {
+    if (
+      selectedPartyIdx &&
+      selectedPartyTitle &&
+      selectedPartyOpenChatLink &&
+      selectedPartyRoomStatus &&
+      selectedPartyIsEnrolled &&
+      selectedPartyPlatformInfo &&
+      selectedPartyPartyInfo &&
+      selectedPartyMembershipInfo
+    ) {
       setPartyId(selectedPartyIdx);
       setPartyTitle(selectedPartyTitle);
       setPartyOpenChatLink(selectedPartyOpenChatLink);
@@ -69,7 +73,7 @@ const Payment = () => {
 
       console.log(platformInfoObj);
     } else {
-      console.log('리덕스 초기화 감지');
+      console.log("리덕스 초기화 감지");
     }
   }, []);
 
@@ -123,9 +127,16 @@ const Payment = () => {
               구독내역
             </span>
           </div>
-          <PartyComponent partyTitle={partyTitle} partyInfo={platformInfoObj} membershipInfo={membershipInfoObj} platformInfo={platformInfoObj}/>
+          <PartyComponent
+            partyTitle={partyTitle}
+            partyInfo={platformInfoObj}
+            membershipInfo={membershipInfoObj}
+            platformInfo={platformInfoObj}
+          />
         </ContentWrap>
-        <div><Line /></div>
+        <div>
+          <Line />
+        </div>
         <ContentWrap>
           <span
             className="spoqaBold"
@@ -139,7 +150,9 @@ const Payment = () => {
           {/* <Register></Register> */}
           {/* <Card></Card> */}
         </ContentWrap>
-        <div><Line /></div>
+        <div>
+          <Line />
+        </div>
         <ContentWrap>
           <span
             className="spoqaBold"
@@ -149,16 +162,15 @@ const Payment = () => {
           >
             결제 금액
           </span>
-            <Price priceInfo={membershipInfoObj}/>
-          <div
-            className="notoMedium"
-            style={{
-              backgroundColor: "#fff9e6",
-              borderRadius: "0.4375rem",
-              width: "100%",
-              height: "4.1375rem",
-            }}
-          ></div>
+          <Price priceInfo={membershipInfoObj} />
+          <NoticeWrap className="notoMedium">
+            <div className="notice-wrap">
+              <img className="icon" src={notice_icon} />
+              <div className="notice">
+                안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다.
+              </div>
+            </div>
+          </NoticeWrap>
           <div
             className="notoMedium"
             style={{
@@ -166,7 +178,7 @@ const Payment = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginTop:'3.3375rem'
+              marginTop: "3.3375rem",
             }}
           >
             <span
@@ -237,7 +249,33 @@ const Line = styled.div`
   width: 100%;
   height: 8px;
   background-color: #f7f7f7;
-  margin-bottom:1.2188rem;
+  margin-bottom: 1.2188rem;
+`;
+
+const NoticeWrap = styled.div`
+  background-color: #fff9e6;
+  border-radius: 0.4375rem;
+  width: 100%;
+
+  .notice-wrap {
+    display: flex;
+    flex-direction: row;
+    padding: 0.9625rem 1.2813rem 0.9187rem 0.8438rem;
+    align-items: flex-start;
+  }
+
+  .icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    object-fit: contain;
+    margin: 0.125rem 0.375rem 1.25rem 0;
+  }
+
+  .notice{
+    font-size: 0.6875rem;
+    color:#383838;
+    line-height: 1.73;   
+  }
 `;
 
 const SaveButton = styled.div`
