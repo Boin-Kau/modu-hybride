@@ -22,7 +22,7 @@ import {
 import { customApiClient } from "../../shared/apiClient";
 import { MainText } from "../../styled/shared/text";
 
-import InputComponent from "./inputComponent";
+import InputComponent from "../../styled/shared/inputComponent";
 
 const CardRegister = () => {
   const dispatch = useDispatch();

@@ -44,7 +44,8 @@ const MyPartyDetail = ({ location }) => {
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
   const [accountInfoObj, setAccountInfoObj] = useState({});
-
+  const [bankAccountInfoObj, setBankAccountInfoObj] = useState({});
+  const [userCardInfoObj, setUserCardInfoObj] = useState({});
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -69,18 +70,13 @@ const MyPartyDetail = ({ location }) => {
 
   useEffect(() => {
     if(isNotEmpty(membershipInfoObj)) {
-      setPayMonth(
-        (membershipInfoObj.paymentCycleDate).split('-')[1][0] === '0'?
-          (membershipInfoObj.paymentCycleDate).split('-')[1][1]
-          :
-          (membershipInfoObj.paymentCycleDate).split('-')[1]
-      );
-      setPayDay(
-        (membershipInfoObj.paymentCycleDate).split('-')[2][0] === '0'?
-          (membershipInfoObj.paymentCycleDate).split('-')[2][1]
-          :
-          (membershipInfoObj.paymentCycleDate).split('-')[2]
-      );
+      if(isHostUser==='N') {
+        setPayMonth(Number((membershipInfoObj.nextPaymentDate).split('-')[1]));
+        setPayDay(Number((membershipInfoObj.nextPaymentDate).split('-')[2]));
+      } else if(isHostUser==='Y') {
+        setPayMonth(Number((membershipInfoObj.paymentCycleDate).split('-')[1]));
+        setPayDay(Number((membershipInfoObj.paymentCycleDate).split('-')[2]));
+      }
     }
   },[membershipInfoObj])
 
@@ -102,6 +98,8 @@ const MyPartyDetail = ({ location }) => {
     setPartyInfoObj(partyDetailData.result.partyInfo);
     setMembershipInfoObj(partyDetailData.result.membershipInfo);
     setAccountInfoObj(partyDetailData.result.accountInfo);
+    setBankAccountInfoObj(partyDetailData.result.bankAccountInfo);
+    setUserCardInfoObj(partyDetailData.result.userCardInfo);
 
     // 테스트 코드
     list = [];
@@ -224,13 +222,40 @@ const MyPartyDetail = ({ location }) => {
                 <span>예정일은 </span>
                 <span className="notice_text_yellow">{payMonth}월 {payDay}일</span>
                 <span>입니다!</span><br/>
+                {/* 
+                  파티장 : 00000원이 결제
+                  파티원 : 0000원이 정산
+                */}
                 <span>될 예정이에요.</span>
               </div>
             </div>
           </NoticeWrap>
           {/* 정산정보or결제수단 Contents */}
-          <PaymentContentsWrap>
-            
+          <PaymentContentsWrap style={{border:'1px red solid'}}>
+            <div className="contents_div">
+              <span className="contents_name">{isHostUser==='Y'? '정산':'결제'}수단</span>
+              <span className="contents_description">{isHostUser==='Y'? '계좌입금':'신용/체크카드'}</span>
+            </div>
+            <div className="contents_div">
+              <span className="contents_name">상세</span>
+              <span className="contents_description">
+              {
+                isHostUser==='Y' ?
+                  bankAccountInfoObj.bankName ?
+                    bankAccountInfoObj.bankName + " " + bankAccountInfoObj.bankAccountNum
+                    :
+                    "없음"
+                  :
+                  userCardInfoObj.cardName ? 
+                    userCardInfoObj.cardName + " " + userCardInfoObj.cardNo
+                    :
+                    "없음"
+              }
+              </span>
+            </div>
+            <div>
+
+            </div>
           </PaymentContentsWrap>
 
         </PartyDetailSubWrap>
@@ -314,6 +339,21 @@ const PaymentContentsWrap = styled.div`
   background-color: #fff;
 
   padding: 1.25rem 1.1563rem 1.125rem 1.1875rem;
+
+  .contents_div {
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 0.8125rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .contents_name {
+    color: #313131;
+  }
+  .contents_description {
+    color: #464646;
+  }
 
 `;
 
