@@ -1,17 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-const Price = ({ priceInfo }) => {
+const Price = ({ priceInfo, priceFunc }) => {
   console.log(priceInfo);
+
   return (
     <div style={{ margin: "1.6625rem 0 0.75rem 0" }}>
       <Container className="notoMedium">
         <span>구독금액</span>
-        <span>{priceInfo.currentPrice}원</span>
+        <span>{priceFunc(priceInfo.currentPrice)}원</span>
       </Container>
       <Container className="notoMedium">
         <span>수수료</span>
-        <span>{priceInfo.currentCommissionPrice}원</span>
+        <span>{priceFunc(priceInfo.currentCommissionPrice)}원</span>
       </Container>
       <div
         style={{
@@ -26,17 +27,19 @@ const Price = ({ priceInfo }) => {
           첫달 결제금액
         </span>
         <span style={{ color: "#eba300", fontSize: "0.8125rem" }}>
-          {priceInfo.currentPrice + priceInfo.currentCommissionPrice}원
+          {priceFunc(priceInfo.currentPrice + priceInfo.currentCommissionPrice)}
+          원
         </span>
       </Container>
       <Container className="notoMedium">
         <span style={{ color: "#676767" }}>다음달 결제금액</span>
         <span style={{ color: "#676767" }}>
-          {priceInfo.nextPrice === null &&
-          priceInfo.nextCommissionPrice === null
-            ? 0
-            : priceInfo.nextPrice + priceInfo.nextCommissionPrice}
-          원
+          {priceFunc(
+            priceInfo.nextPrice === null &&
+              priceInfo.nextCommissionPrice === null
+              ? 0
+              : priceInfo.nextPrice + priceInfo.nextCommissionPrice
+          )}원
         </span>
       </Container>
     </div>

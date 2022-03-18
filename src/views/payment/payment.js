@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import { customApiClient } from "../../shared/apiClient";
 import { PageTransContext } from "../../containers/pageTransContext";
 import { TextMiddle } from "../../styled/shared";
 import icon_back from "../../assets/icon-back-arrow.svg";
@@ -37,7 +37,10 @@ const Payment = () => {
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
+  
   const [isFree, setIsFree] = useState("N");
   const [partyId, setPartyId] = useState(0);
   const [partyTitle, setPartyTitle] = useState("");
@@ -47,6 +50,9 @@ const Payment = () => {
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
+
+  //local state
+  const [cardIdx, setCardIdx] = useState();
 
   //initial logic
   useEffect(() => {
@@ -71,11 +77,24 @@ const Payment = () => {
       setPartyInfoObj(selectedPartyPartyInfo);
       setMembershipInfoObj(selectedPartyMembershipInfo);
 
-      console.log(platformInfoObj);
     } else {
       console.log("리덕스 초기화 감지");
     }
   }, []);
+
+  //페이지 벨리데이션
+  useEffect(() => {
+    if (
+      partyId&&
+      cardIdx
+    ) {
+      setPageConfirmStatus(true);
+    } else {
+      setPageConfirmStatus(false);
+    }
+  }, [
+    cardIdx
+  ]);
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -91,14 +110,44 @@ const Payment = () => {
     }
   }, [isFree]);
 
-  //정보 입력 완료
+    //정보 입력 완료
   const onClickRevise = useCallback(async () => {
     if (!pageConfirmStatus) return;
+
+    const data = await customApiClient("post", `/party/${partyId}`, {
+      cardIdx:cardIdx
+    });
+
+    console.log(data);
+
+    //서버에러
+    if (!data) return;
+
+    //벨리데이션
+    if (data.statusCode != 200) {
+      setError(true);
+      setErrorMsg(data.message);
+      alert(data.message);
+      return;
+    }
+
+    if(data.statusCode == 200){
+      history.push('/payment/finish');
+    }
 
     //뒤로가기
     setPageTrans("trans toLeft");
     history.goBack();
-  }, []);
+  }, [pageConfirmStatus, cardIdx]);
+
+  //금액 3자리마다 ,찍기
+  const priceNum = (price) => {
+    if (price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else {
+      return 0;
+    }
+  };
 
   return (
     <div className="page">
@@ -146,9 +195,7 @@ const Payment = () => {
           >
             결제 수단
           </span>
-          <Slide></Slide>
-          {/* <Register></Register> */}
-          {/* <Card></Card> */}
+          <Slide setCardIdx={setCardIdx}></Slide>
         </ContentWrap>
         <div>
           <Line />
@@ -162,7 +209,7 @@ const Payment = () => {
           >
             결제 금액
           </span>
-          <Price priceInfo={membershipInfoObj} />
+          <Price priceInfo={membershipInfoObj} priceFunc={priceNum}/>
           <NoticeWrap className="notoMedium">
             <div className="notice-wrap">
               <img className="icon" src={notice_icon} />
@@ -195,7 +242,7 @@ const Payment = () => {
               pageConfirmStatus={pageConfirmStatus}
               onClick={onClickRevise}
             >
-              3,300원 결제
+              {priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice)}원 결제
             </SaveButton>
           </div>
         </ContentWrap>
