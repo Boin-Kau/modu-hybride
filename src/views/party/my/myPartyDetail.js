@@ -214,8 +214,10 @@ const MyPartyDetail = ({ location }) => {
           </div>
           {/* 정산정보or결제수단 Notice Wrap */}
           <NoticeWrap style={{marginBottom:'0.5rem'}}>
-            <div className="notice_sub_wrap">
-              <img className="notice_img" src={icon_notice_duck}></img>
+            <div className="notice_sub_wrap align_center">
+              <div>
+                <img className="notice_img" src={icon_notice_duck}></img>
+              </div>
               <div className="notice_text_div">
                 <span>다음 </span>
                 <span>{isHostUser==='Y'? '정산':'결제'}</span>
@@ -231,7 +233,7 @@ const MyPartyDetail = ({ location }) => {
             </div>
           </NoticeWrap>
           {/* 정산정보or결제수단 Contents */}
-          <PaymentContentsWrap style={{border:'1px red solid'}}>
+          <PaymentContentsWrap>
             <div className="contents_div">
               <span className="contents_name">{isHostUser==='Y'? '정산':'결제'}수단</span>
               <span className="contents_description">{isHostUser==='Y'? '계좌입금':'신용/체크카드'}</span>
@@ -253,8 +255,8 @@ const MyPartyDetail = ({ location }) => {
               }
               </span>
             </div>
-            <div>
-
+            <div className="change_contents_btn">
+              {isHostUser? "정산계좌":"결제수단"} 변경하기
             </div>
           </PaymentContentsWrap>
 
@@ -353,6 +355,14 @@ const PaymentContentsWrap = styled.div`
   }
   .contents_description {
     color: #464646;
+  }
+  .change_contents_btn {
+    color: #8b8b8b;
+    font-size: 0.75rem;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    text-decoration: underline;
+    text-align: end;
   }
 
 `;
