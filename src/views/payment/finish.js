@@ -5,6 +5,9 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 
+
+import ic_check from '../../assets/ic_paysuccess_check.svg';
+
 const Finish = () => {
   const dispatch = useDispatch();
   const histroy = useHistory();
@@ -25,7 +28,7 @@ const Finish = () => {
     <div className="page" style={{ backgroundColor: "#f7f7f7" }}>
       <Container>
         <img
-          src="../assets/ic-paysuccess-check.svg"
+          src={ic_check}
           className="ic_paysuccess_check"
         />
         <span className="spoqaBold firstText">파티 결제 완료!</span>
@@ -61,10 +64,11 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  img.ic_paysuccess_check {
+  .ic_paysuccess_check {
     width: 2.625rem;
     height: 2.625rem;
     object-fit: contain;
+    margin-bottom: 0.375rem;
   }
 
   .firstText {

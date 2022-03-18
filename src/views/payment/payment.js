@@ -131,13 +131,9 @@ const Payment = () => {
       return;
     }
 
-    if(data.statusCode == 200){
-      history.push('/payment/finish');
-    }
+    setPageTrans("trans toRight");
+    history.push('/payment/finish');
 
-    //뒤로가기
-    setPageTrans("trans toLeft");
-    history.goBack();
   }, [pageConfirmStatus, cardIdx]);
 
   //금액 3자리마다 ,찍기
