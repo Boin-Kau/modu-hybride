@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { PageTransContext } from "../../../containers/pageTransContext";
 import { TextMiddle } from "../../../styled/shared";
 import { MainText } from "../../../styled/shared/text";
+import { TitleWrap } from "../../../styled/main/enrollment";
 
 const EditAccount = () => {
   const dispatch = useDispatch();
@@ -57,6 +58,18 @@ const EditAccount = () => {
               </div>
             </div>
           </NoticeWrap>
+          {/* Account Div */}
+          <TitleWrap>아이디</TitleWrap>
+          <InputComponent
+            id={"cardPw"}
+            type={"password"}
+            placeholder={"비밀번호 앞 2자리"}
+            maxLength={4}
+            value={cardPw}
+            onChange={onChangePw}
+          />
+          
+
         </ContentWrap>
       </PageWrap>
       
