@@ -77,4 +77,7 @@ export const NoticeWrap = styled.div`
   .notice_text_yellow {
     color: #ffca2c;
   }
+  .boldText {
+    font-weight: 600;
+  }
 `;

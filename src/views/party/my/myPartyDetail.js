@@ -125,11 +125,7 @@ const MyPartyDetail = ({ location }) => {
     console.log('Open Bottom Dialog');
   }
   // 오픈채팅방 링크 열기 Function 
-  const onClickChatLink = () => {
-    setTimeout(() => {
-        window.open(openChatLink, '_blank');
-    }, 300);
-  }
+  const onClickChatLink = () => window.open(openChatLink, '_blank');
 
   const isNotEmpty = (param) => Object.keys(param).length !== 0;
 
