@@ -14,6 +14,7 @@ const AccountInfoComponent = ({partyIdx, isHostUser, accountInfo}) => {
       }
     });
   };
+  console.log('isHost : ', isHostUser);
 
   return (
     <>
@@ -27,7 +28,7 @@ const AccountInfoComponent = ({partyIdx, isHostUser, accountInfo}) => {
       <AccountInfoDiv isHost={isHostUser} style={{marginTop:'1.75rem'}}>
         <div>
           <div className="subtitle">비밀번호</div>
-          <div className="content">{accountInfo.accountPw}</div>
+          <div className="content">{isHostUser==='Y'? accountInfo.accountPw : '*'.repeat(accountInfo.accountPw.length)}</div>
         </div>
         <button className="pasteBtn">복사</button>
         <button onClick={onClickEditAccount} className="changeBtn">변경</button>
