@@ -13,6 +13,7 @@ export const initialState = {
 
     hostBottomDialogStatus: false,
 
+    memberBottomDialogStatus: false,
 };
 
 const ReportPopupOpen = 'ReportPopupOpen';
@@ -28,6 +29,9 @@ const SetReportCategoryList = 'SetReportCategoryList';
 
 const HostBottomDialogOpen = 'HostBottomDialogOpen';
 const HostBottomDialogClose = 'HostBottomDialogClose';
+
+const MemberBottomDialogOpen = 'MemberBottomDialogOpen';
+const MemberBottomDialogClose = 'MemberBottomDialogClose';
 
 export const ReportPopupOpenAction = (data) => {
     return {
@@ -75,6 +79,12 @@ export const HostBottomDialogOpenAction = {
 };
 export const HostBottomDialogCloseAction = {
     type: HostBottomDialogClose,
+};
+export const MemberBottomDialogOpenAction = {
+    type: MemberBottomDialogOpen,
+};
+export const MemberBottomDialogCloseAction = {
+    type: MemberBottomDialogClose,
 };
 
 const reducer = (state = initialState, action) => {
@@ -142,6 +152,18 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state, 
                 hostBottomDialogStatus: false,
+            }
+        }
+        case 'MemberBottomDialogOpen': {
+            return {
+                ...state, 
+                memberBottomDialogStatus: true,
+            }
+        }
+        case 'MemberBottomDialogClose': {
+            return {
+                ...state, 
+                memberBottomDialogStatus: false,
             }
         }
         default: {

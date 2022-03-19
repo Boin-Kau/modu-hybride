@@ -20,8 +20,9 @@ import PartyDataListItem from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./AccountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
-import { HostBottomDialogOpenAction } from "../../../reducers/party/popup";
-import HostBottomDialog from "../../../components/party/HostBottomDialog";
+import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction } from "../../../reducers/party/popup";
+import HostBottomDialog from "../../../components/party/dialog/HostBottomDialog";
+import MemberBottomDialog from "../../../components/party/dialog/MemberBottomDialog";
 
 const MyPartyDetail = () => {
 
@@ -131,7 +132,10 @@ const MyPartyDetail = () => {
     history.goBack();
   };
   const openBottomDialog = () => {
-    dispatch(HostBottomDialogOpenAction);
+    isHostUser==='Y' ? 
+      dispatch(HostBottomDialogOpenAction)
+      :
+      dispatch(MemberBottomDialogOpenAction)
   }
   // 오픈채팅방 링크 열기 Function 
   const onClickChatLink = () => window.open(openChatLink, '_blank');
@@ -284,7 +288,7 @@ const MyPartyDetail = () => {
       </MainWrap>
       
       <HostBottomDialog/>
-      
+      <MemberBottomDialog/>
     </div>
   )
 }
