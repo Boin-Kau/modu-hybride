@@ -12,7 +12,7 @@ export default BottomButton;
 
 const BottomButtonWrap = styled.div`
     display:flex;
-    margin:1.25rem;
+    margin-bottom:1.25rem;
 
     background-color:#ffca17;
     border-radius:0.375rem;

@@ -268,7 +268,9 @@ const MyPartyDetail = ({ location }) => {
         </PartyDetailSubWrap>
 
         {/* 최하단 Yellow 버튼 */}
-        <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} />
+        <div style={{margin:'1.25rem'}}>
+          <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} />
+        </div>
       </MainWrap>
     </div>
   )

@@ -1,7 +1,7 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
-import { ContentWrap, HeaderWrap, NoticeWrap, PageWrap } from "../../../styled/shared/wrap";
+import { ContentWrap, HeaderWrap, MainWrap, NoticeWrap, PageWrap } from "../../../styled/shared/wrap";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import icon_notice_duck from "../../../assets/icon-notice-duck.svg";
@@ -11,31 +11,55 @@ import { TextMiddle } from "../../../styled/shared";
 import { MainText } from "../../../styled/shared/text";
 import { TitleWrap } from "../../../styled/main/enrollment";
 
+import InputComponent from "../../../styled/shared/inputComponent";
+import BottomButton from "../../../components/party/BottomButton";
+
 const EditAccount = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { setPageTrans } = useContext(PageTransContext);
 
+  const [accountId, setAccountId] = useState('');
+  const [accountPw, setAccountPw] = useState('');
+  const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
+
   useEffect(() => {
     dispatch(BottomNavCloseAction);
   },[]);
+
+  useEffect(() => {
+    if(accountId&&accountPw) {
+      setPageConfirmStatus(true);
+    } else {
+      setPageConfirmStatus(false);
+    }
+  },[accountId, accountPw])
 
   const closePage = () => {
     // 뒤로 가기
     setPageTrans('trans toLeft');
     history.goBack();
   };
+  const handleChangeAccountId = (e) => {
+    // if (e.target.value.length == 5) return false;
+    setAccountId(e.target.value);
+  };
+  const handleChangeAccountPw = (e) => {
+    // if (e.target.value.length == 5) return false;
+    setAccountPw(e.target.value);
+  };
 
   return(
     <div className="page">
-      <PageWrap>
-        <HeaderWrap className="spoqaBold">
-          <div id="back_link" onClick={closePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-            <img src={icon_back} alt="뒤로가기"></img>
-          </div>
-          <TextMiddle>계정 정보 변경</TextMiddle>
-        </HeaderWrap>
-        <ContentWrap>
+      <HeaderWrap className="spoqaBold">
+        <div id="back_link" onClick={closePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+          <img src={icon_back} alt="뒤로가기"></img>
+        </div>
+        <TextMiddle>계정 정보 변경</TextMiddle>
+      </HeaderWrap>
+      
+      <MainWrap>
+        <div style={{flexGrow: '1'}}>
           {/* Title */}
           <MainText style={{margin:'1rem 0 0.9063rem 0'}}>
             <span>변경할 </span>
@@ -61,17 +85,29 @@ const EditAccount = () => {
           {/* Account Div */}
           <TitleWrap>아이디</TitleWrap>
           <InputComponent
-            id={"cardPw"}
-            type={"password"}
-            placeholder={"비밀번호 앞 2자리"}
-            maxLength={4}
-            value={cardPw}
-            onChange={onChangePw}
+            id={"accountId"}
+            type={"text"}
+            placeholder={"아이디를 입력해주세요"}
+            maxLength={200}
+            value={accountId}
+            onChange={handleChangeAccountId}
           />
-          
+          <TitleWrap>비밀번호</TitleWrap>
+          <InputComponent
+            id={"accountPw"}
+            type={"password"}
+            placeholder={"비밀번호를 입력해주세요"}
+            maxLength={200}
+            value={accountPw}
+            onChange={handleChangeAccountPw}
+          />
 
-        </ContentWrap>
-      </PageWrap>
+        </div>
+        
+        {/* 최하단 Yellow 버튼 */}
+        <BottomButton clickFunc={()=>console.log('hi')} text={'확인'} />
+        </MainWrap>
+      
       
         
       

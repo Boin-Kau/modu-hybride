@@ -81,3 +81,19 @@ export const NoticeWrap = styled.div`
     font-weight: 600;
   }
 `;
+
+export const MainWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  position:absolute;
+  top:3.0625rem;
+  left:0;
+  right:0;
+  bottom:0;
+
+  padding: 0 1.25rem;
+
+  overflow-y:scroll;
+
+  background-color:#ffffff;
+`;
