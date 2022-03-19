@@ -1,6 +1,14 @@
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const AccountInfoComponent = ({isHostUser, accountInfo}) => {
+
+  const history = useHistory();
+
+  const onClickEditAccount = () => {
+    history.push('/party/my/detail/account');
+  };
+
   return (
     <>
       <AccountInfoDiv isHost={isHostUser}>
@@ -16,7 +24,7 @@ const AccountInfoComponent = ({isHostUser, accountInfo}) => {
           <div className="content">{'*'.repeat(accountInfo.accountPw.length)}</div>
         </div>
         <button className="pasteBtn">복사</button>
-        <button className="changeBtn">변경</button>
+        <button onClick={onClickEditAccount} className="changeBtn">변경</button>
       </AccountInfoDiv>
     </>
   );
