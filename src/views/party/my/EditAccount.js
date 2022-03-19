@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import { ContentWrap, HeaderWrap, MainWrap, NoticeWrap, PageWrap } from "../../../styled/shared/wrap";
@@ -13,18 +13,27 @@ import { TitleWrap } from "../../../styled/main/enrollment";
 
 import InputComponent from "../../../styled/shared/inputComponent";
 import BottomButton from "../../../components/party/BottomButton";
+import { customApiClient } from "../../../shared/apiClient";
 
-const EditAccount = () => {
+const EditAccount = ({location}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { setPageTrans } = useContext(PageTransContext);
 
-  const [accountId, setAccountId] = useState('');
+  const [partyIdx, setPartyIdx] = useState(location.state.idx);
+  const [accountId, setAccountId] = useState(location.state.id);
   const [accountPw, setAccountPw] = useState('');
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  
 
   useEffect(() => {
     dispatch(BottomNavCloseAction);
+
+    location.state.idx ? setPartyIdx(location.state.idx) : closePage();
+    location.state.id ? setAccountId(location.state.id) : closePage();
   },[]);
 
   useEffect(() => {
@@ -48,6 +57,29 @@ const EditAccount = () => {
     // if (e.target.value.length == 5) return false;
     setAccountPw(e.target.value);
   };
+  const onClickEdit = useCallback(async() => {
+    if(!pageConfirmStatus) return;
+
+    console.log('pw확인 : ', accountPw)
+    const data = await customApiClient('put', `/party/${partyIdx}/account`, {
+      accountId: accountId,
+      accountPw: accountPw
+    });
+
+    //서버에러
+    if (!data) return;
+
+    //벨리데이션
+    if (data.statusCode != 200) {
+      setError(true);
+      setErrorMsg(data.message);
+      console.log(errorMsg);
+      return;
+    } else {
+      console.log(data.message);
+    }
+    closePage();
+  },[pageConfirmStatus,partyIdx,accountId,accountPw,error,errorMsg])
 
   return(
     <div className="page">
@@ -105,7 +137,7 @@ const EditAccount = () => {
         </div>
         
         {/* 최하단 Yellow 버튼 */}
-        <BottomButton clickFunc={()=>console.log('hi')} text={'확인'} />
+        <BottomButton clickFunc={onClickEdit} text={'확인'} status={pageConfirmStatus} />
         </MainWrap>
       
       

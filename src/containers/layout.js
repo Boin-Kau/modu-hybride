@@ -68,7 +68,7 @@ const AppLayout = () => {
             <Route path='/party' exact component={Party} />
             <Route path='/party/detail' exact component={PartyDetail}/>
             <Route path='/party/my' exact component={MyParty} />
-            <Route path='/party/my/detail' exact component={MyPartyDetail}/>
+            <Route path='/party/my/:idx' exact component={MyPartyDetail}/>
             <Route path='/party/my/detail/account' exact component={EditAccount}/>
             <Route path='/party/enroll' exact component={PartyEnrollment} />
             <Route path='/party/enroll/platform' exact component={PartyPlatform} />

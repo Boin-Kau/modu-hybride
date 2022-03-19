@@ -129,12 +129,8 @@ const MyParty = () => {
         if(partyIdx === 0) return;
 
         setPageTrans('trans toRight');
-        history.push({
-            pathname: "/party/my/detail",
-            state: {
-                idx: partyIdx,
-            }
-        });
+        
+        history.push(`/party/my/${partyIdx}`);
     }
 
     return (

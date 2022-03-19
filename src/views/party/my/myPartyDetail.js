@@ -7,9 +7,9 @@ import icon_more from "../../../assets/icon-partydetail-more.svg";
 import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
 import icon_notice_duck from '../../../assets/icon-notice-duck.svg';
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import styled from "styled-components";
 import { checkMobile } from "../../../App";
@@ -21,7 +21,7 @@ import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./AccountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
 
-const MyPartyDetail = ({ location }) => {
+const MyPartyDetail = () => {
 
   // 테스트 코드
   let list = [];
@@ -30,12 +30,13 @@ const MyPartyDetail = ({ location }) => {
   // Module
   const history = useHistory();
   const dispatch = useDispatch();
+  const {idx} = useParams();
 
   //Context
   const { setPageTrans } = useContext(PageTransContext);
 
   // Local State
-  const [partyIdx, setPartyIdx] = useState(location.state.idx);
+  const [partyIdx, setPartyIdx] = useState(0);
   const [payMonth, setPayMonth] = useState(0);
   const [payDay, setPayDay] = useState(0);
 
@@ -54,9 +55,11 @@ const MyPartyDetail = ({ location }) => {
     // Bottom Nav 
     dispatch(BottomNavCloseAction);
 
-    setPartyIdx(location.state.idx);
-
-    getPartyDetail();
+    if(idx) {
+      setPartyIdx(idx); 
+    } else {
+      closePage();
+    }
 
     // 배경색 LOGIC
     const userPlatform = checkMobile();
@@ -69,6 +72,10 @@ const MyPartyDetail = ({ location }) => {
       }
     }
   },[]);
+
+  useEffect(() => {
+    getPartyDetail();
+  },[partyIdx])
 
   useEffect(() => {
     if(isNotEmpty(membershipInfoObj)) {
@@ -207,7 +214,8 @@ const MyPartyDetail = ({ location }) => {
             {/* 파티장은 계정변경, 파티원은 계정복사로 버튼 구성 */}
             <AccountInfoComponent
               isHostUser={isHostUser}
-              accountInfo={accountInfoObj}/>
+              accountInfo={accountInfoObj}
+              partyIdx={partyIdx}/>
           </PartyDetailSubWrap>
         }
 
@@ -269,7 +277,7 @@ const MyPartyDetail = ({ location }) => {
 
         {/* 최하단 Yellow 버튼 */}
         <div style={{margin:'1.25rem'}}>
-          <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} />
+          <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} status={true} />
         </div>
       </MainWrap>
     </div>
