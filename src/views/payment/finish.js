@@ -8,15 +8,17 @@ import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 
 import ic_check from '../../assets/ic_paysuccess_check.svg';
 
-const Finish = () => {
+const Finish = ({location}) => {
   const dispatch = useDispatch();
-  const histroy = useHistory();
+  const history = useHistory();
 
   const { setPageTrans } = useContext(PageTransContext);
 
   const onClickOpenChat = () => {
     setPageTrans("trans toRight");
-    histroy.push("/party");
+    history.push('/party');
+    console.log(location);
+    window.open(location.props.openChatLink, '_blank');
   };
 
   //initial logic
