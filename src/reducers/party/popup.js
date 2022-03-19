@@ -11,6 +11,8 @@ export const initialState = {
     banishPartyIdx: null,
     banishUserList: [],
 
+    hostBottomDialogStatus: false,
+
 };
 
 const ReportPopupOpen = 'ReportPopupOpen';
@@ -24,6 +26,8 @@ const BanishPopupClose = 'BanishPopupClose';
 
 const SetReportCategoryList = 'SetReportCategoryList';
 
+const HostBottomDialogOpen = 'HostBottomDialogOpen';
+const HostBottomDialogClose = 'HostBottomDialogClose';
 
 export const ReportPopupOpenAction = (data) => {
     return {
@@ -65,6 +69,12 @@ export const BanishPopupCloseAction = () => {
     return {
         type: BanishPopupClose,
     }
+};
+export const HostBottomDialogOpenAction = {
+    type: HostBottomDialogOpen,
+};
+export const HostBottomDialogCloseAction = {
+    type: HostBottomDialogClose,
 };
 
 const reducer = (state = initialState, action) => {
@@ -120,6 +130,18 @@ const reducer = (state = initialState, action) => {
                 banishPopupStatus: false,
                 banishPartyIdx: null,
                 banishUserList: [],
+            }
+        }
+        case 'HostBottomDialogOpen': {
+            return {
+                ...state, 
+                hostBottomDialogStatus: true,
+            }
+        }
+        case 'HostBottomDialogClose': {
+            return {
+                ...state, 
+                hostBottomDialogStatus: false,
             }
         }
         default: {

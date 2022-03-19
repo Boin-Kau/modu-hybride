@@ -54,9 +54,6 @@ export const TextMiddle = styled.div`
     width:100%;
 `;
 
-
-
-
 export const DangerWrapPopup = styled.div`
     display : ${props => props.openStatus ? 'block' : 'none'};
     z-index:10000;
@@ -89,3 +86,4 @@ export const DangerPopup = styled.div`
   transition: opacity 300ms ease-out;
   opacity : ${props => props.openStatus ? '1' : '0'};
 `;
+

@@ -1,4 +1,4 @@
-import { TextMiddle } from "../../../styled/shared";
+import { DangerWrapPopup, TextMiddle } from "../../../styled/shared";
 import { ContentWrap, HeaderWrap, NoticeWrap, PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PageTransContext } from '../../../containers/pageTransContext';
 
@@ -20,6 +20,8 @@ import PartyDataListItem from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./AccountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
+import { HostBottomDialogOpenAction } from "../../../reducers/party/popup";
+import HostBottomDialog from "../../../components/party/HostBottomDialog";
 
 const MyPartyDetail = () => {
 
@@ -129,7 +131,7 @@ const MyPartyDetail = () => {
     history.goBack();
   };
   const openBottomDialog = () => {
-    console.log('Open Bottom Dialog');
+    dispatch(HostBottomDialogOpenAction);
   }
   // 오픈채팅방 링크 열기 Function 
   const onClickChatLink = () => window.open(openChatLink, '_blank');
@@ -280,6 +282,9 @@ const MyPartyDetail = () => {
           <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} status={true} />
         </div>
       </MainWrap>
+      
+      <HostBottomDialog/>
+      
     </div>
   )
 }

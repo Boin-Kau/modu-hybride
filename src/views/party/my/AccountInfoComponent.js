@@ -14,7 +14,6 @@ const AccountInfoComponent = ({partyIdx, isHostUser, accountInfo}) => {
       }
     });
   };
-  console.log('isHost : ', isHostUser);
 
   return (
     <>
