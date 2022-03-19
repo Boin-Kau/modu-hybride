@@ -19,6 +19,7 @@ import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import PartyDataListItem from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./AccountInfoComponent";
+import BottomButton from "../../../components/party/BottomButton";
 
 const MyPartyDetail = ({ location }) => {
 
@@ -40,6 +41,7 @@ const MyPartyDetail = ({ location }) => {
 
   const [partyTitle, setPartyTitle] = useState('');
   const [isHostUser, setIsHostUser] = useState('');
+  const [openChatLink, setOpenChatLink] = useState('');
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
@@ -94,6 +96,7 @@ const MyPartyDetail = ({ location }) => {
 
     setPartyTitle(partyDetailData.result.title);
     setIsHostUser(partyDetailData.result.isHostUser);
+    setOpenChatLink(partyDetailData.result.openChatLink)
     setPlatformInfoObj(partyDetailData.result.platformInfo);
     setPartyInfoObj(partyDetailData.result.partyInfo);
     setMembershipInfoObj(partyDetailData.result.membershipInfo);
@@ -118,10 +121,16 @@ const MyPartyDetail = ({ location }) => {
     setPageTrans('trans toLeft');
     history.goBack();
   };
-
   const openBottomDialog = () => {
     console.log('Open Bottom Dialog');
   }
+  // 오픈채팅방 링크 열기 Function 
+  const onClickChatLink = () => {
+    setTimeout(() => {
+        window.open(openChatLink, '_blank');
+    }, 300);
+  }
+
   const isNotEmpty = (param) => Object.keys(param).length !== 0;
 
   return (
@@ -263,9 +272,7 @@ const MyPartyDetail = ({ location }) => {
         </PartyDetailSubWrap>
 
         {/* 최하단 Yellow 버튼 */}
-        <BottomButtonWrap onClick={()=>{}} className="spoqaBold">
-          <div className="bottomButtonText">오픈채팅방 열기</div>
-        </BottomButtonWrap>
+        <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} />
       </MainWrap>
     </div>
   )
