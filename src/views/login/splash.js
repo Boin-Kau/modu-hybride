@@ -1,91 +1,160 @@
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { customApiClient } from '../../shared/apiClient';
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { customApiClient } from "../../shared/apiClient";
 import { useDispatch } from "react-redux";
-import { UserInfoUpdate } from '../../reducers/info/user';
-import { checkMobile } from '../../App';
-import { GAEventSubmit, GA_CATEOGRY, GA_USER_ACTION } from '../../shared/gaSetting';
+import { UserInfoUpdate } from "../../reducers/info/user";
+import { checkMobile } from "../../App";
+import {
+  GAEventSubmit,
+  GA_CATEOGRY,
+  GA_USER_ACTION,
+} from "../../shared/gaSetting";
+import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
+import styled from "styled-components";
+
+import modu_logo from "../../assets/img_splash_modu.svg";
+import splash_duck from "../../assets/img_splash_duck.png";
 
 const Splash = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-    const history = useHistory();
-    const dispatch = useDispatch();
+  const goToLogin=()=>{
+      history.push('/login');
+  }
 
-    useEffect(async () => {
+  useEffect(async () => {
+    dispatch(BottomNavCloseAction);
 
-        localStorage.removeItem('isFcmLoad');
+    localStorage.removeItem("isFcmLoad");
 
-        let localFcm = localStorage.getItem("fcmToken");
-        if (localFcm == undefined || localFcm == 'undefined' || localFcm.length == 0) localFcm = null;
-
-        const current_user_platform = checkMobile();
-
-
-        //앱 버전관련 로직
-        try {
-            if (current_user_platform == 'android') {
-                const verson = await window.android.getVersionName();
-                localStorage.setItem('versonName', verson);
-            }
-            else if (current_user_platform == 'ios') {
-                window.webkit.messageHandlers.getVersionName.postMessage("hihi");
-            }
-        }
-        catch (err) {
-            localStorage.removeItem('versonName');
-        }
-
-
-        //fcm token 가져오기 -> 앱 업데이트 되면 주석처리
-        if (current_user_platform == 'android' && !localFcm) {
-
-            try {
-                const fcmToken = await window.android.getFcmToken();
-                localStorage.setItem('fcmToken', fcmToken);
-            }
-            catch (err) {
-                console.log(err);
-            }
-
-        }
-
-        const data = await customApiClient('get', '/user/jwt');
-
-        // history.push('/inspection');
-        // return
-
-        if (data == 'Network Error') {
-            history.push('/inspection');
-            return
-        }
-
-        //벨리데이션
-        if (!data || data.statusCode != 200) {
-            localStorage.removeItem('x-access-token');
-            history.push('/login');
-            return
-        }
-
-        dispatch({
-            type: UserInfoUpdate,
-            data: data.result
-        })
-
-        GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGIN);
-
-        history.push('/main');
-        return
-
-    }, []);
-
-    return (
-        <>
-            <div className="page" style={{ backgroundColor: "white" }}>
-
-            </div>
-        </>
+    let localFcm = localStorage.getItem("fcmToken");
+    if (
+      localFcm == undefined ||
+      localFcm == "undefined" ||
+      localFcm.length == 0
     )
+      localFcm = null;
+
+    const current_user_platform = checkMobile();
+
+    //앱 버전관련 로직
+    try {
+      if (current_user_platform == "android") {
+        const verson = await window.android.getVersionName();
+        localStorage.setItem("versonName", verson);
+      } else if (current_user_platform == "ios") {
+        window.webkit.messageHandlers.getVersionName.postMessage("hihi");
+      }
+    } catch (err) {
+      localStorage.removeItem("versonName");
+    }
+
+    //fcm token 가져오기 -> 앱 업데이트 되면 주석처리
+    if (current_user_platform == "android" && !localFcm) {
+      try {
+        const fcmToken = await window.android.getFcmToken();
+        localStorage.setItem("fcmToken", fcmToken);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    const data = await customApiClient("get", "/user/jwt");
+
+    // history.push('/inspection');
+    // return
+
+    if (data == "Network Error") {
+      history.push("/inspection");
+      return;
+    }
+
+    //벨리데이션
+    if (!data || data.statusCode != 200) {
+      localStorage.removeItem("x-access-token");
+      // history.push('/login');
+      return;
+    }
+
+    dispatch({
+      type: UserInfoUpdate,
+      data: data.result,
+    });
+
+    GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGIN);
+
+    history.push("/main");
+    return;
+  }, []);
+
+  return (
+    <>
+      <div className="page" style={{ backgroundColor: "#ffca2c" }}>
+        <SplashWrap>
+          <img className="img_splash_modu" src={modu_logo} />
+          <span className="spoqaBold">
+            모두가 일상 속 구독을 <br />
+            자유롭게 이용하도록, <br />
+            MODU.
+          </span>
+          <img className="img_splash_duck" src={splash_duck} />
+          <div className="sign-up-button spoqaBold">회원가입</div>
+          <div className="login-button">
+            <div className="notoMedium" style={{marginRight: '0.375rem'}}>이미 가입하셨나요?</div>
+            <div className="notoBold" onClick={goToLogin}>로그인</div>
+          </div>
+        </SplashWrap>
+      </div>
+    </>
+  );
 };
 
+const SplashWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 1.25rem;
+
+  img.img_splash_modu {
+    width: 6.6437rem;
+    height: 1.6125rem;
+    margin: 7.35rem 0 0.9125rem 0;
+    object-fit: contain;
+  }
+
+  span {
+    font-size: 1.25rem;
+    text-align: left;
+    color: #fff;
+  }
+
+  img.img_splash_duck {
+    width: 100%;
+    height: 14.9437rem;
+    margin: 2.8687rem 0 5.875rem 0;
+    object-fit: contain;
+  }
+
+  .sign-up-button {
+    display: flex;
+    padding: 0.8125rem 0 0.75rem;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    color: #ffca2c;
+    font-size: 0.9375rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .login-button {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5625rem;
+    font-size: 0.875rem;
+    color: #fff;
+    justify-content: center;
+  }
+`;
 
 export default Splash;
