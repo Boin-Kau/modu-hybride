@@ -40,6 +40,7 @@ import CardRegister from '../views/card/cardRegister';
 import Finish from '../views/payment/finish';
 import CardManagement from '../views/card/cardManagement';
 import CardIdxChange from '../views/party/detail/cardIdxChange';
+import BankAccountManagement from '../views/card/bankAccountManagement';
 
 const AppLayout = () => {
 
@@ -90,6 +91,7 @@ const AppLayout = () => {
             <Route path='/card' exact component={CardRegister} />
             <Route path='/card/manage' exact component={CardManagement} />
             <Route path='/party/detail/change/card' exact component={CardIdxChange}/>
+            <Route path='/bank/manage' exact component={BankAccountManagement}/>
         </>
     );
 
