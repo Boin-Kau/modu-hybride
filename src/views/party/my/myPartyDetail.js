@@ -23,6 +23,7 @@ import BottomButton from "../../../components/party/BottomButton";
 import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction } from "../../../reducers/party/popup";
 import HostBottomDialog from "../../../components/party/dialog/HostBottomDialog";
 import MemberBottomDialog from "../../../components/party/dialog/MemberBottomDialog";
+import ConfirmDialog from "../../../components/party/dialog/ConfirmDialog";
 
 const MyPartyDetail = () => {
 
@@ -289,6 +290,7 @@ const MyPartyDetail = () => {
       
       <HostBottomDialog/>
       <MemberBottomDialog/>
+      <ConfirmDialog title={'파티를 삭제하시겠어요?'} subTitle={'지금 파티를 삭제하면 다음 결제주기인 2022.03.01에 종료됩니다.'}/>
     </div>
   )
 }

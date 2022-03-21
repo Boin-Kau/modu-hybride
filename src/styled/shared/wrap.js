@@ -98,7 +98,7 @@ export const MainWrap = styled.div`
   background-color:#ffffff;
 `;
 
-export const DialogWrap = styled.div`
+export const BottomDialogWrap = styled.div`
     display : ${props => props.openStatus ? 'block' : 'none'};
     z-index:10000;
     position:absolute;
@@ -110,7 +110,7 @@ export const DialogWrap = styled.div`
     background-color:rgba(110,110,110,0.35);
 `;
 
-export const DialogDiv = styled.div`
+export const BottomDialogDiv = styled.div`
   position:absolute;
   left: 1.25rem;
   right: 1.25rem;
