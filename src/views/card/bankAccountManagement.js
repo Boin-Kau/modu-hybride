@@ -10,7 +10,7 @@ import { customApiClient } from "../../shared/apiClient";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 
 import icon_back from "../../assets/icon-back-arrow.svg";
-import CardComponent from "./cardComponent";
+import BankComponent from "./bankComponent";
 
 const BankAccountManagement = () => {
   const dispatch = useDispatch();
@@ -89,13 +89,13 @@ const BankAccountManagement = () => {
               {cardData.map((card) => {
                 return (
                   <div key={card.idx}>
-                    <CardComponent
+                    <BankComponent
                       cardName={card.cardName}
                       cardNo={card.cardNo.substring(12, 16)}
                       id={card.idx}
                       cardData={cardData}
                       setCardData={setCardData}
-                    ></CardComponent>
+                    ></BankComponent>
                   </div>
                 );
               })}
