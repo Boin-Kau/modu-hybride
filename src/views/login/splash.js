@@ -19,9 +19,9 @@ const Splash = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const goToLogin=()=>{
-      history.push('/login');
-  }
+  const goToLogin = () => {
+    history.push("/login");
+  };
 
   useEffect(async () => {
     dispatch(BottomNavCloseAction);
@@ -99,10 +99,16 @@ const Splash = () => {
             MODU.
           </span>
           <img className="img_splash_duck" src={splash_duck} />
-          <div className="sign-up-button spoqaBold">회원가입</div>
-          <div className="login-button">
-            <div className="notoMedium" style={{marginRight: '0.375rem'}}>이미 가입하셨나요?</div>
-            <div className="notoBold" onClick={goToLogin}>로그인</div>
+          <div className="buttonWrap">
+            <div className="sign-up-button spoqaBold">회원가입</div>
+            <div className="login-button">
+              <div className="notoMedium" style={{ marginRight: "0.375rem" }}>
+                이미 가입하셨나요?
+              </div>
+              <div className="notoBold" onClick={goToLogin}>
+                로그인
+              </div>
+            </div>
           </div>
         </SplashWrap>
       </div>
@@ -111,14 +117,21 @@ const Splash = () => {
 };
 
 const SplashWrap = styled.div`
+  position: absolute;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
   display: flex;
   flex-direction: column;
   margin: 0 1.25rem;
+  overflow-y: scroll;
 
-  img.img_splash_modu {
+  .img_splash_modu {
     width: 6.6437rem;
     height: 1.6125rem;
-    margin: 7.35rem 0 0.9125rem 0;
+    margin-top: 15.5vh;
     object-fit: contain;
   }
 
@@ -128,11 +141,18 @@ const SplashWrap = styled.div`
     color: #fff;
   }
 
-  img.img_splash_duck {
+  .img_splash_duck {
     width: 100%;
     height: 14.9437rem;
     margin: 2.8687rem 0 5.875rem 0;
     object-fit: contain;
+  }
+
+  .buttonWrap{
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:0;
   }
 
   .sign-up-button {
@@ -150,7 +170,7 @@ const SplashWrap = styled.div`
   .login-button {
     display: flex;
     flex-direction: row;
-    margin-top: 0.5625rem;
+    margin: 0.5625rem 0 3.9375rem;
     font-size: 0.875rem;
     color: #fff;
     justify-content: center;
