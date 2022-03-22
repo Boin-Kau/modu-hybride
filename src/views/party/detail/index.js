@@ -17,6 +17,7 @@ import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import { ResetParty } from "../../../reducers/party/detail";
 import { PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
+import BottomButton from "../../../components/party/BottomButton";
 
 
 // Page Root Component
@@ -195,9 +196,7 @@ const PartyDetail = () => {
 
 
           {/* 최하단 Yellow 버튼 */}
-          <BottomButtonWrap onClick={()=>{openPage()}} className="spoqaBold">
-            <div className="bottomButtonText">파티참가</div>
-          </BottomButtonWrap>
+          <BottomButton clickFunc={openPage} text={'파티참가'} />
         </MainWrap>
       </PageWrap>
     </div>

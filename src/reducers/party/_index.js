@@ -8,7 +8,7 @@ const partyReducer = combineReducers({
     detail,
     enrollment,
     info,
-    popup
+    popup,
 });
 
 export default partyReducer;

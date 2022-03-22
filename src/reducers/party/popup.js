@@ -11,6 +11,11 @@ export const initialState = {
     banishPartyIdx: null,
     banishUserList: [],
 
+    hostBottomDialogStatus: false,
+
+    memberBottomDialogStatus: false,
+
+    confirmDialogStatus: false,
 };
 
 const ReportPopupOpen = 'ReportPopupOpen';
@@ -24,6 +29,14 @@ const BanishPopupClose = 'BanishPopupClose';
 
 const SetReportCategoryList = 'SetReportCategoryList';
 
+const HostBottomDialogOpen = 'HostBottomDialogOpen';
+const HostBottomDialogClose = 'HostBottomDialogClose';
+
+const MemberBottomDialogOpen = 'MemberBottomDialogOpen';
+const MemberBottomDialogClose = 'MemberBottomDialogClose';
+
+const ConfirmDialogOpen = 'ConfirmDialogOpen';
+const ConfirmDialogClose = 'ConfirmDialogClose';
 
 export const ReportPopupOpenAction = (data) => {
     return {
@@ -65,6 +78,24 @@ export const BanishPopupCloseAction = () => {
     return {
         type: BanishPopupClose,
     }
+};
+export const HostBottomDialogOpenAction = {
+    type: HostBottomDialogOpen,
+};
+export const HostBottomDialogCloseAction = {
+    type: HostBottomDialogClose,
+};
+export const MemberBottomDialogOpenAction = {
+    type: MemberBottomDialogOpen,
+};
+export const MemberBottomDialogCloseAction = {
+    type: MemberBottomDialogClose,
+};
+export const ConfirmDialogOpenAction = {
+    type: ConfirmDialogOpen,
+};
+export const ConfirmDialogCloseAction = {
+    type: ConfirmDialogClose,
 };
 
 const reducer = (state = initialState, action) => {
@@ -120,6 +151,42 @@ const reducer = (state = initialState, action) => {
                 banishPopupStatus: false,
                 banishPartyIdx: null,
                 banishUserList: [],
+            }
+        }
+        case 'HostBottomDialogOpen': {
+            return {
+                ...state, 
+                hostBottomDialogStatus: true,
+            }
+        }
+        case 'HostBottomDialogClose': {
+            return {
+                ...state, 
+                hostBottomDialogStatus: false,
+            }
+        }
+        case 'MemberBottomDialogOpen': {
+            return {
+                ...state, 
+                memberBottomDialogStatus: true,
+            }
+        }
+        case 'MemberBottomDialogClose': {
+            return {
+                ...state, 
+                memberBottomDialogStatus: false,
+            }
+        }
+        case 'ConfirmDialogOpen': {
+            return {
+                ...state, 
+                confirmDialogStatus: true,
+            }
+        }
+        case 'ConfirmDialogClose': {
+            return {
+                ...state, 
+                confirmDialogStatus: false,
             }
         }
         default: {
