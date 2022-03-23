@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const Price = ({ priceInfo, priceFunc }) => {
-  console.log(priceInfo);
-
   return (
     <div style={{ margin: "1.6625rem 0 0.75rem 0" }}>
       <Container className="notoMedium">

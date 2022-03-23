@@ -132,7 +132,12 @@ const Payment = () => {
     }
 
     setPageTrans("trans toRight");
-    history.push('/payment/finish');
+    history.push({
+      pathname:'/payment/finish',
+      props:{
+        openChatLink : partyOpenChatLink,
+      }
+    });
 
   }, [pageConfirmStatus, cardIdx]);
 

@@ -33,8 +33,9 @@ const Splash = () => {
       localFcm == undefined ||
       localFcm == "undefined" ||
       localFcm.length == 0
-    )
+    ){
       localFcm = null;
+    }
 
     const current_user_platform = checkMobile();
 

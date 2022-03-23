@@ -16,9 +16,8 @@ const Finish = ({location}) => {
 
   const onClickOpenChat = () => {
     setPageTrans("trans toRight");
-    history.push('/party');
-    console.log(location);
     window.open(location.props.openChatLink, '_blank');
+    history.push('/party');
   };
 
   //initial logic
