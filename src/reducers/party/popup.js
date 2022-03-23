@@ -15,7 +15,9 @@ export const initialState = {
 
     memberBottomDialogStatus: false,
 
-    confirmDialogStatus: false,
+    hostConfirmDialogStatus: false,
+
+    memberConfirmDialogStatus: false,
 };
 
 const ReportPopupOpen = 'ReportPopupOpen';
@@ -35,8 +37,11 @@ const HostBottomDialogClose = 'HostBottomDialogClose';
 const MemberBottomDialogOpen = 'MemberBottomDialogOpen';
 const MemberBottomDialogClose = 'MemberBottomDialogClose';
 
-const ConfirmDialogOpen = 'ConfirmDialogOpen';
-const ConfirmDialogClose = 'ConfirmDialogClose';
+const HostConfirmDialogOpen = 'HostConfirmDialogOpen';
+const HostConfirmDialogClose = 'HostConfirmDialogClose';
+
+const MemberConfirmDialogOpen = 'MemberConfirmDialogOpen';
+const MemberConfirmDialogClose = 'MemberConfirmDialogClose';
 
 export const ReportPopupOpenAction = (data) => {
     return {
@@ -91,11 +96,17 @@ export const MemberBottomDialogOpenAction = {
 export const MemberBottomDialogCloseAction = {
     type: MemberBottomDialogClose,
 };
-export const ConfirmDialogOpenAction = {
-    type: ConfirmDialogOpen,
+export const HostConfirmDialogOpenAction = {
+    type: HostConfirmDialogOpen,
 };
-export const ConfirmDialogCloseAction = {
-    type: ConfirmDialogClose,
+export const HostConfirmDialogCloseAction = {
+    type: HostConfirmDialogClose,
+};
+export const MemberConfirmDialogOpenAction = {
+    type: MemberConfirmDialogOpen,
+};
+export const MemberConfirmDialogCloseAction = {
+    type: MemberConfirmDialogClose,
 };
 
 const reducer = (state = initialState, action) => {
@@ -177,16 +188,28 @@ const reducer = (state = initialState, action) => {
                 memberBottomDialogStatus: false,
             }
         }
-        case 'ConfirmDialogOpen': {
+        case 'HostConfirmDialogOpen': {
             return {
                 ...state, 
-                confirmDialogStatus: true,
+                hostConfirmDialogStatus: true,
             }
         }
-        case 'ConfirmDialogClose': {
+        case 'HostConfirmDialogClose': {
             return {
                 ...state, 
-                confirmDialogStatus: false,
+                hostConfirmDialogStatus: false,
+            }
+        }
+        case 'MemberConfirmDialogOpen': {
+            return {
+                ...state, 
+                memberConfirmDialogStatus: true,
+            }
+        }
+        case 'MemberConfirmDialogClose': {
+            return {
+                ...state, 
+                memberConfirmDialogStatus: false,
             }
         }
         default: {
