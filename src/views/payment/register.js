@@ -1,15 +1,23 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 
 import ic_pay_duck from '../../assets/ic_pay_duck.png';
 
 const Register = () => {
+
+  const history = useHistory();
+
+  const goToRegister = () =>{
+    history.push('/card');
+  }
+
   return (
     <Container>
         <div style={{display:'flex', flexDirection:'column', alignItems:'center', marginTop:'0.975rem'}}>
             <img style={{width:'7.475rem', height:'5.3375rem'}} src={ic_pay_duck}/>
             <RegisterButton className='notoBold'>
-                <span style={{fontSize: '0.75rem', textAlign: 'center', color: '#fff'}}>+ 카드 등록하기</span>
+                <span onClick={goToRegister} style={{fontSize: '0.75rem', textAlign: 'center', color: '#fff'}}>+ 카드 등록하기</span>
             </RegisterButton>
             <div className='notoRegular' style={{color:'#696969', width:'8rem', fontSize:'0.625rem', lineHeight: '1.9'}}>
                 자주쓰는 카드를 등록해보세요!
