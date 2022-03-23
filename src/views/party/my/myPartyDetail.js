@@ -20,10 +20,10 @@ import PartyDataListItem from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./AccountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
-import { HostBottomDialogOpenAction, HostConfirmDialogCloseAction, MemberBottomDialogOpenAction } from "../../../reducers/party/popup";
+import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
 import HostBottomDialog from "./dialog/HostBottomDialog";
-import HostConfirmDialog from "./dialog/HostConfirmDialog";
 import MemberBottomDialog from "./dialog/MemberBottomDialog";
+import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
 
 
 const MyPartyDetail = () => {
@@ -162,7 +162,7 @@ const MyPartyDetail = () => {
     //  페이지 이동
     setPageTrans('trans toLeft');
     history.goBack();
-    dispatch(HostConfirmDialogCloseAction);
+    dispatch(PartyDeleteConfirmDialogCloseAction);
   }
 
   const onDeletePartyCancel = async () => {
@@ -177,11 +177,10 @@ const MyPartyDetail = () => {
     if(partyDeleteCancelData.statusCode !== 200) { return };
     console.log('API 호출 성공 :', partyDeleteCancelData);
 
-
     //  페이지 이동
     setPageTrans('trans toLeft');
     history.goBack();
-    dispatch(HostConfirmDialogCloseAction);
+    dispatch(PartyDeleteConfirmDialogCloseAction);
   }
 
   return (
@@ -330,10 +329,10 @@ const MyPartyDetail = () => {
       </MainWrap>
       
       <HostBottomDialog roomStatus={roomStatus}/>
-      <MemberBottomDialog/>
-      <HostConfirmDialog roomStatus={roomStatus} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel}/>
+      <MemberBottomDialog roomStatus={roomStatus}/>
+      <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel}/>
     </div>
-  )
+  );
 }
 
 export default MyPartyDetail;

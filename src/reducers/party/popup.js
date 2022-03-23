@@ -15,9 +15,7 @@ export const initialState = {
 
     memberBottomDialogStatus: false,
 
-    hostConfirmDialogStatus: false,
-
-    memberConfirmDialogStatus: false,
+    partyDeleteConfirmDialogStatus: false,
 };
 
 const ReportPopupOpen = 'ReportPopupOpen';
@@ -37,11 +35,8 @@ const HostBottomDialogClose = 'HostBottomDialogClose';
 const MemberBottomDialogOpen = 'MemberBottomDialogOpen';
 const MemberBottomDialogClose = 'MemberBottomDialogClose';
 
-const HostConfirmDialogOpen = 'HostConfirmDialogOpen';
-const HostConfirmDialogClose = 'HostConfirmDialogClose';
-
-const MemberConfirmDialogOpen = 'MemberConfirmDialogOpen';
-const MemberConfirmDialogClose = 'MemberConfirmDialogClose';
+const PartyDeleteConfirmDialogOpen = 'PartyDeleteConfirmDialogOpen';
+const PartyDeleteConfirmDialogClose = 'PartyDeleteConfirmDialogClose';
 
 export const ReportPopupOpenAction = (data) => {
     return {
@@ -96,17 +91,11 @@ export const MemberBottomDialogOpenAction = {
 export const MemberBottomDialogCloseAction = {
     type: MemberBottomDialogClose,
 };
-export const HostConfirmDialogOpenAction = {
-    type: HostConfirmDialogOpen,
+export const PartyDeleteConfirmDialogOpenAction = {
+    type: PartyDeleteConfirmDialogOpen,
 };
-export const HostConfirmDialogCloseAction = {
-    type: HostConfirmDialogClose,
-};
-export const MemberConfirmDialogOpenAction = {
-    type: MemberConfirmDialogOpen,
-};
-export const MemberConfirmDialogCloseAction = {
-    type: MemberConfirmDialogClose,
+export const PartyDeleteConfirmDialogCloseAction = {
+    type: PartyDeleteConfirmDialogClose,
 };
 
 const reducer = (state = initialState, action) => {
@@ -188,28 +177,16 @@ const reducer = (state = initialState, action) => {
                 memberBottomDialogStatus: false,
             }
         }
-        case 'HostConfirmDialogOpen': {
+        case 'PartyDeleteConfirmDialogOpen': {
             return {
                 ...state, 
-                hostConfirmDialogStatus: true,
+                partyDeleteConfirmDialogStatus: true,
             }
         }
-        case 'HostConfirmDialogClose': {
+        case 'PartyDeleteConfirmDialogClose': {
             return {
                 ...state, 
-                hostConfirmDialogStatus: false,
-            }
-        }
-        case 'MemberConfirmDialogOpen': {
-            return {
-                ...state, 
-                memberConfirmDialogStatus: true,
-            }
-        }
-        case 'MemberConfirmDialogClose': {
-            return {
-                ...state, 
-                memberConfirmDialogStatus: false,
+                partyDeleteConfirmDialogStatus: false,
             }
         }
         default: {

@@ -6,17 +6,7 @@ const ConfirmDialog = ({title, subTitle, onClickConfirm, onClickCancel}) => {
   return (
     // <ConfirmWrapPopup openStatus={dialogStatus}>
     //   <ConfirmPopup openStatus={dialogStatus}>
-    //     <div style={{ position: 'relative', height: '1.25rem' }}></div>
-    //     <div className="title">{title}</div>
-    //     <div className="subtitle">{subTitle}</div>
-    //     <div className="buttonDiv">
-    //       <div className="grayButton" onClick={onClickCancel}>
-    //         <div className="grayButtonText">취소</div>
-    //       </div>
-    //       <div className="yellowButton" onClick={onClickConfirm}>
-    //         <div className="yellowButtonText">확인</div>
-    //       </div>
-    //     </div>
+
     //   </ConfirmPopup>
     // </ConfirmWrapPopup>
     <>
@@ -34,7 +24,6 @@ const ConfirmDialog = ({title, subTitle, onClickConfirm, onClickCancel}) => {
     </>
   );
 }
-
 export default ConfirmDialog;
 
 export const ConfirmWrapPopup = styled.div`
