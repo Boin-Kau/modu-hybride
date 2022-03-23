@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import ConfirmDialog, { ConfirmPopup, ConfirmWrapPopup } from "../../../../components/party/dialog/ConfirmDialog"
+import ConfirmDialog, { ConfirmPopup, ConfirmWrapPopup } from "../../../../components/party/ConfirmDialog"
 import { HostConfirmDialogCloseAction } from "../../../../reducers/party/popup";
 
 const HostConfirmDialog = ({roomStatus, clickDelete, clickCancel}) => {
@@ -31,8 +31,6 @@ const HostConfirmDialog = ({roomStatus, clickDelete, clickCancel}) => {
           />
       </ConfirmPopup>
     </ConfirmWrapPopup>
-      
-    
   );
 }
 

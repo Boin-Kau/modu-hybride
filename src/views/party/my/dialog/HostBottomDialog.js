@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { HostBottomDialogCloseAction, HostConfirmDialogOpenAction } from "../../../reducers/party/popup";
-import { BottomDialogDiv, BottomDialogWrap } from "../../../styled/shared/wrap";
+import { HostBottomDialogCloseAction, HostConfirmDialogOpenAction } from "../../../../reducers/party/popup";
+import { BottomDialogDiv, BottomDialogWrap } from "../../../../styled/shared/wrap";
 
 const HostBottomDialog = ({roomStatus}) => {
   

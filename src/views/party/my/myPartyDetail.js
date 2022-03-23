@@ -21,9 +21,9 @@ import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./AccountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
 import { HostBottomDialogOpenAction, HostConfirmDialogCloseAction, MemberBottomDialogOpenAction } from "../../../reducers/party/popup";
-import HostBottomDialog from "../../../components/party/dialog/HostBottomDialog";
-import MemberBottomDialog from "../../../components/party/dialog/MemberBottomDialog";
+import HostBottomDialog from "./dialog/HostBottomDialog";
 import HostConfirmDialog from "./dialog/HostConfirmDialog";
+import MemberBottomDialog from "./dialog/MemberBottomDialog";
 
 
 const MyPartyDetail = () => {

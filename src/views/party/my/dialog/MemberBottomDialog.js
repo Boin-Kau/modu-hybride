@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { MemberBottomDialogCloseAction } from "../../../reducers/party/popup";
-import { BottomDialogDiv, BottomDialogWrap } from "../../../styled/shared/wrap";
+import { MemberBottomDialogCloseAction } from "../../../../reducers/party/popup";
+import { BottomDialogDiv, BottomDialogWrap } from "../../../../styled/shared/wrap";
 
 const MemberBottomDialog = () => {
 
