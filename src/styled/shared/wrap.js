@@ -77,4 +77,61 @@ export const NoticeWrap = styled.div`
   .notice_text_yellow {
     color: #ffca2c;
   }
+  .boldText {
+    font-weight: 600;
+  }
+`;
+
+export const MainWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  position:absolute;
+  top:3.0625rem;
+  left:0;
+  right:0;
+  bottom:0;
+
+  padding: 0 1.25rem;
+
+  overflow-y:scroll;
+
+  background-color:#ffffff;
+`;
+
+export const BottomDialogWrap = styled.div`
+    display : ${props => props.openStatus ? 'block' : 'none'};
+    z-index:10000;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+    background-color:rgba(110,110,110,0.35);
+`;
+
+export const BottomDialogDiv = styled.div`
+  position:absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  bottom: 1.625rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-family: 'Spoqa Han Sans';
+  font-weight: 400;
+  color: #000000;
+
+  .btn_style {
+    background-color: #fff;
+    border-radius: 0.4375rem;
+  }
+  .one_btn {
+    padding: 0.9375rem 0;
+  }
+  .margin_bottom {
+    margin-bottom: 0.5rem;
+  }
+  .gray_border_bottom {
+    border-bottom: solid 0.0437rem #b4b4b4;
+  }  
 `;

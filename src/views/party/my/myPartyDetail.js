@@ -1,4 +1,4 @@
-import { TextMiddle } from "../../../styled/shared";
+import { DangerWrapPopup, TextMiddle } from "../../../styled/shared";
 import { ContentWrap, HeaderWrap, NoticeWrap, PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PageTransContext } from '../../../containers/pageTransContext';
 
@@ -7,9 +7,9 @@ import icon_more from "../../../assets/icon-partydetail-more.svg";
 import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
 import icon_notice_duck from '../../../assets/icon-notice-duck.svg';
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import styled from "styled-components";
 import { checkMobile } from "../../../App";
@@ -19,8 +19,13 @@ import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import PartyDataListItem from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./AccountInfoComponent";
+import BottomButton from "../../../components/party/BottomButton";
+import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction } from "../../../reducers/party/popup";
+import HostBottomDialog from "../../../components/party/dialog/HostBottomDialog";
+import MemberBottomDialog from "../../../components/party/dialog/MemberBottomDialog";
+import ConfirmDialog from "../../../components/party/dialog/ConfirmDialog";
 
-const MyPartyDetail = ({ location }) => {
+const MyPartyDetail = () => {
 
   // 테스트 코드
   let list = [];
@@ -29,31 +34,36 @@ const MyPartyDetail = ({ location }) => {
   // Module
   const history = useHistory();
   const dispatch = useDispatch();
+  const {idx} = useParams();
 
   //Context
   const { setPageTrans } = useContext(PageTransContext);
 
   // Local State
-  const [partyIdx, setPartyIdx] = useState(location.state.idx);
+  const [partyIdx, setPartyIdx] = useState(0);
   const [payMonth, setPayMonth] = useState(0);
   const [payDay, setPayDay] = useState(0);
 
   const [partyTitle, setPartyTitle] = useState('');
   const [isHostUser, setIsHostUser] = useState('');
+  const [openChatLink, setOpenChatLink] = useState('');
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
   const [accountInfoObj, setAccountInfoObj] = useState({});
-
+  const [bankAccountInfoObj, setBankAccountInfoObj] = useState({});
+  const [userCardInfoObj, setUserCardInfoObj] = useState({});
 
   // Lifecycle - Initial Logic
   useEffect(() => {
     // Bottom Nav 
     dispatch(BottomNavCloseAction);
 
-    setPartyIdx(location.state.idx);
-
-    getPartyDetail();
+    if(idx) {
+      setPartyIdx(idx); 
+    } else {
+      closePage();
+    }
 
     // 배경색 LOGIC
     const userPlatform = checkMobile();
@@ -68,19 +78,18 @@ const MyPartyDetail = ({ location }) => {
   },[]);
 
   useEffect(() => {
+    getPartyDetail();
+  },[partyIdx])
+
+  useEffect(() => {
     if(isNotEmpty(membershipInfoObj)) {
-      setPayMonth(
-        (membershipInfoObj.paymentCycleDate).split('-')[1][0] === '0'?
-          (membershipInfoObj.paymentCycleDate).split('-')[1][1]
-          :
-          (membershipInfoObj.paymentCycleDate).split('-')[1]
-      );
-      setPayDay(
-        (membershipInfoObj.paymentCycleDate).split('-')[2][0] === '0'?
-          (membershipInfoObj.paymentCycleDate).split('-')[2][1]
-          :
-          (membershipInfoObj.paymentCycleDate).split('-')[2]
-      );
+      if(isHostUser==='N') {
+        setPayMonth(Number((membershipInfoObj.nextPaymentDate).split('-')[1]));
+        setPayDay(Number((membershipInfoObj.nextPaymentDate).split('-')[2]));
+      } else if(isHostUser==='Y') {
+        setPayMonth(Number((membershipInfoObj.paymentCycleDate).split('-')[1]));
+        setPayDay(Number((membershipInfoObj.paymentCycleDate).split('-')[2]));
+      }
     }
   },[membershipInfoObj])
 
@@ -98,10 +107,13 @@ const MyPartyDetail = ({ location }) => {
 
     setPartyTitle(partyDetailData.result.title);
     setIsHostUser(partyDetailData.result.isHostUser);
+    setOpenChatLink(partyDetailData.result.openChatLink)
     setPlatformInfoObj(partyDetailData.result.platformInfo);
     setPartyInfoObj(partyDetailData.result.partyInfo);
     setMembershipInfoObj(partyDetailData.result.membershipInfo);
     setAccountInfoObj(partyDetailData.result.accountInfo);
+    setBankAccountInfoObj(partyDetailData.result.bankAccountInfo);
+    setUserCardInfoObj(partyDetailData.result.userCardInfo);
 
     // 테스트 코드
     list = [];
@@ -120,10 +132,15 @@ const MyPartyDetail = ({ location }) => {
     setPageTrans('trans toLeft');
     history.goBack();
   };
-
   const openBottomDialog = () => {
-    console.log('Open Bottom Dialog');
+    isHostUser==='Y' ? 
+      dispatch(HostBottomDialogOpenAction)
+      :
+      dispatch(MemberBottomDialogOpenAction)
   }
+  // 오픈채팅방 링크 열기 Function 
+  const onClickChatLink = () => window.open(openChatLink, '_blank');
+
   const isNotEmpty = (param) => Object.keys(param).length !== 0;
 
   return (
@@ -204,7 +221,8 @@ const MyPartyDetail = ({ location }) => {
             {/* 파티장은 계정변경, 파티원은 계정복사로 버튼 구성 */}
             <AccountInfoComponent
               isHostUser={isHostUser}
-              accountInfo={accountInfoObj}/>
+              accountInfo={accountInfoObj}
+              partyIdx={partyIdx}/>
           </PartyDetailSubWrap>
         }
 
@@ -216,30 +234,63 @@ const MyPartyDetail = ({ location }) => {
           </div>
           {/* 정산정보or결제수단 Notice Wrap */}
           <NoticeWrap style={{marginBottom:'0.5rem'}}>
-            <div className="notice_sub_wrap">
-              <img className="notice_img" src={icon_notice_duck}></img>
+            <div className="notice_sub_wrap align_center">
+              <div>
+                <img className="notice_img" src={icon_notice_duck}></img>
+              </div>
               <div className="notice_text_div">
                 <span>다음 </span>
                 <span>{isHostUser==='Y'? '정산':'결제'}</span>
                 <span>예정일은 </span>
                 <span className="notice_text_yellow">{payMonth}월 {payDay}일</span>
                 <span>입니다!</span><br/>
+                {/* 
+                  파티장 : 00000원이 결제
+                  파티원 : 0000원이 정산
+                */}
                 <span>될 예정이에요.</span>
               </div>
             </div>
           </NoticeWrap>
           {/* 정산정보or결제수단 Contents */}
           <PaymentContentsWrap>
-            
+            <div className="contents_div">
+              <span className="contents_name">{isHostUser==='Y'? '정산':'결제'}수단</span>
+              <span className="contents_description">{isHostUser==='Y'? '계좌입금':'신용/체크카드'}</span>
+            </div>
+            <div className="contents_div">
+              <span className="contents_name">상세</span>
+              <span className="contents_description">
+              {
+                isHostUser==='Y' ?
+                  bankAccountInfoObj.bankName ?
+                    bankAccountInfoObj.bankName + " " + bankAccountInfoObj.bankAccountNum
+                    :
+                    "없음"
+                  :
+                  userCardInfoObj.cardName ? 
+                    userCardInfoObj.cardName + " " + userCardInfoObj.cardNo
+                    :
+                    "없음"
+              }
+              </span>
+            </div>
+            <div className="change_contents_btn">
+              {isHostUser? "정산계좌":"결제수단"} 변경하기
+            </div>
           </PaymentContentsWrap>
 
         </PartyDetailSubWrap>
 
         {/* 최하단 Yellow 버튼 */}
-        <BottomButtonWrap onClick={()=>{}} className="spoqaBold">
-          <div className="bottomButtonText">오픈채팅방 열기</div>
-        </BottomButtonWrap>
+        <div style={{margin:'1.25rem'}}>
+          <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} status={true} />
+        </div>
       </MainWrap>
+      
+      <HostBottomDialog/>
+      <MemberBottomDialog/>
+      <ConfirmDialog title={'파티를 삭제하시겠어요?'} subTitle={'지금 파티를 삭제하면 다음 결제주기인 2022.03.01에 종료됩니다.'}/>
     </div>
   )
 }
@@ -315,23 +366,27 @@ const PaymentContentsWrap = styled.div`
 
   padding: 1.25rem 1.1563rem 1.125rem 1.1875rem;
 
-`;
+  .contents_div {
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 0.8125rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .contents_name {
+    color: #313131;
+  }
+  .contents_description {
+    color: #464646;
+  }
+  .change_contents_btn {
+    color: #8b8b8b;
+    font-size: 0.75rem;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    text-decoration: underline;
+    text-align: end;
+  }
 
-// 하단 노란색 버튼
-const BottomButtonWrap = styled.div`
-    display:flex;
-    margin:1.25rem;
-
-    background-color:#ffca17;
-    border-radius:0.375rem;
-
-    padding:0.875rem 0 0.8125rem 0;
-
-    font-size:0.8125rem;
-    color:#ffffff;
-
-    .bottomButtonText {
-      width: 100%;
-      text-align: center;
-    }
 `;

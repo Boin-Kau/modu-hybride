@@ -7,23 +7,18 @@ const PartyMembershipDiv = ({membershipInfo, platformInfo, isDetail}) => {
   const isNotEmpty = (param) => Object.keys(param).length !== 0;
 
   useEffect(() => {
-    if(isNotEmpty(membershipInfo)) {
-      setDate(
-        (membershipInfo.paymentCycleDate).split('-')[2][0] === '0'?
-        (membershipInfo.paymentCycleDate).split('-')[2][1]
-        :
-        (membershipInfo.paymentCycleDate).split('-')[2]
-      );
-    } 
+    membershipInfo.paymentCycleDate && setDate(Number((membershipInfo.paymentCycleDate).split('-')[2])); 
+    console.log(date);
   },[membershipInfo])
 
   return (
     <>
-      {/* 멤버십 정보에서 노란 Div */}
-      <MembershipYellowDiv isDetail={isDetail}>
+      {/* 멤버십 정보에서 노란 Div  */}
+      <MembershipYellowDiv isDetail={isDetail} date={date} >
         <div className="membershipYellowDivLeft">
           <div className="membershipYellowTitle notoMedium">파티 결제주기</div>
-          <div className="membershipYellowText spoqaBold">매 달 {date}일</div>
+          <div className="membershipYellowText spoqaBold date">매 달 {date}일</div>
+          <div date={date} className="membershipYellowText spoqaBold noDate">없음</div>
         </div>
         
         {/* 금액 파트 확인 필요 */}
@@ -81,6 +76,12 @@ const MembershipYellowDiv = styled.div`
     color: #313131;
 
     font-size: ${(props) => props.isDetail ? '0.875rem' : '0.75rem'};
+  }
+  .date {
+    display: ${props => props.date ? 'block' : 'none'};
+  }
+  .noDate {
+    display: ${props => props.date ? 'none' : 'block'};
   }
 `;
 
