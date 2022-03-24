@@ -15,7 +15,7 @@ export const initialState = {
 
     memberBottomDialogStatus: false,
 
-    confirmDialogStatus: false,
+    partyDeleteConfirmDialogStatus: false,
 };
 
 const ReportPopupOpen = 'ReportPopupOpen';
@@ -35,8 +35,8 @@ const HostBottomDialogClose = 'HostBottomDialogClose';
 const MemberBottomDialogOpen = 'MemberBottomDialogOpen';
 const MemberBottomDialogClose = 'MemberBottomDialogClose';
 
-const ConfirmDialogOpen = 'ConfirmDialogOpen';
-const ConfirmDialogClose = 'ConfirmDialogClose';
+const PartyDeleteConfirmDialogOpen = 'PartyDeleteConfirmDialogOpen';
+const PartyDeleteConfirmDialogClose = 'PartyDeleteConfirmDialogClose';
 
 export const ReportPopupOpenAction = (data) => {
     return {
@@ -91,11 +91,11 @@ export const MemberBottomDialogOpenAction = {
 export const MemberBottomDialogCloseAction = {
     type: MemberBottomDialogClose,
 };
-export const ConfirmDialogOpenAction = {
-    type: ConfirmDialogOpen,
+export const PartyDeleteConfirmDialogOpenAction = {
+    type: PartyDeleteConfirmDialogOpen,
 };
-export const ConfirmDialogCloseAction = {
-    type: ConfirmDialogClose,
+export const PartyDeleteConfirmDialogCloseAction = {
+    type: PartyDeleteConfirmDialogClose,
 };
 
 const reducer = (state = initialState, action) => {
@@ -177,16 +177,16 @@ const reducer = (state = initialState, action) => {
                 memberBottomDialogStatus: false,
             }
         }
-        case 'ConfirmDialogOpen': {
+        case 'PartyDeleteConfirmDialogOpen': {
             return {
                 ...state, 
-                confirmDialogStatus: true,
+                partyDeleteConfirmDialogStatus: true,
             }
         }
-        case 'ConfirmDialogClose': {
+        case 'PartyDeleteConfirmDialogClose': {
             return {
                 ...state, 
-                confirmDialogStatus: false,
+                partyDeleteConfirmDialogStatus: false,
             }
         }
         default: {

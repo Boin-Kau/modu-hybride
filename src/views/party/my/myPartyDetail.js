@@ -20,10 +20,11 @@ import PartyDataListItem from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./AccountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
-import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction } from "../../../reducers/party/popup";
-import HostBottomDialog from "../../../components/party/dialog/HostBottomDialog";
-import MemberBottomDialog from "../../../components/party/dialog/MemberBottomDialog";
-import ConfirmDialog from "../../../components/party/dialog/ConfirmDialog";
+import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
+import HostBottomDialog from "./dialog/HostBottomDialog";
+import MemberBottomDialog from "./dialog/MemberBottomDialog";
+import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
+
 
 const MyPartyDetail = () => {
 
@@ -47,6 +48,7 @@ const MyPartyDetail = () => {
   const [partyTitle, setPartyTitle] = useState('');
   const [isHostUser, setIsHostUser] = useState('');
   const [openChatLink, setOpenChatLink] = useState('');
+  const [roomStatus, setRoomStatus] = useState('');
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
@@ -107,7 +109,8 @@ const MyPartyDetail = () => {
 
     setPartyTitle(partyDetailData.result.title);
     setIsHostUser(partyDetailData.result.isHostUser);
-    setOpenChatLink(partyDetailData.result.openChatLink)
+    setOpenChatLink(partyDetailData.result.openChatLink);
+    setRoomStatus(partyDetailData.result.roomStatus);
     setPlatformInfoObj(partyDetailData.result.platformInfo);
     setPartyInfoObj(partyDetailData.result.partyInfo);
     setMembershipInfoObj(partyDetailData.result.membershipInfo);
@@ -132,6 +135,7 @@ const MyPartyDetail = () => {
     setPageTrans('trans toLeft');
     history.goBack();
   };
+
   const openBottomDialog = () => {
     isHostUser==='Y' ? 
       dispatch(HostBottomDialogOpenAction)
@@ -142,6 +146,43 @@ const MyPartyDetail = () => {
   const onClickChatLink = () => window.open(openChatLink, '_blank');
 
   const isNotEmpty = (param) => Object.keys(param).length !== 0;
+
+  const onDeleteParty = async () => {
+    // 파티 삭제
+    const partyDeleteUri = `/party/${partyIdx}?userRole=${isHostUser==='Y'? 'HOST' : 'USER'}`;
+    const partyDeleteData = await customApiClient('delete', partyDeleteUri);
+
+    // Server Error
+    if(!partyDeleteData) { return };
+
+    // Validation 
+    if(partyDeleteData.statusCode !== 200) { return };
+    console.log('API 호출 성공 :', partyDeleteData);
+
+    dispatch(PartyDeleteConfirmDialogCloseAction);
+    //  페이지 이동
+    setPageTrans('trans toLeft');
+    history.goBack();
+  }
+
+  const onDeletePartyCancel = async () => {
+    // 파티 삭제 취소
+    const partyDeleteCancelUri = `/party/${partyIdx}/revert?userRole=${isHostUser==='Y'? 'HOST' : 'USER'}`;
+    const partyDeleteCancelData = await customApiClient('patch', partyDeleteCancelUri);
+
+        // Server Error
+    if(!partyDeleteCancelData) { return };
+
+    // Validation 
+    if(partyDeleteCancelData.statusCode !== 200) { return };
+    console.log('API 호출 성공 :', partyDeleteCancelData);
+
+    
+    dispatch(PartyDeleteConfirmDialogCloseAction);
+    //  페이지 이동
+    setPageTrans('trans toLeft');
+    history.goBack();
+  }
 
   return (
     <div className="page">
@@ -288,11 +329,11 @@ const MyPartyDetail = () => {
         </div>
       </MainWrap>
       
-      <HostBottomDialog/>
-      <MemberBottomDialog/>
-      <ConfirmDialog title={'파티를 삭제하시겠어요?'} subTitle={'지금 파티를 삭제하면 다음 결제주기인 2022.03.01에 종료됩니다.'}/>
+      <HostBottomDialog roomStatus={roomStatus}/>
+      <MemberBottomDialog roomStatus={roomStatus}/>
+      <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel}/>
     </div>
-  )
+  );
 }
 
 export default MyPartyDetail;
