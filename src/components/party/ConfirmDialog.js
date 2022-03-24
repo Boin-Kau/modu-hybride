@@ -4,11 +4,7 @@ import styled from "styled-components";
 const ConfirmDialog = ({title, subTitle, onClickConfirm, onClickCancel}) => {
 
   return (
-    // <ConfirmWrapPopup openStatus={dialogStatus}>
-    //   <ConfirmPopup openStatus={dialogStatus}>
-
-    //   </ConfirmPopup>
-    // </ConfirmWrapPopup>
+    
     <>
       <div style={{ position: 'relative', height: '1.25rem' }}></div>
       <div className="title">{title}</div>

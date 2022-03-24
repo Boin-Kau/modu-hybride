@@ -159,10 +159,10 @@ const MyPartyDetail = () => {
     if(partyDeleteData.statusCode !== 200) { return };
     console.log('API 호출 성공 :', partyDeleteData);
 
+    dispatch(PartyDeleteConfirmDialogCloseAction);
     //  페이지 이동
     setPageTrans('trans toLeft');
     history.goBack();
-    dispatch(PartyDeleteConfirmDialogCloseAction);
   }
 
   const onDeletePartyCancel = async () => {
@@ -177,10 +177,11 @@ const MyPartyDetail = () => {
     if(partyDeleteCancelData.statusCode !== 200) { return };
     console.log('API 호출 성공 :', partyDeleteCancelData);
 
+    
+    dispatch(PartyDeleteConfirmDialogCloseAction);
     //  페이지 이동
     setPageTrans('trans toLeft');
     history.goBack();
-    dispatch(PartyDeleteConfirmDialogCloseAction);
   }
 
   return (
