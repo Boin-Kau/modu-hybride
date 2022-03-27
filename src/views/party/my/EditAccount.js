@@ -138,7 +138,7 @@ const EditAccount = ({location}) => {
         
         {/* 최하단 Yellow 버튼 */}
         <BottomButton clickFunc={onClickEdit} text={'확인'} status={pageConfirmStatus} />
-        </MainWrap>
+      </MainWrap>
       
       
         

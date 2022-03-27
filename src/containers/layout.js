@@ -22,7 +22,7 @@ import ReactGA from 'react-ga';
 import AgreePage from '../views/info/agree';
 import MyParty from '../views/party/my/myParty';
 import MyPartyDetail from '../views/party/my/myPartyDetail';
-import PartyEnrollment from '../views/party/enrollment';
+
 import Party from '../views/party';
 import PartyPlatform from '../views/party/enrollment/platform';
 import PartyPlatformSearch from '../views/party/enrollment/platform/search';
@@ -42,6 +42,7 @@ import CardManagement from '../views/card/cardManagement';
 import CardIdxChange from '../views/party/detail/cardIdxChange';
 import BankAccountManagement from '../views/card/bankAccountManagement';
 import EditAccount from '../views/party/my/EditAccount';
+import PartyEnrollment from '../views/party/enrollment/enrollment';
 
 const AppLayout = () => {
 

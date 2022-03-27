@@ -30,6 +30,9 @@ export const HeaderWrap = styled.div`
   color: #313131;
 
   box-shadow: 0 0 0.25rem 0.0625rem #efefef;
+
+  font-family: 'Spoqa Han Sans';
+  font-weight: 600;
 `;
 
 export const ContentWrap = styled.div`
