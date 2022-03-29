@@ -33,14 +33,15 @@ export const HeaderWrap = styled.div`
 `;
 
 export const ContentWrap = styled.div`
-  top: 3.0625rem;
+  position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
 
   overflow-y: scroll;
 
-  padding: 0 1.25rem 1.25rem 1.25rem;
+  padding: 0 1.25rem 0 1.25rem;
 `;
 
 // 파티 상세페이지에서 파티 정보를 감싸주는 Wrapper입니다. 
