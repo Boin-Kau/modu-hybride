@@ -11,6 +11,9 @@ const BottomButton = ({text, clickFunc, status}) => {
 export default BottomButton;
 
 const BottomButtonWrap = styled.div`
+    font-family: 'Spoqa Han Sans';
+    font-weight: bold;
+    
     display:flex;
     margin-bottom:1.25rem;
 
