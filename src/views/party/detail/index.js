@@ -18,7 +18,8 @@ import { ResetParty } from "../../../reducers/party/detail";
 import { PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import BottomButton from "../../../components/party/BottomButton";
-
+import { ReportBottomDialogOpenAction } from "../../../reducers/party/popup";
+import ReportBottomDialog from "./reportBottomDialog";
 
 // Page Root Component
 const PartyDetail = () => {
@@ -123,14 +124,18 @@ const PartyDetail = () => {
   };
 
   const openBottomDialog = () => {
-    console.log('파티장 : 수정하기,삭제하기 / 취소');
-    console.log('파티원 : 신고하기 / 취소');
+    dispatch(ReportBottomDialogOpenAction);
   }
 
-  const openPage = () => {
-    // 페이지 전환
+  // 파티 미가입 상태일 때, 결제하기 화면으로 이동
+  const openPaymentPage = () => {
     setPageTrans('trans toRight');
     history.push('/payment');
+  }
+  // 파티 가입 상태일 때, 파티 상세페이지 화면으로 이동
+  const openPartyDetail = (partyIdx) => {
+    setPageTrans('trans toRight');
+    history.push(`/party/my/${partyIdx}`);
   }
 
   return (
@@ -194,11 +199,16 @@ const PartyDetail = () => {
 
           </div>
 
-
           {/* 최하단 Yellow 버튼 */}
-          <BottomButton clickFunc={openPage} text={'파티참가'} />
+          <div style={{margin:'0 1.25rem'}}>
+            <BottomButton 
+              clickFunc={partyIsEnrolled === 'Y'? () => openPartyDetail(partyId) : openPaymentPage} 
+              text={`${partyIsEnrolled === 'Y'?'파티 상세보기':'파티참가'}`} 
+              status={true}/>
+          </div>
         </MainWrap>
       </PageWrap>
+      <ReportBottomDialog/>
     </div>
   );
 };
