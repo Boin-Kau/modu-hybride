@@ -9,12 +9,14 @@ import { TextMiddle } from "../../styled/shared";
 import icon_back from "../../assets/icon-back-arrow.svg";
 import notice_icon from "../../assets/ic_pay_guide.svg";
 
+import { PageWrap,HeaderWrap} from "../../styled/shared/wrap";
 import PartyComponent from "./partyComponent";
 import Register from "./register";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 import Price from "./price";
 import Card from "./card";
 import Slide from "./slide";
+import BottomButton from "../../components/party/BottomButton";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -219,85 +221,44 @@ const Payment = () => {
               </div>
             </div>
           </NoticeWrap>
-          <div
-            className="notoMedium"
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "3.3375rem",
-            }}
-          >
-            <span
-              style={{
-                color: "#797979",
-                fontSize: "0.625rem",
-                textAlign: "center",
-              }}
-            >
-              개인정보 제3자 제공 내용 및 결제에 동의합니다.
-            </span>
-            <SaveButton
-              className="spoqaBold"
-              pageConfirmStatus={pageConfirmStatus}
-              onClick={onClickRevise}
-            >
-              {priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice)}원 결제
-            </SaveButton>
+          <div className="notoMedium notice-text">
+            <div style={{borderBottom:"1px solid #797979"}}>개인정보 제3자 제공 </div> 내용 및 결제에 동의합니다.
           </div>
+          <BottomButton
+            text={(priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice))+"원 결제"}
+            clickFunc={onClickRevise}
+            status={pageConfirmStatus}
+          />
         </ContentWrap>
       </PageWrap>
     </div>
   );
 };
 
-const PageWrap = styled.div`
-  position: absolute;
+const ContentWrap = styled.div`
   top: 3.0625rem;
   left: 0;
   right: 0;
   bottom: 0;
 
-  display: flex;
-  flex-direction: column;
+  margin: 0 1.25rem 0 1.25rem;
 
-  overflow-y: scroll;
-
-  background-color: #ffffff;
-`;
-
-const HeaderWrap = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  height: 3.0625rem;
-
-  background-color: #ffffff;
-  text-align: center;
-
-  font-size: 0.875rem;
-  color: #313131;
-
-  box-shadow: 0 0 0.25rem 0.0625rem #efefef;
-`;
-
-const ContentWrap = styled.div`
-  top: 49px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  margin: 0 1.25rem 1.25rem 1.25rem;
+  .notice-text{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 3.3375rem 0 0.525rem 0;
+    color: #797979;
+    font-size: 0.625rem;
+    text-align: center;
+  }
 `;
 
 const Line = styled.div`
   width: 100%;
   height: 8px;
   background-color: #f7f7f7;
-  margin-bottom: 1.2188rem;
+  margin: 1.3125rem 0 1.2188rem 0;
 `;
 
 const NoticeWrap = styled.div`
@@ -326,23 +287,5 @@ const NoticeWrap = styled.div`
   }
 `;
 
-const SaveButton = styled.div`
-  cursor: pointer;
-
-  width: 100%;
-
-  padding: 0.8125rem 0 0.875rem 0;
-
-  font-size: 0.875rem;
-  color: #ffffff;
-  margin-top: 0.525rem;
-  margin-bottom: 2.025rem;
-  text-align: center;
-
-  border-radius: 0.375rem;
-
-  background-color: ${(props) =>
-    props.pageConfirmStatus ? "#ffca17" : "#e3e3e3"};
-`;
 
 export default Payment;
