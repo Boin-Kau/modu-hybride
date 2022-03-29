@@ -42,7 +42,7 @@ const ChoosePartyInfo = () => {
             <img className="notice_img" src={icon_notice_duck}></img>
           </div>
           <div className="notice_text_div">
-            파티에 대한 정보는 파티에 참여할 수 있는 모든 유저에게 노출되요. 
+            파티에 대한 정보는 파티에 참여할 수 있는 모든 유저에게 노출돼요. 
           </div>
         </div>
       </NoticeWrap>

@@ -63,18 +63,15 @@ const ChooseAccount = () => {
         value={accountId}
         onChange={handleChangeAccountId}
       />
-      <TitleWrap>
+      <TitleWrap style={{position:'relative'}}>
         비밀번호
         <InfoWrap>
           <img onClick={onClickMiniInfo} className="infoBtn" src={icon_info} />
-          <MiniInfoDialog openStatus={miniInfoStatus}>
-            구독 계정의 비밀번호는 개인정보를 포함하지 말아주세요.
-          </MiniInfoDialog>
         </InfoWrap>
-        
-
+        <MiniInfoDialog trianglePosition={'23.5%'} openStatus={miniInfoStatus}>
+          구독 계정의 비밀번호는 개인정보를 포함하지 말아주세요.
+        </MiniInfoDialog>
       </TitleWrap>
-
       <InputComponent
         id={"accountPw"}
         type={"password"}
@@ -94,7 +91,7 @@ const ChooseAccountWrap = styled.div`
   padding: 0 1.25rem;
 `;
 
-const InfoWrap = styled.div`
+export const InfoWrap = styled.div`
   margin-left: 0.4375rem;
   position: relative;
   display: flex;
@@ -105,12 +102,12 @@ const InfoWrap = styled.div`
   }
 `;
 
-const MiniInfoDialog = styled.div`
+export const MiniInfoDialog = styled.div`
   display: ${props => props.openStatus ? 'block' : 'none'};
   position:absolute;
 
   top: 100%;
-  right: -1150%;
+  left: 0;
   z-index: 10000;
 
   margin-top: 0.4063rem;
@@ -136,7 +133,7 @@ const MiniInfoDialog = styled.div`
     content:"";
     position:absolute;
     top:-8px;
-    left:25%;
+    left: ${props => props.trianglePosition};
     transform:translate(-50%,0);
   }
 `;

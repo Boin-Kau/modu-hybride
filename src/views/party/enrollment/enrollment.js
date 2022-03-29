@@ -25,7 +25,7 @@ const PartyEnrollment = () => {
   const { setPageTrans } = useContext(PageTransContext);
 
   const [progress, setProgress] = useState(20);
-  const [currentPage, setCurrentPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(4);
 
   useEffect(()=> {
     dispatch(BottomNavCloseAction);
