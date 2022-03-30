@@ -18,12 +18,12 @@ import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import PartyDataListItem from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
-import AccountInfoComponent from "./AccountInfoComponent";
+import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
 import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
-import HostBottomDialog from "./dialog/HostBottomDialog";
-import MemberBottomDialog from "./dialog/MemberBottomDialog";
-import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
+import HostBottomDialog from "./dialog/hostBottomDialog";
+import MemberBottomDialog from "./dialog/memberBottomDialog";
+import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
 
 
 const MyPartyDetail = () => {
@@ -329,7 +329,7 @@ const MyPartyDetail = () => {
         </div>
       </MainWrap>
       
-      <HostBottomDialog roomStatus={roomStatus}/>
+      <HostBottomDialog roomStatus={roomStatus} partyIdx={partyIdx}/>
       <MemberBottomDialog roomStatus={roomStatus}/>
       <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel}/>
     </div>

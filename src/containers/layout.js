@@ -41,8 +41,9 @@ import Finish from '../views/payment/finish';
 import CardManagement from '../views/card/cardManagement';
 import CardIdxChange from '../views/party/detail/cardIdxChange';
 import BankAccountManagement from '../views/card/bankAccountManagement';
-import EditAccount from '../views/party/my/EditAccount';
+import EditAccount from '../views/party/my/editAccount';
 import PartyEnrollment from '../views/party/enrollment/enrollment';
+import MyPartyRevise from '../views/party/my/myPartyRevise';
 
 const AppLayout = () => {
 
@@ -71,6 +72,7 @@ const AppLayout = () => {
             <Route path='/party/detail' exact component={PartyDetail}/>
             <Route path='/party/my' exact component={MyParty} />
             <Route path='/party/my/:idx' exact component={MyPartyDetail}/>
+            <Route path='/party/my/revise/:idx' exact component={MyPartyRevise}/>
             <Route path='/party/my/detail/account' exact component={EditAccount}/>
             <Route path='/party/enroll' exact component={PartyEnrollment} />
             <Route path='/party/enroll/platform' exact component={PartyPlatform} />
