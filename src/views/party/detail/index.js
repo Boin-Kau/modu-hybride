@@ -81,24 +81,11 @@ const PartyDetail = () => {
       setPlatformInfoObj(selectedPartyPlatformInfo);
       setPartyInfoObj(selectedPartyPartyInfo);
       setMembershipInfoObj(selectedPartyMembershipInfo);
-
-      // 테스트 코드
-      list = [];
-      if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
-        list.push('boss');
-        for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('complete');
-        for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('waiting');
-        for(let i=partyInfoObj.personnel; i!==4; i++) list.push('nothing');
-      }
-      
-      setTypeList(list);
-      console.log(typeList);
     } else {
       console.log('리덕스 초기화 감지')
       dispatch(BottomNavOpenAction);
       closePage();
     }
-    
     // 배경색 LOGIC
     const userPlatform = checkMobile();
     if (userPlatform == 'ios') {
@@ -110,6 +97,17 @@ const PartyDetail = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    list = [];
+    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+      list.push('파티장');
+      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('참가완료');
+      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('대기중');
+      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('-');
+      setTypeList(list);
+    }
+  },[partyInfoObj])
 
   // Function
   const closePage = () => {
@@ -178,7 +176,7 @@ const PartyDetail = () => {
                     if(partyInfoObj.personnel > 4) {
                       return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
                     } else {
-                      return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
+                      return (<PartyDataListItem type={item} margin={'0'} key={idx}/>)
                     }
                   })
                 }
@@ -334,8 +332,6 @@ const PartyDataTitleDiv = styled.div`
   padding: 0 1.25rem;
   margin-bottom: 1.5rem;
 
-  border: 1px red solid;
-
   .memberCountBox {
     display: flex;
     margin-left: 0.2188rem;
@@ -361,9 +357,6 @@ const PartyDataContentWrap = styled.div`
   padding-right: ${props => props.personnel > 4 ? '0rem' : '1.25rem'};
   justify-content: space-between;
   overflow-x: auto;
-
-
-  border: 1px red solid;
 `;
 
 const MembershipDataWrap = styled.div`
@@ -377,7 +370,6 @@ const MembershipDataWrap = styled.div`
     color: #313131;
     display: block;
     margin-bottom: 1.0938rem;
-
   }
 `;
 

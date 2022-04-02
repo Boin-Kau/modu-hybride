@@ -93,7 +93,19 @@ const MyPartyDetail = () => {
         setPayDay(Number((membershipInfoObj.paymentCycleDate).split('-')[2]));
       }
     }
+    console.log('hi');
   },[membershipInfoObj])
+
+  useEffect(() => {
+    list = [];
+    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+      list.push('파티장');
+      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('참가완료');
+      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('대기중');
+      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('-');
+      setTypeList(list);
+    }
+  },[partyInfoObj])
 
   // Function 
   const getPartyDetail = async () => {
@@ -117,19 +129,8 @@ const MyPartyDetail = () => {
     setAccountInfoObj(partyDetailData.result.accountInfo);
     setBankAccountInfoObj(partyDetailData.result.bankAccountInfo);
     setUserCardInfoObj(partyDetailData.result.userCardInfo);
-
-    // 테스트 코드
-    list = [];
-    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
-      list.push('boss');
-      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('complete');
-      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('waiting');
-      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('nothing');
-    }
-    setTypeList(list);
   };
 
-  
   const closePage = () => {
     // 뒤로 가기
     setPageTrans('trans toLeft');

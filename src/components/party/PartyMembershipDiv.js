@@ -8,7 +8,6 @@ const PartyMembershipDiv = ({membershipInfo, platformInfo, isDetail}) => {
 
   useEffect(() => {
     membershipInfo.paymentCycleDate && setDate(Number((membershipInfo.paymentCycleDate).split('-')[2])); 
-    console.log(date);
   },[membershipInfo])
 
   return (
