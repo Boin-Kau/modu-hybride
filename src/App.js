@@ -11,6 +11,7 @@ import './App.scss';
 
 import AppLayout from './containers/layout';
 import BottomNav from './containers/bottomNav';
+import ErrorPopup from './views/popup/errorPopup';
 
 const history = createBrowserHistory();
 
@@ -62,6 +63,11 @@ function App() {
     messageWrapShow
   } = useSelector(state => state.container.message);
 
+  const {
+    popupShow,
+  } = useSelector(state => state.popup.popup);
+
+
   const PageTransStyle = {
     appear: `${pageTrans} appear`,
     appearActive: `${pageTrans} appear active`,
@@ -101,6 +107,8 @@ function App() {
           </MessagePopup>
         </MessageWrapPopup>
 
+        {/* 팝업창 */}
+        {popupShow && <ErrorPopup status={popupShow}/>}
 
       </Router>
     </RootWrap>
