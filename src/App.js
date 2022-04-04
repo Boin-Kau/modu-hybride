@@ -6,6 +6,7 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { PageTransContext } from './containers/pageTransContext';
+import LoadingPopup from './components/Loading';
 
 import './App.scss';
 
@@ -62,6 +63,10 @@ function App() {
     messageWrapShow
   } = useSelector(state => state.container.message);
 
+  const {
+    openLoadingStatus,
+  } = useSelector(state => state.container.loading);
+
   const PageTransStyle = {
     appear: `${pageTrans} appear`,
     appearActive: `${pageTrans} appear active`,
@@ -101,7 +106,8 @@ function App() {
           </MessagePopup>
         </MessageWrapPopup>
 
-
+        {/* 로딩 */}
+        <LoadingPopup openStatus={openLoadingStatus} />
       </Router>
     </RootWrap>
   );
