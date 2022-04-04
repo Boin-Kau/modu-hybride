@@ -120,6 +120,14 @@ const Info = () => {
                     <ContentWrap className="spoqaBold" onClick={() => { openAgreePage('serviceDetail') }}>이용 약관</ContentWrap>
                     <ContentWrap className="spoqaBold" onClick={() => { openAgreePage('personDetail') }}>개인정보 처리방침</ContentWrap>
 
+                    <div className="businessInfo">
+                        상호명ㅣ(주)스프레드와이<br />
+                        대표자명ㅣ신민재<br />
+                        사업자 등록번호ㅣ706-88-02443<br />
+                        주소ㅣ서울 금천구 시흥대로 165. 211-1101<br />
+                        이메일ㅣbusiness.modu21@gmail.com<br />
+                        전화번호ㅣ070-8095-1408
+                    </div>
                 </PageWrap>
             </div>
 
@@ -137,8 +145,21 @@ const PageWrap = styled.div`
 
     overflow-y:scroll;
 
+    display:flex;
+    flex-direction:column;
 
     color:#313131;
+
+    .businessInfo {
+        padding:1.8125rem 0;
+        flex-grow:1;
+        flex-basis:1;
+        background-color:#f4f4f4;
+        font-size:0.5625rem;
+        color:#c3c3c3;
+        line-height:0.9375rem;
+        text-align:center;
+    }
 `;
 
 
@@ -146,7 +167,7 @@ const InfoWrap = styled.div`
 
     display:flex;
 
-    margin:0 1.25rem 2rem 1.25rem;
+    margin:0 1.25rem 2.125rem 1.25rem;
 
     padding:0.75rem 1rem 0.875rem 0.75rem;
     border-radius:0.4375rem;
@@ -156,7 +177,7 @@ const InfoWrap = styled.div`
 
 
 const TitelWrap = styled.div`
-    margin: 1.0625rem 1.25rem 1.9375rem 1.25rem;
+    margin: 0 1.25rem 1.9375rem 1.25rem;
     font-size:0.75rem;
     line-height:1.3125rem;
     opacity:0.4;
