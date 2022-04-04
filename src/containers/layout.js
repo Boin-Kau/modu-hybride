@@ -22,7 +22,7 @@ import ReactGA from 'react-ga';
 import AgreePage from '../views/info/agree';
 import MyParty from '../views/party/my/myParty';
 import MyPartyDetail from '../views/party/my/myPartyDetail';
-import PartyEnrollment from '../views/party/enrollment';
+
 import Party from '../views/party';
 import PartyPlatform from '../views/party/enrollment/platform';
 import PartyPlatformSearch from '../views/party/enrollment/platform/search';
@@ -41,7 +41,9 @@ import Finish from '../views/payment/finish';
 import CardManagement from '../views/card/cardManagement';
 import CardIdxChange from '../views/party/detail/cardIdxChange';
 import BankAccountManagement from '../views/card/bankAccountManagement';
-import EditAccount from '../views/party/my/EditAccount';
+import EditAccount from '../views/party/my/editAccount';
+import PartyEnrollment from '../views/party/enrollment/enrollment';
+import MyPartyRevise from '../views/party/my/myPartyRevise';
 
 const AppLayout = () => {
 
@@ -70,13 +72,14 @@ const AppLayout = () => {
             <Route path='/party/detail' exact component={PartyDetail}/>
             <Route path='/party/my' exact component={MyParty} />
             <Route path='/party/my/:idx' exact component={MyPartyDetail}/>
+            <Route path='/party/my/revise/:idx' exact component={MyPartyRevise}/>
             <Route path='/party/my/detail/account' exact component={EditAccount}/>
             <Route path='/party/enroll' exact component={PartyEnrollment} />
             <Route path='/party/enroll/platform' exact component={PartyPlatform} />
             <Route path='/party/enroll/platform/search' exact component={PartyPlatformSearch} />
             <Route path='/party/enroll/platform/detail' exact component={PartyPlatformDetail} />
             <Route path='/party/enroll/finish' exact component={PartyEnrollFinish} />
-            <Route path='/party/revise' exact component={PartyRevise} />
+            <Route path='/party/revise' exact component={PartyRevise} /> {/* 삭제예정 */}
             <Route path='/info' exact component={MyInfo} />
             <Route path='/info/detail' exact component={DetailPage} />
             <Route path='/info/detail/name' exact component={NamePage} />

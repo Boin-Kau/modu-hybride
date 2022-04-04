@@ -17,7 +17,6 @@ export const UpdatePlatformAction = (data) => {
     }
 }
 
-
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {

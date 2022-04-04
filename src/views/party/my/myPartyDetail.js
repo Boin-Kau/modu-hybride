@@ -16,14 +16,14 @@ import { checkMobile } from "../../../App";
 import { customApiClient } from "../../../shared/apiClient";
 import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
-import PartyDataListItem from "../../../components/party/PartyList";
+import PartyDataListItem, { CustomPartyListItem } from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
-import AccountInfoComponent from "./AccountInfoComponent";
+import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
 import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
-import HostBottomDialog from "./dialog/HostBottomDialog";
-import MemberBottomDialog from "./dialog/MemberBottomDialog";
-import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
+import HostBottomDialog from "./dialog/hostBottomDialog";
+import MemberBottomDialog from "./dialog/memberBottomDialog";
+import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
 
 
 const MyPartyDetail = () => {
@@ -95,6 +95,15 @@ const MyPartyDetail = () => {
     }
   },[membershipInfoObj])
 
+  useEffect(() => {
+    list = [];
+    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('대기중');
+      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('-');
+      setTypeList(list);
+    }
+  },[partyInfoObj])
+
   // Function 
   const getPartyDetail = async () => {
     // 파티 상세 조회 
@@ -117,19 +126,8 @@ const MyPartyDetail = () => {
     setAccountInfoObj(partyDetailData.result.accountInfo);
     setBankAccountInfoObj(partyDetailData.result.bankAccountInfo);
     setUserCardInfoObj(partyDetailData.result.userCardInfo);
-
-    // 테스트 코드
-    list = [];
-    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
-      list.push('boss');
-      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('complete');
-      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('waiting');
-      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('nothing');
-    }
-    setTypeList(list);
   };
 
-  
   const closePage = () => {
     // 뒤로 가기
     setPageTrans('trans toLeft');
@@ -186,7 +184,7 @@ const MyPartyDetail = () => {
 
   return (
     <div className="page">
-      <HeaderWrap className="spoqaBold">
+      <HeaderWrap>
         <div id="back_link" onClick={closePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
           <img src={icon_back} alt="뒤로가기"></img>
         </div>
@@ -215,11 +213,20 @@ const MyPartyDetail = () => {
           {/* 수정필요!!!! */}
           <PartyDataContentWrap personnel={partyInfoObj.personnel}>
             {
+              partyInfoObj.partyUsers && partyInfoObj.partyUsers.map((item, idx) => {
+                if(partyInfoObj.personnel > 4) {
+                  return (<CustomPartyListItem name={item.name} margin={'0.9375rem'} key={idx}/>)
+                } else {
+                  return (<CustomPartyListItem name={item.name} margin={'0'} key={idx}/>)
+                }
+              })
+            }
+            {
               typeList.map((item, idx) => {
                 if(partyInfoObj.personnel > 4) {
                   return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
                 } else {
-                  return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
+                  return (<PartyDataListItem type={item} margin={'0'} key={idx}/>)
                 }
               })
             }
@@ -329,7 +336,7 @@ const MyPartyDetail = () => {
         </div>
       </MainWrap>
       
-      <HostBottomDialog roomStatus={roomStatus}/>
+      <HostBottomDialog roomStatus={roomStatus} partyIdx={partyIdx}/>
       <MemberBottomDialog roomStatus={roomStatus}/>
       <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel}/>
     </div>
@@ -367,8 +374,6 @@ const PartyDataTitleDiv = styled.div`
   padding: 0 1.25rem;
   margin-bottom: 1.5rem;
 
-  border: 1px red solid;
-
   .memberCountBox {
     display: flex;
     margin-left: 0.2188rem;
@@ -396,8 +401,6 @@ const PartyDataContentWrap = styled.div`
   justify-content: space-between;
   overflow-x: auto;
 
-
-  border: 1px red solid;
 `;
 
 const PaymentContentsWrap = styled.div`
@@ -429,5 +432,4 @@ const PaymentContentsWrap = styled.div`
     text-decoration: underline;
     text-align: end;
   }
-
 `;

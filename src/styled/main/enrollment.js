@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const TitleWrap = styled.div`
     display:flex;
+    align-items: center;
 
     margin-top:1.125rem;
     margin-bottom:0.3125rem;
@@ -11,6 +12,9 @@ export const TitleWrap = styled.div`
     line-height:1.3125rem;
 
     color:#313131;
+
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
 `;
 
 export const ItemWrap = styled.div`

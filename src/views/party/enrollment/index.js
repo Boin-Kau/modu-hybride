@@ -20,7 +20,7 @@ import { customApiClient } from "../../../shared/apiClient";
 import { checkMobile } from "../../../App";
 import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
 
-const PartyEnrollment = () => {
+const OldPartyEnrollment = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -376,4 +376,4 @@ const ButtonWrap = styled.div`
     border-radius: 0.375rem;
 `;
 
-export default PartyEnrollment;
+export default OldPartyEnrollment;
