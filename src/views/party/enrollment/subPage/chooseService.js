@@ -2,23 +2,35 @@ import styled from "styled-components";
 import { MainText } from "../../../../styled/shared/text";
 
 import icon_search_none from "../../../../assets/icon-search-none.svg";
+import BottomButton from "../../../../components/party/BottomButton";
 
-const ChooseService = () => {
+const ChooseService = ({updatePage}) => {
+  
+
+  const nextPage = () => {
+    updatePage(2);
+  };
+
   return (
-    <ChooseServiceWrap>
-      <MainText style={{margin:'1rem 0 0'}}>
-        <span className="yellowText">어떤 구독 서비스</span>
-        를<br/>
-        공유하실건가요?
-      </MainText>
+    <ChooseServiceWrap style={{flexGrow: '1'}}>
+      <div style={{flexGrow: '1'}}>
+        <MainText style={{margin:'1rem 0 0'}}>
+          <span className="yellowText">어떤 구독 서비스</span>
+          를<br/>
+          공유하실건가요?
+        </MainText>
 
-      <SearchWrap>
-        <img src={icon_search_none}/>
-        <input className="searchInput" type="text" placeholder="찾고있는 서비스를 입력해보세요." />
-      </SearchWrap>
+        <SearchWrap>
+          <img src={icon_search_none}/>
+          <input className="searchInput" type="text" placeholder="찾고있는 서비스를 입력해보세요." />
+        </SearchWrap>
 
-      {/* 구독서비스 선택 - 택 작업*/}
+        {/* 구독서비스 선택 - 택 작업*/}
 
+      </div>
+
+      <BottomButton clickFunc={nextPage} text={'다음'} status={true}/>
+      
     </ChooseServiceWrap>
   );
 }
@@ -26,6 +38,8 @@ const ChooseService = () => {
 export default ChooseService;
 
 const ChooseServiceWrap = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 0 1.25rem;
 `;
 

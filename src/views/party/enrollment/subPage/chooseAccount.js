@@ -8,8 +8,9 @@ import icon_info from "../../../../assets/info-black-192-x-192@3x.png";
 import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
 import { useState } from "react";
+import BottomButton from "../../../../components/party/BottomButton";
 
-const ChooseAccount = () => {
+const ChooseAccount = ({updatePage}) => {
 
   const [accountId, setAccountId] = useState('');
   const [accountPw, setAccountPw] = useState('');
@@ -28,58 +29,66 @@ const ChooseAccount = () => {
       setMiniInfoStatus(!miniInfoStatus);
   };
 
+  const nextPage = () => {
+    updatePage(3);
+  };
+
   return (
-    <ChooseAccountWrap>
-      <MainText style={{margin:'1rem 0 0'}}>
-        공유할  
-        <span className="yellowText"> 구독 계정 정보</span>
-        를<br/>
-        입력해주세요.
-      </MainText>
+    <ChooseAccountWrap style={{flexGrow: '1'}}>
+      <div style={{flexGrow: '1'}}>
+        <MainText style={{margin:'1rem 0 0'}}>
+          공유할  
+          <span className="yellowText"> 구독 계정 정보</span>
+          를<br/>
+          입력해주세요.
+        </MainText>
 
-      {/* Notice Div */}
-      <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', marginTop:'0.9063rem'}}>
-        <div className="notice_sub_wrap align_center">
-          <div>
-            <img className="notice_img" src={icon_notice_duck}></img>
+        {/* Notice Div */}
+        <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', marginTop:'0.9063rem'}}>
+          <div className="notice_sub_wrap align_center">
+            <div>
+              <img className="notice_img" src={icon_notice_duck}></img>
+            </div>
+            <div className="notice_text_div">
+              계정정보 입력 시, 
+              <span className="boldText"> 성인인증을 완료</span>
+              됐는지 확인해주세요! 
+              <span className="boldText"> SNS연동 계정</span>
+              은 공유가 불가능해요.
+            </div>
           </div>
-          <div className="notice_text_div">
-            계정정보 입력 시, 
-            <span className="boldText"> 성인인증을 완료</span>
-            됐는지 확인해주세요! 
-            <span className="boldText"> SNS연동 계정</span>
-            은 공유가 불가능해요.
-          </div>
-        </div>
-      </NoticeWrap>
+        </NoticeWrap>
 
-      {/* Account Div */}
-      <TitleWrap>아이디</TitleWrap>
-      <InputComponent
-        id={"accountId"}
-        type={"text"}
-        placeholder={"아이디를 입력해주세요"}
-        maxLength={200}
-        value={accountId}
-        onChange={handleChangeAccountId}
-      />
-      <TitleWrap style={{position:'relative'}}>
-        비밀번호
-        <InfoWrap>
-          <img onClick={onClickMiniInfo} className="infoBtn" src={icon_info} />
-        </InfoWrap>
-        <MiniInfoDialog trianglePosition={'23.5%'} openStatus={miniInfoStatus}>
-          구독 계정의 비밀번호는 개인정보를 포함하지 말아주세요.
-        </MiniInfoDialog>
-      </TitleWrap>
-      <InputComponent
-        id={"accountPw"}
-        type={"password"}
-        placeholder={"비밀번호를 입력해주세요"}
-        maxLength={200}
-        value={accountPw}
-        onChange={handleChangeAccountPw}
-      />
+        {/* Account Div */}
+        <TitleWrap>아이디</TitleWrap>
+        <InputComponent
+          id={"accountId"}
+          type={"text"}
+          placeholder={"아이디를 입력해주세요"}
+          maxLength={200}
+          value={accountId}
+          onChange={handleChangeAccountId}
+        />
+        <TitleWrap style={{position:'relative'}}>
+          비밀번호
+          <InfoWrap>
+            <img onClick={onClickMiniInfo} className="infoBtn" src={icon_info} />
+          </InfoWrap>
+          <MiniInfoDialog trianglePosition={'23.5%'} openStatus={miniInfoStatus}>
+            구독 계정의 비밀번호는 개인정보를 포함하지 말아주세요.
+          </MiniInfoDialog>
+        </TitleWrap>
+        <InputComponent
+          id={"accountPw"}
+          type={"password"}
+          placeholder={"비밀번호를 입력해주세요"}
+          maxLength={200}
+          value={accountPw}
+          onChange={handleChangeAccountPw}
+        />
+      </div>
+      <BottomButton clickFunc={nextPage} text={'다음'} status={true}/>
+      
 
     </ChooseAccountWrap>
   );
@@ -88,6 +97,8 @@ const ChooseAccount = () => {
 export default ChooseAccount;
 
 const ChooseAccountWrap = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 0 1.25rem;
 `;
 

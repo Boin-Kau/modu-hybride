@@ -8,18 +8,12 @@ const PartyDataListItem = ({type, margin}) => {
 
   const setMemberType = () => {
     switch (type) {
-      case '파티장': 
+      case '파티장' :
+      case '참가완료': 
         return (
           <PartyItemWrap marginRight={margin} color="#ffca35">
             <img className="itemImg" src={icon_party_boss} alt="boss" />
             <div className="itemTag notoBold">{type}</div>
-          </PartyItemWrap>
-        );
-      case '참가완료':
-        return (
-          <PartyItemWrap marginRight={margin} color="#ffca35">
-            <img className="itemImg" src={icon_party_boss} alt="" />
-            <div className="itemTag notoMedium">{type}</div>
           </PartyItemWrap>
         );
       case '대기중':
@@ -37,11 +31,14 @@ const PartyDataListItem = ({type, margin}) => {
           </PartyItemWrap>
         );
     }
-
   };
   
   return (
-    <> {setMemberType()} </>
+    <> 
+    {
+      setMemberType()
+    } 
+    </>
   );
 };
 
@@ -64,3 +61,12 @@ const PartyItemWrap = styled.div`
     line-height: 1.79;
   }
 `;
+
+export const CustomPartyListItem = ({name, margin}) => {
+  return (
+    <PartyItemWrap marginRight={margin} color="#ffca35">
+      <img className="itemImg" src={icon_party_boss} alt="boss" />
+      <div className="itemTag notoBold">{name}</div>
+    </PartyItemWrap>
+  );
+}

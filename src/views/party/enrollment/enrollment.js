@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { PageTransContext } from "../../../containers/pageTransContext";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
@@ -25,16 +25,46 @@ const PartyEnrollment = () => {
   const { setPageTrans } = useContext(PageTransContext);
 
   const [progress, setProgress] = useState(20);
-  const [currentPage, setCurrentPage] = useState(4);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(()=> {
     dispatch(BottomNavCloseAction);
-  },[])
+  },[]);
+
+  useEffect(() => {
+    switch(currentPage) {
+      case 1: 
+        setProgress(20);
+        break;
+      case 2: 
+        setProgress(35);
+        break;
+      case 3: 
+        setProgress(50);
+        break;
+      case 4: 
+        setProgress(65);
+        break;
+      case 5: 
+        setProgress(80);
+        break;
+      case 6: 
+        setProgress(100);
+        break;
+      default: 
+        setProgress(20);
+        break;
+    }
+  },[currentPage])
 
   const closePage = () => {
     // 뒤로 가기
-    setPageTrans('trans toLeft');
-    history.goBack();
+    if (currentPage===1) {
+      setPageTrans('trans toLeft');
+      history.goBack();
+    } else {
+      setCurrentPage(currentPage-1);
+    }
   };
 
   return (
@@ -53,20 +83,14 @@ const PartyEnrollment = () => {
         {/* Progress Bar */}
         <ProgressDiv progress={`${progress}%`}/>
 
-        {currentPage===1 && <ChooseService/>}
-        {currentPage===2 && <ChooseAccount/>}
-        {currentPage===3 && <ChoosePartyInfo/>}
-        {currentPage===4 && <ChoosePayment/>}
-        {currentPage===5 && <ChooseBankAccount/>}
+        {currentPage===1 && <ChooseService updatePage={setCurrentPage}/>}
+        {currentPage===2 && <ChooseAccount updatePage={setCurrentPage}/>}
+        {currentPage===3 && <ChoosePartyInfo updatePage={setCurrentPage}/>}
+        {currentPage===4 && <ChoosePayment updatePage={setCurrentPage}/>}
+        {currentPage===5 && <ChooseBankAccount updatePage={setCurrentPage}/>}
         {/* 입금자명 입력 페이지는 오픈뱅킹 도입 이후에 작업 */}
-        {currentPage===6 && <CheckPartyData/>}
-
-        <div style={{margin:'1.25rem'}}>
-          <BottomButton clickFunc={undefined} text={'미정'} status={true} />
-        </div>
+        {currentPage===6 && <CheckPartyData updatePage={setCurrentPage}/>}
       </MainWrap>
-
-      
     </div>
   );
 };
@@ -77,4 +101,5 @@ const ProgressDiv = styled.div`
   background-color: #ffca17;
   height: 0.1875rem;
   width: ${props => props.progress};
+  transition: all 0.3s ease;
 `

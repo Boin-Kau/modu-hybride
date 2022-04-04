@@ -16,7 +16,7 @@ import { checkMobile } from "../../../App";
 import { customApiClient } from "../../../shared/apiClient";
 import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
-import PartyDataListItem from "../../../components/party/PartyList";
+import PartyDataListItem, { CustomPartyListItem } from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
@@ -93,14 +93,11 @@ const MyPartyDetail = () => {
         setPayDay(Number((membershipInfoObj.paymentCycleDate).split('-')[2]));
       }
     }
-    console.log('hi');
   },[membershipInfoObj])
 
   useEffect(() => {
     list = [];
     if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
-      list.push('파티장');
-      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('참가완료');
       for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('대기중');
       for(let i=partyInfoObj.personnel; i!==4; i++) list.push('-');
       setTypeList(list);
@@ -216,11 +213,20 @@ const MyPartyDetail = () => {
           {/* 수정필요!!!! */}
           <PartyDataContentWrap personnel={partyInfoObj.personnel}>
             {
+              partyInfoObj.partyUsers && partyInfoObj.partyUsers.map((item, idx) => {
+                if(partyInfoObj.personnel > 4) {
+                  return (<CustomPartyListItem name={item.name} margin={'0.9375rem'} key={idx}/>)
+                } else {
+                  return (<CustomPartyListItem name={item.name} margin={'0'} key={idx}/>)
+                }
+              })
+            }
+            {
               typeList.map((item, idx) => {
                 if(partyInfoObj.personnel > 4) {
                   return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
                 } else {
-                  return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
+                  return (<PartyDataListItem type={item} margin={'0'} key={idx}/>)
                 }
               })
             }
@@ -368,8 +374,6 @@ const PartyDataTitleDiv = styled.div`
   padding: 0 1.25rem;
   margin-bottom: 1.5rem;
 
-  border: 1px red solid;
-
   .memberCountBox {
     display: flex;
     margin-left: 0.2188rem;
@@ -397,8 +401,6 @@ const PartyDataContentWrap = styled.div`
   justify-content: space-between;
   overflow-x: auto;
 
-
-  border: 1px red solid;
 `;
 
 const PaymentContentsWrap = styled.div`
@@ -430,5 +432,4 @@ const PaymentContentsWrap = styled.div`
     text-decoration: underline;
     text-align: end;
   }
-
 `;
