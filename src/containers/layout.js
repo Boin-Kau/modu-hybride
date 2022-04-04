@@ -41,7 +41,7 @@ import Finish from '../views/payment/finish';
 import CardManagement from '../views/card/cardManagement';
 import CardIdxChange from '../views/party/detail/cardIdxChange';
 import BankAccountManagement from '../views/card/bankAccountManagement';
-import EditAccount from '../views/party/my/editAccount';
+import EditAccount from '../views/party/my/EditAccount';
 import PartyEnrollment from '../views/party/enrollment/enrollment';
 import MyPartyRevise from '../views/party/my/myPartyRevise';
 
@@ -69,17 +69,17 @@ const AppLayout = () => {
             <Route path='/search' exact component={SearchPage} />
             <Route path='/analysis' exact component={AnalysisPage} />
             <Route path='/party' exact component={Party} />
-            <Route path='/party/detail' exact component={PartyDetail}/>
+            <Route path='/party/detail' exact component={PartyDetail} />
             <Route path='/party/my' exact component={MyParty} />
-            <Route path='/party/my/:idx' exact component={MyPartyDetail}/>
-            <Route path='/party/my/revise/:idx' exact component={MyPartyRevise}/>
-            <Route path='/party/my/detail/account' exact component={EditAccount}/>
+            <Route path='/party/my/:idx' exact component={MyPartyDetail} />
+            <Route path='/party/my/revise/:idx' exact component={MyPartyRevise} />
+            <Route path='/party/my/detail/account' exact component={EditAccount} />
             <Route path='/party/enroll' exact component={PartyEnrollment} />
             <Route path='/party/enroll/platform' exact component={PartyPlatform} />
             <Route path='/party/enroll/platform/search' exact component={PartyPlatformSearch} />
             <Route path='/party/enroll/platform/detail' exact component={PartyPlatformDetail} />
             <Route path='/party/enroll/finish' exact component={PartyEnrollFinish} />
-            <Route path='/party/revise' exact component={PartyRevise} /> 
+            <Route path='/party/revise' exact component={PartyRevise} />
             <Route path='/info' exact component={MyInfo} />
             <Route path='/info/detail' exact component={DetailPage} />
             <Route path='/info/detail/name' exact component={NamePage} />
@@ -95,8 +95,8 @@ const AppLayout = () => {
             <Route path='/payment/finish' exact component={Finish} />
             <Route path='/card' exact component={CardRegister} />
             <Route path='/card/manage' exact component={CardManagement} />
-            <Route path='/party/detail/change/card' exact component={CardIdxChange}/>
-            <Route path='/bank/manage' exact component={BankAccountManagement}/>
+            <Route path='/party/detail/change/card' exact component={CardIdxChange} />
+            <Route path='/bank/manage' exact component={BankAccountManagement} />
         </>
     );
 
