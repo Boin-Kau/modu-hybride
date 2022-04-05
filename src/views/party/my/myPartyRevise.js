@@ -48,7 +48,7 @@ const MyPartyRevise = ({location}) => {
 
   const [personnelInfoStatus, setPersonnelInfoStatus] = useState(false);
   const [personnelOpenStatus, setPersonnelOpenStatus] = useState(false);
-  const [confirmBtnStatus, setConfirmBtnStatus] = useState(false);
+  const [confirmBtnStatus, setConfirmBtnStatus] = useState(true);
 
   useEffect(() => {
     //에러 처리
@@ -65,14 +65,14 @@ const MyPartyRevise = ({location}) => {
     setServerCategory(location.data.platformInfo.serverCategory);
     setCustomCategory(location.data.platformInfo.customCategory);
     setPartyTitle(location.data.title);
-    setPartyMembership(location.data.membershipInfo.membership);
+    setPartyMembership(location.data.membershipInfo.membership? location.data.membershipInfo.membership : "");
     setPartyLink(location.data.openChatLink);
     setPartyPersonnel(location.data.partyInfo.personnel);
     setPartyIdx(location.data.idx);
   },[]);
 
   useEffect(() => {
-    if(partyTitle&&partyMembership&&partyLink&&partyPersonnel) {
+    if(partyTitle && partyLink && partyPersonnel) {
       //카카오 오픈채팅 링크 벨리데이션
       if (partyLink.includes('https://open.kakao.com')) {
         setConfirmBtnStatus(true);
@@ -81,7 +81,7 @@ const MyPartyRevise = ({location}) => {
     }
     setConfirmBtnStatus(false);
 
-  },[partyTitle,partyMembership,partyLink,partyPersonnel])
+  },[partyTitle,partyLink,partyPersonnel,partyMembership]);
 
   const handleChangePartyTitle = (e) => {
     setPartyTitle(e.target.value);
