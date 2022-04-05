@@ -5,6 +5,8 @@ export const initialState = {
     selectedPlatformImgUrl: null,
     selectedPlatformImgColor: null,
     selectedPlatformImgInitial: null,
+    isAccount: null,
+    isAdult: null,
 };
 
 export const ResetPlatform = 'ResetPlatform';
