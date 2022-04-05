@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 import delete_icon from "../../assets/ic_card_numberdelete.png";
 
-const Keyboard = ({setKeyboardUp}) => {
+const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour}) => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const [nums, setNums] = useState(nums_init);
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
 
   const shuffle = (nums) => {
     let num_length = nums.length;
@@ -21,21 +21,22 @@ const Keyboard = ({setKeyboardUp}) => {
 
   const handlePasswordChange = useCallback(
     (num) => {
-      if (password.length === 4) {
+      if (number.length === 4) {
+        setNum("");
         return;
       }
-      setPassword(password + num);
+      setNum(number + num);
     },
-    [password]
+    [number]
   );
 
   const erasePasswordOne = useCallback(
     (e) => {
-      setPassword(
-        password.slice(0, password.length === 0 ? 0 : password.length - 1)
+      setNum(
+        number.slice(0, number.length === 0 ? 0 : number.length - 1)
       );
     },
-    [password]
+    [number]
   );
 
   const shuffleNums = useCallback(
@@ -50,11 +51,13 @@ const Keyboard = ({setKeyboardUp}) => {
 
   const closeKeyboard = () =>{
     setKeyboardUp(false);
+    if(three==true){
+      setThree(false);
+    }
+    if(four==true){
+      setFour(false);
+    }
   }
-
-  useEffect(()=>{
-    console.log(password);
-  },[password])
 
 
   return (

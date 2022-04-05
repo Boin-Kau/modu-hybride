@@ -12,7 +12,13 @@ import { PageWrap, HeaderWrap, ContentWrap } from "../../styled/shared/wrap";
 import icon_check from "../../assets/icon-check-white.svg";
 import icon_back from "../../assets/icon-back-arrow.svg";
 
-import { TitleWrap, ItemWrap, PartyIconWrap, PartyIcon, PartyText } from "../../styled/main/enrollment";
+import {
+  TitleWrap,
+  ItemWrap,
+  PartyIconWrap,
+  PartyIcon,
+  PartyText,
+} from "../../styled/main/enrollment";
 import { customApiClient } from "../../shared/apiClient";
 import { MainText } from "../../styled/shared/text";
 
@@ -32,7 +38,11 @@ const CardRegister = () => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  //키보드 관련 state
   const [keyboardUp, setKeyboardUp] = useState(false);
+  const [focusThree, setFocusThree] = useState(false);
+  const [focusFour, setFocusFour] = useState(false);
+  const [keyboardNum, setKeyboardNum] = useState("");
 
   //state-카드정보
   const [num1, setNum1] = useState("");
@@ -64,7 +74,16 @@ const CardRegister = () => {
     // console.log(cardNum);
   }, [num1, num2, num3, num4, cardNum]);
 
+  useEffect(() => {
+    if(focusThree==true){
+      setNum3(keyboardNum);
+    }
+    else if(focusFour==true){
+      setNum4(keyboardNum);
+    }
 
+  }, [keyboardNum])
+  
   //input autoFocusing
   const handleNextFocus = (e, next) => {
     const { value, maxLength } = e.target;
@@ -89,23 +108,6 @@ const CardRegister = () => {
     if (e.target.value.length == 5) return false;
     setNum2(e.target.value);
     handleNextFocus(e, "num3");
-  };
-
-  // const handleChangeThree = (e) => {
-  //   if (e.target.value.length == 5) {
-  //     setKeyboardUp(false);
-  //     return false;
-  //   }
-  //   handleNextFocus(e, "num4");
-  // };
-
-  const handleChangeFour = (e) => {
-    if (e.target.value.length == 5) {
-      setKeyboardUp(false);
-      return false;
-    }
-    setNum4(e.target.value);
-    handleNextFocus(e, "expire");
   };
 
   const onChangeExpire = (e) => {
@@ -156,10 +158,18 @@ const CardRegister = () => {
     }
   }, [isFreeFour]);
 
-  const onClickIsKeyboardUp = () => {
-    if(keyboardUp==false){
+  const onClickKeyboardUpThree = () => {
+    if (keyboardUp == false) {
       setKeyboardUp(true);
     }
+    setFocusThree(true);
+  };
+
+  const onClickKeyboardUpFour = () => {
+    if (keyboardUp == false) {
+      setKeyboardUp(true);
+    }
+    setFocusFour(true);
   };
 
   //정보 입력 완료
@@ -184,7 +194,7 @@ const CardRegister = () => {
       setErrorMsg(data.message);
       console.log(errorMsg);
       //리덕스에 넣어주기
-      dispatch({type:'PopupOpen'});
+      dispatch({ type: "PopupOpen" });
       return;
     }
 
@@ -273,35 +283,21 @@ const CardRegister = () => {
                 onChange={handleChangeTwo}
               />
               <Hypen>-</Hypen>
-              {/* <InputComponent
-                id={"num3"}
-                type={"number"}
-                placeholder={"0000"}
-                maxLength={4}
-                value={num3}
-                onChange={handleChangeThree}
-              /> */}
-              <InputWrap>
-                <Input onClick={onClickIsKeyboardUp}>
-                  {num3.length === 0 ? <span className="placeholder">0000</span> : <span>{num3}</span>}
+              <InputWrap openStatus={focusThree}>
+                <Input onClick={onClickKeyboardUpThree}>
+                  {num3.length === 0 ? (
+                    <span className="placeholder">0000</span>
+                  ) : (
+                    <span>{num3}</span>
+                  )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
-              <InputComponent
-                id={"num4"}
-                type={"number"}
-                placeholder={"0000"}
-                maxLength={4}
-                value={num4}
-                onChange={handleChangeFour}
-              />
-              {/* <InputWrap>
-                <Input
-                onClick={onClickIsKeyboardUp}
-                >
-                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span>num4</span>}
+              <InputWrap openStatus={focusFour}>
+                <Input onClick={onClickKeyboardUpFour}>
+                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span>{num4}</span>}
                 </Input>
-              </InputWrap> */}
+              </InputWrap>
             </ItemWrap>
           </div>
           <div
@@ -419,9 +415,23 @@ const CardRegister = () => {
               </PartyText>
             </div>
           </div>
-          <BottomButton text={"확인"} clickFunc={onClickRevise} status={pageConfirmStatus}/>
+          <BottomButton
+            text={"확인"}
+            clickFunc={onClickRevise}
+            status={pageConfirmStatus}
+          />
         </ContentWrap>
-        {keyboardUp && <Keyboard setKeyboardUp={setKeyboardUp}/>}
+        {keyboardUp && (
+          <Keyboard
+            setKeyboardUp={setKeyboardUp}
+            number={keyboardNum}
+            setNum={setKeyboardNum}
+            three={focusThree}
+            setThree={setFocusThree}
+            four={focusFour}
+            setFour={setFocusFour}
+          />
+        )}
       </PageWrap>
     </div>
   );
@@ -449,7 +459,7 @@ const Input = styled.div`
   display: flex;
   padding: 0;
 
-  .placeholder{
+  .placeholder {
     color: #e8e8e8;
   }
 `;
