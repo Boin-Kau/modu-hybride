@@ -99,12 +99,6 @@ const AppLayout = () => {
             <Route path='/bank/manage' exact component={BankAccountManagement}/>
         </>
     );
-
 };
-
-
-
-
-
 
 export default AppLayout;

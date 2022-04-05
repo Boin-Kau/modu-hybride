@@ -239,7 +239,7 @@ const ChoosePaymentWrap = styled.div`
   padding: 0 1.25rem;
 `;
 
-const SelectWrap = styled.div`
+export const SelectWrap = styled.div`
   background-color:#ffffff;
   border:0.0625rem solid #e8e8e8;
   border-radius:'0.25rem';
@@ -253,7 +253,7 @@ const SelectWrap = styled.div`
   box-shadow: 0 0 0.25rem 0.0625rem #efefef;
 `;
 
-const SelectContent = styled.div`
+export const SelectContent = styled.div`
   font-size:0.75rem;
   color:#313131;
   height:0.75rem;

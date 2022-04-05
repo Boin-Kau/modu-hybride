@@ -55,6 +55,7 @@ const MyPartyDetail = () => {
   const [accountInfoObj, setAccountInfoObj] = useState({});
   const [bankAccountInfoObj, setBankAccountInfoObj] = useState({});
   const [userCardInfoObj, setUserCardInfoObj] = useState({});
+  const [result, setResult] = useState({}); // 파티 상세정보 전체 데이터
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -116,6 +117,7 @@ const MyPartyDetail = () => {
     if(partyDetailData.statusCode !== 200) { return };
     console.log('API 호출 성공 :', partyDetailData);
 
+    setResult(partyDetailData.result);
     setPartyTitle(partyDetailData.result.title);
     setIsHostUser(partyDetailData.result.isHostUser);
     setOpenChatLink(partyDetailData.result.openChatLink);
@@ -336,7 +338,7 @@ const MyPartyDetail = () => {
         </div>
       </MainWrap>
       
-      <HostBottomDialog roomStatus={roomStatus} partyIdx={partyIdx}/>
+      <HostBottomDialog dataForRevise={result} roomStatus={roomStatus} partyIdx={partyIdx}/>
       <MemberBottomDialog roomStatus={roomStatus}/>
       <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel}/>
     </div>
