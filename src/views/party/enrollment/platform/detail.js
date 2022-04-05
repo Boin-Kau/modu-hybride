@@ -35,6 +35,8 @@ const PartyPlatformDetail = () => {
         selectedPlatformIdx,
         selectedPlatformName,
         selectedPlatformCategoryIdx,
+        isAccount,
+        isAdult,
     } = useSelector(state => state.party.enrollment);
 
     const [imgColor, setImgColor] = useState('');
@@ -61,6 +63,8 @@ const PartyPlatformDetail = () => {
             selectedPlatformImgUrl: null,
             selectedPlatformImgColor: null,
             selectedPlatformImgInitial: null,
+            isAccount: null,
+            isAdult: null
         };
 
         dispatch(UpdatePlatformAction(data));
@@ -152,6 +156,8 @@ const PartyPlatformDetail = () => {
                 selectedPlatformImgUrl: null,
                 selectedPlatformImgColor: imgColor,
                 selectedPlatformImgInitial: imgInitial,
+                isAccount: isAccount,
+                isAdult: isAdult,
             };
         }
         else {
@@ -162,6 +168,8 @@ const PartyPlatformDetail = () => {
                 selectedPlatformImgUrl: null,
                 selectedPlatformImgColor: imgColor,
                 selectedPlatformImgInitial: imgInitial,
+                isAccount: "N",
+                isAdult: "N",
             };
         }
 
