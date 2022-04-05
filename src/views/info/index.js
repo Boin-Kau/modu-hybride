@@ -1,13 +1,10 @@
-import React, { useCallback, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import icon_setting from "../../assets/icon-setting.svg";
 import icon_profile from "../../assets/duck-profile.svg";
 import icon_arrow_right from "../../assets/icon-arrow-right-gray.svg";
-import Fade from 'react-reveal/Fade';
-import AgreePage from './agree';
 import { useSelector, useDispatch } from 'react-redux';
-import { PageWrapOpen, PageOpen, AgreePageKind } from '../../reducers/info/page';
 import { useHistory } from 'react-router-dom';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { onClickTerminate, checkMobile } from '../../App';
