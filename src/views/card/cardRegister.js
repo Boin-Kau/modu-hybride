@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { PageTransContext } from "../../containers/pageTransContext";
 import { TextMiddle } from "../../styled/shared";
@@ -288,14 +288,14 @@ const CardRegister = () => {
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                    <span>{num3}</span>
+                    <span style={{fontSize:"0.7125rem"}}>{"●".repeat(num3.length)}</span>
                   )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusFour}>
                 <Input onClick={onClickKeyboardUpFour}>
-                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span>{num4}</span>}
+                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span>{"●".repeat(num4.length)}</span>}
                 </Input>
               </InputWrap>
             </ItemWrap>

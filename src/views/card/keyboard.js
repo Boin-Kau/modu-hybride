@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
 import delete_icon from "../../assets/ic_card_numberdelete.png";
@@ -6,7 +6,6 @@ import delete_icon from "../../assets/ic_card_numberdelete.png";
 const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour}) => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const [nums, setNums] = useState(nums_init);
-  // const [password, setPassword] = useState("");
 
   const shuffle = (nums) => {
     let num_length = nums.length;
