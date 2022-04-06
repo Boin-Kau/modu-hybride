@@ -9,7 +9,7 @@ import { customApiClient } from "../../shared/apiClient";
 import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
 
-const AccountSlide = ({setCardIdx}) => {
+const AccountSlide = ({setAccountIdx}) => {
   //state
   const [cardData, setCardData] = useState([]);
   const [currentSlide, setCurrentSlide] = useState('0');
@@ -41,7 +41,7 @@ const AccountSlide = ({setCardIdx}) => {
           }}
         >
           {cardData.result.map((cardData, index) => {
-            {(currentSlide==index) && setCardIdx(cardData.idx)}
+            {(currentSlide==index) && setAccountIdx(cardData.idx)}
             return (
               <div key={cardData.idx}>
                 {(currentSlide == index ) ? (

@@ -43,6 +43,13 @@ import CardIdxChange from '../views/party/detail/cardIdxChange';
 import BankAccountManagement from '../views/card/bankAccountManagement';
 import EditAccount from '../views/party/my/EditAccount';
 
+//회원가입,로그인 테스트
+import SignUpName from '../views/login/loginStep/signUpName';
+import SignInAuth from '../views/login/loginStep/signInAuth';
+import AuthFinish from '../views/login/loginStep/authFinish';
+import SignInPhone from '../views/login/loginStep/signInPhone';
+import AccountIdxChange from '../views/party/detail/accountIdxChange';
+
 const AppLayout = () => {
 
     const location = useLocation();
@@ -93,7 +100,14 @@ const AppLayout = () => {
             <Route path='/card' exact component={CardRegister} />
             <Route path='/card/manage' exact component={CardManagement} />
             <Route path='/party/detail/change/card' exact component={CardIdxChange}/>
+            <Route path='/party/detail/change/account' exact component={AccountIdxChange}/>
             <Route path='/bank/manage' exact component={BankAccountManagement}/>
+
+            {/* 회원가입/로그인절차 컴포넌트 테스트 */}
+            <Route path='/signup/name' exact component={SignUpName}/>
+            <Route path='/signin/phone' exact component={SignInPhone}/>
+            <Route path='/signin/auth' exact component={SignInAuth}/>
+            <Route path='/signin/auth/finish' exact component={AuthFinish}/>
         </>
     );
 
