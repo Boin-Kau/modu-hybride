@@ -6,7 +6,7 @@ import { PageTransContext } from "../../../../containers/pageTransContext";
 import { HostBottomDialogCloseAction, PartyDeleteConfirmDialogOpenAction } from "../../../../reducers/party/popup";
 import { BottomDialogDiv, BottomDialogWrap } from "../../../../styled/shared/wrap";
 
-const HostBottomDialog = ({roomStatus, partyIdx}) => {
+const HostBottomDialog = ({dataForRevise, roomStatus, partyIdx}) => {
   
   const dispatch = useDispatch();
   const { hostBottomDialogStatus } = useSelector(state => state.party.popup);
@@ -16,11 +16,16 @@ const HostBottomDialog = ({roomStatus, partyIdx}) => {
   const { setPageTrans } = useContext(PageTransContext);
 
   const openPartyRevisePage = () => {
+    dispatch(HostBottomDialogCloseAction);
+
     if(partyIdx === 0) return;
 
     setPageTrans('trans toRight');
         
-    history.push(`/party/my/revise/${partyIdx}`);
+    history.push({
+      pathname: `/party/my/revise/${partyIdx}`,
+      data: dataForRevise
+    });
   }
 
   const openDeleteConfirmDialog = () => {

@@ -87,7 +87,7 @@ const ChooseAccount = ({updatePage}) => {
           onChange={handleChangeAccountPw}
         />
       </div>
-      <BottomButton clickFunc={nextPage} text={'다음'} status={true}/>
+      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={false} isBottomStatus={false}/>
       
 
     </ChooseAccountWrap>
