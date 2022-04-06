@@ -24,7 +24,9 @@ import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteCo
 import HostBottomDialog from "./dialog/HostBottomDialog";
 import MemberBottomDialog from "./dialog/MemberBottomDialog";
 import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
+import ChoiceDialog from "../../../components/party/ChoiceDialog";
 
+import PayDuck from "../../../assets/party/ic-popup-pay-duck.png";
 
 const MyPartyDetail = () => {
 
@@ -339,6 +341,18 @@ const MyPartyDetail = () => {
       <HostBottomDialog roomStatus={roomStatus} partyIdx={partyIdx} />
       <MemberBottomDialog roomStatus={roomStatus} />
       <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel} />
+
+      {/* 선택 다이얼로그 */}
+      <ChoiceDialog
+        openStatus={true}
+        imgUrl={PayDuck}
+        imgWidth={"10.8875"}
+        imgHeight={"7.775"}
+        title={"정기결제가 아직 안됐어요."}
+        subTitle={"해당 파티에 대한 정기결제가 아직 안됐어요.\n재결제 혹은 파티해지를 선택해주세요."}
+        leftButtonText={"해지하기"}
+        rightButtonText={"재결제하기"}
+      />
     </div>
   );
 }
