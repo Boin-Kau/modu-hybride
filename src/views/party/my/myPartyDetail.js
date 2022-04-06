@@ -21,9 +21,9 @@ import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
 import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
-import HostBottomDialog from "./dialog/HostBottomDialog";
-import MemberBottomDialog from "./dialog/MemberBottomDialog";
-import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
+import HostBottomDialog from "./dialog/hostBottomDialog";
+import MemberBottomDialog from "./dialog/memberBottomDialog";
+import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
 import ChoiceDialog from "../../../components/party/ChoiceDialog";
 
 import PayDuck from "../../../assets/party/ic-popup-pay-duck.png";
