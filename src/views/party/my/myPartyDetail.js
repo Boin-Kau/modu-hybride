@@ -18,12 +18,12 @@ import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import PartyDataListItem, { CustomPartyListItem } from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
-import AccountInfoComponent from "./AccountInfoComponent";
+import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
 import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
-import HostBottomDialog from "./dialog/HostBottomDialog";
-import MemberBottomDialog from "./dialog/MemberBottomDialog";
-import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
+import HostBottomDialog from "./dialog/hostBottomDialog";
+import MemberBottomDialog from "./dialog/memberBottomDialog";
+import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
 
 
 const MyPartyDetail = () => {
@@ -55,6 +55,7 @@ const MyPartyDetail = () => {
   const [accountInfoObj, setAccountInfoObj] = useState({});
   const [bankAccountInfoObj, setBankAccountInfoObj] = useState({});
   const [userCardInfoObj, setUserCardInfoObj] = useState({});
+  const [result, setResult] = useState({}); // 파티 상세정보 전체 데이터
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -116,6 +117,7 @@ const MyPartyDetail = () => {
     if (partyDetailData.statusCode !== 200) { return };
     console.log('API 호출 성공 :', partyDetailData);
 
+    setResult(partyDetailData.result);
     setPartyTitle(partyDetailData.result.title);
     setIsHostUser(partyDetailData.result.isHostUser);
     setOpenChatLink(partyDetailData.result.openChatLink);
@@ -336,9 +338,10 @@ const MyPartyDetail = () => {
         </div>
       </MainWrap>
 
-      <HostBottomDialog roomStatus={roomStatus} partyIdx={partyIdx} />
-      <MemberBottomDialog roomStatus={roomStatus} />
-      <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel} />
+      
+      <HostBottomDialog dataForRevise={result} roomStatus={roomStatus} partyIdx={partyIdx}/>
+      <MemberBottomDialog roomStatus={roomStatus}/>
+      <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel}/>
     </div>
   );
 }
