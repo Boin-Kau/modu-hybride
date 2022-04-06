@@ -1,36 +1,36 @@
 import styled from "styled-components";
 
 const ChoiceDialog = ({
-    openStatus,
-    imgUrl, imgWidth, imgHeight,
-    title, subTitle,
-    leftButtonText, rightButtonText,
-    onClickLeft, onClickRight }) => {
+  openStatus,
+  imgUrl, imgWidth, imgHeight,
+  title, subTitle,
+  leftButtonText, rightButtonText,
+  onClickLeft, onClickRight }) => {
 
-    return (
+  return (
 
-        <ConfirmWrapPopup openStatus={openStatus}>
-            <ConfirmPopup openStatus={openStatus}>
-                <div className="popupTop" style={{ position: 'relative', height: imgUrl ? '2.75rem' : '1.25rem' }}>
-                    {imgUrl && <PoupImg
-                        src={imgUrl}
-                        imgWidth={imgWidth}
-                        imgHeight={imgHeight}
-                        alt="popupImg" />}
-                </div>
-                <div className="title">{title}</div>
-                <div className="subtitle">{subTitle}</div>
-                <div className="buttonDiv">
-                    <div className="grayButton" onClick={onClickLeft}>
-                        <div className="grayButtonText">{leftButtonText}</div>
-                    </div>
-                    <div className="yellowButton" onClick={onClickRight}>
-                        <div className="yellowButtonText">{rightButtonText}</div>
-                    </div>
-                </div>
-            </ConfirmPopup>
-        </ConfirmWrapPopup>
-    );
+    <ConfirmWrapPopup openStatus={openStatus}>
+      <ConfirmPopup openStatus={openStatus}>
+        <div className="popupTop" style={{ position: 'relative', height: imgUrl ? '2.75rem' : '1.25rem' }}>
+          {imgUrl && <PoupImg
+            src={imgUrl}
+            imgWidth={imgWidth}
+            imgHeight={imgHeight}
+            alt="popupImg" />}
+        </div>
+        <div className="title">{title}</div>
+        <div className="subtitle">{subTitle}</div>
+        <div className="buttonDiv">
+          <div className="grayButton" onClick={onClickLeft}>
+            <div className="grayButtonText">{leftButtonText}</div>
+          </div>
+          <div className="yellowButton" onClick={onClickRight}>
+            <div className="yellowButtonText">{rightButtonText}</div>
+          </div>
+        </div>
+      </ConfirmPopup>
+    </ConfirmWrapPopup>
+  );
 }
 export default ChoiceDialog;
 
@@ -99,11 +99,11 @@ const ConfirmPopup = styled.div`
   }
   .grayButtonText {
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 0;
     right:0;
     text-align:center;
-    transform: translate(0,-50%);
+    transform: translate(0,-45%);
     font-size: 0.875rem;
     color: #ffffff;
   }
@@ -116,11 +116,11 @@ const ConfirmPopup = styled.div`
   }
   .yellowButtonText {
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 0;
     right:0;
     text-align:center;
-    transform: translate(0,-50%);
+    transform: translate(0,-45%);
     font-size: 0.875rem;
     color: #ffffff;
   }

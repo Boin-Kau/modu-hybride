@@ -27,6 +27,11 @@ import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
 import ChoiceDialog from "../../../components/party/ChoiceDialog";
 
 import PayDuck from "../../../assets/party/ic-popup-pay-duck.png";
+import DeleteDuck from "../../../assets/party/ic-popup-delete-duck.png";
+import InfoDuck from "../../../assets/party/ic-popup-info-duck.png";
+import WaitingDuck from "../../../assets/party/ic-popup-waiting-duck.png";
+import { priceToString } from "../../../components/main/bottomCard";
+import DangerDialog from "../../../components/party/DangerDialog";
 
 const MyPartyDetail = () => {
 
@@ -51,6 +56,7 @@ const MyPartyDetail = () => {
   const [isHostUser, setIsHostUser] = useState('');
   const [openChatLink, setOpenChatLink] = useState('');
   const [roomStatus, setRoomStatus] = useState('');
+  const [userStatus, setUserStatus] = useState(''); // 유저 상태값
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
@@ -58,6 +64,15 @@ const MyPartyDetail = () => {
   const [bankAccountInfoObj, setBankAccountInfoObj] = useState({});
   const [userCardInfoObj, setUserCardInfoObj] = useState({});
   const [result, setResult] = useState({}); // 파티 상세정보 전체 데이터
+
+  const [regularFailPopupStatus, setRegularFailPopupStatus] = useState(false); //정기결제 실패 팝업 데이터
+  const [regularFailConfirmPopupStatus, setRegularFailConfirmPopupStatus] = useState(false); //정기결제 실패 최종확인 팝업 데이터
+  const [regularFailConfirmPopupTitle, setRegularFailConfirmPopupTitle] = useState(""); //정기결제 실패 최종확인 팝업 제목
+  const [hostInfoPopupStatus, setHostInfoPopupStatus] = useState(false); //기존 파티장 정보 등록로직 처리
+  const [userInfoBeforePopupStatus, setUserInfoBeforePopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 전)
+  const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 후)
+  const [deleteopupStatus, setDeletePopupStatus] = useState(false); //정말 해지하시겠습니까 팝업
+
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -88,6 +103,9 @@ const MyPartyDetail = () => {
 
   useEffect(() => {
     if (isNotEmpty(membershipInfoObj)) {
+
+      if (!membershipInfoObj.paymentCycleDate) return
+
       if (isHostUser === 'N') {
         setPayMonth(Number((membershipInfoObj.nextPaymentDate).split('-')[1]));
         setPayDay(Number((membershipInfoObj.nextPaymentDate).split('-')[2]));
@@ -100,9 +118,13 @@ const MyPartyDetail = () => {
 
   useEffect(() => {
     list = [];
+
+    console.log(partyInfoObj)
     if (partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+      const maxLength = partyInfoObj.personnel > 4 ? partyInfoObj.personnel : 4;
+
       for (let i = 0; i < partyInfoObj.personnel - partyInfoObj.currentUserCount; i++) list.push('대기중');
-      for (let i = partyInfoObj.personnel; i !== 4; i++) list.push('-');
+      for (let i = partyInfoObj.personnel; i !== maxLength; i++) list.push('-');
       setTypeList(list);
     }
   }, [partyInfoObj])
@@ -124,12 +146,41 @@ const MyPartyDetail = () => {
     setIsHostUser(partyDetailData.result.isHostUser);
     setOpenChatLink(partyDetailData.result.openChatLink);
     setRoomStatus(partyDetailData.result.roomStatus);
+    setUserStatus(partyDetailData.result.userStatus);
     setPlatformInfoObj(partyDetailData.result.platformInfo);
     setPartyInfoObj(partyDetailData.result.partyInfo);
     setMembershipInfoObj(partyDetailData.result.membershipInfo);
     setAccountInfoObj(partyDetailData.result.accountInfo);
     setBankAccountInfoObj(partyDetailData.result.bankAccountInfo);
     setUserCardInfoObj(partyDetailData.result.userCardInfo);
+
+    //파티원 정기결제 실패로직 처리
+    if (partyDetailData.result.userStatus === "PENDING") {
+      setRegularFailPopupStatus(true);
+      return
+    }
+
+    //기존 파티장 정보 등록로직 처리
+    if (partyDetailData.result.isHostUser === "Y" &&
+      !partyDetailData.result.membershipInfo.paymentCycleDate) {
+      setHostInfoPopupStatus(true);
+      return
+    }
+
+    //기존 파티원 로직 처리 (파티장이 정보 등록전)
+    if (partyDetailData.result.isHostUser === "N" &&
+      !partyDetailData.result.membershipInfo.paymentCycleDate) {
+      setUserInfoBeforePopupStatus(true);
+      return
+    }
+
+    //기존 파티원 로직 처리 (파티장이 정보 등록후)
+    if (partyDetailData.result.isHostUser === "N" &&
+      partyDetailData.result.membershipInfo.paymentCycleDate &&
+      !partyDetailData.result.userCardInfo.cardNo) {
+      setUserInfoPopupStatus(true);
+      return
+    }
   };
 
   const closePage = () => {
@@ -186,6 +237,64 @@ const MyPartyDetail = () => {
     history.goBack();
   }
 
+  //정기결제 실패 - 재결제하기
+  const handleClickRePay = () => {
+    alert("정기결제 실패 - 재결제하기 (페이지 이동)");
+  }
+
+  //정기결제 실패 - 해지하기 -> 정기결제 해지컨펌 팝업 띄우기
+  const handleClickRePayDelete = () => {
+
+    //아낀금액
+    const savePrice = membershipInfoObj.originlPrice - membershipInfoObj.price;
+
+    setRegularFailPopupStatus(false);
+    setRegularFailConfirmPopupTitle(`지금 구독을 유지하면\n한달에 ${priceToString(savePrice)}원을 아낄 수 있어요!`);
+    setRegularFailConfirmPopupStatus(true);
+  }
+
+  //기존 파티장 - 파티정보 등록하기
+  const handleClickHostInfo = () => {
+    alert("기존 파티장 - 파티정보 등록하기");
+  }
+
+  //기존 파티원 - 결제정보 등록하기
+  const handleClickUserInfo = () => {
+    alert("기존 파티원 - 결제정보 등록하기");
+  }
+
+  //해지하기 (기존파티원 동일 함수 사용) -> 해지컨펌 팝업 띄우기
+  const handleClickDelete = () => {
+    setUserInfoBeforePopupStatus(false);
+    setUserInfoPopupStatus(false);
+    setDeletePopupStatus(true);
+  }
+
+  //해지하기 팝업 취소 -> 이전 팝업 띄워주기
+  const handleClickDeleteCancle = () => {
+    setDeletePopupStatus(false);
+
+    //기존 파티원 로직 처리 (파티장이 정보 등록전)
+    if (result.isHostUser === "N" &&
+      !result.membershipInfo.paymentCycleDate) {
+      setUserInfoBeforePopupStatus(true);
+      return
+    }
+
+    //기존 파티원 로직 처리 (파티장이 정보 등록후)
+    if (result.isHostUser === "N" &&
+      result.membershipInfo.paymentCycleDate &&
+      !result.userCardInfo.cardNo) {
+      setUserInfoPopupStatus(true);
+      return
+    }
+  }
+
+  //최종 해지 함수 -> API 실행
+  const handleClickDeleteConfirm = () => {
+    alert("해지하기 API 실행");
+  }
+
   return (
     <div className="page">
       <HeaderWrap>
@@ -238,33 +347,35 @@ const MyPartyDetail = () => {
         </PartyDetailSubWrap>
 
         {/* 멤버십 정보 */}
-        <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem', borderBottom: '0.5rem #f7f7f7 solid' }}>
-          {/* 서브타이틀 */}
-          <div style={{ marginBottom: '0.625rem' }}>
-            <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
-          </div>
-          {/* 아낀금액 알려주기 */}
-          <NoticeWrap style={{ marginBottom: '0.5313rem' }}>
-            <div className="notice_sub_wrap align_center">
-              <img className="notice_img" src={icon_notice_duck}></img>
-              <div className="notice_text_div">
-                <span>이번달 </span>
-                <span className="notice_text_yellow">{membershipInfoObj.originlPrice - membershipInfoObj.price}원</span>
-                <span>이나 </span>
-                <span>아꼈어요!</span>
-              </div>
+        {membershipInfoObj.paymentCycleDate &&
+          <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem', borderBottom: '0.5rem #f7f7f7 solid' }}>
+            {/* 서브타이틀 */}
+            <div style={{ marginBottom: '0.625rem' }}>
+              <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
             </div>
-          </NoticeWrap>
-          {/* 파티 멤버십 정보 컴포넌트 */}
-          <PartyMembershipDiv
-            membershipInfo={membershipInfoObj}
-            platformInfo={platformInfoObj}
-            isDetail={true} />
-        </PartyDetailSubWrap>
+            {/* 아낀금액 알려주기 */}
+            <NoticeWrap style={{ marginBottom: '0.5313rem' }}>
+              <div className="notice_sub_wrap align_center">
+                <img className="notice_img" src={icon_notice_duck}></img>
+                <div className="notice_text_div">
+                  <span>이번달 </span>
+                  <span className="notice_text_yellow">{membershipInfoObj.originlPrice - membershipInfoObj.price}원</span>
+                  <span>이나 </span>
+                  <span>아꼈어요!</span>
+                </div>
+              </div>
+            </NoticeWrap>
+            {/* 파티 멤버십 정보 컴포넌트 */}
+            <PartyMembershipDiv
+              membershipInfo={membershipInfoObj}
+              platformInfo={platformInfoObj}
+              isDetail={true} />
+          </PartyDetailSubWrap>
+        }
 
         {/* 계정 정보 */}
         {
-          isNotEmpty(accountInfoObj) &&
+          (isNotEmpty(accountInfoObj) && accountInfoObj.accountId && accountInfoObj.accountPw) &&
           <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem', borderBottom: '0.5rem #f7f7f7 solid' }} >
             {/* 서브타이틀 */}
             <div style={{ marginBottom: '1.25rem' }}>
@@ -328,7 +439,7 @@ const MyPartyDetail = () => {
               </span>
             </div>
             <div className="change_contents_btn">
-              {isHostUser ? "정산계좌" : "결제수단"} 변경하기
+              {isHostUser === 'Y' ? "정산계좌" : "결제수단"} 변경하기
             </div>
           </PaymentContentsWrap>
 
@@ -344,9 +455,11 @@ const MyPartyDetail = () => {
       <MemberBottomDialog roomStatus={roomStatus} />
       <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel} />
 
-      {/* 선택 다이얼로그 */}
+      {/* 선택 다이얼로그 시작*/}
+
+      {/* 파티원 정기결제 실패로직 처리 */}
       <ChoiceDialog
-        openStatus={true}
+        openStatus={regularFailPopupStatus}
         imgUrl={PayDuck}
         imgWidth={"10.8875"}
         imgHeight={"7.775"}
@@ -354,6 +467,75 @@ const MyPartyDetail = () => {
         subTitle={"해당 파티에 대한 정기결제가 아직 안됐어요.\n재결제 혹은 파티해지를 선택해주세요."}
         leftButtonText={"해지하기"}
         rightButtonText={"재결제하기"}
+        onClickLeft={handleClickRePayDelete}
+        onClickRight={handleClickRePay}
+      />
+
+      {/* 파티원 정기결제 실패 -> 해지하기 처리 */}
+      <ChoiceDialog
+        openStatus={regularFailConfirmPopupStatus}
+        imgUrl={DeleteDuck}
+        imgWidth={"8.1375"}
+        imgHeight={"8.3125"}
+        title={regularFailConfirmPopupTitle}
+        subTitle={"해지시 즉시 해지가 되고,\n이전 데이터는 사라지게 됩니다."}
+        leftButtonText={"구독 유지하기"}
+        rightButtonText={"지금 해지"}
+        onClickLeft={handleClickRePay}
+        onClickRight={handleClickDeleteConfirm}
+      />
+
+      {/* 기존 파티장 정보 등록로직 처리 */}
+      <ChoiceDialog
+        openStatus={hostInfoPopupStatus}
+        imgUrl={InfoDuck}
+        imgWidth={"4.6375"}
+        imgHeight={"7.1875"}
+        title={"정산정보를 등록해주세요."}
+        subTitle={"정보를 등록하지 않으면 신규 파티원을\n모집할 수 없어요."}
+        leftButtonText={"다음에 하기"}
+        rightButtonText={"등록하기"}
+        onClickLeft={closePage}
+        onClickRight={handleClickHostInfo}
+      />
+
+      {/* 기존 파티원 로직 처리 (파티장이 정보 등록 전) */}
+      <ChoiceDialog
+        openStatus={userInfoBeforePopupStatus}
+        imgUrl={WaitingDuck}
+        imgWidth={"5.8875"}
+        imgHeight={"8.1875"}
+        title={"파티장이 파티정보 등록하지않았을때"}
+        subTitle={"내용 들어가야함 !!"}
+        leftButtonText={"기다리기"}
+        rightButtonText={"해지하기"}
+        onClickLeft={closePage}
+        onClickRight={handleClickDelete}
+      />
+
+      {/* 기존 파티원 로직 처리 (파티장이 정보 등록 후) */}
+      <ChoiceDialog
+        openStatus={userInfoPopupStatus}
+        imgUrl={InfoDuck}
+        imgWidth={"4.6375"}
+        imgHeight={"7.1875"}
+        title={"결제정보를 등록해주세요."}
+        subTitle={"결제정보를 등록해야\n파티를 유지할 수 있어요."}
+        leftButtonText={"해지하기"}
+        rightButtonText={"등록하기"}
+        onClickLeft={handleClickDelete}
+        onClickRight={handleClickUserInfo}
+      />
+
+      {/* 탈퇴 컨펌 창 */}
+      <DangerDialog
+        openStatus={deleteopupStatus}
+        title={"정말 해지하시겠습니까 ?"}
+        subTitle={"내용 필요함"}
+        leftButtonText={"취소"}
+        rightButtonText={"확인"}
+        onClickLeft={handleClickDeleteCancle}
+        onClickRight={handleClickDeleteConfirm}
       />
     </div>
   );
