@@ -16,7 +16,8 @@ import ChoosePayment from "./subPage/choosePayment";
 import ChooseBankAccount from "./subPage/chooseBankAccount";
 import CheckPartyData from "./subPage/checkPartyData";
 import BottomButton from "../../../components/party/BottomButton";
-import { ResetPlatform } from "../../../reducers/party/enrollment";
+import { ResetPlatform } from "../../../reducers/party/enrollment/platform";
+import { UpdateCurrentPageAction } from "../../../reducers/party/enrollment/setPage";
 
 const PartyEnrollment = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const PartyEnrollment = () => {
   const { setPageTrans } = useContext(PageTransContext);
 
   const [progress, setProgress] = useState(20);
-  const [currentPage, setCurrentPage] = useState(1);
+  const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
 
   useEffect(() => {
     dispatch(BottomNavCloseAction);
@@ -61,14 +62,16 @@ const PartyEnrollment = () => {
   const closePage = () => {
     // 뒤로 가기
     if (currentPage === 1) {
-
       //구독 리덕스 초기화
       dispatch({ type: ResetPlatform });
 
       setPageTrans('trans toLeft');
       history.goBack();
     } else {
-      setCurrentPage(currentPage - 1);
+      
+      dispatch(UpdateCurrentPageAction({
+        page: currentPage - 1
+      }));
     }
   };
 
@@ -88,13 +91,13 @@ const PartyEnrollment = () => {
         {/* Progress Bar */}
         <ProgressDiv progress={`${progress}%`} />
 
-        {currentPage === 1 && <ChooseService updatePage={setCurrentPage} />}
-        {currentPage === 2 && <ChooseAccount updatePage={setCurrentPage} />}
-        {currentPage === 3 && <ChoosePartyInfo updatePage={setCurrentPage} />}
-        {currentPage === 4 && <ChoosePayment updatePage={setCurrentPage} />}
-        {currentPage === 5 && <ChooseBankAccount updatePage={setCurrentPage} />}
+        {currentPage === 1 && <ChooseService />}
+        {currentPage === 2 && <ChooseAccount />}
+        {currentPage === 3 && <ChoosePartyInfo />}
+        {currentPage === 4 && <ChoosePayment  />}
+        {currentPage === 5 && <ChooseBankAccount />}
         {/* 입금자명 입력 페이지는 오픈뱅킹 도입 이후에 작업 */}
-        {currentPage === 6 && <CheckPartyData updatePage={setCurrentPage} />}
+        {currentPage === 6 && <CheckPartyData />}
       </MainWrap>
     </div>
   );

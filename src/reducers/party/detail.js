@@ -1,3 +1,5 @@
+// 파티 리스트 -> 파티 상세 페이지로 데이터의 데이터 전달에 사용되는 리덕스
+
 export const initialState = {
     selectedPartyIdx: null,
     selectedPartyTitle: null,

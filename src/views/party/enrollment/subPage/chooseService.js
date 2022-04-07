@@ -8,11 +8,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { GetServerPlatformList, GetSearchPlatformList } from "../../../../reducers/main/platform";
 import { customApiClient } from "../../../../shared/apiClient";
 import { useEffect, useState, useContext } from "react";
-import { UpdatePlatformAction } from "../../../../reducers/party/enrollment";
+import { UpdatePlatformAction } from "../../../../reducers/party/enrollment/platform";
 import { useHistory } from "react-router-dom";
 import { PageTransContext } from "../../../../containers/pageTransContext";
+import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 
-const ChooseService = ({ updatePage }) => {
+const ChooseService = () => {
 
   //import
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const ChooseService = ({ updatePage }) => {
     selectedPlatformImgInitial,
     isAccount,
     isAdult,
-  } = useSelector(state => state.party.enrollment);
+  } = useSelector(state => state.party.enrollment.platform);
 
   const {
     serverPlatformList,
@@ -37,6 +38,8 @@ const ChooseService = ({ updatePage }) => {
   const {
     searchPlatformList,
   } = useSelector(state => state.main.platform);
+
+  const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
 
   //context
   const { setPageTrans } = useContext(PageTransContext);
@@ -141,7 +144,9 @@ const ChooseService = ({ updatePage }) => {
     }
 
     //정상적일 경우 다음 페이지로 넘기기
-    updatePage(2);
+    dispatch(UpdateCurrentPageAction({
+      page: 2
+    }));
   };
 
   const handleClickService = (data) => {
@@ -266,7 +271,7 @@ const ChooseService = ({ updatePage }) => {
       </div>
 
       <div className="buttonWrap">
-        <BottomButton clickFunc={nextPage} text={'다음'} status={confirmStatus} />
+        <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={confirmStatus} isBottomStatus={false} />
       </div>
 
     </ChooseServiceWrap>
