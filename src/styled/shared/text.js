@@ -7,7 +7,7 @@ export const MainText = styled.div`
   line-height: 1.6;
   margin: 1rem 0 1.5rem 0;
 
-  padding:0 1.25rem;
+  /* padding:0 1.25rem; */
   
   .yellowText{
     color: #ffbc26;
