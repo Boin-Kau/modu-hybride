@@ -18,7 +18,8 @@ import { ResetParty } from "../../../reducers/party/detail";
 import { PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import BottomButton from "../../../components/party/BottomButton";
-
+import { ReportBottomDialogOpenAction } from "../../../reducers/party/popup";
+import ReportBottomDialog from "./reportBottomDialog";
 
 // Page Root Component
 const PartyDetail = () => {
@@ -80,24 +81,11 @@ const PartyDetail = () => {
       setPlatformInfoObj(selectedPartyPlatformInfo);
       setPartyInfoObj(selectedPartyPartyInfo);
       setMembershipInfoObj(selectedPartyMembershipInfo);
-
-      // 테스트 코드
-      list = [];
-      if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
-        list.push('boss');
-        for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('complete');
-        for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('waiting');
-        for(let i=partyInfoObj.personnel; i!==4; i++) list.push('nothing');
-      }
-      
-      setTypeList(list);
-      console.log(typeList);
     } else {
       console.log('리덕스 초기화 감지')
       dispatch(BottomNavOpenAction);
       closePage();
     }
-    
     // 배경색 LOGIC
     const userPlatform = checkMobile();
     if (userPlatform == 'ios') {
@@ -109,6 +97,17 @@ const PartyDetail = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    list = [];
+    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+      list.push('파티장');
+      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('참가완료');
+      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('대기중');
+      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('-');
+      setTypeList(list);
+    }
+  },[partyInfoObj])
 
   // Function
   const closePage = () => {
@@ -123,14 +122,18 @@ const PartyDetail = () => {
   };
 
   const openBottomDialog = () => {
-    console.log('파티장 : 수정하기,삭제하기 / 취소');
-    console.log('파티원 : 신고하기 / 취소');
+    dispatch(ReportBottomDialogOpenAction);
   }
 
-  const openPage = () => {
-    // 페이지 전환
+  // 파티 미가입 상태일 때, 결제하기 화면으로 이동
+  const openPaymentPage = () => {
     setPageTrans('trans toRight');
     history.push('/payment');
+  }
+  // 파티 가입 상태일 때, 파티 상세페이지 화면으로 이동
+  const openPartyDetail = (partyIdx) => {
+    setPageTrans('trans toRight');
+    history.push(`/party/my/${partyIdx}`);
   }
 
   return (
@@ -173,7 +176,7 @@ const PartyDetail = () => {
                     if(partyInfoObj.personnel > 4) {
                       return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
                     } else {
-                      return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
+                      return (<PartyDataListItem type={item} margin={'0'} key={idx}/>)
                     }
                   })
                 }
@@ -194,11 +197,16 @@ const PartyDetail = () => {
 
           </div>
 
-
           {/* 최하단 Yellow 버튼 */}
-          <BottomButton clickFunc={openPage} text={'파티참가'} />
+          <div style={{margin:'0 1.25rem'}}>
+            <BottomButton 
+              clickFunc={partyIsEnrolled === 'Y'? () => openPartyDetail(partyId) : openPaymentPage} 
+              text={`${partyIsEnrolled === 'Y'?'파티 상세보기':'파티참가'}`} 
+              status={true}/>
+          </div>
         </MainWrap>
       </PageWrap>
+      <ReportBottomDialog/>
     </div>
   );
 };
@@ -324,8 +332,6 @@ const PartyDataTitleDiv = styled.div`
   padding: 0 1.25rem;
   margin-bottom: 1.5rem;
 
-  border: 1px red solid;
-
   .memberCountBox {
     display: flex;
     margin-left: 0.2188rem;
@@ -351,9 +357,6 @@ const PartyDataContentWrap = styled.div`
   padding-right: ${props => props.personnel > 4 ? '0rem' : '1.25rem'};
   justify-content: space-between;
   overflow-x: auto;
-
-
-  border: 1px red solid;
 `;
 
 const MembershipDataWrap = styled.div`
@@ -367,7 +370,6 @@ const MembershipDataWrap = styled.div`
     color: #313131;
     display: block;
     margin-bottom: 1.0938rem;
-
   }
 `;
 

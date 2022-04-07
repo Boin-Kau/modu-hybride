@@ -8,25 +8,19 @@ const PartyDataListItem = ({type, margin}) => {
 
   const setMemberType = () => {
     switch (type) {
-      case 'boss': 
+      case '파티장' :
+      case '참가완료': 
         return (
           <PartyItemWrap marginRight={margin} color="#ffca35">
             <img className="itemImg" src={icon_party_boss} alt="boss" />
-            <div className="itemTag notoBold">파티장</div>
+            <div className="itemTag notoBold">{type}</div>
           </PartyItemWrap>
         );
-      case 'complete':
-        return (
-          <PartyItemWrap marginRight={margin} color="#ffca35">
-            <img className="itemImg" src={icon_party_boss} alt="" />
-            <div className="itemTag notoMedium">참가완료</div>
-          </PartyItemWrap>
-        );
-      case 'waiting':
+      case '대기중':
         return (
           <PartyItemWrap marginRight={margin} color="rgba(49,49,49,.6)">
             <img className="itemImg" src={icon_party_waiting} alt="" />
-            <div className="itemTag notoMedium">대기중</div>
+            <div className="itemTag notoMedium">{type}</div>
           </PartyItemWrap>
         );
       default:
@@ -37,11 +31,14 @@ const PartyDataListItem = ({type, margin}) => {
           </PartyItemWrap>
         );
     }
-
   };
   
   return (
-    <> {setMemberType()} </>
+    <> 
+    {
+      setMemberType()
+    } 
+    </>
   );
 };
 
@@ -64,3 +61,12 @@ const PartyItemWrap = styled.div`
     line-height: 1.79;
   }
 `;
+
+export const CustomPartyListItem = ({name, margin}) => {
+  return (
+    <PartyItemWrap marginRight={margin} color="#ffca35">
+      <img className="itemImg" src={icon_party_boss} alt="boss" />
+      <div className="itemTag notoBold">{name}</div>
+    </PartyItemWrap>
+  );
+}

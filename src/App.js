@@ -6,6 +6,7 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { PageTransContext } from './containers/pageTransContext';
+import LoadingPopup from './components/Loading';
 
 import './App.scss';
 
@@ -67,6 +68,9 @@ function App() {
     popupShow,
   } = useSelector(state => state.popup.popup);
 
+  const{
+    openLoadingStatus,
+  } = useSelector(state => state.container.loading);
 
   const PageTransStyle = {
     appear: `${pageTrans} appear`,
@@ -110,6 +114,8 @@ function App() {
         {/* 팝업창 */}
         {popupShow && <ErrorPopup status={popupShow}/>}
 
+        {/* 로딩 */}
+        <LoadingPopup openStatus={openLoadingStatus} />
       </Router>
     </RootWrap>
   );

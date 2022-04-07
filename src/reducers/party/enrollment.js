@@ -5,6 +5,8 @@ export const initialState = {
     selectedPlatformImgUrl: null,
     selectedPlatformImgColor: null,
     selectedPlatformImgInitial: null,
+    isAccount: null,
+    isAdult: null,
 };
 
 export const ResetPlatform = 'ResetPlatform';
@@ -16,7 +18,6 @@ export const UpdatePlatformAction = (data) => {
         data: data
     }
 }
-
 
 const reducer = (state = initialState, action) => {
 

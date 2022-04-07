@@ -16,6 +16,8 @@ export const initialState = {
     memberBottomDialogStatus: false,
 
     partyDeleteConfirmDialogStatus: false,
+
+    reportBottomDialogStatus: false,
 };
 
 const ReportPopupOpen = 'ReportPopupOpen';
@@ -37,6 +39,9 @@ const MemberBottomDialogClose = 'MemberBottomDialogClose';
 
 const PartyDeleteConfirmDialogOpen = 'PartyDeleteConfirmDialogOpen';
 const PartyDeleteConfirmDialogClose = 'PartyDeleteConfirmDialogClose';
+
+const ReportBottomDialogOpen = 'ReportBottomDialogOpen';
+const ReportBottomDialogClose = 'ReportBottomDialogClose';
 
 export const ReportPopupOpenAction = (data) => {
     return {
@@ -96,6 +101,12 @@ export const PartyDeleteConfirmDialogOpenAction = {
 };
 export const PartyDeleteConfirmDialogCloseAction = {
     type: PartyDeleteConfirmDialogClose,
+};
+export const ReportBottomDialogOpenAction = {
+    type: ReportBottomDialogOpen,
+};
+export const ReportBottomDialogCloseAction = {
+    type: ReportBottomDialogClose,
 };
 
 const reducer = (state = initialState, action) => {
@@ -187,6 +198,18 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state, 
                 partyDeleteConfirmDialogStatus: false,
+            }
+        }
+        case 'ReportBottomDialogOpen': {
+            return {
+                ...state, 
+                reportBottomDialogStatus: true,
+            }
+        }
+        case 'ReportBottomDialogClose': {
+            return {
+                ...state, 
+                reportBottomDialogStatus: false,
             }
         }
         default: {

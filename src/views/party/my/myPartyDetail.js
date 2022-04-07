@@ -16,14 +16,14 @@ import { checkMobile } from "../../../App";
 import { customApiClient } from "../../../shared/apiClient";
 import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
-import PartyDataListItem from "../../../components/party/PartyList";
+import PartyDataListItem, { CustomPartyListItem } from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
-import AccountInfoComponent from "./AccountInfoComponent";
+import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
 import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
-import HostBottomDialog from "./dialog/HostBottomDialog";
-import MemberBottomDialog from "./dialog/MemberBottomDialog";
-import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
+import HostBottomDialog from "./dialog/hostBottomDialog";
+import MemberBottomDialog from "./dialog/memberBottomDialog";
+import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
 
 
 const MyPartyDetail = () => {
@@ -35,7 +35,7 @@ const MyPartyDetail = () => {
   // Module
   const history = useHistory();
   const dispatch = useDispatch();
-  const {idx} = useParams();
+  const { idx } = useParams();
 
   //Context
   const { setPageTrans } = useContext(PageTransContext);
@@ -55,14 +55,15 @@ const MyPartyDetail = () => {
   const [accountInfoObj, setAccountInfoObj] = useState({});
   const [bankAccountInfoObj, setBankAccountInfoObj] = useState({});
   const [userCardInfoObj, setUserCardInfoObj] = useState({});
+  const [result, setResult] = useState({}); // 파티 상세정보 전체 데이터
 
   // Lifecycle - Initial Logic
   useEffect(() => {
     // Bottom Nav 
     dispatch(BottomNavCloseAction);
 
-    if(idx) {
-      setPartyIdx(idx); 
+    if (idx) {
+      setPartyIdx(idx);
     } else {
       closePage();
     }
@@ -72,28 +73,37 @@ const MyPartyDetail = () => {
     if (userPlatform == 'ios') {
       //IOS 배경색 설정
       try {
-          window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+        window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
       }
       catch (err) {
       }
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     getPartyDetail();
-  },[partyIdx])
+  }, [partyIdx])
 
   useEffect(() => {
-    if(isNotEmpty(membershipInfoObj)) {
-      if(isHostUser==='N') {
+    if (isNotEmpty(membershipInfoObj)) {
+      if (isHostUser === 'N') {
         setPayMonth(Number((membershipInfoObj.nextPaymentDate).split('-')[1]));
         setPayDay(Number((membershipInfoObj.nextPaymentDate).split('-')[2]));
-      } else if(isHostUser==='Y') {
+      } else if (isHostUser === 'Y') {
         setPayMonth(Number((membershipInfoObj.paymentCycleDate).split('-')[1]));
         setPayDay(Number((membershipInfoObj.paymentCycleDate).split('-')[2]));
       }
     }
-  },[membershipInfoObj])
+  }, [membershipInfoObj])
+
+  useEffect(() => {
+    list = [];
+    if (partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+      for (let i = 0; i < partyInfoObj.personnel - partyInfoObj.currentUserCount; i++) list.push('대기중');
+      for (let i = partyInfoObj.personnel; i !== 4; i++) list.push('-');
+      setTypeList(list);
+    }
+  }, [partyInfoObj])
 
   // Function 
   const getPartyDetail = async () => {
@@ -102,11 +112,12 @@ const MyPartyDetail = () => {
     const partyDetailData = await customApiClient('get', partyDetailUri);
 
     // Server Error
-    if(!partyDetailData) { return };
+    if (!partyDetailData) { return };
     // Validation 
-    if(partyDetailData.statusCode !== 200) { return };
+    if (partyDetailData.statusCode !== 200) { return };
     console.log('API 호출 성공 :', partyDetailData);
 
+    setResult(partyDetailData.result);
     setPartyTitle(partyDetailData.result.title);
     setIsHostUser(partyDetailData.result.isHostUser);
     setOpenChatLink(partyDetailData.result.openChatLink);
@@ -117,19 +128,8 @@ const MyPartyDetail = () => {
     setAccountInfoObj(partyDetailData.result.accountInfo);
     setBankAccountInfoObj(partyDetailData.result.bankAccountInfo);
     setUserCardInfoObj(partyDetailData.result.userCardInfo);
-
-    // 테스트 코드
-    list = [];
-    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
-      list.push('boss');
-      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('complete');
-      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('waiting');
-      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('nothing');
-    }
-    setTypeList(list);
   };
 
-  
   const closePage = () => {
     // 뒤로 가기
     setPageTrans('trans toLeft');
@@ -137,7 +137,7 @@ const MyPartyDetail = () => {
   };
 
   const openBottomDialog = () => {
-    isHostUser==='Y' ? 
+    isHostUser === 'Y' ?
       dispatch(HostBottomDialogOpenAction)
       :
       dispatch(MemberBottomDialogOpenAction)
@@ -149,14 +149,14 @@ const MyPartyDetail = () => {
 
   const onDeleteParty = async () => {
     // 파티 삭제
-    const partyDeleteUri = `/party/${partyIdx}?userRole=${isHostUser==='Y'? 'HOST' : 'USER'}`;
+    const partyDeleteUri = `/party/${partyIdx}?userRole=${isHostUser === 'Y' ? 'HOST' : 'USER'}`;
     const partyDeleteData = await customApiClient('delete', partyDeleteUri);
 
     // Server Error
-    if(!partyDeleteData) { return };
+    if (!partyDeleteData) { return };
 
     // Validation 
-    if(partyDeleteData.statusCode !== 200) { return };
+    if (partyDeleteData.statusCode !== 200) { return };
     console.log('API 호출 성공 :', partyDeleteData);
 
     dispatch(PartyDeleteConfirmDialogCloseAction);
@@ -167,17 +167,17 @@ const MyPartyDetail = () => {
 
   const onDeletePartyCancel = async () => {
     // 파티 삭제 취소
-    const partyDeleteCancelUri = `/party/${partyIdx}/revert?userRole=${isHostUser==='Y'? 'HOST' : 'USER'}`;
+    const partyDeleteCancelUri = `/party/${partyIdx}/revert?userRole=${isHostUser === 'Y' ? 'HOST' : 'USER'}`;
     const partyDeleteCancelData = await customApiClient('patch', partyDeleteCancelUri);
 
-        // Server Error
-    if(!partyDeleteCancelData) { return };
+    // Server Error
+    if (!partyDeleteCancelData) { return };
 
     // Validation 
-    if(partyDeleteCancelData.statusCode !== 200) { return };
+    if (partyDeleteCancelData.statusCode !== 200) { return };
     console.log('API 호출 성공 :', partyDeleteCancelData);
 
-    
+
     dispatch(PartyDeleteConfirmDialogCloseAction);
     //  페이지 이동
     setPageTrans('trans toLeft');
@@ -186,7 +186,7 @@ const MyPartyDetail = () => {
 
   return (
     <div className="page">
-      <HeaderWrap className="spoqaBold">
+      <HeaderWrap>
         <div id="back_link" onClick={closePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
           <img src={icon_back} alt="뒤로가기"></img>
         </div>
@@ -198,11 +198,11 @@ const MyPartyDetail = () => {
       <MainWrap>
         {/* 파티 제목 컴포넌트 */}
         <TopContentWrap>
-          <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true}/>
+          <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true} />
         </TopContentWrap>
 
         {/* 파티 정보 */}
-        <PartyDetailSubWrap style={{borderBottom: '0.5rem #f7f7f7 solid'}}>
+        <PartyDetailSubWrap style={{ borderBottom: '0.5rem #f7f7f7 solid' }}>
           {/* 서브 타이틀 & 인원 수 */}
           <PartyDataTitleDiv>
             <PartyDetailSubtitleSpan>파티 정보</PartyDetailSubtitleSpan>
@@ -215,11 +215,20 @@ const MyPartyDetail = () => {
           {/* 수정필요!!!! */}
           <PartyDataContentWrap personnel={partyInfoObj.personnel}>
             {
-              typeList.map((item, idx) => {
-                if(partyInfoObj.personnel > 4) {
-                  return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
+              partyInfoObj.partyUsers && partyInfoObj.partyUsers.map((item, idx) => {
+                if (partyInfoObj.personnel > 4) {
+                  return (<CustomPartyListItem name={item.name} margin={'0.9375rem'} key={idx} />)
                 } else {
-                  return (<PartyDataListItem type={item} margin={'1.25rem'} key={idx}/>)
+                  return (<CustomPartyListItem name={item.name} margin={'0'} key={idx} />)
+                }
+              })
+            }
+            {
+              typeList.map((item, idx) => {
+                if (partyInfoObj.personnel > 4) {
+                  return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx} />)
+                } else {
+                  return (<PartyDataListItem type={item} margin={'0'} key={idx} />)
                 }
               })
             }
@@ -227,18 +236,18 @@ const MyPartyDetail = () => {
         </PartyDetailSubWrap>
 
         {/* 멤버십 정보 */}
-        <PartyDetailSubWrap style={{paddingLeft:'1.25rem',paddingRight:'1.25rem',borderBottom: '0.5rem #f7f7f7 solid'}}>
+        <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem', borderBottom: '0.5rem #f7f7f7 solid' }}>
           {/* 서브타이틀 */}
-          <div style={{marginBottom:'0.625rem'}}>
+          <div style={{ marginBottom: '0.625rem' }}>
             <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
           </div>
           {/* 아낀금액 알려주기 */}
-          <NoticeWrap style={{marginBottom:'0.5313rem'}}>
+          <NoticeWrap style={{ marginBottom: '0.5313rem' }}>
             <div className="notice_sub_wrap align_center">
               <img className="notice_img" src={icon_notice_duck}></img>
               <div className="notice_text_div">
                 <span>이번달 </span>
-                <span className="notice_text_yellow">{membershipInfoObj.originlPrice-membershipInfoObj.price}원</span>
+                <span className="notice_text_yellow">{membershipInfoObj.originlPrice - membershipInfoObj.price}원</span>
                 <span>이나 </span>
                 <span>아꼈어요!</span>
               </div>
@@ -248,43 +257,43 @@ const MyPartyDetail = () => {
           <PartyMembershipDiv
             membershipInfo={membershipInfoObj}
             platformInfo={platformInfoObj}
-            isDetail={true}/>
+            isDetail={true} />
         </PartyDetailSubWrap>
 
         {/* 계정 정보 */}
         {
-          isNotEmpty(accountInfoObj) && 
-          <PartyDetailSubWrap style={{paddingLeft:'1.25rem',paddingRight:'1.25rem',borderBottom: '0.5rem #f7f7f7 solid'}} >
+          isNotEmpty(accountInfoObj) &&
+          <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem', borderBottom: '0.5rem #f7f7f7 solid' }} >
             {/* 서브타이틀 */}
-            <div style={{ marginBottom:'1.25rem'}}>
+            <div style={{ marginBottom: '1.25rem' }}>
               <PartyDetailSubtitleSpan>계정 정보</PartyDetailSubtitleSpan>
             </div>
             {/* 파티장은 계정변경, 파티원은 계정복사로 버튼 구성 */}
             <AccountInfoComponent
               isHostUser={isHostUser}
               accountInfo={accountInfoObj}
-              partyIdx={partyIdx}/>
+              partyIdx={partyIdx} />
           </PartyDetailSubWrap>
         }
 
         {/* 파티장은 정산정보, 파티원은 결제수단 */}
-        <PartyDetailSubWrap style={{paddingLeft:'1.25rem',paddingRight:'1.25rem'}}>
+        <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem' }}>
           {/* 서브타이틀 */}
-          <div style={{ marginBottom:'0.625rem'}}>
-            <PartyDetailSubtitleSpan>{isHostUser==='Y'? '정산정보':'결제수단'}</PartyDetailSubtitleSpan>
+          <div style={{ marginBottom: '0.625rem' }}>
+            <PartyDetailSubtitleSpan>{isHostUser === 'Y' ? '정산정보' : '결제수단'}</PartyDetailSubtitleSpan>
           </div>
           {/* 정산정보or결제수단 Notice Wrap */}
-          <NoticeWrap style={{marginBottom:'0.5rem'}}>
+          <NoticeWrap style={{ marginBottom: '0.5rem' }}>
             <div className="notice_sub_wrap align_center">
               <div>
                 <img className="notice_img" src={icon_notice_duck}></img>
               </div>
               <div className="notice_text_div">
                 <span>다음 </span>
-                <span>{isHostUser==='Y'? '정산':'결제'}</span>
+                <span>{isHostUser === 'Y' ? '정산' : '결제'}</span>
                 <span>예정일은 </span>
                 <span className="notice_text_yellow">{payMonth}월 {payDay}일</span>
-                <span>입니다!</span><br/>
+                <span>입니다!</span><br />
                 {/* 
                   파티장 : 00000원이 결제
                   파티원 : 0000원이 정산
@@ -296,40 +305,41 @@ const MyPartyDetail = () => {
           {/* 정산정보or결제수단 Contents */}
           <PaymentContentsWrap>
             <div className="contents_div">
-              <span className="contents_name">{isHostUser==='Y'? '정산':'결제'}수단</span>
-              <span className="contents_description">{isHostUser==='Y'? '계좌입금':'신용/체크카드'}</span>
+              <span className="contents_name">{isHostUser === 'Y' ? '정산' : '결제'}수단</span>
+              <span className="contents_description">{isHostUser === 'Y' ? '계좌입금' : '신용/체크카드'}</span>
             </div>
             <div className="contents_div">
               <span className="contents_name">상세</span>
               <span className="contents_description">
-              {
-                isHostUser==='Y' ?
-                  bankAccountInfoObj.bankName ?
-                    bankAccountInfoObj.bankName + " " + bankAccountInfoObj.bankAccountNum
+                {
+                  isHostUser === 'Y' ?
+                    bankAccountInfoObj.bankName ?
+                      bankAccountInfoObj.bankName + " " + bankAccountInfoObj.bankAccountNum
+                      :
+                      "없음"
                     :
-                    "없음"
-                  :
-                  userCardInfoObj.cardName ? 
-                    userCardInfoObj.cardName + " " + userCardInfoObj.cardNo
-                    :
-                    "없음"
-              }
+                    userCardInfoObj.cardName ?
+                      userCardInfoObj.cardName + " " + userCardInfoObj.cardNo
+                      :
+                      "없음"
+                }
               </span>
             </div>
             <div className="change_contents_btn">
-              {isHostUser? "정산계좌":"결제수단"} 변경하기
+              {isHostUser ? "정산계좌" : "결제수단"} 변경하기
             </div>
           </PaymentContentsWrap>
 
         </PartyDetailSubWrap>
 
         {/* 최하단 Yellow 버튼 */}
-        <div style={{margin:'1.25rem'}}>
+        <div style={{ margin: '1.25rem' }}>
           <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} status={true} />
         </div>
       </MainWrap>
+
       
-      <HostBottomDialog roomStatus={roomStatus}/>
+      <HostBottomDialog dataForRevise={result} roomStatus={roomStatus} partyIdx={partyIdx}/>
       <MemberBottomDialog roomStatus={roomStatus}/>
       <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel}/>
     </div>
@@ -367,8 +377,6 @@ const PartyDataTitleDiv = styled.div`
   padding: 0 1.25rem;
   margin-bottom: 1.5rem;
 
-  border: 1px red solid;
-
   .memberCountBox {
     display: flex;
     margin-left: 0.2188rem;
@@ -396,8 +404,6 @@ const PartyDataContentWrap = styled.div`
   justify-content: space-between;
   overflow-x: auto;
 
-
-  border: 1px red solid;
 `;
 
 const PaymentContentsWrap = styled.div`
@@ -429,5 +435,4 @@ const PaymentContentsWrap = styled.div`
     text-decoration: underline;
     text-align: end;
   }
-
 `;

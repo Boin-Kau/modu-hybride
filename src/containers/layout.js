@@ -22,7 +22,7 @@ import ReactGA from 'react-ga';
 import AgreePage from '../views/info/agree';
 import MyParty from '../views/party/my/myParty';
 import MyPartyDetail from '../views/party/my/myPartyDetail';
-import PartyEnrollment from '../views/party/enrollment';
+
 import Party from '../views/party';
 import PartyPlatform from '../views/party/enrollment/platform';
 import PartyPlatformSearch from '../views/party/enrollment/platform/search';
@@ -41,7 +41,9 @@ import Finish from '../views/payment/finish';
 import CardManagement from '../views/card/cardManagement';
 import CardIdxChange from '../views/party/detail/cardIdxChange';
 import BankAccountManagement from '../views/card/bankAccountManagement';
-import EditAccount from '../views/party/my/EditAccount';
+import EditAccount from '../views/party/my/editAccount';
+import PartyEnrollment from '../views/party/enrollment/enrollment';
+import MyPartyRevise from '../views/party/my/myPartyRevise';
 
 //회원가입,로그인 테스트
 import SignUpName from '../views/login/loginStep/signUpName';
@@ -74,10 +76,11 @@ const AppLayout = () => {
             <Route path='/search' exact component={SearchPage} />
             <Route path='/analysis' exact component={AnalysisPage} />
             <Route path='/party' exact component={Party} />
-            <Route path='/party/detail' exact component={PartyDetail}/>
+            <Route path='/party/detail' exact component={PartyDetail} />
             <Route path='/party/my' exact component={MyParty} />
-            <Route path='/party/my/:idx' exact component={MyPartyDetail}/>
-            <Route path='/party/my/detail/account' exact component={EditAccount}/>
+            <Route path='/party/my/:idx' exact component={MyPartyDetail} />
+            <Route path='/party/my/revise/:idx' exact component={MyPartyRevise} />
+            <Route path='/party/my/detail/account' exact component={EditAccount} />
             <Route path='/party/enroll' exact component={PartyEnrollment} />
             <Route path='/party/enroll/platform' exact component={PartyPlatform} />
             <Route path='/party/enroll/platform/search' exact component={PartyPlatformSearch} />
@@ -102,20 +105,18 @@ const AppLayout = () => {
             <Route path='/party/detail/change/card' exact component={CardIdxChange}/>
             <Route path='/party/detail/change/account' exact component={AccountIdxChange}/>
             <Route path='/bank/manage' exact component={BankAccountManagement}/>
+            <Route path='/party/detail/change/card' exact component={CardIdxChange} />
+            <Route path='/bank/manage' exact component={BankAccountManagement} />
+
 
             {/* 회원가입/로그인절차 컴포넌트 테스트 */}
             <Route path='/signup/name' exact component={SignUpName}/>
             <Route path='/signin/phone' exact component={SignInPhone}/>
             <Route path='/signin/auth' exact component={SignInAuth}/>
             <Route path='/signin/auth/finish' exact component={AuthFinish}/>
+
         </>
     );
-
 };
-
-
-
-
-
 
 export default AppLayout;
