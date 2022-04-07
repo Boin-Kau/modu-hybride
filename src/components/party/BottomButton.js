@@ -35,4 +35,6 @@ const BottomButtonWrap = styled.div`
     /* 버튼이 화면 바닥으로 깔리면 isBottomStatus가 true */
     position: ${(props) => props.isBottomStatus ? 'absolute' : 'static'};
     bottom: 0;
+    left: 1.25rem;
+    right: 1.25rem;
 `;
