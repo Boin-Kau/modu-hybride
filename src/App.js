@@ -68,7 +68,7 @@ function App() {
     popupShow,
   } = useSelector(state => state.popup.popup);
 
-  const{
+  const {
     openLoadingStatus,
   } = useSelector(state => state.container.loading);
 
@@ -112,7 +112,7 @@ function App() {
         </MessageWrapPopup>
 
         {/* 팝업창 */}
-        {popupShow && <ErrorPopup status={popupShow}/>}
+        {popupShow && <ErrorPopup status={popupShow} />}
 
         {/* 로딩 */}
         <LoadingPopup openStatus={openLoadingStatus} />
