@@ -7,13 +7,29 @@ import icon_question_about_link from "../../../../assets/icon-partyregist-kakao.
 
 import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BottomButton from "../../../../components/party/BottomButton";
+import { useDispatch } from "react-redux";
+import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 
 const ChoosePartyInfo = ({updatePage}) => {
+
+  const dispatch = useDispatch();
+
   const [partyTitle, setPartyTitle] = useState('');
   const [partyMembership, setPartyMembership] = useState('');
   const [partyLink, setPartyLink] = useState('');
+
+  const [nextBtnStatus, setNextBtnStatus] = useState(false);
+
+  useEffect(() => {
+    if(partyTitle&&partyLink) {
+      setNextBtnStatus(true);
+    } else {
+      setNextBtnStatus(false);
+    }
+
+  },[partyTitle, partyMembership, partyLink])
 
   const handleChangePartyTitle = (e) => {
     // if (e.target.value.length == 5) return false;
@@ -28,13 +44,13 @@ const ChoosePartyInfo = ({updatePage}) => {
     setPartyLink(e.target.value);
   };
   const nextPage = () => {
-    updatePage(4);
+    nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 4}));
   };
 
   return (
     <ChoosePartyInfoWrap style={{flexGrow: '1'}}>
       <div style={{flexGrow: '1'}}>
-        <MainText style={{margin:'1rem 0 0'}}>
+        <MainText style={{margin:'1rem 0 0', padding:'0'}}>
           <span className="yellowText">파티와 관련된 정보</span>
           를<br/>
           입력해주세요.
@@ -91,7 +107,7 @@ const ChoosePartyInfo = ({updatePage}) => {
         />
 
       </div>
-      <BottomButton clickFunc={nextPage} text={'다음'} status={true}/>
+      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
       
     </ChoosePartyInfoWrap>
   );

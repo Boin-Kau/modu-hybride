@@ -12,6 +12,7 @@ import './App.scss';
 
 import AppLayout from './containers/layout';
 import BottomNav from './containers/bottomNav';
+import ErrorPopup from './views/popup/errorPopup';
 
 const history = createBrowserHistory();
 
@@ -64,6 +65,10 @@ function App() {
   } = useSelector(state => state.container.message);
 
   const {
+    popupShow,
+  } = useSelector(state => state.popup.popup);
+
+  const{
     openLoadingStatus,
   } = useSelector(state => state.container.loading);
 
@@ -105,6 +110,9 @@ function App() {
             {message}
           </MessagePopup>
         </MessageWrapPopup>
+
+        {/* 팝업창 */}
+        {popupShow && <ErrorPopup status={popupShow}/>}
 
         {/* 로딩 */}
         <LoadingPopup openStatus={openLoadingStatus} />

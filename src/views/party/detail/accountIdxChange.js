@@ -10,10 +10,10 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
+import AccountSlide from "../../payment/accountSlide";
 import BottomButton from "../../../components/party/BottomButton";
-import Slide from "../../payment/slide";
 
-const CardIdxChange = () => {
+const AccountIdxChange = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -21,7 +21,7 @@ const CardIdxChange = () => {
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
-  const [cardIdx, setCardIdx] = useState();
+  const [accountIdx, setAccountIdx] = useState();
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -37,7 +37,7 @@ const CardIdxChange = () => {
     dispatch(BottomNavCloseAction);
   }, []);
 
-  //결제수단 바꾸는 api -> 파티 아이디랑 그런것도 필요할것같은디..요건 찰스랑 협의
+  //정산계좌 수단 바꾸는 api -> 파티 아이디랑 그런것도 필요할것같은디..요건 찰스랑 협의
 
   return (
     <div className="page">
@@ -53,14 +53,14 @@ const CardIdxChange = () => {
           >
             <img src={icon_back}></img>
           </div>
-          <TextMiddle>결제수단 변경</TextMiddle>
+          <TextMiddle>정산계좌 변경</TextMiddle>
         </HeaderWrap>
         <ContentWrap style={{display:"flex", flexDirection:"column"}}>
           <TitleWrap>
-            <span className="spoqaBold">결제 수단</span>
+            <span className="spoqaBold">계좌 목록</span>
             <div className="notoMedium manage-button" onClick={goToCardManage}>카드 관리</div>
           </TitleWrap>
-          <Slide setCardIdx={setCardIdx}/>
+          <AccountSlide setAccountIdx={setAccountIdx}/>
           <div style={{flexGrow:"1"}}/>
           <BottomButton text={"확인"}/>
         </ContentWrap>
@@ -95,4 +95,4 @@ const TitleWrap = styled.div`
   }
 `;
 
-export default CardIdxChange;
+export default AccountIdxChange;

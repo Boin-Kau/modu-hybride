@@ -16,8 +16,13 @@ import { useCallback, useEffect, useState } from "react";
 import Fade from 'react-reveal/Fade';
 import { NumberList } from "../../../main/subscribe/enrollment";
 import BottomButton from "../../../../components/party/BottomButton";
+import { useDispatch } from "react-redux";
+import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 
 const ChoosePayment = ({updatePage}) => {
+
+  const dispatch = useDispatch();
+
   const [membershipPrice, setMembershipPrice] = useState('');
   const [paymentDay, setPaymentDay] = useState(null);
   const [pricePerMember, setPricePerMember] = useState('');
@@ -36,6 +41,8 @@ const ChoosePayment = ({updatePage}) => {
   useEffect(() => {
     if(membershipPrice&&paymentDay&&pricePerMember&&partyPersonel) {
       setNextBtnStatus(true);
+    } else {
+      setNextBtnStatus(false);
     }
   },[membershipPrice,paymentDay,pricePerMember,partyPersonel])
 
@@ -76,13 +83,13 @@ const ChoosePayment = ({updatePage}) => {
   const onClickTotalPersonnelInfo = () => setTotalPersonnelInfoStatus(!totalPersonnelInfoStatus);
 
   const nextPage = () => {
-    nextBtnStatus && updatePage(5);
+    nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 5}));
   };
 
   return (
     <ChoosePaymentWrap style={{flexGrow: '1'}}>
       <div style={{flexGrow: '1'}}>
-        <MainText style={{margin:'1rem 0 0'}}>
+        <MainText style={{margin:'1rem 0 0',padding:'0'}}>
           <span className="yellowText">파티의 결제정보</span>
           를<br/>
           입력해주세요.
@@ -223,7 +230,7 @@ const ChoosePayment = ({updatePage}) => {
 
       </div>
 
-      <BottomButton clickFunc={nextPage} text={'다음'} status={nextBtnStatus}/>
+      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
       
 
 

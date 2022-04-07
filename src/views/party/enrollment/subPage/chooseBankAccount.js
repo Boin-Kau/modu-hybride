@@ -1,26 +1,32 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import BottomButton from "../../../../components/party/BottomButton";
+import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
 import { MainText } from "../../../../styled/shared/text";
 
 const ChooseBankAccount = ({updatePage}) => {
 
+  const dispatch = useDispatch();
+
   const [accountOwnerName, setAccountOwnerName] = useState('');
+
+  const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
   const handleChangeAccountOwnerName = (e) => {
     setAccountOwnerName(e.target.value);
   }
 
   const nextPage = () => {
-    updatePage(6);
+    nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
   };
 
   return (
     <ChooseBankAccountWrap style={{flexGrow: '1'}}>
       <div style={{flexGrow: '1'}}>
-        <MainText style={{margin:'1rem 0 0'}}>
+        <MainText style={{margin:'1rem 0 0',padding:'0'}}>
           <span className="yellowText">정산받을 계좌</span>
           를<br/> 
           알려주세요.
@@ -41,7 +47,7 @@ const ChooseBankAccount = ({updatePage}) => {
         <TitleWrap >계좌 번호</TitleWrap>
       </div>
 
-      <BottomButton clickFunc={nextPage} text={'다음'} status={true}/>
+      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
       
     </ChooseBankAccountWrap>
   );
