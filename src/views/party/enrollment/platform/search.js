@@ -14,8 +14,8 @@ import { customApiClient } from '../../../../shared/apiClient';
 import { GetPopularPlatformList, GetSearchPlatformList } from '../../../../reducers/main/platform';
 import { useHistory } from 'react-router-dom';
 import { PageTransContext } from '../../../../containers/pageTransContext';
-import { UpdatePlatformAction } from '../../../../reducers/party/enrollment';
 import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
+import { UpdatePlatformAction } from '../../../../reducers/party/enrollment/platform';
 
 const PartyPlatformSearch = () => {
 
@@ -31,7 +31,7 @@ const PartyPlatformSearch = () => {
     const {
         selectedPlatformIdx,
         selectedPlatformImgUrl
-    } = useSelector(state => state.party.enrollment);
+    } = useSelector(state => state.party.enrollment.platform);
 
     //context
     const { setPageTrans } = useContext(PageTransContext);

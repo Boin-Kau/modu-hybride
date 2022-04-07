@@ -7,14 +7,28 @@ import icon_info from "../../../../assets/info-black-192-x-192@3x.png";
 
 import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BottomButton from "../../../../components/party/BottomButton";
+import { useDispatch } from "react-redux";
+import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 
-const ChooseAccount = ({updatePage}) => {
+const ChooseAccount = () => {
+
+  const dispatch = useDispatch();
 
   const [accountId, setAccountId] = useState('');
   const [accountPw, setAccountPw] = useState('');
+
   const [miniInfoStatus, setMiniInfoStatus] = useState(false)
+  const [nextBtnStatus, setNextBtnStatus] = useState(false);
+
+  useEffect(() => {
+    if(accountId&&accountPw) {
+      setNextBtnStatus(true);
+    } else {
+      setNextBtnStatus(false);
+    }
+  },[accountId,accountPw])
 
   const handleChangeAccountId = (e) => {
     // if (e.target.value.length == 5) return false;
@@ -30,13 +44,13 @@ const ChooseAccount = ({updatePage}) => {
   };
 
   const nextPage = () => {
-    updatePage(3);
+    nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 3}));
   };
 
   return (
     <ChooseAccountWrap style={{flexGrow: '1'}}>
       <div style={{flexGrow: '1'}}>
-        <MainText style={{margin:'1rem 0 0'}}>
+        <MainText style={{margin:'1rem 0 0', padding:'0'}}>
           공유할  
           <span className="yellowText"> 구독 계정 정보</span>
           를<br/>
@@ -87,7 +101,7 @@ const ChooseAccount = ({updatePage}) => {
           onChange={handleChangeAccountPw}
         />
       </div>
-      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={false} isBottomStatus={false}/>
+      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
       
 
     </ChooseAccountWrap>

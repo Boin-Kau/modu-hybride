@@ -26,7 +26,8 @@ import { customApiClient } from '../../../../shared/apiClient';
 import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../../containers/pageTransContext';
-import { UpdatePlatformAction } from '../../../../reducers/party/enrollment';
+import { UpdatePlatformAction } from '../../../../reducers/party/enrollment/platform';
+
 
 const PartyPlatform = () => {
 
@@ -43,7 +44,7 @@ const PartyPlatform = () => {
     const {
         selectedPlatformIdx,
         selectedPlatformImgUrl
-    } = useSelector(state => state.party.enrollment);
+    } = useSelector(state => state.party.enrollment.platform);
 
     const {
         totalReloadStatus,

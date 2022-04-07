@@ -17,7 +17,8 @@ import icon_check from "../../../../assets/icon-check-white.svg";
 import { ImgColorList, ImgInitialList } from '../../../main/subscribe/enrollment';
 
 import Fade from 'react-reveal/Fade';
-import { UpdatePlatformAction } from "../../../../reducers/party/enrollment";
+import { UpdatePlatformAction } from "../../../../reducers/party/enrollment/platform";
+import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 
 const PartyPlatformDetail = () => {
 
@@ -37,7 +38,7 @@ const PartyPlatformDetail = () => {
         selectedPlatformCategoryIdx,
         isAccount,
         isAdult,
-    } = useSelector(state => state.party.enrollment);
+    } = useSelector(state => state.party.enrollment.platform);
 
     const [imgColor, setImgColor] = useState('');
     const [imgInitial, setImgInitial] = useState('');
@@ -175,6 +176,7 @@ const PartyPlatformDetail = () => {
 
         dispatch(UpdatePlatformAction(data));
 
+        dispatch(UpdateCurrentPageAction({page: 2}));
         setPageTrans('trans toLeft');
         history.push('/party/enroll');
     }
