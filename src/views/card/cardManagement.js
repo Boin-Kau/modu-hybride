@@ -10,6 +10,7 @@ import { customApiClient } from "../../shared/apiClient";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 
 import icon_back from "../../assets/icon-back-arrow.svg";
+import blank_duck from "../../assets/ic_cardadmin_duck@2x.png"
 import CardComponent from "./cardComponent";
 
 const CardManagement = () => {
@@ -82,7 +83,11 @@ const CardManagement = () => {
             <AddButton className="notoMedium" onClick={gotoRegister}>+ 카드 추가</AddButton>
           </div>
           {cardData.length === 0 ? (
-            <></>
+            <CardWrap>
+              <img src={blank_duck}/>
+              <div className="notoBold title-text">등록된 카드가 없습니다.</div>
+              <div className="notoMedium sub-text">우측 상단의"카드추가"버튼을 통해<br/> 결제카드를 등록해주세요.</div>
+            </CardWrap>
           ) : (
             <div>
               {cardData.map((card) => {
@@ -113,6 +118,34 @@ const AddButton = styled.div`
   border: solid 0.05rem #9b9b9b;
   font-size: 0.625rem;
   color: #5a5a5a;
+`;
+
+const CardWrap = styled.div`
+  width: 100%;
+  height: 12.9375rem;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.75rem;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color:#989898;
+
+  img{
+    width: 9.8063rem;
+    height:6.7375rem;
+    margin-top: 1.1938rem;
+  }
+
+  .title-text{
+    font-size: 0.875rem;
+  }
+
+  .sub-text{
+    margin-top: 0.3125rem;
+    font-size: 0.75rem;
+    text-align: center;
+  }
 `;
 
 export default CardManagement;

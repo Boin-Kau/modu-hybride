@@ -1,13 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { PageWrap } from "../../styled/shared/wrap";
 
-import delete_icon from "../../assets/ic_card_numberdelete.png"
+import delete_icon from "../../assets/ic_card_numberdelete.png";
 
-const Keyboard = () => {
+const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour}) => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const [nums, setNums] = useState(nums_init);
-  const [password, setPassword] = useState("");
 
   const shuffle = (nums) => {
     let num_length = nums.length;
@@ -22,21 +20,22 @@ const Keyboard = () => {
 
   const handlePasswordChange = useCallback(
     (num) => {
-      if (password.length === 4) {
+      if (number.length === 4) {
+        setNum("");
         return;
       }
-      setPassword(password + num);
+      setNum(number + num);
     },
-    [password]
+    [number]
   );
 
   const erasePasswordOne = useCallback(
     (e) => {
-      setPassword(
-        password.slice(0, password.length === 0 ? 0 : password.length - 1)
+      setNum(
+        number.slice(0, number.length === 0 ? 0 : number.length - 1)
       );
     },
-    [password]
+    [number]
   );
 
   const shuffleNums = useCallback(
@@ -49,55 +48,79 @@ const Keyboard = () => {
     [handlePasswordChange]
   );
 
-  useEffect(()=>{
-    console.log(password);
-  },[password])
+  const closeKeyboard = () =>{
+    setKeyboardUp(false);
+    if(three==true){
+      setThree(false);
+    }
+    if(four==true){
+      setFour(false);
+    }
+  }
+
+
   return (
-    <PageWrap>
       <KeyboardWrap>
-        {nums.map((n, i) => {
-          const Basic_button = (
-            <NumberButton value={n} onClick={shuffleNums(n)} key={i}>
-              {n}
-            </NumberButton>
-          );
-          return i == nums.length - 1 ? (
-            <>
-              <NumberButton></NumberButton>
-              {Basic_button}
-            </>
-          ) : (
-            Basic_button
-          );
-        })}
-        <NumberButton onClick={erasePasswordOne}><img src={delete_icon}/></NumberButton>
+        <span className="notoMedium" onClick={closeKeyboard}>닫기</span>
+        <ButtonWrap>
+          {nums.map((n, i) => {
+            const Basic_button = (
+              <NumberButton value={n} onClick={shuffleNums(n)} key={i}>
+                {n}
+              </NumberButton>
+            );
+            return i == nums.length - 1 ? (
+              <>
+                <NumberButton></NumberButton>
+                {Basic_button}
+              </>
+            ) : (
+              Basic_button
+            );
+          })}
+          <NumberButton onClick={erasePasswordOne}><img src={delete_icon}/></NumberButton>
+        </ButtonWrap>
       </KeyboardWrap>
-    </PageWrap>
   );
 };
 
 const KeyboardWrap = styled.div`
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
   height: 18.5625rem;
   background-color: #fff;
   box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.08);
-  flex-wrap: wrap;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 1.4375rem 3.125rem;
   border-radius: 1.25rem;
+
+  span{
+    text-align: right;
+    font-size: 0.75rem;
+    color: #6a6a6a;
+  }
+`;
+
+const ButtonWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 0.375rem;
 `;
 
 const NumberButton = styled.div`
   display: flex;
   align-items:center;
   justify-content: center;
-  width: 4.4375rem;
+  width: 5rem;
   height: 2.625rem;
-  line-height: 100%;
   overflow: hidden;
-  position: relative;
-  font-family: Roboto;
   font-size: 1.5rem;
   font-weight: 500;
   color: #000;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Card from "./card";
@@ -10,14 +9,14 @@ import { customApiClient } from "../../shared/apiClient";
 import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
 
-const Slide = ({setCardIdx}) => {
+const AccountSlide = ({setAccountIdx}) => {
   //state
   const [cardData, setCardData] = useState([]);
   const [currentSlide, setCurrentSlide] = useState('0');
 
   //life cycle
   useEffect(async () => {
-    const data = await customApiClient("get", "/party/user/card");
+    const data = await customApiClient("get", "/party/user/bankAccount");
     setCardData(data);
     console.log(data);
 
@@ -42,20 +41,20 @@ const Slide = ({setCardIdx}) => {
           }}
         >
           {cardData.result.map((cardData, index) => {
-            {(currentSlide==index) && setCardIdx(cardData.idx)}
+            {(currentSlide==index) && setAccountIdx(cardData.idx)}
             return (
               <div key={cardData.idx}>
                 {(currentSlide == index ) ? (
                   <Card
                     cardImg={ic_pay_cardtab}
-                    cardName={cardData.cardName}
-                    cardNo={cardData.cardNo}
+                    cardName={cardData.bankName}
+                    cardNo={cardData.bankAccountNum}
                   />
                 ) : (
                   <Card
                     cardImg={ic_pay_cardtab_g}
-                    cardName={cardData.cardName}
-                    cardNo={cardData.cardNo}
+                    cardName={cardData.bankName}
+                    cardNo={cardData.bankAccountNum}
                   />
                 )}
               </div>
@@ -68,7 +67,7 @@ const Slide = ({setCardIdx}) => {
   );
 };
 
-export default Slide;
+export default AccountSlide;
 
 const settings = {
   className: "center",
