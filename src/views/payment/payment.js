@@ -9,7 +9,7 @@ import { TextMiddle } from "../../styled/shared";
 import icon_back from "../../assets/icon-back-arrow.svg";
 import notice_icon from "../../assets/ic_pay_guide.svg";
 
-import { PageWrap,HeaderWrap} from "../../styled/shared/wrap";
+import { PageWrap, HeaderWrap } from "../../styled/shared/wrap";
 import PartyComponent from "./partyComponent";
 import Register from "./register";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
@@ -18,6 +18,8 @@ import Card from "./card";
 import Slide from "./slide";
 import BottomButton from "../../components/party/BottomButton";
 
+import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/loading";
+
 const Payment = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -25,6 +27,7 @@ const Payment = () => {
   // Store
   // 파티 상세 데이터 스토어에서 가져오기
   const {
+    type,
     selectedPartyIdx,
     selectedPartyTitle,
     selectedPartyOpenChatLink,
@@ -42,7 +45,7 @@ const Payment = () => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
-  
+
   const [isFree, setIsFree] = useState("N");
   const [partyId, setPartyId] = useState(0);
   const [partyTitle, setPartyTitle] = useState("");
@@ -61,6 +64,7 @@ const Payment = () => {
     dispatch(BottomNavCloseAction);
 
     if (
+      type &&
       selectedPartyIdx &&
       selectedPartyTitle &&
       selectedPartyOpenChatLink &&
@@ -87,7 +91,7 @@ const Payment = () => {
   //페이지 벨리데이션
   useEffect(() => {
     if (
-      partyId&&
+      partyId &&
       cardIdx
     ) {
       setPageConfirmStatus(true);
@@ -112,15 +116,36 @@ const Payment = () => {
     }
   }, [isFree]);
 
-    //정보 입력 완료
+  //정보 입력 완료
   const onClickRevise = useCallback(async () => {
     if (!pageConfirmStatus) return;
 
-    const data = await customApiClient("post", `/party/${partyId}`, {
-      cardIdx:cardIdx
+    let uri = "";
+
+    //일반적인 가입
+    if (type === "ENROLL") {
+      uri = `/party/${partyId}`;
+    }
+    //재결제 시도
+    else if (type === "PENDING") {
+      uri = `/party/${partyId}/pending`;
+    }
+    //기존 파티원 처음 결제
+    else if (type === "PASTUSER") {
+      uri = `/party/${partyId}/past`;
+    } else {
+      return
+    }
+
+    //로딩 시작
+    dispatch(LoadingOpenAction);
+
+    const data = await customApiClient("post", uri, {
+      cardIdx: cardIdx
     });
 
-    console.log(data);
+    //로딩 끝
+    dispatch(LoadingCloseAction);
 
     //서버에러
     if (!data) return;
@@ -135,9 +160,9 @@ const Payment = () => {
 
     setPageTrans("trans toRight");
     history.push({
-      pathname:'/payment/finish',
-      props:{
-        openChatLink : partyOpenChatLink,
+      pathname: '/payment/finish',
+      props: {
+        openChatLink: partyOpenChatLink,
       }
     });
 
@@ -212,7 +237,7 @@ const Payment = () => {
           >
             결제 금액
           </span>
-          <Price priceInfo={membershipInfoObj} priceFunc={priceNum}/>
+          <Price priceInfo={membershipInfoObj} priceFunc={priceNum} />
           <NoticeWrap className="notoMedium">
             <div className="notice-wrap">
               <img className="icon" src={notice_icon} />
@@ -222,10 +247,10 @@ const Payment = () => {
             </div>
           </NoticeWrap>
           <div className="notoMedium notice-text">
-            <div style={{borderBottom:"1px solid #797979"}}>개인정보 제3자 제공 </div> 내용 및 결제에 동의합니다.
+            <div style={{ borderBottom: "1px solid #797979" }}>개인정보 제3자 제공 </div> 내용 및 결제에 동의합니다.
           </div>
           <BottomButton
-            text={(priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice))+"원 결제"}
+            text={(priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice)) + "원 결제"}
             clickFunc={onClickRevise}
             status={pageConfirmStatus}
           />

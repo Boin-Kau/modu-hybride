@@ -340,7 +340,7 @@ const PartyContent = ({ data }) => {
 
             //리스트 조회
             const data = await customApiClient('get', '/party/report/category');
-            
+
 
             //서버에러
             if (!data) return
@@ -377,6 +377,7 @@ const PartyContent = ({ data }) => {
 
         // 리덕스 설정
         dispatch(UpdatePartyAction({
+            type: "ENROLL",
             selectedPartyIdx: data.idx,
             selectedPartyTitle: data.title,
             selectedPartyOpenChatLink: data.openChatLink,
@@ -386,7 +387,7 @@ const PartyContent = ({ data }) => {
             selectedPartyPartyInfo: data.partyInfo,
             selectedPartyMembershipInfo: data.membershipInfo,
         }))
-        
+
         // 페이지 전환
         setPageTrans('trans toRight');
         history.push('/party/detail');
