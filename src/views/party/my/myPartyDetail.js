@@ -32,6 +32,8 @@ import InfoDuck from "../../../assets/party/ic-popup-info-duck.png";
 import WaitingDuck from "../../../assets/party/ic-popup-waiting-duck.png";
 import { priceToString } from "../../../components/main/bottomCard";
 import DangerDialog from "../../../components/party/DangerDialog";
+import OneButtonDialog from "../../../components/party/OneButtonDialog";
+import { UpdatePartyAction } from "../../../reducers/party/detail";
 
 const MyPartyDetail = () => {
 
@@ -73,6 +75,7 @@ const MyPartyDetail = () => {
   const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 후)
   const [deleteopupStatus, setDeletePopupStatus] = useState(false); //정말 해지하시겠습니까 팝업
 
+  const [deleteFinishStatus, setDeleteFinishStatus] = useState(false); //파티 최종 탈퇴 팝업 데이터
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -107,6 +110,7 @@ const MyPartyDetail = () => {
       if (!membershipInfoObj.paymentCycleDate) return
 
       if (isHostUser === 'N') {
+        if (!membershipInfoObj.nextPaymentDate) return
         setPayMonth(Number((membershipInfoObj.nextPaymentDate).split('-')[1]));
         setPayDay(Number((membershipInfoObj.nextPaymentDate).split('-')[2]));
       } else if (isHostUser === 'Y') {
@@ -239,7 +243,22 @@ const MyPartyDetail = () => {
 
   //정기결제 실패 - 재결제하기
   const handleClickRePay = () => {
-    alert("정기결제 실패 - 재결제하기 (페이지 이동)");
+    // 리덕스 설정
+    dispatch(UpdatePartyAction({
+      type: "PENDING",
+      selectedPartyIdx: result.idx,
+      selectedPartyTitle: result.title,
+      selectedPartyOpenChatLink: result.openChatLink,
+      selectedPartyRoomStatus: result.roomStatus,
+      selectedPartyIsEnrolled: result.IsEnrolled,
+      selectedPartyPlatformInfo: result.platformInfo,
+      selectedPartyPartyInfo: result.partyInfo,
+      selectedPartyMembershipInfo: result.membershipInfo,
+    }))
+
+    // 페이지 전환
+    setPageTrans('trans toRight');
+    history.push('/payment');
   }
 
   //정기결제 실패 - 해지하기 -> 정기결제 해지컨펌 팝업 띄우기
@@ -260,7 +279,22 @@ const MyPartyDetail = () => {
 
   //기존 파티원 - 결제정보 등록하기
   const handleClickUserInfo = () => {
-    alert("기존 파티원 - 결제정보 등록하기");
+    // 리덕스 설정
+    dispatch(UpdatePartyAction({
+      type: "PASTUSER",
+      selectedPartyIdx: result.idx,
+      selectedPartyTitle: result.title,
+      selectedPartyOpenChatLink: result.openChatLink,
+      selectedPartyRoomStatus: result.roomStatus,
+      selectedPartyIsEnrolled: result.isEnrolled,
+      selectedPartyPlatformInfo: result.platformInfo,
+      selectedPartyPartyInfo: result.partyInfo,
+      selectedPartyMembershipInfo: result.membershipInfo,
+    }))
+
+    // 페이지 전환
+    setPageTrans('trans toRight');
+    history.push('/payment');
   }
 
   //해지하기 (기존파티원 동일 함수 사용) -> 해지컨펌 팝업 띄우기
@@ -291,8 +325,19 @@ const MyPartyDetail = () => {
   }
 
   //최종 해지 함수 -> API 실행
-  const handleClickDeleteConfirm = () => {
-    alert("해지하기 API 실행");
+  const handleClickDeleteConfirm = async () => {
+    // 파티 삭제
+    const partyDeleteUri = `/party/${partyIdx}?userRole=USER`;
+    const partyDeleteData = await customApiClient('delete', partyDeleteUri);
+
+    // Server Error
+    if (!partyDeleteData) { return };
+
+    // Validation 
+    if (partyDeleteData.statusCode !== 202) { return alert(partyDeleteData.message) };
+    console.log('API 호출 성공 :', partyDeleteData);
+
+    setDeleteFinishStatus(true);
   }
 
   return (
@@ -536,6 +581,15 @@ const MyPartyDetail = () => {
         rightButtonText={"확인"}
         onClickLeft={handleClickDeleteCancle}
         onClickRight={handleClickDeleteConfirm}
+      />
+
+      {/* 최종 확인 버튼 */}
+      <OneButtonDialog
+        openStatus={deleteFinishStatus}
+        title={"해지가 완료되었습니다."}
+        subTitle={"해지가 모두 완료되었습니다.\n해지된 데이터는 다시 조회할 수 없습니다."}
+        buttonText={"확인"}
+        onClickConfirm={closePage}
       />
     </div>
   );
