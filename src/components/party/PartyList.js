@@ -53,9 +53,24 @@ const PartyItemWrap = styled.div`
   margin-right: ${props => props.marginRight};
   color: ${props => props.color};
 
+  .itemImgWrap {
+    position:relative;
+    width: 4rem;
+    height: 4rem;
+  }
   .itemImg {
     width: 4rem;
     height: 4rem;
+  }
+  .reservedText {
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    text-align:center;
+
+    font-size:0.5rem;
+    color:#ffffff;
   }
   .itemTag {
     margin: 0.25rem auto 0;
@@ -70,12 +85,15 @@ export const CustomPartyListItem = ({ name, margin, isHost, status }) => {
       color={
         status === "RESERVED" ? "#fb5e5e" : "#ffca35"
       }>
-      <img className="itemImg"
-        src={isHost === "Y" ? icon_party_boss :
-          status === "RESERVED" ? icon_party_user_reserved :
-            icon_party_user
-        }
-        alt="boss" />
+      <div className="itemImgWrap">
+        <img className="itemImg"
+          src={isHost === "Y" ? icon_party_boss :
+            status === "RESERVED" ? icon_party_user_reserved :
+              icon_party_user
+          }
+          alt="boss" />
+        {status === "RESERVED" && <div className="reservedText notoMedium">해지예정</div>}
+      </div>
       <div className="itemTag notoBold">{name}</div>
     </PartyItemWrap>
   );

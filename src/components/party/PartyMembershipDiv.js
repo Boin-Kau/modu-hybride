@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { priceToString } from "../main/bottomCard";
 
-const PartyMembershipDiv = ({membershipInfo, platformInfo, isDetail}) => {
+const PartyMembershipDiv = ({ membershipInfo, platformInfo, isDetail }) => {
   const [date, setDate] = useState('');
 
   const isNotEmpty = (param) => Object.keys(param).length !== 0;
 
   useEffect(() => {
-    membershipInfo.paymentCycleDate && setDate(Number((membershipInfo.paymentCycleDate).split('-')[2])); 
-  },[membershipInfo])
+    membershipInfo.paymentCycleDate && setDate(Number((membershipInfo.paymentCycleDate).split('-')[2]));
+  }, [membershipInfo])
 
   return (
     <>
@@ -19,23 +20,23 @@ const PartyMembershipDiv = ({membershipInfo, platformInfo, isDetail}) => {
           <div className="membershipYellowText spoqaBold date">매 달 {date}일</div>
           <div date={date} className="membershipYellowText spoqaBold noDate">없음</div>
         </div>
-        
+
         {/* 금액 파트 확인 필요 */}
         <div className="membershipYellowDivRight">
           <div className="membershipYellowTitle notoMedium">구독금액</div>
-          <div className="membershipYellowText spoqaBold">{membershipInfo.price}원</div>
+          <div className="membershipYellowText spoqaBold">{priceToString(membershipInfo.price || 0)}원</div>
         </div>
       </MembershipYellowDiv>
       {/* 멤버십 정보에서 회색 Div */}
       <MembershipGrayDiv isDetail={isDetail} className="notoMedium">
-        <div style={{display:"flex", marginBottom:"0.75rem"}}>
+        <div style={{ display: "flex", marginBottom: "0.75rem" }}>
           <div className="membershipGrayTitle">멤버십 종류</div>
           <div className="membershipGrayText">
-            {membershipInfo.membership&&membershipInfo.membership.length>0? membershipInfo.membership : '없음'}</div>
+            {membershipInfo.membership && membershipInfo.membership.length > 0 ? membershipInfo.membership : '없음'}</div>
         </div>
-        <div style={{display:"flex"}}>
+        <div style={{ display: "flex" }}>
           <div className="membershipGrayTitle">카테고리</div>
-          <div className="membershipGrayText">{platformInfo.serverCategory? platformInfo.serverCategory : platformInfo.customCategory}</div>
+          <div className="membershipGrayText">{platformInfo.serverCategory ? platformInfo.serverCategory : platformInfo.customCategory}</div>
         </div>
       </MembershipGrayDiv>
     </>

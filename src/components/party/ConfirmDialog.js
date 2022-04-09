@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-const ConfirmDialog = ({title, subTitle, onClickConfirm, onClickCancel}) => {
+const ConfirmDialog = ({ title, subTitle, onClickConfirm, onClickCancel }) => {
 
   return (
-    
+
     <>
       <div style={{ position: 'relative', height: '1.25rem' }}></div>
       <div className="title">{title}</div>
@@ -67,6 +67,10 @@ export const ConfirmPopup = styled.div`
     font-size: 0.75rem;
     color: rgba(49,49,49,0.4);
     margin: 0.625rem 1.6875rem 1.625rem;
+
+    line-height:1.3125rem;
+
+    white-space: pre-line;
   }
   .buttonDiv {
     font-family: 'Spoqa Han Sans';
