@@ -407,10 +407,9 @@ const MyPartyDetail = () => {
               <div className="notice_sub_wrap align_center">
                 <img className="notice_img" src={icon_notice_duck}></img>
                 <div className="notice_text_div">
-                  <span>이번달 </span>
+                  <span>파티를 이용하면 매달 </span>
                   <span className="notice_text_yellow">{membershipInfoObj.originlPrice - membershipInfoObj.price}원</span>
-                  <span>이나 </span>
-                  <span>아꼈어요!</span>
+                  <span>을 아낄 수 있어요 ! </span>
                 </div>
               </div>
             </NoticeWrap>
