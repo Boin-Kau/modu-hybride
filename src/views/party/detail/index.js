@@ -11,7 +11,6 @@ import icon_back from "../../../assets/icon-back-arrow.svg";
 import icon_more from "../../../assets/icon-partydetail-more.svg";
 import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
 import PartyDataListItem from "../../../components/party/PartyList";
-import { customApiClient } from "../../../shared/apiClient";
 import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import { ResetParty } from "../../../reducers/party/detail";
@@ -34,15 +33,15 @@ const PartyDetail = () => {
 
   // Store
   // 파티 상세 데이터 스토어에서 가져오기
-  const { 
-    selectedPartyIdx, 
-    selectedPartyTitle, 
-    selectedPartyOpenChatLink, 
-    selectedPartyRoomStatus, 
+  const {
+    selectedPartyIdx,
+    selectedPartyTitle,
+    selectedPartyOpenChatLink,
+    selectedPartyRoomStatus,
     selectedPartyIsEnrolled,
     selectedPartyPlatformInfo,
     selectedPartyPartyInfo,
-    selectedPartyMembershipInfo, 
+    selectedPartyMembershipInfo,
   } = useSelector(state => state.party.detail);
 
   //Context
@@ -53,8 +52,6 @@ const PartyDetail = () => {
   // Local State
   const [partyId, setPartyId] = useState(0);
   const [partyTitle, setPartyTitle] = useState('');
-  const [partyOpenChatLink, setPartyOpenChatLink] = useState('');
-  const [partyRoomStatus, setPartyRoomStatus] = useState('');
   const [partyIsEnrolled, setPartyIsEnrolled] = useState('');
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [partyInfoObj, setPartyInfoObj] = useState({});
@@ -65,18 +62,16 @@ const PartyDetail = () => {
     // Bottom Nav
     dispatch(BottomNavCloseAction);
 
-    if(selectedPartyIdx&&
-      selectedPartyTitle&&
-      selectedPartyOpenChatLink&&
-      selectedPartyRoomStatus&&
-      selectedPartyIsEnrolled&&
-      selectedPartyPlatformInfo&&
-      selectedPartyPartyInfo&&
+    if (selectedPartyIdx &&
+      selectedPartyTitle &&
+      selectedPartyOpenChatLink &&
+      selectedPartyRoomStatus &&
+      selectedPartyIsEnrolled &&
+      selectedPartyPlatformInfo &&
+      selectedPartyPartyInfo &&
       selectedPartyMembershipInfo) {
       setPartyId(selectedPartyIdx);
       setPartyTitle(selectedPartyTitle);
-      setPartyOpenChatLink(selectedPartyOpenChatLink);
-      setPartyRoomStatus(selectedPartyRoomStatus);
       setPartyIsEnrolled(selectedPartyIsEnrolled);
       setPlatformInfoObj(selectedPartyPlatformInfo);
       setPartyInfoObj(selectedPartyPartyInfo);
@@ -86,12 +81,13 @@ const PartyDetail = () => {
       dispatch(BottomNavOpenAction);
       closePage();
     }
+
     // 배경색 LOGIC
     const userPlatform = checkMobile();
     if (userPlatform == 'ios') {
       //IOS 배경색 설정
       try {
-          window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+        window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
       }
       catch (err) {
       }
@@ -100,14 +96,14 @@ const PartyDetail = () => {
 
   useEffect(() => {
     list = [];
-    if(partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+    if (partyInfoObj.currentUserCount && partyInfoObj.personnel) {
       list.push('파티장');
-      for(let i=0; i<partyInfoObj.currentUserCount-1; i++) list.push('참가완료');
-      for(let i=0; i<partyInfoObj.personnel-partyInfoObj.currentUserCount; i++) list.push('대기중');
-      for(let i=partyInfoObj.personnel; i!==4; i++) list.push('-');
+      for (let i = 0; i < partyInfoObj.currentUserCount - 1; i++) list.push('참가완료');
+      for (let i = 0; i < partyInfoObj.personnel - partyInfoObj.currentUserCount; i++) list.push('대기중');
+      for (let i = partyInfoObj.personnel; i !== 4; i++) list.push('-');
       setTypeList(list);
     }
-  },[partyInfoObj])
+  }, [partyInfoObj])
 
   // Function
   const closePage = () => {
@@ -152,14 +148,14 @@ const PartyDetail = () => {
 
         <MainWrap>
           {/* 메인 컨텐츠 */}
-          <div style={{flexGrow: '1'}}>
+          <div style={{ flexGrow: '1' }}>
             {/* 파티 제목  */}
             <TopContentWrap>
-              <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true}/>
+              <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true} />
             </TopContentWrap>
 
             {/* 파티 정보 */}
-            <PartyDetailSubWrap style={{borderBottom: '0.5rem #f7f7f7 solid'}}>
+            <PartyDetailSubWrap style={{ borderBottom: '0.5rem #f7f7f7 solid' }}>
               {/* 서브 타이틀 & 인원 수 */}
               <PartyDataTitleDiv>
                 <PartyDetailSubtitleSpan>파티 정보</PartyDetailSubtitleSpan>
@@ -173,40 +169,42 @@ const PartyDetail = () => {
               <PartyDataContentWrap personnel={partyInfoObj.personnel}>
                 {
                   typeList.map((item, idx) => {
-                    if(partyInfoObj.personnel > 4) {
-                      return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx}/>)
-                    } else {
-                      return (<PartyDataListItem type={item} margin={'0'} key={idx}/>)
-                    }
+                    return (
+                      <PartyDataListItem
+                        type={item}
+                        margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
+                        isHost={idx === 0 ? "Y" : "N"}
+                        key={idx} />
+                    )
                   })
                 }
               </PartyDataContentWrap>
             </PartyDetailSubWrap>
 
             {/* 멤버십 정보 */}
-            <PartyDetailSubWrap style={{paddingLeft:'1.25rem', paddingRight:'1.25rem'}}>
-              <div style={{ marginBottom:'1.0938rem'}}>
+            <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem' }}>
+              <div style={{ marginBottom: '1.0938rem' }}>
                 <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
               </div>
               {/* 파티 멤버십 정보 컴포넌트 */}
               <PartyMembershipDiv
                 membershipInfo={membershipInfoObj}
                 platformInfo={platformInfoObj}
-                isDetail={true}/>
+                isDetail={true} />
             </PartyDetailSubWrap>
 
           </div>
 
           {/* 최하단 Yellow 버튼 */}
-          <div style={{margin:'0 1.25rem'}}>
-            <BottomButton 
-              clickFunc={partyIsEnrolled === 'Y'? () => openPartyDetail(partyId) : openPaymentPage} 
-              text={`${partyIsEnrolled === 'Y'?'파티 상세보기':'파티참가'}`} 
-              status={true}/>
+          <div style={{ margin: '0 1.25rem' }}>
+            <BottomButton
+              clickFunc={partyIsEnrolled === 'Y' ? () => openPartyDetail(partyId) : openPaymentPage}
+              text={`${partyIsEnrolled === 'Y' ? '파티 상세보기' : '파티참가'}`}
+              status={true} />
           </div>
         </MainWrap>
       </PageWrap>
-      <ReportBottomDialog/>
+      <ReportBottomDialog partyIdx={partyId} />
     </div>
   );
 };
@@ -214,7 +212,7 @@ const PartyDetail = () => {
 export default PartyDetail;
 
 // Child Component(Top Data, 파티정보, 멤버십정보) - 내 파티 상세보기에서 Recycle
-const PartyDetailContent = ({result}) => {
+const PartyDetailContent = ({ result }) => {
 
   // Local Value
   let list = [];
@@ -226,7 +224,7 @@ const PartyDetailContent = ({result}) => {
   const [partyCategory, setPartyCategory] = useState('');
   const [serviceName, setServiceName] = useState('');
   const [partyImgUrl, setPartyImgUrl] = useState('');
-  
+
   const [personnel, setPersonnel] = useState(0);
   const [currentUserCount, setCurrentUserCount] = useState(0);
 
@@ -239,7 +237,7 @@ const PartyDetailContent = ({result}) => {
 
   // Lifecycle - When result is changed
   useEffect(() => {
-    if(!result) return;
+    if (!result) return;
 
     console.log(`언제 실행되는지 보자: `, result);
     setPartyCustomColor(result.color);
@@ -256,10 +254,10 @@ const PartyDetailContent = ({result}) => {
   }, [result]);
 
   // Function
-  
+
   return (
     <div style={{ flexGrow: '1' }}>
-      
+
     </div>
   );
 };

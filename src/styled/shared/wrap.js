@@ -118,7 +118,7 @@ export const BottomDialogDiv = styled.div`
   position:absolute;
   left: 1.25rem;
   right: 1.25rem;
-  bottom: 1.625rem;
+  bottom: 1.25rem;
   text-align: center;
   font-size: 0.875rem;
   font-family: 'Spoqa Han Sans';

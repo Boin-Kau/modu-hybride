@@ -1,5 +1,5 @@
-import { DangerWrapPopup, TextMiddle } from "../../../styled/shared";
-import { ContentWrap, HeaderWrap, NoticeWrap, PartyDetailSubWrap } from "../../../styled/shared/wrap";
+import { TextMiddle } from "../../../styled/shared";
+import { HeaderWrap, NoticeWrap, PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PageTransContext } from '../../../containers/pageTransContext';
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
@@ -9,7 +9,7 @@ import icon_notice_duck from '../../../assets/icon-notice-duck.svg';
 
 import { useHistory, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import styled from "styled-components";
 import { checkMobile } from "../../../App";
@@ -20,7 +20,7 @@ import PartyDataListItem, { CustomPartyListItem } from "../../../components/part
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
-import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
+import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction, SetReportCategoryListAction, ReportPopupOpenAction, MemberBottomDialogCloseAction } from "../../../reducers/party/popup";
 import HostBottomDialog from "./dialog/hostBottomDialog";
 import MemberBottomDialog from "./dialog/memberBottomDialog";
 import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
@@ -389,6 +389,14 @@ const MyPartyDetail = () => {
     setFinishPopupStatus(true);
   }
 
+  //신고하기 팝업
+  const handleClickReport = async () => {
+    dispatch(MemberBottomDialogCloseAction);
+    dispatch(ReportPopupOpenAction({
+      reportPartyIdx: partyIdx
+    }))
+  }
+
   return (
     <div className="page">
       <HeaderWrap>
@@ -559,7 +567,7 @@ const MyPartyDetail = () => {
       </MainWrap>
 
       <HostBottomDialog roomStatus={roomStatus} partyIdx={partyIdx} />
-      <MemberBottomDialog userStatus={userStatus} />
+      <MemberBottomDialog userStatus={userStatus} handleClickReport={handleClickReport} />
       <PartyDeleteConfirmDialog
         roomStatus={roomStatus}
         userStatus={userStatus}

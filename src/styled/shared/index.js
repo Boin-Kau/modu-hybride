@@ -63,7 +63,7 @@ export const DangerWrapPopup = styled.div`
     right:0;
     bottom:0;
 
-    background-color:rgba(0,0,0,0.7);
+    background-color:rgba(110,110,110,0.35);
 `;
 export const DangerPopup = styled.div`
 
