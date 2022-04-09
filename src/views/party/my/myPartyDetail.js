@@ -1,5 +1,5 @@
-import { DangerWrapPopup, TextMiddle } from "../../../styled/shared";
-import { ContentWrap, HeaderWrap, NoticeWrap, PartyDetailSubWrap } from "../../../styled/shared/wrap";
+import { TextMiddle } from "../../../styled/shared";
+import { HeaderWrap, NoticeWrap, PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PageTransContext } from '../../../containers/pageTransContext';
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
@@ -9,7 +9,7 @@ import icon_notice_duck from '../../../assets/icon-notice-duck.svg';
 
 import { useHistory, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import styled from "styled-components";
 import { checkMobile } from "../../../App";
@@ -20,7 +20,7 @@ import PartyDataListItem, { CustomPartyListItem } from "../../../components/part
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
-import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction } from "../../../reducers/party/popup";
+import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction, SetReportCategoryListAction, ReportPopupOpenAction, MemberBottomDialogCloseAction } from "../../../reducers/party/popup";
 import HostBottomDialog from "./dialog/hostBottomDialog";
 import MemberBottomDialog from "./dialog/memberBottomDialog";
 import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
@@ -67,6 +67,8 @@ const MyPartyDetail = () => {
   const [userCardInfoObj, setUserCardInfoObj] = useState({});
   const [result, setResult] = useState({}); // 파티 상세정보 전체 데이터
 
+  const [leftDay, setLeftDay] = useState(0); // 결제일 남은 일수
+
   const [regularFailPopupStatus, setRegularFailPopupStatus] = useState(false); //정기결제 실패 팝업 데이터
   const [regularFailConfirmPopupStatus, setRegularFailConfirmPopupStatus] = useState(false); //정기결제 실패 최종확인 팝업 데이터
   const [regularFailConfirmPopupTitle, setRegularFailConfirmPopupTitle] = useState(""); //정기결제 실패 최종확인 팝업 제목
@@ -75,7 +77,9 @@ const MyPartyDetail = () => {
   const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 후)
   const [deleteopupStatus, setDeletePopupStatus] = useState(false); //정말 해지하시겠습니까 팝업
 
-  const [deleteFinishStatus, setDeleteFinishStatus] = useState(false); //파티 최종 탈퇴 팝업 데이터
+  const [finishPopupStatus, setFinishPopupStatus] = useState(false); //최종확인 팝업 데이터
+  const [finishPopupTitle, setFinishPopupTitle] = useState(false); //최종확인 팝업 제목
+  const [finishPopupSubTitle, setFinishPopupSubTitle] = useState(false); //최종확인 팝업 내용
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -158,6 +162,23 @@ const MyPartyDetail = () => {
     setBankAccountInfoObj(partyDetailData.result.bankAccountInfo);
     setUserCardInfoObj(partyDetailData.result.userCardInfo);
 
+    //남은일수 계산
+    if (partyDetailData.result.membershipInfo.paymentCycleDate) {
+      const paymentCycleDate = partyDetailData.result.membershipInfo.paymentCycleDate;
+      const now = new Date();
+
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+      const currentDay = now.getDate();
+
+      const startDate = new Date(currentYear, currentMonth, currentDay);
+      const endDate = new Date(parseInt(paymentCycleDate.substr(0, 4)), parseInt(paymentCycleDate.substr(5, 2)), parseInt(paymentCycleDate.substr(8, 2)));
+
+      const dateDiff = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+
+      setLeftDay(dateDiff);
+    }
+
     //파티원 정기결제 실패로직 처리
     if (partyDetailData.result.userStatus === "PENDING") {
       setRegularFailPopupStatus(true);
@@ -212,14 +233,35 @@ const MyPartyDetail = () => {
     // Server Error
     if (!partyDeleteData) { return };
 
-    // Validation 
-    if (partyDeleteData.statusCode !== 200) { return };
+    //파티 삭제/해지 예약 완료
+    if (partyDeleteData.statusCode === 200) {
+      if (isHostUser === 'Y') {
+        setFinishPopupTitle("삭제 예약이 완료되었습니다.");
+      }
+      else {
+        setFinishPopupTitle("해지 예약이 완료되었습니다.");
+      }
+      setFinishPopupSubTitle("해당 예약은 결제일 전이라면\n언제든 취소할 수 있습니다.");
+    }
+    //파티 삭제 완료
+    else if (partyDeleteData.statusCode === 201) {
+      setFinishPopupTitle("삭제가 완료되었습니다.");
+      setFinishPopupSubTitle("종료된 파티는 내파티에서 확인 가능합니다.\n내파티를 확인해주세요!");
+    }
+    //파티 즉시 탈퇴 완료
+    else if (partyDeleteData.statusCode === 201) {
+      setFinishPopupTitle("탈퇴가 완료되었습니다.");
+      setFinishPopupSubTitle("종료된 파티는 내파티에서 확인 가능합니다.\n내파티를 확인해주세요!");
+    }
+    // Validation
+    else {
+      alert(partyDeleteData.message);
+      return
+    }
     console.log('API 호출 성공 :', partyDeleteData);
 
     dispatch(PartyDeleteConfirmDialogCloseAction);
-    //  페이지 이동
-    setPageTrans('trans toLeft');
-    history.goBack();
+    setFinishPopupStatus(true);
   }
 
   const onDeletePartyCancel = async () => {
@@ -231,14 +273,19 @@ const MyPartyDetail = () => {
     if (!partyDeleteCancelData) { return };
 
     // Validation 
-    if (partyDeleteCancelData.statusCode !== 200) { return };
+    if (partyDeleteCancelData.statusCode !== 200) {
+      alert(partyDeleteCancelData.message);
+      return
+    };
     console.log('API 호출 성공 :', partyDeleteCancelData);
 
 
     dispatch(PartyDeleteConfirmDialogCloseAction);
-    //  페이지 이동
-    setPageTrans('trans toLeft');
-    history.goBack();
+
+    const type = isHostUser === "Y" ? "삭제" : "해지";
+    setFinishPopupTitle(`${type} 취소가 완료되었습니다.`);
+    setFinishPopupSubTitle("다시 파티를 정상적으로\n이용하실 수 있습니다.");
+    setFinishPopupStatus(true);
   }
 
   //정기결제 실패 - 재결제하기
@@ -333,11 +380,21 @@ const MyPartyDetail = () => {
     // Server Error
     if (!partyDeleteData) { return };
 
-    // Validation 
+    // Validation
     if (partyDeleteData.statusCode !== 202) { return alert(partyDeleteData.message) };
     console.log('API 호출 성공 :', partyDeleteData);
 
-    setDeleteFinishStatus(true);
+    setFinishPopupTitle("해지가 완료되었습니다.");
+    setFinishPopupSubTitle("해지가 모두 완료되었습니다.\n해지된 데이터는 다시 조회할 수 없습니다.");
+    setFinishPopupStatus(true);
+  }
+
+  //신고하기 팝업
+  const handleClickReport = async () => {
+    dispatch(MemberBottomDialogCloseAction);
+    dispatch(ReportPopupOpenAction({
+      reportPartyIdx: partyIdx
+    }))
   }
 
   return (
@@ -354,7 +411,13 @@ const MyPartyDetail = () => {
       <MainWrap>
         {/* 파티 제목 컴포넌트 */}
         <TopContentWrap>
-          <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true} />
+          <PartyTitleDiv
+            title={partyTitle}
+            info={platformInfoObj}
+            isDetail={true}
+            isUserReserved={userStatus === "RESERVED"}
+            isPartyReserved={roomStatus === "RESERVED"}
+            leftDay={leftDay} />
         </TopContentWrap>
 
         {/* 파티 정보 */}
@@ -372,20 +435,24 @@ const MyPartyDetail = () => {
           <PartyDataContentWrap personnel={partyInfoObj.personnel}>
             {
               partyInfoObj.partyUsers && partyInfoObj.partyUsers.map((item, idx) => {
-                if (partyInfoObj.personnel > 4) {
-                  return (<CustomPartyListItem name={item.name} margin={'0.9375rem'} key={idx} />)
-                } else {
-                  return (<CustomPartyListItem name={item.name} margin={'0'} key={idx} />)
-                }
+                return (
+                  <CustomPartyListItem
+                    name={item.name}
+                    margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
+                    isHost={idx === 0 ? "Y" : "N"}
+                    status={item.status}
+                    key={item.userIdx} />
+                )
               })
             }
             {
               typeList.map((item, idx) => {
-                if (partyInfoObj.personnel > 4) {
-                  return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx} />)
-                } else {
-                  return (<PartyDataListItem type={item} margin={'0'} key={idx} />)
-                }
+                return (
+                  <PartyDataListItem
+                    type={item}
+                    margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
+                    key={idx} />
+                )
               })
             }
           </PartyDataContentWrap>
@@ -403,10 +470,9 @@ const MyPartyDetail = () => {
               <div className="notice_sub_wrap align_center">
                 <img className="notice_img" src={icon_notice_duck}></img>
                 <div className="notice_text_div">
-                  <span>이번달 </span>
-                  <span className="notice_text_yellow">{membershipInfoObj.originlPrice - membershipInfoObj.price}원</span>
-                  <span>이나 </span>
-                  <span>아꼈어요!</span>
+                  <span>파티를 이용하면 매달 </span>
+                  <span className="notice_text_yellow">{priceToString(membershipInfoObj.originlPrice - membershipInfoObj.price)}원</span>
+                  <span>을 아낄 수 있어요 ! </span>
                 </div>
               </div>
             </NoticeWrap>
@@ -452,10 +518,14 @@ const MyPartyDetail = () => {
                 <span>예정일은 </span>
                 <span className="notice_text_yellow">{payMonth}월 {payDay}일</span>
                 <span>입니다!</span><br />
-                {/* 
-                  파티장 : 00000원이 결제
-                  파티원 : 0000원이 정산
-                */}
+                <span className="notice_text_yellow">
+                  {
+                    (membershipInfoObj.nextCalculatePrice || (membershipInfoObj.price && membershipInfoObj.commissionPrice)) &&
+                      isHostUser === 'Y' ?
+                      `${priceToString(membershipInfoObj.nextCalculatePrice || 0)}원이 정산` :
+                      `${priceToString(membershipInfoObj.price + membershipInfoObj.commissionPrice)}원이 결제`
+                  }
+                </span>
                 <span>될 예정이에요.</span>
               </div>
             </div>
@@ -497,8 +567,15 @@ const MyPartyDetail = () => {
       </MainWrap>
 
       <HostBottomDialog roomStatus={roomStatus} partyIdx={partyIdx} />
-      <MemberBottomDialog roomStatus={roomStatus} />
-      <PartyDeleteConfirmDialog roomStatus={roomStatus} isHostUser={isHostUser} clickDelete={onDeleteParty} clickCancel={onDeletePartyCancel} />
+      <MemberBottomDialog userStatus={userStatus} handleClickReport={handleClickReport} />
+      <PartyDeleteConfirmDialog
+        roomStatus={roomStatus}
+        userStatus={userStatus}
+        isHostUser={isHostUser}
+        currentUserCount={partyInfoObj.currentUserCount || 0}
+        clickDelete={onDeleteParty}
+        clickCancel={onDeletePartyCancel}
+        paymentCycleDate={membershipInfoObj.paymentCycleDate} />
 
       {/* 선택 다이얼로그 시작*/}
 
@@ -585,9 +662,9 @@ const MyPartyDetail = () => {
 
       {/* 최종 확인 버튼 */}
       <OneButtonDialog
-        openStatus={deleteFinishStatus}
-        title={"해지가 완료되었습니다."}
-        subTitle={"해지가 모두 완료되었습니다.\n해지된 데이터는 다시 조회할 수 없습니다."}
+        openStatus={finishPopupStatus}
+        title={finishPopupTitle}
+        subTitle={finishPopupSubTitle}
         buttonText={"확인"}
         onClickConfirm={closePage}
       />

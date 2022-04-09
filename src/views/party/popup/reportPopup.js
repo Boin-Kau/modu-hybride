@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import TeminateDuckImg from "../../../assets/character-main-party-ban.svg";
 import ReportDuckImg from "../../../assets/character-main-report.svg";
 
 import { DangerWrapPopup, DangerPopup } from "../../../styled/shared";
 import { useDispatch, useSelector } from "react-redux";
-import { ReportPopupCloseAction } from "../../../reducers/party/popup";
+import { ReportPopupCloseAction, SetReportCategoryListAction } from "../../../reducers/party/popup";
 import { ItemWrap, InputWrap } from "../../../styled/main/enrollment";
 import styled from "styled-components";
 
@@ -38,6 +38,28 @@ const ReportPopUp = ({ openStatus }) => {
 
     const [categoryOpen, setCategoryOpen] = useState(false);
 
+    useEffect(async () => {
+        //신고 카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+        if (reportCategoryList.length < 1) {
+
+            //리스트 조회
+            const data = await customApiClient('get', '/party/report/category');
+
+            //서버에러
+            if (!data) return
+
+            //벨리데이션
+            if (data.statusCode != 200) {
+                return
+            }
+
+            //리덕스에 넣어주기
+            dispatch(SetReportCategoryListAction({
+                reportCategoryList: data.result
+            }));
+
+        }
+    }, [])
 
     const onClickCategoryOpen = () => {
         setCategoryOpen(!categoryOpen);
@@ -66,8 +88,8 @@ const ReportPopUp = ({ openStatus }) => {
 
         //서버통신
         const body = {
-            partyRoomIdx: reportPartyIdx,
-            categoryIdx: reportCategoryIdx,
+            partyRoomIdx: Number(reportPartyIdx),
+            categoryIdx: Number(reportCategoryIdx),
             content: reportContent,
         }
 

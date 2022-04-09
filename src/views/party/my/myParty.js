@@ -35,16 +35,8 @@ const MyParty = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    //store
-    const {
-        reportPopupStatus,
-        terminatePopupStatus,
-        banishPopupStatus,
-    } = useSelector(state => state.party.popup);
-
     //context
     const { setPageTrans } = useContext(PageTransContext);
-
 
     //state
     const [progressMenuStatus, setProgressMenuStatus] = useState(true);
@@ -126,10 +118,10 @@ const MyParty = () => {
 
     // 내 파티 상세보기 버튼 클릭 
     const onClickDetailButton = (partyIdx) => {
-        if(partyIdx === 0) return;
+        if (partyIdx === 0) return;
 
         setPageTrans('trans toRight');
-        
+
         history.push(`/party/my/${partyIdx}`);
     }
 
@@ -184,15 +176,6 @@ const MyParty = () => {
                     </ItemListWrap>
                 </MainWrap>
             </PageWrap>
-
-            {/* 신고 하기 팝업 */}
-            <ReportPopUp openStatus={reportPopupStatus} />
-
-            {/* 파티 나가기 팝업 */}
-            <TerminatePopUp openStatus={terminatePopupStatus} />
-
-            {/* 추방하기 팝업 */}
-            <BanishPopUp openStatus={banishPopupStatus} />
         </div >
     )
 };
@@ -201,14 +184,6 @@ const MyParty = () => {
 const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress, onClickDetailButton }) => {
 
     const dispatch = useDispatch();
-    const history = useHistory();
-
-    const {
-        reportCategoryList,
-    } = useSelector(state => state.party.popup);
-
-    //context
-    const { setPageTrans } = useContext(PageTransContext);
 
     const [openStatus, setOpenStatus] = useState(false);
 
@@ -223,58 +198,8 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress, onClickDet
     }
 
     const onClickReport = async () => {
-
-        //신고 카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
-        if (reportCategoryList.length < 1) {
-
-            //리스트 조회
-            const data = await customApiClient('get', '/party/report/category');
-
-            //서버에러
-            if (!data) return
-
-            //벨리데이션
-            if (data.statusCode !== 200) {
-                return
-            }
-
-            //리덕스에 넣어주기
-            dispatch(SetReportCategoryListAction({
-                reportCategoryList: data.result
-            }));
-
-        }
-
-
         dispatch(ReportPopupOpenAction({
             reportPartyIdx: data.idx
-        }))
-    }
-
-    const onClickTerminate = () => {
-
-        const role = data.IsHost === 'Y' ? "HOST" : "USER";
-
-        dispatch(TerminatePopupOpenAction({
-            terminatePartyIdx: data.idx,
-            terminatePartyRole: role
-        }))
-    }
-
-    const handleClickRevise = () => {
-        setPageTrans('trans toLRight');
-        history.push({
-            pathname: '/party/revise',
-            data: data
-        })
-    }
-
-    const onClickBanishUser = () => {
-        if (room.partyUser.length <= 1) return
-
-        dispatch(BanishPopupOpenAction({
-            banishPartyIdx: data.idx,
-            banishUserList: room.partyUser,
         }))
     }
 
@@ -361,34 +286,24 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress, onClickDet
 
 
                     <DetailRowWrap style={{ margin: "0" }}>
-                        <div onClick={() => {onClickDetailButton(data.idx)}}  className="spoqaBold" style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                            <div style={{ height: '100%' }}>
-                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>내 파티 상세보기</div>
+                        {isProgress ?
+                            <div onClick={() => { onClickDetailButton(data.idx) }} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', backgroundColor: '#ffbc26', minHeight: "2.4375rem", borderRadius: '0.375rem' }}>
+                                <div style={{ height: '100%' }}>
+                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>내 파티 상세보기</div>
+                                </div>
+                            </div> :
+                            <div onClick={() => { window.open(data.openChatLink, "_blank") }} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', backgroundColor: '#ffbc26', minHeight: "2.4375rem", borderRadius: '0.375rem' }}>
+                                <div style={{ height: '100%' }}>
+                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>오픈채팅방 열기</div>
+                                </div>
                             </div>
-                        </div>
-                        <div onClick={onClickReport} style={{ padding: '0.5rem 0.875rem 0.5437rem 0.9187rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                            <img src={ReportIcon} style={{ width: '1.2563rem', height: '1.3938rem' }} />
-                        </div>
+                        }
+                        {!isProgress &&
+                            <div onClick={onClickReport} style={{ padding: '0.375rem 0.875rem 0.4187rem 0.9187rem', backgroundColor: '#ffbc26', marginLeft: '0.75rem', borderRadius: '0.375rem' }}>
+                                <img src={ReportIcon} style={{ width: '1.2563rem', height: '1.3938rem' }} />
+                            </div>
+                        }
                     </DetailRowWrap>
-                    {isProgress &&
-                        <DetailRowWrap style={{ margin: "0", marginTop: '1rem' }}>
-                            {data.IsHost === 'Y' ?
-                                <div onClick={handleClickRevise} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                                    <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 수정하기</div>
-                                </div>
-                                :
-                                <div onClick={onClickTerminate} className="spoqaBold" style={{ position: 'relative', flexGrow: '1', padding: '0.5625rem 0 0.75rem 0', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                                    <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티 나가기</div>
-                                </div>
-                            }
-
-                            {data.IsHost === 'Y' &&
-                                <ButtonWrap onClick={onClickBanishUser} className="spoqaBold" isComplte={room.partyUser.length > 1} style={{ marginLeft: '0.75rem' }}>
-                                    <div style={{ color: '#ffffff', fontSize: '0.8125rem', textAlign: 'center' }}>파티원 강제 퇴장</div>
-                                </ButtonWrap>
-                            }
-                        </DetailRowWrap>
-                    }
 
                 </ContentDetailWrap>
             </Fade>

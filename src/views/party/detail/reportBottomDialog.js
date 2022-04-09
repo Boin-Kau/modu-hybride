@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ReportBottomDialogCloseAction } from "../../../reducers/party/popup";
+import { ReportBottomDialogCloseAction, ReportPopupOpenAction } from "../../../reducers/party/popup";
 import { BottomDialogDiv, BottomDialogWrap } from "../../../styled/shared/wrap";
 
-const ReportBottomDialog = () => {
+const ReportBottomDialog = ({ partyIdx }) => {
 
   const dispatch = useDispatch();
   const { reportBottomDialogStatus } = useSelector(state => state.party.popup);
@@ -10,6 +10,9 @@ const ReportBottomDialog = () => {
   const openReportDialog = () => {
     // 신고하기 API
     dispatch(ReportBottomDialogCloseAction);
+    dispatch(ReportPopupOpenAction({
+      reportPartyIdx: partyIdx
+    }))
   };
 
   const closeDialog = () => {
