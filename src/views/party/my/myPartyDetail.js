@@ -372,20 +372,24 @@ const MyPartyDetail = () => {
           <PartyDataContentWrap personnel={partyInfoObj.personnel}>
             {
               partyInfoObj.partyUsers && partyInfoObj.partyUsers.map((item, idx) => {
-                if (partyInfoObj.personnel > 4) {
-                  return (<CustomPartyListItem name={item.name} margin={'0.9375rem'} key={idx} />)
-                } else {
-                  return (<CustomPartyListItem name={item.name} margin={'0'} key={idx} />)
-                }
+                return (
+                  <CustomPartyListItem
+                    name={item.name}
+                    margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
+                    isHost={idx === 0 ? "Y" : "N"}
+                    status={item.status}
+                    key={item.userIdx} />
+                )
               })
             }
             {
               typeList.map((item, idx) => {
-                if (partyInfoObj.personnel > 4) {
-                  return (<PartyDataListItem type={item} margin={'0.9375rem'} key={idx} />)
-                } else {
-                  return (<PartyDataListItem type={item} margin={'0'} key={idx} />)
-                }
+                return (
+                  <PartyDataListItem
+                    type={item}
+                    margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
+                    key={idx} />
+                )
               })
             }
           </PartyDataContentWrap>
