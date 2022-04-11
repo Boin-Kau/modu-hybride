@@ -24,10 +24,13 @@ const ChoosePartyInfo = ({updatePage}) => {
 
   useEffect(() => {
     if(partyTitle&&partyLink) {
-      setNextBtnStatus(true);
-    } else {
-      setNextBtnStatus(false);
+      //카카오 오픈채팅 링크 벨리데이션
+      if (partyLink.includes('https://open.kakao.com')) {
+        setNextBtnStatus(true);
+        return
+      }
     }
+    setNextBtnStatus(false); 
 
   },[partyTitle, partyMembership, partyLink])
 

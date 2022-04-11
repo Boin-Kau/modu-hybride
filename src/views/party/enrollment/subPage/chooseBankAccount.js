@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import BottomButton from "../../../../components/party/BottomButton";
@@ -6,14 +6,33 @@ import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/s
 import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
 import { MainText } from "../../../../styled/shared/text";
+import { NoticeWrap } from "../../../../styled/shared/wrap";
 
-const ChooseBankAccount = ({updatePage}) => {
+import icon_notice_duck from "../../../../assets/icon-notice-duck.svg";
+import { customApiClient } from "../../../../shared/apiClient";
+
+const ChooseBankAccount = () => {
 
   const dispatch = useDispatch();
 
   const [accountOwnerName, setAccountOwnerName] = useState('');
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
+
+  useEffect(() => {
+    getBankAccountList();
+  },[])
+
+  const getBankAccountList = async () => {
+    const bankAccountUri = '/party/user/bankAccount';
+    const bankAccountData = await customApiClient('get', bankAccountUri);
+
+    // Server Error
+    if (!bankAccountData) { return };
+    // Validation 
+    if (bankAccountData.statusCode !== 200) { return };
+    console.log('API 호출 성공 :', bankAccountData);
+  } 
 
   const handleChangeAccountOwnerName = (e) => {
     setAccountOwnerName(e.target.value);
@@ -31,6 +50,20 @@ const ChooseBankAccount = ({updatePage}) => {
           를<br/> 
           알려주세요.
         </MainText>
+
+        {/* Notice Div */}
+        <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', margin:'1.1563rem 0 1.2813rem'}}>
+          <div className="notice_sub_wrap align_center">
+            <div>
+              <img className="notice_img" src={icon_notice_duck}></img>
+            </div>
+            <div className="notice_text_div">
+              파티금액을
+              <span className="boldText"> 입금받을 계좌</span>
+              를 알려주세요. 계좌는 본인명의의 계좌만 등록이 가능합니다.
+            </div>
+          </div>
+        </NoticeWrap>
 
         {/* 계좌 소유자 */}
         <TitleWrap style={{marginTop:'0.9688rem'}}>계좌 소유자</TitleWrap>
