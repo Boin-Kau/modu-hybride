@@ -9,7 +9,7 @@ import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
 import { useEffect, useState } from "react";
 import BottomButton from "../../../../components/party/BottomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 
 const ChooseAccount = () => {
@@ -22,10 +22,24 @@ const ChooseAccount = () => {
   const [miniInfoStatus, setMiniInfoStatus] = useState(false)
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
+  const { isAccount: isAccountStatus } = useSelector(state => state.party.enrollment.platform);
+
   useEffect(() => {
-    if(accountId&&accountPw) {
-      setNextBtnStatus(true);
-    } else {
+
+    if(isAccountStatus === 'N') { // 건너뛰기 있을 때
+      if(accountId&&accountPw) {
+        setNextBtnStatus(true);
+        return
+      } else if (!(accountId||accountPw)) {
+        setNextBtnStatus(true);
+        return
+      }
+      setNextBtnStatus(false);
+    } else { // 건너뛰기 없을 때
+      if(accountId&&accountPw) {
+        setNextBtnStatus(true);
+        return
+      }
       setNextBtnStatus(false);
     }
   },[accountId,accountPw])

@@ -7,15 +7,25 @@ import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
 import { MainText } from "../../../../styled/shared/text";
 import { NoticeWrap } from "../../../../styled/shared/wrap";
+import Slider from "react-slick";
 
 import icon_notice_duck from "../../../../assets/icon-notice-duck.svg";
+import ic_pay_cardtab from "../../../../assets/ic_pay_cardtab.svg";
+import ic_pay_cardtab_g from "../../../../assets/ic_pay_cardtab_g.svg";
+
 import { customApiClient } from "../../../../shared/apiClient";
+import BankComponent from "../../../card/bankComponent";
+import { settings } from "../../../payment/slide";
+import Card from "../../../payment/card";
 
 const ChooseBankAccount = () => {
 
   const dispatch = useDispatch();
 
   const [accountOwnerName, setAccountOwnerName] = useState('');
+  const [currentSlide, setCurrentSlide] = useState('0');
+  const [bankIdx, setBankIdx] = useState();
+  const [bankAccountData, setBankAccountData] = useState({});
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
@@ -25,18 +35,20 @@ const ChooseBankAccount = () => {
 
   const getBankAccountList = async () => {
     const bankAccountUri = '/party/user/bankAccount';
-    const bankAccountData = await customApiClient('get', bankAccountUri);
+    const data = await customApiClient('get', bankAccountUri);
 
     // Server Error
-    if (!bankAccountData) { return };
+    if (!data) { return };
     // Validation 
-    if (bankAccountData.statusCode !== 200) { return };
-    console.log('API 호출 성공 :', bankAccountData);
-  } 
+    if (data.statusCode !== 200) { return };
+
+    console.log('API 호출 성공 :', data);
+    setBankAccountData(data);
+  }; 
 
   const handleChangeAccountOwnerName = (e) => {
     setAccountOwnerName(e.target.value);
-  }
+  };
 
   const nextPage = () => {
     nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
@@ -50,6 +62,44 @@ const ChooseBankAccount = () => {
           를<br/> 
           알려주세요.
         </MainText>
+
+
+        {/* {bankAccountData.length === 0 ?
+          (<></>)
+        : 
+          (
+            <Slider
+              {...settings}
+              afterChange={(current, next) => {
+                setCurrentSlide(current);
+              }}
+            >
+              {bankAccountData.result.map((bankData, index) => {
+                {(currentSlide==index) && setBankIdx(bankData.idx)}
+                return (
+                  <div key={bankData.idx}>
+                    {(currentSlide == index ) ? (
+                      <Card
+                        cardImg={ic_pay_cardtab}
+                        cardName={bankData.bankName}
+                        cardNo={bankData.bankAccountNum}
+                      />
+                    ) : (
+                      <Card
+                        cardImg={ic_pay_cardtab_g}
+                        cardName={bankData.bankName}
+                        cardNo={bankData.bankAccountNum}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+              <></>
+            </Slider>
+          )
+        } */}
+
+        
 
         {/* Notice Div */}
         <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', margin:'1.1563rem 0 1.2813rem'}}>
@@ -93,3 +143,4 @@ const ChooseBankAccountWrap = styled.div`
   flex-direction: column; 
   padding: 0 1.25rem;
 `;
+
