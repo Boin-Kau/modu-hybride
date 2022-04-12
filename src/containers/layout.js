@@ -46,11 +46,14 @@ import PartyEnrollment from '../views/party/enrollment/enrollment';
 import MyPartyRevise from '../views/party/my/myPartyRevise';
 
 //회원가입,로그인 테스트
-// import SignUpName from '../views/login/loginStep/signUpName';
-// import SignInAuth from '../views/login/loginStep/signInAuth';
-// import AuthFinish from '../views/login/loginStep/authFinish';
-// import SignInPhone from '../views/login/loginStep/signInPhone';
+import SignUpName from '../views/login/loginStep/signUpName';
+import SignInAuth from '../views/login/loginStep/signInAuth';
+import AuthFinish from '../views/login/loginStep/authFinish';
+import SignInPhone from '../views/login/loginStep/signInPhone';
 import AccountIdxChange from '../views/party/detail/accountIdxChange';
+import SignInPhoneAuth from '../views/login/loginStep/signInPhoneAuth';
+import SignUpTerm from '../views/login/loginStep/signUpTerm';
+import SignUpAuth from '../views/login/loginStep/signUpAuth';
 
 const AppLayout = () => {
 
@@ -110,10 +113,13 @@ const AppLayout = () => {
 
 
             {/* 회원가입/로그인절차 컴포넌트 테스트 */}
-            {/* <Route path='/signup/name' exact component={SignUpName}/>
+            <Route path='/signup/name' exact component={SignUpName}/>
+            <Route path='/signup/term' exact component={SignUpTerm}/>
             <Route path='/signin/phone' exact component={SignInPhone}/>
+            <Route path='/signin/phone/auth' exact component={SignInPhoneAuth}/>
             <Route path='/signin/auth' exact component={SignInAuth}/>
-            <Route path='/signin/auth/finish' exact component={AuthFinish}/> */}
+            <Route path='/signin/auth/finish' exact component={AuthFinish}/>
+            <Route path='/signup/auth' exact component={SignUpAuth}/>
 
         </>
     );
