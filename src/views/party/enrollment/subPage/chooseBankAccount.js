@@ -14,6 +14,7 @@ import ic_pay_cardtab from "../../../../assets/ic_pay_cardtab.svg";
 import ic_pay_cardtab_g from "../../../../assets/ic_pay_cardtab_g.svg";
 import icon_arrow_down from "../../../../assets/icon-arrow-down-black.svg";
 import icon_check from "../../../../assets/icon-check-white.svg";
+import icon_delete from "../../../../assets/icon-popup-delete.svg";
 
 import { customApiClient } from "../../../../shared/apiClient";
 import BankComponent from "../../../card/bankComponent";
@@ -33,6 +34,7 @@ const ChooseBankAccount = () => {
   const [agreeStatus, setAgreeStatus] = useState('N');
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
   const [isChooseBankClicked, setIsChooseBankClicked] = useState(false);
+  const [selectedBankName, setSelectedBankName] = useState('');
 
   useEffect(() => {
     getBankAccountList();
@@ -111,7 +113,7 @@ const ChooseBankAccount = () => {
           <TitleWrap >계좌 번호</TitleWrap>
           <InputWrap openStatus={isFocus}>
             <ChooseBankBtn onClick={onClickChooseBank}>
-              <span>은행선택</span>
+              <span>{selectedBankName ? selectedBankName : '은행선택'}</span>
               <img src={icon_arrow_down}></img>
             </ChooseBankBtn>
             <Input 
@@ -146,7 +148,10 @@ const ChooseBankAccount = () => {
           </div>
 
           {/* 은행 선택 다이얼로그 */}
-          <ChooseBankDialog openStatus={isChooseBankClicked} />
+          <ChooseBankDialog 
+            openStatus={isChooseBankClicked} 
+            deleteFunc={setIsChooseBankClicked} 
+            selectFunc={setSelectedBankName}/>
         </AddBankAccountWrap>
 
         
@@ -253,7 +258,7 @@ const ChooseBankBtn = styled.div`
   }
 `;
 
-export const ChooseBankDialog = ({openStatus}) => {
+export const ChooseBankDialog = ({openStatus, deleteFunc, selectFunc}) => {
 
   const [normalBankList, setNormalBankList] = useState([]);
   const [stockBankList, setStockBankList] = useState([]);
@@ -272,14 +277,48 @@ export const ChooseBankDialog = ({openStatus}) => {
     if (data.statusCode !== 200) { return };
 
     console.log('API 호출 성공 :', data);
-    setNormalBankList(data.result.normalBank); 
+    setNormalBankList(data.result.nomalBank); 
     setStockBankList(data.result.stockBank);
+  }
+  const onClickDeleteDialog = () => {
+    deleteFunc(!openStatus);
+  }
+  const onClickBankItem = (bankName) => {
+    selectFunc(bankName);
+    deleteFunc(!openStatus);
   }
 
   return (
     <ChooseBankWrap openStatus={openStatus}>
-      hi
-      
+      <ChooseBankDiv>
+        <div className="titleDiv">
+          <span>은행선택</span>
+          <img onClick={onClickDeleteDialog} className="deleteBtn" src={icon_delete}></img>
+        </div>
+
+        <div className="gridWrap">
+          {
+            normalBankList && normalBankList.map((bank, index) => {
+              return (
+                <BankItem onClick={() => onClickBankItem(bank.bankName)}>
+                  <img src={bank.bankImg}></img>
+                  <span>{bank.bankName}</span>
+                </BankItem>
+              );
+            })
+          }
+          {
+            stockBankList && stockBankList.map((bank, index) => {
+              return (
+                <BankItem onClick={() => onClickBankItem(bank.bankName)}>
+                  <img src={bank.bankImg}></img>
+                  <span>{bank.bankName}</span>
+                </BankItem>
+              );
+            })
+          }
+        </div>
+      </ChooseBankDiv>
     </ChooseBankWrap>
   );
 }
@@ -293,3 +332,55 @@ const ChooseBankWrap = styled.div`
   right: 0;
 `;
 
+const ChooseBankDiv = styled.div`
+  background-color: #fff;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.08);
+  padding: 0 1.1563rem;
+  overflow-y: scroll;
+
+  height: 32.375rem;
+
+  .titleDiv {
+    position:sticky;
+    top: 0;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-family: 'Noto Sans KR';
+    font-weight: 600;
+    color: #313131;
+    margin-bottom: 0.625rem;
+    padding-top: 1.5625rem;
+  }
+  .deleteBtn {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  .gridWrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(70px, auto);
+    gap: 0.8125rem 0.9375rem;
+  }
+`;
+
+const BankItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 1rem;
+    height: 1.125rem;
+    margin-bottom: 0.25rem;
+  }
+  span {
+    font-size: 0.75rem;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+  }
+`;
