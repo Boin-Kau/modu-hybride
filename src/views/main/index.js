@@ -391,6 +391,10 @@ const Main = () => {
         history.push('/signup/auth');
     }
 
+    const closePopup = () =>{
+        setAuthPopupStatus(false);
+    }
+
 
     return (
         <>
@@ -440,6 +444,7 @@ const Main = () => {
             leftButtonText={"취소"}
             rightButtonText={"확인"}
             onClickRight={openAuth}
+            onClickLeft={closePopup}
             />
         </>
     )
