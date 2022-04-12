@@ -13,6 +13,7 @@ import styled from "styled-components";
 import backgroundImg from '../../assets/back-money.svg';
 import mainLoading from '../../assets/main-loading.gif';
 import duck_see from "../../assets/duck-see.png";
+import duck_popup from '../../assets/ic_selfcertification_duck@3x.png';
 
 import cardPlus from '../../assets/card-plus.svg';
 
@@ -29,6 +30,7 @@ import { onClickTerminate, checkMobile } from '../../App';
 import { CloseItemFalseAction } from '../../reducers/main/subscribe';
 import { PageTransContext } from '../../containers/pageTransContext';
 import UpdatePopUp from '../popup/update';
+import ChoiceDialog from '../../components/party/ChoiceDialog';
 
 const CardStyle = {
     height: '100vh',
@@ -78,6 +80,9 @@ const Main = () => {
     const titleDivbRef = useRef();
     const bottomDivbRef = useRef();
     const bottomChildDivbRef = useRef();
+
+    //본인인증 팝업
+    const [authPopupStatus, setAuthPopupStatus] = useState(true);
 
     //강제 업데이트 팝업
     const [updatePopupStatus, setUpdatePopupStatus] = useState(false);
@@ -380,6 +385,12 @@ const Main = () => {
         history.push('/subscribe');
     };
 
+    //본인인증페이지로 이동
+    const openAuth = () =>{
+        setPageTrans('trans toRight');
+        history.push('/signup/auth');
+    }
+
 
     return (
         <>
@@ -417,6 +428,19 @@ const Main = () => {
 
             {/* 업데이트 팝업 */}
             <UpdatePopUp openStatus={updatePopupStatus} />
+
+            {/* 본인인증 팝업 */}
+            <ChoiceDialog
+            openStatus={authPopupStatus}
+            imgUrl={duck_popup}
+            imgWidth={"5.7125"}
+            imgHeight={"7.9437"}
+            title={"모두의 서비스 이용을 위해 \n본인인증이 필요해요."}
+            subTitle={"구독계정 공유 서비스를 이용하기 위해 \n최초 1회 본인인증을 받고 있어요!"}
+            leftButtonText={"취소"}
+            rightButtonText={"확인"}
+            onClickRight={openAuth}
+            />
         </>
     )
 };
