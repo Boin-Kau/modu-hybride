@@ -27,8 +27,10 @@ const ChooseBankAccount = () => {
 
   const [accountOwnerName, setAccountOwnerName] = useState('');
   const [bankAccountNum, setBankAccountNum] = useState('');
-  const [currentSlide, setCurrentSlide] = useState('0');
   const [bankIdx, setBankIdx] = useState();
+  const [bankAccountIdx, setBankAccountIdx] = useState(0);
+
+  const [currentSlide, setCurrentSlide] = useState('0');
   const [bankAccountData, setBankAccountData] = useState({});
   const [isFocus, setIsFocus] = useState(false);
   const [agreeStatus, setAgreeStatus] = useState('N');
@@ -39,6 +41,14 @@ const ChooseBankAccount = () => {
   useEffect(() => {
     getBankAccountList();
   },[])
+
+  useEffect(() => {
+    if(accountOwnerName&&selectedBankName&&bankAccountNum&&(agreeStatus==='Y')) {
+      setNextBtnStatus(true);
+      return
+    }
+    setNextBtnStatus(false);
+  },[accountOwnerName, selectedBankName, bankAccountNum, agreeStatus])
 
   const getBankAccountList = async () => {
     const bankAccountUri = '/party/user/bankAccount';
@@ -70,8 +80,23 @@ const ChooseBankAccount = () => {
     }
   },[agreeStatus])
 
-  const nextPage = () => {
-    nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
+  const nextPage = async () => {
+    // 정산계좌 등록하기
+    const body = {
+      bankAccountUserName: accountOwnerName,
+      bankIdx: bankIdx,
+      bankAccountNum: bankAccountNum
+    };
+    const postBankAccountUri = 'party/user/bankAccount'
+    const data = await customApiClient('post', postBankAccountUri, body);
+
+    // Server Error
+    if (!data) { return };
+    // Validation 
+    if (data.statusCode !== 200) { return };
+
+    console.log('API 호출 성공 :', data);
+    data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
   };
 
   return (
@@ -143,7 +168,9 @@ const ChooseBankAccount = () => {
               <PartyIcon src={icon_check} />
             </PartyIconWrap>
             <PartyText style={{color:'#6a6a6a'}} className="notoMedium">
-              [필수] 개인정보 수집 및 이용동의
+              <span>[필수] </span>
+              <span style={{textDecoration:'underline'}}>개인정보 수집</span>
+              <span> 및 이용동의</span>
             </PartyText>
           </div>
 
@@ -151,7 +178,9 @@ const ChooseBankAccount = () => {
           <ChooseBankDialog 
             openStatus={isChooseBankClicked} 
             deleteFunc={setIsChooseBankClicked} 
-            selectFunc={setSelectedBankName}/>
+            selectBankFunc={setSelectedBankName}
+            selectBankIdxFunc={setBankIdx}/>
+          
         </AddBankAccountWrap>
 
         
@@ -258,7 +287,7 @@ const ChooseBankBtn = styled.div`
   }
 `;
 
-export const ChooseBankDialog = ({openStatus, deleteFunc, selectFunc}) => {
+export const ChooseBankDialog = ({openStatus, deleteFunc, selectBankFunc, selectBankIdxFunc}) => {
 
   const [normalBankList, setNormalBankList] = useState([]);
   const [stockBankList, setStockBankList] = useState([]);
@@ -283,8 +312,9 @@ export const ChooseBankDialog = ({openStatus, deleteFunc, selectFunc}) => {
   const onClickDeleteDialog = () => {
     deleteFunc(!openStatus);
   }
-  const onClickBankItem = (bankName) => {
-    selectFunc(bankName);
+  const onClickBankItem = (bankName, idx) => {
+    selectBankFunc(bankName);
+    selectBankIdxFunc(idx);
     deleteFunc(!openStatus);
   }
 
@@ -300,7 +330,7 @@ export const ChooseBankDialog = ({openStatus, deleteFunc, selectFunc}) => {
           {
             normalBankList && normalBankList.map((bank, index) => {
               return (
-                <BankItem onClick={() => onClickBankItem(bank.bankName)}>
+                <BankItem onClick={() => onClickBankItem(bank.bankName, bank.idx)}>
                   <img src={bank.bankImg}></img>
                   <span>{bank.bankName}</span>
                 </BankItem>
@@ -310,7 +340,7 @@ export const ChooseBankDialog = ({openStatus, deleteFunc, selectFunc}) => {
           {
             stockBankList && stockBankList.map((bank, index) => {
               return (
-                <BankItem onClick={() => onClickBankItem(bank.bankName)}>
+                <BankItem onClick={() => onClickBankItem(bank.bankName, bank.idx)}>
                   <img src={bank.bankImg}></img>
                   <span>{bank.bankName}</span>
                 </BankItem>
