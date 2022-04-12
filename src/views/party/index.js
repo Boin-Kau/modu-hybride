@@ -152,14 +152,12 @@ const Party = () => {
         else {
             //게시물 변경 (처음엔 서버 통신했다가 비효율 적이여서 변경)
             const partyResult = totalPartyList.filter((value) => {
-
-                if (value.registerType === 'SERVER') {
-                    return value.serverCategoryIdx === index
+                if (value.platformInfo.registerType === 'SERVER') {
+                    return value.platformInfo.serverCategoryIdx === index
                 }
                 else {
-                    return value.customCategoryIdx === index
+                    return value.platformInfo.customCategoryIdx === index
                 }
-
             })
 
             setPartyList(partyResult);
@@ -327,41 +325,7 @@ const PartyContent = ({ data }) => {
     //페이지 전환
     const { setPageTrans } = useContext(PageTransContext);
 
-    const {
-        reportCategoryList,
-    } = useSelector(state => state.party.popup);
-
     const [openStatus, setOpenStatue] = useState(false);
-
-    const onClickReport = async () => {
-
-        //신고 카테고리 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
-        if (reportCategoryList.length < 1) {
-
-            //리스트 조회
-            const data = await customApiClient('get', '/party/report/category');
-            
-
-            //서버에러
-            if (!data) return
-
-            //벨리데이션
-            if (data.statusCode != 200) {
-                return
-            }
-
-            //리덕스에 넣어주기
-            dispatch(SetReportCategoryListAction({
-                reportCategoryList: data.result
-            }));
-
-        }
-
-
-        dispatch(ReportPopupOpenAction({
-            reportPartyIdx: data.idx
-        }))
-    }
 
     const openCard = () => {
         if (data.roomStatus === "COMPELETE") return
@@ -373,10 +337,10 @@ const PartyContent = ({ data }) => {
     }
 
     const onClickDetailButton = () => {
-        console.log(data);
 
         // 리덕스 설정
         dispatch(UpdatePartyAction({
+            type: "ENROLL",
             selectedPartyIdx: data.idx,
             selectedPartyTitle: data.title,
             selectedPartyOpenChatLink: data.openChatLink,
@@ -386,7 +350,7 @@ const PartyContent = ({ data }) => {
             selectedPartyPartyInfo: data.partyInfo,
             selectedPartyMembershipInfo: data.membershipInfo,
         }))
-        
+
         // 페이지 전환
         setPageTrans('trans toRight');
         history.push('/party/detail');
@@ -470,18 +434,8 @@ const PartyContent = ({ data }) => {
                         </DetailItemWrap>
                     </DetailRowWrap>
                     <div className="spoqaBold" style={{ display: 'flex' }}>
-                        {
-                            data.IsEnrolled === "Y" ?
-                                <div style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem' }}>
-                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
-                                </div>
-                                :
-                                <div onClick={() => { onClickDetailButton() }} style={{ position: 'relative', flexGrow: '1', marginRight: '0.75rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>파티 참여하기</div>
-                                </div>
-                        }
-                        <div onClick={onClickReport} style={{ padding: '0.4375rem 0.875rem 0.5rem 0.9187rem', backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
-                            <img src={ReportIcon} style={{ width: '1.3938rem', height: '1.5rem' }} />
+                        <div onClick={() => { onClickDetailButton() }} style={{ position: 'relative', flexGrow: '1', height: "2.4375rem", backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>상세보기 </div>
                         </div>
                     </div>
                 </ContentDetailWrap>

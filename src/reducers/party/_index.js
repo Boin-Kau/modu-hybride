@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import enrollment from './enrollment';
+import enrollment from './enrollment/_index';
 import info from './info';
 import popup from './popup';
 import detail from './detail';

@@ -13,6 +13,7 @@ import './App.scss';
 import AppLayout from './containers/layout';
 import BottomNav from './containers/bottomNav';
 import ErrorPopup from './views/popup/errorPopup';
+import ReportPopUp from './views/party/popup/reportPopup';
 
 const history = createBrowserHistory();
 
@@ -68,9 +69,13 @@ function App() {
     popupShow,
   } = useSelector(state => state.popup.popup);
 
-  const{
+  const {
     openLoadingStatus,
   } = useSelector(state => state.container.loading);
+
+  const {
+    reportPopupStatus,
+  } = useSelector(state => state.party.popup);
 
   const PageTransStyle = {
     appear: `${pageTrans} appear`,
@@ -112,10 +117,15 @@ function App() {
         </MessageWrapPopup>
 
         {/* 팝업창 */}
-        {popupShow && <ErrorPopup status={popupShow}/>}
+        {popupShow && <ErrorPopup status={popupShow} />}
 
         {/* 로딩 */}
         <LoadingPopup openStatus={openLoadingStatus} />
+
+        {/* 신고 하기 팝업 */}
+        <ReportPopUp
+          openStatus={reportPopupStatus}
+        />
       </Router>
     </RootWrap>
   );
