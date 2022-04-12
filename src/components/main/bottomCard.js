@@ -7,6 +7,8 @@ import Fade from 'react-reveal/Fade';
 
 import icon_content_none from "../../assets/img-bottom-item-none.svg";
 import icon_edit from "../../assets/icon-edit.svg";
+import icon_party_memeber from "../../assets/icon-party-member.svg";
+import icon_party_host from "../../assets/icon-party-host.svg";
 
 import { DetailRowWrap, DetailItemWrap, DetailItemTitle, DetailItemContent, DetailButton, DetailItemFillContent } from '../../styled/main';
 import { SubscribeReloadFalseAction, GetSubscirbeList, CloseItemTrueAction } from '../../reducers/main/subscribe';
@@ -47,13 +49,18 @@ const BottomContent = ({ data, cardOpen }) => {
     const openRevisePage = () => {
 
         setPageTrans('trans toRight');
-        history.push({
-            pathname: "/subscribe/revise",
-            state: {
-                data: data,
-            }
-        })
 
+        if (data.isParty === "Y") {
+            history.push(`/party/my/${data.idx}`);
+        }
+        else {
+            history.push({
+                pathname: "/subscribe/revise",
+                state: {
+                    data: data,
+                }
+            })
+        }
     };
 
     const getUnit = unit => {
@@ -73,6 +80,10 @@ const BottomContent = ({ data, cardOpen }) => {
             return "Day"
         }
     }
+
+    useEffect(() => {
+        console.log(data)
+    }, [])
 
 
     return (
@@ -99,6 +110,18 @@ const BottomContent = ({ data, cardOpen }) => {
                 <div className="spoqaBold" style={{ flexGrow: "1", display: "flex", flexDirection: "column" }}>
                     <div style={{ flexGrow: "1", flexBasis: "0", display: 'flex' }}>
                         <div>{data.platform.name}</div>
+                        {
+                            (data.isParty === "Y" && data.isHost === "Y") &&
+                            <div style={{ marginLeft: "0.3125rem" }}>
+                                <img src={icon_party_host} style={{ width: '0.875rem', height: '0.625rem' }} />
+                            </div>
+                        }
+                        {
+                            (data.isParty === "Y" && data.isHost === "N") &&
+                            <div style={{ marginLeft: "0.3125rem" }}>
+                                <img src={icon_party_memeber} style={{ width: '0.875rem', height: '0.625rem' }} />
+                            </div>
+                        }
                         {
                             data.dDay && <DDayWrap dDay={data.dDay}>D-{getDDay(data.dDay)}</DDayWrap>
                         }
@@ -133,10 +156,12 @@ const BottomContent = ({ data, cardOpen }) => {
                             <DetailItemFillContent>{data.platform.category.name}</DetailItemFillContent>
                         </DetailItemWrap>
                         <DetailItemWrap>
-                            <DetailItemTitle>체험기간</DetailItemTitle>
-                            {data.isFree == 'Y' && data.freeDate > 0 ?
-                                <DetailItemFillContent>{data.freeDate}일 남음</DetailItemFillContent> :
-                                <DetailItemContent>없음 </DetailItemContent>
+                            <DetailItemTitle>{data.isParty === "Y" ? "파티역할" : "체험기간"}</DetailItemTitle>
+                            {data.isParty === "Y" ?
+                                <DetailItemFillContent>{data.isHost === "Y" ? "파티장" : "파티원"}</DetailItemFillContent> :
+                                data.isFree == 'Y' && data.freeDate > 0 ?
+                                    <DetailItemFillContent>{data.freeDate}일 남음</DetailItemFillContent> :
+                                    <DetailItemContent>없음 </DetailItemContent>
                             }
                         </DetailItemWrap>
                     </DetailRowWrap>
@@ -152,26 +177,26 @@ const BottomContent = ({ data, cardOpen }) => {
                     </DetailRowWrap>
 
                     <DetailRowWrap style={{ margin: "0" }}>
-                        {/* <DetailButton>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div style={{ position: "relative", width: "0.9375rem", marginRight: "0.5rem" }}>
-                                <img src={icon_phone} style={{ position: "absolute", top: "50%", left: "0", transform: "translate(0,-50%)", width: "0.9375rem", height: "0.9375rem" }} />
-                            </div>
-                            <div style={{ position: "relative" }}>
-                                <div style={{ marginTop: "0.125rem" }}>해지하기</div>
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                        </DetailButton> */}
-                        <DetailButton className="spoqaBold" onClick={openRevisePage} revise>
-                            <div style={{ flexGrow: "1" }}></div>
-                            <div style={{ position: "relative", width: "0.75rem", marginRight: "0.3125rem" }}>
-                                <img src={icon_edit} style={{ position: "absolute", top: "50%", left: "0", transform: "translate(0,-50%)", width: "0.75rem", height: "1.0625rem" }} />
-                            </div>
-                            <div style={{ position: "relative" }}>
-                                <div>수정하기</div>
-                            </div>
-                            <div style={{ flexGrow: "1" }}></div>
-                        </DetailButton>
+                        {
+                            data.isParty === "Y" ?
+                                <DetailButton className="spoqaBold" onClick={openRevisePage} revise>
+                                    <div style={{ flexGrow: "1" }}></div>
+                                    <div style={{ position: "relative" }}>
+                                        <div>상세보기</div>
+                                    </div>
+                                    <div style={{ flexGrow: "1" }}></div>
+                                </DetailButton> :
+                                <DetailButton className="spoqaBold" onClick={openRevisePage} revise>
+                                    <div style={{ flexGrow: "1" }}></div>
+                                    <div style={{ position: "relative", width: "0.75rem", marginRight: "0.3125rem" }}>
+                                        <img src={icon_edit} style={{ position: "absolute", top: "50%", left: "0", transform: "translate(0,-50%)", width: "0.75rem", height: "1.0625rem" }} />
+                                    </div>
+                                    <div style={{ position: "relative" }}>
+                                        <div>수정하기</div>
+                                    </div>
+                                    <div style={{ flexGrow: "1" }}></div>
+                                </DetailButton>
+                        }
                     </DetailRowWrap>
 
                 </ContentDetailWrap>
