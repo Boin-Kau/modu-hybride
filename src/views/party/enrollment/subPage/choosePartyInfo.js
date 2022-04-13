@@ -9,25 +9,36 @@ import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
 import { useEffect, useState } from "react";
 import BottomButton from "../../../../components/party/BottomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
+import { ResetPartyInfo, UpdatePartyInfoAction } from "../../../../reducers/party/enrollment/partyInfo";
 
 const ChoosePartyInfo = ({updatePage}) => {
 
   const dispatch = useDispatch();
+  const { title, membership, openChatLink } = useSelector(state => state.party.enrollment.partyInfo);
 
-  const [partyTitle, setPartyTitle] = useState('');
-  const [partyMembership, setPartyMembership] = useState('');
-  const [partyLink, setPartyLink] = useState('');
+  const [partyTitle, setPartyTitle] = useState(title);
+  const [partyMembership, setPartyMembership] = useState(membership);
+  const [partyLink, setPartyLink] = useState(openChatLink);
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
   useEffect(() => {
+    dispatch({
+      type: ResetPartyInfo
+    });
+  },[])
+
+  useEffect(() => {
     if(partyTitle&&partyLink) {
-      setNextBtnStatus(true);
-    } else {
-      setNextBtnStatus(false);
+      //카카오 오픈채팅 링크 벨리데이션
+      if (partyLink.includes('https://open.kakao.com')) {
+        setNextBtnStatus(true);
+        return
+      }
     }
+    setNextBtnStatus(false); 
 
   },[partyTitle, partyMembership, partyLink])
 
@@ -44,6 +55,11 @@ const ChoosePartyInfo = ({updatePage}) => {
     setPartyLink(e.target.value);
   };
   const nextPage = () => {
+    nextBtnStatus && dispatch(UpdatePartyInfoAction({
+      title: partyTitle, 
+      membership: partyMembership, 
+      openChatLink: partyLink
+    }));
     nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 4}));
   };
 

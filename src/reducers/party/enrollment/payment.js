@@ -1,8 +1,10 @@
 export const initialState = {
-    membershipPrice: null,
+    originalPrice: null,
     nextPaymentDate: null,
     pricePerPerson: null,
-    personnel: null,
+    personnel: 0,
+    typeList: [],
+    formatDate: ''
 };
 
 export const ResetPayment = 'ResetPayment';

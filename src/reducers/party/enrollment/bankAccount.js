@@ -1,46 +1,30 @@
 export const initialState = {
-    bankIdx: null,
-    bankAccountUserName: null,
-    bankAccountNum: null,
+    selectedBankIdx: null,
+    selectedBankAccountUserName: null,
+    selectedBankAccountNum: null,
 
-    bankAccountIdx: null, 
+    selectedBankAccountIdx: null, 
 };
 
-export const ResetBankAccount = 'ResetBankAccount';
-export const UpdateBankAccount = 'UpdateBankAccount';
-
-export const UpdateBankAccountIdx = 'UpdateBankAccountIdx';
-export const ResetBankAccountIdx = 'ResetBankAccountIdx';
+export const ResetBankAccount ='ResetBankAccount';
+const UpdateBankAccount = 'UpdateBankAccount';
+export const UpdateBankAccountAction = (data) => {
+    return {
+        type: UpdateBankAccount,
+        data: data
+    }
+}
 
 const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'ResetBankAccount': {
-            return {
-                ...state,
-                bankIdx: null,
-                bankAccountUserName: null,
-                bankAccountNum: null,
-            }
+            return initialState
         }
         case 'UpdateBankAccount': {
             return {
                 ...state,
-                bankIdx: action.data.bankIdx,
-                bankAccountUserName: action.data.bankAccountUserName,
-                bankAccountNum: action.data.bankAccountNum,
-            }
-        }
-        case 'UpdateBankAccountIdx': {
-            return {
-                ...state,
-                bankAccountIdx: action.data.bankAccountIdx,
-            }
-        }
-        case 'ResetBankAccountIdx': {
-            return {
-                ...state,
-                bankAccountIdx: null,
+                ...action.data
             }
         }
         default: {

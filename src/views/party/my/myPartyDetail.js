@@ -458,6 +458,7 @@ const MyPartyDetail = () => {
                     margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
                     isHost={idx === 0 ? "Y" : "N"}
                     status={item.status}
+                    isEnrollment={false}
                     key={item.userIdx} />
                 )
               })
@@ -468,6 +469,7 @@ const MyPartyDetail = () => {
                   <PartyDataListItem
                     type={item}
                     margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
+                    isEnrollment={false}
                     key={idx} />
                 )
               })
@@ -579,7 +581,11 @@ const MyPartyDetail = () => {
 
         {/* 최하단 Yellow 버튼 */}
         <div style={{ margin: '1.25rem' }}>
-          <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} status={true} />
+          <BottomButton 
+            clickFunc={onClickChatLink} 
+            text={'오픈채팅방 열기'} 
+            activeStatus={true}
+            isBottomStatus={false} />
         </div>
       </MainWrap>
 

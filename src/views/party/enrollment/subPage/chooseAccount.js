@@ -9,34 +9,55 @@ import { TitleWrap } from "../../../../styled/main/enrollment";
 import InputComponent from "../../../../styled/shared/inputComponent";
 import { useEffect, useState } from "react";
 import BottomButton from "../../../../components/party/BottomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
+import { ResetAccount, UpdateAccountAction } from "../../../../reducers/party/enrollment/account";
 
 const ChooseAccount = () => {
 
   const dispatch = useDispatch();
 
-  const [accountId, setAccountId] = useState('');
-  const [accountPw, setAccountPw] = useState('');
+  const { accountId, accountPw } = useSelector(state => state.party.enrollment.account);
+
+  const [ id, setId ] = useState(accountId);
+  const [ pw, setPw] = useState(accountPw);
 
   const [miniInfoStatus, setMiniInfoStatus] = useState(false)
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
+  const { isAccount: isAccountStatus } = useSelector(state => state.party.enrollment.platform);
+
   useEffect(() => {
-    if(accountId&&accountPw) {
-      setNextBtnStatus(true);
-    } else {
+    dispatch({
+      type: ResetAccount
+    });
+  },[])
+
+  useEffect(() => {
+
+    if(isAccountStatus === 'N') { // 건너뛰기 있을 때
+      if(id&&pw) {
+        setNextBtnStatus(true);
+        return
+      } else if (!(id||pw)) {
+        setNextBtnStatus(true);
+        return
+      }
+      setNextBtnStatus(false);
+    } else { // 건너뛰기 없을 때
+      if(id&&pw) {
+        setNextBtnStatus(true);
+        return
+      }
       setNextBtnStatus(false);
     }
-  },[accountId,accountPw])
+  },[id,pw])
 
   const handleChangeAccountId = (e) => {
-    // if (e.target.value.length == 5) return false;
-    setAccountId(e.target.value);
+    setId(e.target.value);
   };
   const handleChangeAccountPw = (e) => {
-    // if (e.target.value.length == 5) return false;
-    setAccountPw(e.target.value);
+    setPw(e.target.value);
   };
   //구독계정 비밀번호 내 개인정보를 포함하지 말라는 안내 아이콘 클릭
   const onClickMiniInfo = () => {
@@ -44,6 +65,10 @@ const ChooseAccount = () => {
   };
 
   const nextPage = () => {
+    nextBtnStatus && dispatch(UpdateAccountAction({
+      accountId: id,
+      accountPw: pw
+    }))
     nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 3}));
   };
 
@@ -76,11 +101,11 @@ const ChooseAccount = () => {
         {/* Account Div */}
         <TitleWrap>아이디</TitleWrap>
         <InputComponent
-          id={"accountId"}
+          id={"id"}
           type={"text"}
           placeholder={"아이디를 입력해주세요"}
           maxLength={200}
-          value={accountId}
+          value={id}
           onChange={handleChangeAccountId}
         />
         <TitleWrap style={{position:'relative'}}>
@@ -93,11 +118,11 @@ const ChooseAccount = () => {
           </MiniInfoDialog>
         </TitleWrap>
         <InputComponent
-          id={"accountPw"}
+          id={"pw"}
           type={"password"}
           placeholder={"비밀번호를 입력해주세요"}
           maxLength={200}
-          value={accountPw}
+          value={pw}
           onChange={handleChangeAccountPw}
         />
       </div>

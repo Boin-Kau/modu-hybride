@@ -28,6 +28,8 @@ const PartyEnrollment = () => {
 
   const [progress, setProgress] = useState(20);
   const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
+  const { isAccount: isAccountStatus } = useSelector(state => state.party.enrollment.platform);
+  const { personnel } = useSelector(state => state.party.enrollment.payment);
 
   useEffect(() => {
     dispatch(BottomNavCloseAction);
@@ -66,7 +68,7 @@ const PartyEnrollment = () => {
       dispatch({ type: ResetPlatform });
 
       setPageTrans('trans toLeft');
-      history.goBack();
+      history.push('/party')
     } else {
       
       dispatch(UpdateCurrentPageAction({
@@ -75,6 +77,15 @@ const PartyEnrollment = () => {
     }
   };
 
+  const jumpPage = () => {
+    // 건너뛰기
+    if(currentPage === 2 && isAccountStatus === 'N') {
+      dispatch(UpdateCurrentPageAction({
+        page: 3
+      }));
+    }
+  }
+
   return (
     <div className="page">
       <HeaderWrap style={{ boxShadow: "none" }}>
@@ -82,9 +93,9 @@ const PartyEnrollment = () => {
           <img src={icon_back} alt="뒤로가기"></img>
         </div>
         <TextMiddle>파티 등록</TextMiddle>
-        <div style={{ zIndex: "10", position: "absolute", right: '0', height: '100%', width: '4.375rem' }}>
-          <div style={{ position: "absolute", top: "55%", right: "1.3125rem", transform: "translate(0,-55%)", fontSize: "0.75rem", fontWeight: "400", color: "#5a5a5a" }}>건너뛰기</div>
-        </div>
+        <JumpWrap onClick={jumpPage} isJump={currentPage === 2 && isAccountStatus === 'N' ? true : false}>
+          <div className="jumpWrapItem">건너뛰기</div>
+        </JumpWrap>
       </HeaderWrap>
 
       <MainWrap style={{ padding: '0' }}>
@@ -111,3 +122,23 @@ const ProgressDiv = styled.div`
   width: ${props => props.progress};
   transition: all 0.3s ease;
 `
+
+const JumpWrap = styled.div`
+  display: ${props => props.isJump ? 'block' : 'none'};
+
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 4.375rem;
+
+  .jumpWrapItem {
+    position: absolute;
+    top: 55%;
+    right: 1.3125rem;
+    transform: translate(0,-55%);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #5a5a5a;
+  }
+`;

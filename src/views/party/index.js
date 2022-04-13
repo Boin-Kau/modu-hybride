@@ -27,6 +27,7 @@ import ReportPopUp from './popup/reportPopup';
 import { ReportPopupOpenAction, SetReportCategoryListAction } from '../../reducers/party/popup';
 import { GA_CATEOGRY, GA_PARTY_ACTION, GAEventSubmit } from '../../shared/gaSetting';
 import { UpdatePartyAction } from '../../reducers/party/detail';
+import { UpdateCurrentPageAction } from '../../reducers/party/enrollment/setPage';
 import ChoiceDialog from '../../components/party/ChoiceDialog';
 import duck_popup from  "../../assets/ic_selfcertification_duck@3x.png";
 
@@ -95,6 +96,8 @@ const Party = () => {
 
         //bottom nav logic
         dispatch(BottomNavOpenAction);
+
+        dispatch(UpdateCurrentPageAction({page: 1}));
 
         setContentHeight(window.innerHeight - contentDivRef.current.getBoundingClientRect().top);
 

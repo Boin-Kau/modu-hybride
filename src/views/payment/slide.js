@@ -70,7 +70,7 @@ const Slide = ({setCardIdx}) => {
 
 export default Slide;
 
-const settings = {
+export const settings = {
   className: "center",
   dots: false,
   centerMode: true,

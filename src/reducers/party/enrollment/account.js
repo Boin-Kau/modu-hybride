@@ -1,6 +1,6 @@
 export const initialState = {
-    accountId: null,
-    accountPw: null,
+    accountId: '',
+    accountPw: '',
 };
 
 export const ResetAccount = 'ResetAccount';

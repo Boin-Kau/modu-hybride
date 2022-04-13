@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="5" viewBox="0 0 8 5">
+    <defs>
+        <clipPath id="ez3fidjqya">
+            <path data-name="Clip 2" d="M0-2h5v-8H0z" transform="translate(0 10)" style="fill:none"/>
+        </clipPath>
+    </defs>
+    <g style="opacity:.719">
+        <g data-name="Group 3 Copy" style="opacity:.79">
+            <path data-name="Clip 2" d="M0-2h5v-8H0z" transform="rotate(90 -1 -1)" style="fill:none"/>
+            <g data-name="Group 3 Copy" style="clip-path:url(#ez3fidjqya)" transform="rotate(90 4 4)">
+                <path data-name="Fill 1" d="M.653 0a.657.657 0 0 0-.461.188.631.631 0 0 0 0 .905L3.154 4 .191 6.907a.631.631 0 0 0 0 .905.661.661 0 0 0 .923 0L5 4 1.114.188A.657.657 0 0 0 .653 0"/>
+            </g>
+        </g>
+    </g>
+</svg>

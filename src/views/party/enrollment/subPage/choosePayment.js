@@ -16,17 +16,21 @@ import { useCallback, useEffect, useState } from "react";
 import Fade from 'react-reveal/Fade';
 import { NumberList } from "../../../main/subscribe/enrollment";
 import BottomButton from "../../../../components/party/BottomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
+import { ResetPayment, UpdatePaymentAction } from "../../../../reducers/party/enrollment/payment";
 
-const ChoosePayment = ({updatePage}) => {
+const ChoosePayment = () => {
 
   const dispatch = useDispatch();
 
-  const [membershipPrice, setMembershipPrice] = useState('');
-  const [paymentDay, setPaymentDay] = useState(null);
-  const [pricePerMember, setPricePerMember] = useState('');
-  const [partyPersonel, setPartyPersonel] = useState(0);
+  const { originalPrice, nextPaymentDate, pricePerPerson, personnel } = useSelector(state => state.party.enrollment.payment);
+
+  const [membershipPrice, setMembershipPrice] = useState(originalPrice);
+  const [paymentDay, setPaymentDay] = useState(nextPaymentDate);
+  const [pricePerMember, setPricePerMember] = useState(pricePerPerson);
+  const [partyPersonel, setPartyPersonel] = useState(personnel);
+  const [formatPaymentDate, setFormatPaymentDate] = useState('');
 
   const [paymentDayOpen, setPaymentDayOpen] = useState(false);
   const [personelOpen, setPersonelOpen] = useState(false);
@@ -36,7 +40,16 @@ const ChoosePayment = ({updatePage}) => {
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
+  let list = [];
+  const [typeList, setTypeList] = useState([]);
+
   let today = new Date()
+
+  useEffect(() => {
+    dispatch({
+      type: ResetPayment
+    });
+  },[])
 
   useEffect(() => {
     if(membershipPrice&&paymentDay&&pricePerMember&&partyPersonel) {
@@ -45,6 +58,20 @@ const ChoosePayment = ({updatePage}) => {
       setNextBtnStatus(false);
     }
   },[membershipPrice,paymentDay,pricePerMember,partyPersonel])
+
+  useEffect(() => {
+    list = [];
+    if (partyPersonel) {
+      list.push('파티장');
+      for (let i = 0; i < partyPersonel; i++) list.push('파티원');
+      for (let i = partyPersonel+1; i < 4; i++) list.push('-');
+      setTypeList(list);
+    }
+  },[partyPersonel])
+
+  useEffect(() => {
+    formatDate();
+  },[paymentDay])
 
   const onClickPaymentDayOpen = useCallback(() => {
     if (paymentDayOpen) {
@@ -71,6 +98,15 @@ const ChoosePayment = ({updatePage}) => {
     setPaymentDay(data);
     setPaymentDayOpen(false);
   }
+  const formatDate = () => {
+    const dd = String(paymentDay).padStart(2, '0');
+    const mm = today.getDate() > paymentDay ? String(today.getMonth() + 2).padStart(2, '0') : String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+
+    setFormatPaymentDate(yyyy+'-'+mm+'-'+dd);
+    console.log(`formatdate: ${formatPaymentDate}`);
+  }
+
   const onChangePersonel = (personel) => {
     setPartyPersonel(personel);
     setPersonelOpen(false);
@@ -83,6 +119,14 @@ const ChoosePayment = ({updatePage}) => {
   const onClickTotalPersonnelInfo = () => setTotalPersonnelInfoStatus(!totalPersonnelInfoStatus);
 
   const nextPage = () => {
+    nextBtnStatus && dispatch(UpdatePaymentAction({
+      originalPrice: membershipPrice,
+      nextPaymentDate: paymentDay, 
+      pricePerPerson: pricePerMember, 
+      personnel: partyPersonel,
+      typeList: typeList,
+      formatDate: formatPaymentDate
+    }))
     nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 5}));
   };
 

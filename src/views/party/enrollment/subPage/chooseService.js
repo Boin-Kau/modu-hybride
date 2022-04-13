@@ -143,6 +143,8 @@ const ChooseService = () => {
       return
     }
 
+    
+
     //정상적일 경우 다음 페이지로 넘기기
     dispatch(UpdateCurrentPageAction({
       page: 2
