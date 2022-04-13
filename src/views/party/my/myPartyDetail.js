@@ -564,7 +564,11 @@ const MyPartyDetail = () => {
 
         {/* 최하단 Yellow 버튼 */}
         <div style={{ margin: '1.25rem' }}>
-          <BottomButton clickFunc={onClickChatLink} text={'오픈채팅방 열기'} status={true} />
+          <BottomButton 
+            clickFunc={onClickChatLink} 
+            text={'오픈채팅방 열기'} 
+            activeStatus={true}
+            isBottomStatus={false} />
         </div>
       </MainWrap>
 

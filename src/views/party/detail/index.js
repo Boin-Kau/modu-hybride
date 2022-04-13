@@ -199,7 +199,8 @@ const PartyDetail = () => {
             <BottomButton
               clickFunc={partyIsEnrolled === 'Y' ? () => openPartyDetail(partyId) : openPaymentPage}
               text={`${partyIsEnrolled === 'Y' ? '파티 상세보기' : '파티참가'}`}
-              status={true} />
+              activeStatus={true} 
+              isBottomStatus={false}/>
           </div>
         </MainWrap>
       </PageWrap>

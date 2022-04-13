@@ -10,7 +10,11 @@ import BottomButton from "../../../../components/party/BottomButton";
 import { customApiClient } from "../../../../shared/apiClient";
 import { PageTransContext } from "../../../../containers/pageTransContext";
 import { useHistory } from "react-router-dom";
-import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
+import { UpdatePlatformAction } from "../../../../reducers/party/enrollment/platform";
+import { ResetAccount } from "../../../../reducers/party/enrollment/account";
+import { ResetPartyInfo } from "../../../../reducers/party/enrollment/partyInfo";
+import { ResetPayment } from "../../../../reducers/party/enrollment/payment";
+import { ResetBankAccount } from "../../../../reducers/party/enrollment/bankAccount";
 
 const CheckPartyData = () => {
   const platformState = useSelector(state => state.party.enrollment.platform);
@@ -60,6 +64,21 @@ const CheckPartyData = () => {
     if (data.statusCode !== 200) { return };
 
     console.log('API 호출 성공 :', data);
+
+    dispatch(UpdatePlatformAction({
+      selectedPlatformIdx: 0,
+      selectedPlatformName: null,
+      selectedPlatformCategoryIdx: null,
+      selectedPlatformImgUrl: null,
+      selectedPlatformImgColor: null,
+      selectedPlatformImgInitial: null,
+      isAccount: "N",
+      isAdult: "N",
+    }))
+    dispatch({type: ResetAccount});
+    dispatch({type: ResetPartyInfo});
+    dispatch({type: ResetPayment});
+    dispatch({type: ResetBankAccount});
 
     setPageTrans('trans toLeft');
     history.push('/party');
