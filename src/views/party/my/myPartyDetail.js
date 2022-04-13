@@ -312,7 +312,7 @@ const MyPartyDetail = () => {
   const handleClickRePayDelete = () => {
 
     //아낀금액
-    const savePrice = membershipInfoObj.originlPrice - membershipInfoObj.price;
+    const savePrice = membershipInfoObj.originalPrice - membershipInfoObj.price;
 
     setRegularFailPopupStatus(false);
     setRegularFailConfirmPopupTitle(`지금 구독을 유지하면\n한달에 ${priceToString(savePrice)}원을 아낄 수 있어요!`);
@@ -441,6 +441,7 @@ const MyPartyDetail = () => {
                     margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
                     isHost={idx === 0 ? "Y" : "N"}
                     status={item.status}
+                    isEnrollment={false}
                     key={item.userIdx} />
                 )
               })
@@ -451,6 +452,7 @@ const MyPartyDetail = () => {
                   <PartyDataListItem
                     type={item}
                     margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
+                    isEnrollment={false}
                     key={idx} />
                 )
               })
@@ -471,7 +473,7 @@ const MyPartyDetail = () => {
                 <img className="notice_img" src={icon_notice_duck}></img>
                 <div className="notice_text_div">
                   <span>파티를 이용하면 매달 </span>
-                  <span className="notice_text_yellow">{priceToString(membershipInfoObj.originlPrice - membershipInfoObj.price)}원</span>
+                  <span className="notice_text_yellow">{priceToString(membershipInfoObj.originalPrice - membershipInfoObj.price)}원</span>
                   <span>을 아낄 수 있어요 ! </span>
                 </div>
               </div>

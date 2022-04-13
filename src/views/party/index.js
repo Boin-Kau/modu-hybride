@@ -27,6 +27,7 @@ import ReportPopUp from './popup/reportPopup';
 import { ReportPopupOpenAction, SetReportCategoryListAction } from '../../reducers/party/popup';
 import { GA_CATEOGRY, GA_PARTY_ACTION, GAEventSubmit } from '../../shared/gaSetting';
 import { UpdatePartyAction } from '../../reducers/party/detail';
+import { UpdateCurrentPageAction } from '../../reducers/party/enrollment/setPage';
 
 const Party = () => {
 
@@ -75,6 +76,8 @@ const Party = () => {
 
         //bottom nav logic
         dispatch(BottomNavOpenAction);
+
+        dispatch(UpdateCurrentPageAction({page: 1}));
 
         setContentHeight(window.innerHeight - contentDivRef.current.getBoundingClientRect().top);
 

@@ -23,7 +23,6 @@ import ReportBottomDialog from "./reportBottomDialog";
 // Page Root Component
 const PartyDetail = () => {
 
-  // 테스트 코드
   let list = [];
   const [typeList, setTypeList] = useState([]);
 
@@ -165,7 +164,6 @@ const PartyDetail = () => {
                 </div>
               </PartyDataTitleDiv>
               {/* 참여인원 내용 */}
-              {/* 수정필요!!!! */}
               <PartyDataContentWrap personnel={partyInfoObj.personnel}>
                 {
                   typeList.map((item, idx) => {
@@ -174,6 +172,7 @@ const PartyDetail = () => {
                         type={item}
                         margin={partyInfoObj.personnel > 4 ? "0.9375rem" : "0"}
                         isHost={idx === 0 ? "Y" : "N"}
+                        isEnrollment={false}
                         key={idx} />
                     )
                   })

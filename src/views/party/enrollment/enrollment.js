@@ -29,9 +29,7 @@ const PartyEnrollment = () => {
   const [progress, setProgress] = useState(20);
   const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
   const { isAccount: isAccountStatus } = useSelector(state => state.party.enrollment.platform);
-
-  // test
-  console.log(`currentPage : ${currentPage}, isAccountStatus : ${isAccountStatus}`);
+  const { personnel } = useSelector(state => state.party.enrollment.payment);
 
   useEffect(() => {
     dispatch(BottomNavCloseAction);

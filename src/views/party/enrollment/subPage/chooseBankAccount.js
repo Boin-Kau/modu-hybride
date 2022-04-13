@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import BottomButton from "../../../../components/party/BottomButton";
 import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
@@ -21,13 +21,21 @@ import BankComponent from "../../../card/bankComponent";
 import { settings } from "../../../payment/slide";
 import Card from "../../../payment/card";
 
+import { UpdateBankAccountAction } from "../../../../reducers/party/enrollment/bankAccount";
+
 const ChooseBankAccount = () => {
 
   const dispatch = useDispatch();
 
-  const [accountOwnerName, setAccountOwnerName] = useState('');
-  const [bankAccountNum, setBankAccountNum] = useState('');
-  const [bankIdx, setBankIdx] = useState();
+  const { 
+    selectedBankIdx,
+    selectedBankAccountUserName,
+    selectedBankAccountNum,
+    selectedBankAccountIdx } = useSelector(state => state.party.enrollment.bankAccount);
+
+  const [accountOwnerName, setAccountOwnerName] = useState(selectedBankAccountUserName);
+  const [bankAccountNum, setBankAccountNum] = useState(selectedBankAccountNum);
+  const [bankIdx, setBankIdx] = useState(selectedBankIdx);
   const [bankAccountIdx, setBankAccountIdx] = useState(0);
 
   const [currentSlide, setCurrentSlide] = useState('0');
@@ -39,6 +47,13 @@ const ChooseBankAccount = () => {
   const [selectedBankName, setSelectedBankName] = useState('');
 
   useEffect(() => {
+    dispatch(UpdateBankAccountAction({
+      selectedBankIdx: null,
+      selectedBankAccountUserName: null,
+      selectedBankAccountNum: null,
+      selectedBankAccountIdx: null
+    }));
+    
     getBankAccountList();
   },[])
 
@@ -81,6 +96,7 @@ const ChooseBankAccount = () => {
   },[agreeStatus])
 
   const nextPage = async () => {
+
     // 정산계좌 등록하기
     const body = {
       bankAccountUserName: accountOwnerName,
@@ -90,12 +106,20 @@ const ChooseBankAccount = () => {
     const postBankAccountUri = 'party/user/bankAccount'
     const data = await customApiClient('post', postBankAccountUri, body);
 
+    if(data.statusCode !== 400) console.log(data.message);
     // Server Error
     if (!data) { return };
     // Validation 
     if (data.statusCode !== 200) { return };
 
     console.log('API 호출 성공 :', data);
+
+    data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateBankAccountAction({
+      selectedBankIdx: bankIdx,
+      selectedBankAccountUserName: accountOwnerName,
+      selectedBankAccountNum: bankAccountNum,
+      selectedBankAccountIdx:data.result.bankAccountIdx
+    }));
     data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
   };
 
@@ -306,7 +330,7 @@ export const ChooseBankDialog = ({openStatus, deleteFunc, selectBankFunc, select
     if (data.statusCode !== 200) { return };
 
     console.log('API 호출 성공 :', data);
-    setNormalBankList(data.result.nomalBank); 
+    setNormalBankList(data.result.normalBank); 
     setStockBankList(data.result.stockBank);
   }
   const onClickDeleteDialog = () => {
@@ -330,7 +354,7 @@ export const ChooseBankDialog = ({openStatus, deleteFunc, selectBankFunc, select
           {
             normalBankList && normalBankList.map((bank, index) => {
               return (
-                <BankItem onClick={() => onClickBankItem(bank.bankName, bank.idx)}>
+                <BankItem key={index} onClick={() => onClickBankItem(bank.bankName, bank.idx)}>
                   <img src={bank.bankImg}></img>
                   <span>{bank.bankName}</span>
                 </BankItem>
@@ -340,7 +364,7 @@ export const ChooseBankDialog = ({openStatus, deleteFunc, selectBankFunc, select
           {
             stockBankList && stockBankList.map((bank, index) => {
               return (
-                <BankItem onClick={() => onClickBankItem(bank.bankName, bank.idx)}>
+                <BankItem key={index} onClick={() => onClickBankItem(bank.bankName, bank.idx)}>
                   <img src={bank.bankImg}></img>
                   <span>{bank.bankName}</span>
                 </BankItem>

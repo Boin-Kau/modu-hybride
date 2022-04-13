@@ -1,5 +1,5 @@
 export const initialState = {
-    partyTitle: null,
+    title: null,
     membership: null,
     openChatLink: null,
 };
