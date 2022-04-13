@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // const devServerURL = "http://localhost:3030/"; //로컬 서버
 const devServerURL = "http://54.180.217.46/"; //개발 서버
-const prodServerURL = "https://api.spread-y.com/"; //실 서버
+const prodServerURL = "http://54.180.217.46/"; //실 서버
 
 export const apiClient = axios.create({
     baseURL: process.env.NODE_ENV !== 'development' ? prodServerURL : devServerURL,
