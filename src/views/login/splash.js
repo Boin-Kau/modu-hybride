@@ -9,7 +9,7 @@ import {
   GA_CATEOGRY,
   GA_USER_ACTION,
 } from "../../shared/gaSetting";
-import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
+import { BottomNavCloseAction, BottomNavOpenAction } from "../../reducers/container/bottomNav";
 import styled from "styled-components";
 
 import modu_logo from "../../assets/img_splash_modu.svg";
@@ -23,12 +23,11 @@ const Splash = () => {
     history.push("/signin/phone");
   };
 
-  const goToSignUp = () =>{
+  const goToSignUp = () => {
     history.push("/signup/term");
   }
 
   useEffect(async () => {
-    dispatch(BottomNavCloseAction);
 
     localStorage.removeItem("isFcmLoad");
 
@@ -37,7 +36,7 @@ const Splash = () => {
       localFcm == undefined ||
       localFcm == "undefined" ||
       localFcm.length == 0
-    ){
+    ) {
       localFcm = null;
     }
 
@@ -78,6 +77,7 @@ const Splash = () => {
     //벨리데이션
     if (!data || data.statusCode != 200) {
       localStorage.removeItem("x-access-token");
+      dispatch(BottomNavCloseAction);
       // history.push('/login');
       return;
     }
