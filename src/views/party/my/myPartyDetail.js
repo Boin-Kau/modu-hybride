@@ -409,7 +409,10 @@ const MyPartyDetail = () => {
   // 정산계좌 변경하기
   const changeBankAccount = () => {
     setPageTrans('trans toRight');
-    history.push('/party/detail/change/account');
+    history.push({
+      pathname: '/party/detail/change/account',
+      data: partyIdx
+    });
   }
   // 결제수단 변경하기
   const changePaymentCard = () => {
