@@ -163,7 +163,7 @@ const MyPartyRevise = ({location}) => {
           <TextMiddle>파티 정보 수정</TextMiddle>
       </HeaderWrap>
 
-      <ContentWrap style={{position:'absolute', padding:'1.25rem 1.25rem 0 1.25rem', display:'flex', flexDirection:'column'}}>
+      <ContentWrap style={{position:'absolute', padding:'1.25rem 1.25rem 0 1.25rem', display:'flex', flexDirection:'column', top:'3.0625rem'}}>
         <SectionWrap>
           {/* 플랫폼 정보 */}
           <PlatformWrap>

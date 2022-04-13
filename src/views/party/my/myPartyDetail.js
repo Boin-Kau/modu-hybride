@@ -589,7 +589,7 @@ const MyPartyDetail = () => {
         </div>
       </MainWrap>
 
-      <HostBottomDialog roomStatus={roomStatus} partyIdx={partyIdx} />
+      <HostBottomDialog dataForRevise={result} roomStatus={roomStatus} partyIdx={partyIdx} />
       <MemberBottomDialog userStatus={userStatus} handleClickReport={handleClickReport} />
       <PartyDeleteConfirmDialog
         roomStatus={roomStatus}

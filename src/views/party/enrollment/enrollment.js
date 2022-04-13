@@ -20,17 +20,17 @@ import { ResetPlatform } from "../../../reducers/party/enrollment/platform";
 import { UpdateCurrentPageAction } from "../../../reducers/party/enrollment/setPage";
 
 const PartyEnrollment = () => {
+  // Module
   const dispatch = useDispatch();
   const history = useHistory();
-
   //Context
   const { setPageTrans } = useContext(PageTransContext);
-
+  // Local State
   const [progress, setProgress] = useState(20);
+  // Global State
   const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
   const { isAccount: isAccountStatus } = useSelector(state => state.party.enrollment.platform);
-  const { personnel } = useSelector(state => state.party.enrollment.payment);
-
+  // useEffect
   useEffect(() => {
     dispatch(BottomNavCloseAction);
   }, []);

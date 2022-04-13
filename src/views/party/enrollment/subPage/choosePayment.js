@@ -265,20 +265,18 @@ const ChoosePayment = () => {
             <img className="notice_img" src={icon_notice_white_duck}></img>
             <div className="notice_text">
               <span className="weight_500">{today.getDate() > paymentDay ? today.getMonth()+2 : today.getMonth()+1}월 {paymentDay}일</span>
-              부터 정산이 시작될 예정이에요. {priceToString(membershipPrice)}원의 멤버십에서 
-              <span className="weight_600"> {priceToString(pricePerMember*partyPersonel)}원을 아낄 수 </span>
+              부터 정산이 시작될 예정이에요. {priceToString(membershipPrice || 0)}원의 멤버십에서 
+              <span className="weight_600"> {priceToString(pricePerMember*partyPersonel || 0)}원을 아낄 수 </span>
               있네요!
             </div>
           </div>
-        </BottomNoticeWrap>
+        </BottomNoticeWrap> 
 
 
       </div>
 
       <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
       
-
-
     </ChoosePaymentWrap>
   );
 }

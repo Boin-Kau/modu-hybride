@@ -25,7 +25,8 @@ const CheckPartyData = () => {
     selectedBankIdx,
     selectedBankAccountUserName,
     selectedBankAccountNum,
-    selectedBankAccountIdx } = useSelector(state => state.party.enrollment.bankAccount);
+    selectedBankAccountIdx 
+  } = useSelector(state => state.party.enrollment.bankAccount);
 
   //Context
   const { setPageTrans } = useContext(PageTransContext);
@@ -84,7 +85,6 @@ const CheckPartyData = () => {
     history.push('/party');
   }
 
-
   return (
     <CheckPartyDataWrap>
       <MainText style={{margin:'1rem 0 1.25rem',padding:'0'}}>
@@ -109,7 +109,9 @@ const CheckPartyData = () => {
               serverImgUrl: platformState.selectedPlatformImgUrl,
               color: platformState.selectedPlatformImgColor,
               initial: platformState.selectedPlatformImgInitial,
-              registerType: platformState.selectedPlatformImgUrl ? "SERVER" : "CUSTOM"
+              registerType: platformState.selectedPlatformImgUrl ? "SERVER" : "CUSTOM",
+              serverCategory: '커몬',
+              customCategory: '커몬'
             }}
           />
         </div>
@@ -136,13 +138,13 @@ const CheckPartyData = () => {
         <TitleWrap style={{marginBottom:'0.625rem'}}>멤버십 정보</TitleWrap>
         <PartyMembershipDiv
           membershipInfo={{
-            
+            paymentCycleDate: formatDate,
             price: pricePerPerson,
             membership: membership
           }}
           platformInfo={{
-            serverCategory:'',
-            customCategory:''
+            serverCategory: '하이',
+            customCategory:'하이'
           }}
         />
 

@@ -24,6 +24,7 @@ const ChooseService = () => {
     selectedPlatformIdx,
     selectedPlatformName,
     selectedPlatformCategoryIdx,
+    selectedPlatformCatgoryName,
     selectedPlatformImgUrl,
     selectedPlatformImgColor,
     selectedPlatformImgInitial,
@@ -127,6 +128,7 @@ const ChooseService = () => {
     selectedPlatformIdx,
     selectedPlatformName,
     selectedPlatformCategoryIdx,
+    selectedPlatformCatgoryName,
     selectedPlatformImgUrl,
     selectedPlatformImgColor,
     selectedPlatformImgInitial
@@ -143,8 +145,6 @@ const ChooseService = () => {
       return
     }
 
-    
-
     //정상적일 경우 다음 페이지로 넘기기
     dispatch(UpdateCurrentPageAction({
       page: 2
@@ -156,6 +156,7 @@ const ChooseService = () => {
       selectedPlatformIdx: data.idx,
       selectedPlatformName: data.name,
       selectedPlatformCategoryIdx: data.categoryIdx,
+      selectedPlatformCatgoryName: null,
       selectedPlatformImgUrl: data.imgUrl,
       selectedPlatformImgColor: null,
       selectedPlatformImgInitial: null,
@@ -170,6 +171,7 @@ const ChooseService = () => {
       selectedPlatformIdx: 0,
       selectedPlatformName: null,
       selectedPlatformCategoryIdx: null,
+      selectedPlatformCatgoryName: null,
       selectedPlatformImgUrl: null,
       selectedPlatformImgColor: null,
       selectedPlatformImgInitial: null,
@@ -210,7 +212,7 @@ const ChooseService = () => {
   return (
     <ChooseServiceWrap style={{ flexGrow: '1' }}>
       <div style={{ flexGrow: '1', display: "flex", flexDirection: "column" }}>
-        <MainText style={{ margin: '1rem 0 0' }}>
+        <MainText style={{ margin: '1rem 1.25rem 0', padding:'0' }}>
           <span className="yellowText">어떤 구독 서비스</span>
           를<br />
           공유하실건가요?
