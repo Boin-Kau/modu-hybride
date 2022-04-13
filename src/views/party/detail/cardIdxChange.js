@@ -12,8 +12,9 @@ import { useDispatch } from "react-redux";
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import BottomButton from "../../../components/party/BottomButton";
 import Slide from "../../payment/slide";
+import { customApiClient } from "../../../shared/apiClient";
 
-const CardIdxChange = () => {
+const CardIdxChange = ({location}) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -22,6 +23,8 @@ const CardIdxChange = () => {
 
   //state
   const [cardIdx, setCardIdx] = useState();
+  const [confirmStatus, setConfirmStatus] = useState(true);
+  const [partyRoomIdx, setPartyRoomIdx] = useState(location.data);
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -31,6 +34,20 @@ const CardIdxChange = () => {
   const goToCardManage = () =>{
     setPageTrans("trans toRight");
     history.push('/card/manage');
+  }
+
+  const onClickPaymentChange = async () => {
+    const data = await customApiClient('patch', `party/${partyRoomIdx}/card/${cardIdx}`);
+
+    console.log(data.message);
+    // Server Error
+    if (!data) { return };
+    // Validation 
+    if (data.statusCode !== 200) { return };
+
+    console.log('API 호출 성공 :', data);
+
+    closePage();
   }
 
   useEffect(async () => {
@@ -62,7 +79,11 @@ const CardIdxChange = () => {
           </TitleWrap>
           <Slide setCardIdx={setCardIdx}/>
           <div style={{flexGrow:"1"}}/>
-          <BottomButton text={"확인"}/>
+          <BottomButton
+            clickFunc={onClickPaymentChange} 
+            text={"확인"}
+            activeStatus={confirmStatus}
+            isBottomStatus={false}/>
         </ContentWrap>
       </PageWrap>
     </div>
