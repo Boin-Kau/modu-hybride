@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 
 import ic_pay_duck from '../../assets/ic_pay_duck.png';
 
-const Register = ({setConfirmStatus}) => {
+const Register = () => {
 
   const history = useHistory();
 
@@ -12,11 +12,7 @@ const Register = ({setConfirmStatus}) => {
     history.push('/card');
   }
 
-  useEffect(() => {
-    setConfirmStatus(false);
-  }, [])
   
-
   return (
     <Container>
         <div style={{display:'flex', flexDirection:'column', alignItems:'center', marginTop:'0.975rem'}}>

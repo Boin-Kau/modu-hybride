@@ -9,7 +9,7 @@ import { customApiClient } from "../../shared/apiClient";
 import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
 
-const AccountSlide = ({setAccountIdx, setConfirmStatus}) => {
+const AccountSlide = ({setAccountIdx}) => {
   //state
   const [cardData, setCardData] = useState([]);
   const [currentSlide, setCurrentSlide] = useState('0');
@@ -60,7 +60,7 @@ const AccountSlide = ({setAccountIdx, setConfirmStatus}) => {
               </div>
             );
           })}
-          <Register setConfirmStatus={setConfirmStatus}/>
+          <Register />
         </Slider>
       )}
     </div>

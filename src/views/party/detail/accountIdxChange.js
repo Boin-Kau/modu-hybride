@@ -22,7 +22,7 @@ const AccountIdxChange = () => {
 
   //state
   const [accountIdx, setAccountIdx] = useState();
-  const [confirmStatus, setConfirmStatus] = useState(false);
+  const [confirmStatus, setConfirmStatus] = useState(true);
 
   const closePage = () => {
     setPageTrans("trans toLeft");
