@@ -120,7 +120,6 @@ const AppLayout = () => {
             <Route path='/signin/auth' exact component={SignInAuth}/>
             <Route path='/signin/auth/finish' exact component={AuthFinish}/>
             <Route path='/signup/auth' exact component={SignUpAuth}/>
-
         </>
     );
 };
