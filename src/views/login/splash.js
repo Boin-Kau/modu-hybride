@@ -20,8 +20,12 @@ const Splash = () => {
   const dispatch = useDispatch();
 
   const goToLogin = () => {
-    history.push("/login");
+    history.push("/signin/phone");
   };
+
+  const goToSignUp = () =>{
+    history.push("/signup/term");
+  }
 
   useEffect(async () => {
     dispatch(BottomNavCloseAction);
@@ -101,7 +105,7 @@ const Splash = () => {
           </span>
           <img className="img_splash_duck" src={splash_duck} />
           <div className="buttonWrap">
-            <div className="sign-up-button spoqaBold">회원가입</div>
+            <div className="sign-up-button spoqaBold" onClick={goToSignUp}>회원가입</div>
             <div className="login-button">
               <div className="notoMedium" style={{ marginRight: "0.375rem" }}>
                 이미 가입하셨나요?
