@@ -198,7 +198,7 @@ const PartyDetail = () => {
           <div style={{ margin: '0 1.25rem' }}>
             <BottomButton
               clickFunc={partyIsEnrolled === 'Y' ? () => openPartyDetail(partyId) : openPaymentPage}
-              text={`${partyIsEnrolled === 'Y' ? '파티 상세보기' : '파티참가'}`}
+              text={`${partyIsEnrolled === 'Y' ? '내 파티 상세보기' : '파티참가'}`}
               activeStatus={true} 
               isBottomStatus={false}/>
           </div>

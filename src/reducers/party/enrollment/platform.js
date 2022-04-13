@@ -2,6 +2,7 @@ export const initialState = {
     selectedPlatformIdx: null,
     selectedPlatformName: null,
     selectedPlatformCategoryIdx: null,
+    selectedPlatformCatgoryName: null,
     selectedPlatformImgUrl: null,
     selectedPlatformImgColor: null,
     selectedPlatformImgInitial: null,
