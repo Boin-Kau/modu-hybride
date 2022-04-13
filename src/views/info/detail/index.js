@@ -123,7 +123,7 @@ const DetailPage = () => {
 
         GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGOUT);
 
-        histroy.push('/login');
+        histroy.push('/');
     }
 
     //회원탈퇴 버튼 클릭
@@ -180,7 +180,7 @@ const DetailPage = () => {
 
         GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.SIGNOUT);
 
-        histroy.push('/login');
+        histroy.push('/');
     }
 
     //버튼 취소 클릭

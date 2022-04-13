@@ -33,6 +33,8 @@ const InputComponent = ({
 
 const InputWrap = styled.div`
   display: flex;
+  flex-grow: 1;
+  flex-basis: 0;
 
   padding: 0.625rem 0.875rem;
 

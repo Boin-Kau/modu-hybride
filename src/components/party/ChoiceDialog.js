@@ -62,9 +62,6 @@ const ConfirmPopup = styled.div`
   padding:0 1.125rem 1.125rem 1.125rem;
 
   text-align:center;
-
-  /* 애니메이션 적용 */
-  transition: opacity 300ms ease-out;
   opacity : ${props => props.openStatus ? '1' : '0'};
 
   .title {

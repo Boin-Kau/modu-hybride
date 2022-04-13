@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 
 export const LoginInput = styled.input`
-    flex-grow:1;
 
+    width: 100%;
     font-size:0.8125rem;
     color:#313131;
 
@@ -19,7 +19,6 @@ export const LoginInput = styled.input`
     :focus{
         outline:none;
         border-bottom:0.0625rem solid #ffca16;
-
     }
 `;
 
@@ -82,8 +81,6 @@ export const DangerPopup = styled.div`
 
   text-align:center;
 
-  /* 애니메이션 적용 */
-  transition: opacity 300ms ease-out;
   opacity : ${props => props.openStatus ? '1' : '0'};
 `;
 

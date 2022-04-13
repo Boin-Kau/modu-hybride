@@ -29,8 +29,8 @@ const PartyTitleDiv = ({ title, info, isDetail, isUserReserved, isPartyReserved,
         <div style={{ display: "flex" }}>
           {
             info.registerType === "SERVER" ?
-              <div className="topContentDescription spoqaBold">{`${info.serverName} • ${info.serverCategory}`}</div> :
-              <div className="topContentDescription spoqaBold">{`${info.customName} • ${info.customCategory}`}</div>
+              <div className="topContentDescription spoqaBold">{`${info.serverName || "없음"} • ${info.serverCategory || "없음"}`}</div> :
+              <div className="topContentDescription spoqaBold">{`${info.customName || "없음"} • ${info.customCategory || "없음"}`}</div>
           }
           {
             (isUserReserved === true || isPartyReserved === true) &&

@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import styled from "styled-components";
 
-import { useDispatch, useSelector } from "react-redux";
-
+import { useDispatch } from "react-redux";
 
 import Fade from 'react-reveal/Fade';
 import icon_back from "../../../assets/icon-back-arrow.svg";
@@ -10,8 +9,6 @@ import icon_party_memeber from "../../../assets/icon-party-member.svg";
 import icon_party_host from "../../../assets/icon-party-host.svg";
 import ReportIcon from '../../../assets/icon-report.svg';
 import MyPartyEmptyImg from '../../../assets/banner-party-new-party-activated.svg';
-
-
 
 import { TextMiddle } from '../../../styled/shared';
 import { customApiClient } from '../../../shared/apiClient';
@@ -22,11 +19,8 @@ import { useHistory } from 'react-router-dom';
 import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { priceToString, ContentWrap, ContentDetailWrap } from '../../../components/main/bottomCard';
-import { SetReportCategoryListAction, ReportPopupOpenAction, TerminatePopupOpenAction, BanishPopupOpenAction, BanishPopupCloseAction, ReportPopupCloseAction } from '../../../reducers/party/popup';
-import ReportPopUp from '../popup/reportPopup';
-import TerminatePopUp from '../popup/terminatePopup';
+import { ReportPopupOpenAction, BanishPopupCloseAction, ReportPopupCloseAction } from '../../../reducers/party/popup';
 import { checkMobile } from '../../../App';
-import BanishPopUp from '../popup/banishPopup';
 
 
 const MyParty = () => {

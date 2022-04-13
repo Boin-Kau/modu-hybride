@@ -380,7 +380,6 @@ const Main = () => {
         history.push('/subscribe');
     };
 
-
     return (
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundColor: '#FFCA17', backgroundSize: 'cover' }}>
@@ -417,6 +416,8 @@ const Main = () => {
 
             {/* 업데이트 팝업 */}
             <UpdatePopUp openStatus={updatePopupStatus} />
+
+            />
         </>
     )
 };
