@@ -22,6 +22,7 @@ const AccountIdxChange = () => {
 
   //state
   const [accountIdx, setAccountIdx] = useState();
+  const [confirmStatus, setConfirmStatus] = useState(false);
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -33,9 +34,19 @@ const AccountIdxChange = () => {
     history.push('/card/manage');
   }
 
+  const onClickBankAcccountChange = () => {
+    
+
+
+    // 계좌 변경 완료 후, 원래 페이지로 이동
+    closePage();
+  }
+
   useEffect(async () => {
     dispatch(BottomNavCloseAction);
   }, []);
+
+  console.log(`Account Index : ${accountIdx}`);
 
   //정산계좌 수단 바꾸는 api -> 파티 아이디랑 그런것도 필요할것같은디..요건 찰스랑 협의
 
@@ -62,7 +73,11 @@ const AccountIdxChange = () => {
           </TitleWrap>
           <AccountSlide setAccountIdx={setAccountIdx}/>
           <div style={{flexGrow:"1"}}/>
-          <BottomButton text={"확인"}/>
+          <BottomButton 
+            clickFunc={onClickBankAcccountChange}
+            text={"확인"}
+            activeStatus={confirmStatus}
+            isBottomStatus={false}/>
         </ContentWrap>
       </PageWrap>
     </div>
