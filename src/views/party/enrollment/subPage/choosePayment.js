@@ -11,7 +11,7 @@ import icon_arrow_up from "../../../../assets/icon-arrow-up-gray.svg";
 import { Input, InputWrap, ItemWrap, TitleWrap } from "../../../../styled/main/enrollment";
 import { InfoWrap, MiniInfoDialog } from "./chooseAccount";
 import InputComponent from "../../../../styled/shared/inputComponent";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, version } from "react";
 
 import Fade from 'react-reveal/Fade';
 import { NumberList } from "../../../main/subscribe/enrollment";
@@ -19,6 +19,7 @@ import BottomButton from "../../../../components/party/BottomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 import { ResetPayment, UpdatePaymentAction } from "../../../../reducers/party/enrollment/payment";
+import { priceToString } from "../../../../components/main/bottomCard";
 
 const ChoosePayment = () => {
 
@@ -264,8 +265,8 @@ const ChoosePayment = () => {
             <img className="notice_img" src={icon_notice_white_duck}></img>
             <div className="notice_text">
               <span className="weight_500">{today.getDate() > paymentDay ? today.getMonth()+2 : today.getMonth()+1}월 {paymentDay}일</span>
-              부터 정산이 시작될 예정이에요. 10,000원의 멤버십에서 
-              <span className="weight_600"> {pricePerMember*partyPersonel}원을 아낄 수 </span>
+              부터 정산이 시작될 예정이에요. {priceToString(membershipPrice)}원의 멤버십에서 
+              <span className="weight_600"> {priceToString(pricePerMember*partyPersonel)}원을 아낄 수 </span>
               있네요!
             </div>
           </div>
