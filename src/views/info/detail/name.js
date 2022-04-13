@@ -65,16 +65,25 @@ const NamePage = () => {
 
     useEffect(() => {
 
-        //이름 벨리데이션
-        //한글 이름 2~4자 이내
-        const reg = /^[가-힣]{2,4}$/;
-
-        if (!reg.test(name)) {
+        if (name.length < 1) {
             setConfirm(false);
+            setError(false);
+            setErrorMsg('');
+            return
+        }
+
+        //닉네임 벨리데이션
+        //특수문자&띄어쓰기 제외 6자리
+        const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
+        if (reg.test(name) || name.length > 6) {
+            setConfirm(false);
+            setError(true);
+            setErrorMsg('특수문자/띄어쓰기 제외 6자리로 입력해주세요.');
             return
         }
 
         setConfirm(true);
+        setError(false);
 
     }, [name]);
 
@@ -83,7 +92,7 @@ const NamePage = () => {
 
         if (name == currentName) {
             setError(true);
-            setErrorMsg('현재 등록된 이름과 동일한 이름입니다');
+            setErrorMsg('현재 등록된 닉네임과 동일한 이름입니다');
             return
         }
 
@@ -116,7 +125,7 @@ const NamePage = () => {
         })
         dispatch({
             type: MessageOpen,
-            data: '이름 변경이 완료되었습니다.'
+            data: '닉네임 변경이 완료되었습니다.'
         })
         setTimeout(() => {
             dispatch({
@@ -145,13 +154,13 @@ const NamePage = () => {
                         <img src={icon_back}></img>
                     </div>
 
-                    <TextMiddle>이름 변경하기</TextMiddle>
+                    <TextMiddle>닉네임 변경하기</TextMiddle>
                 </HeaderWrap>
                 <div className="notoMedium" style={{ padding: '1.25rem' }}>
-                    <TitleWrap style={{ marginTop: '0' }}>이름</TitleWrap>
+                    <TitleWrap style={{ marginTop: '0' }}>닉네임</TitleWrap>
                     <ItemWrap>
                         <InputWrap style={error ? { border: '0.0625rem solid #fb5e5e' } : { border: '0.0625rem solid #e8e8e8' }}>
-                            <Input placeholder="이름을 입력하세요" onChange={handleName} value={name}></Input>
+                            <Input placeholder="닉네임을 입력하세요" onChange={handleName} value={name}></Input>
                         </InputWrap>
                     </ItemWrap>
                     <div style={{ marginTop: '0.3125rem', fontSize: '0.6875rem', color: '#fb5e5e' }}>{errorMsg}</div>
