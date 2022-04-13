@@ -82,8 +82,6 @@ export const DangerPopup = styled.div`
 
   text-align:center;
 
-  /* 애니메이션 적용 */
-  transition: opacity 300ms ease-out;
   opacity : ${props => props.openStatus ? '1' : '0'};
 `;
 

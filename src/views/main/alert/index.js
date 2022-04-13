@@ -126,7 +126,13 @@ const AlertPage = () => {
         //우선 파티 페이지로만 이동시키기
         else if (category.name === "PARTY") {
             setPageTrans('trans toRight');
-            history.push('/party/my');
+
+            if (contentIdx) {
+                history.push(`/party/my/${contentIdx}`);
+            }
+            else {
+                history.push(`/party/my`);
+            }
         }
     };
 

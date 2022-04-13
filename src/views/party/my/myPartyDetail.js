@@ -105,6 +105,11 @@ const MyPartyDetail = () => {
   }, []);
 
   useEffect(() => {
+
+    setFinishPopupTitle("");
+    setFinishPopupSubTitle("");
+    setFinishPopupStatus(false);
+
     getPartyDetail();
   }, [partyIdx])
 
@@ -139,14 +144,26 @@ const MyPartyDetail = () => {
 
   // Function 
   const getPartyDetail = async () => {
+
+    if (!partyIdx || partyIdx === 0) return
     // 파티 상세 조회 
     const partyDetailUri = `/party/${partyIdx}`;
     const partyDetailData = await customApiClient('get', partyDetailUri);
 
     // Server Error
-    if (!partyDetailData) { return };
+    if (!partyDetailData) {
+      setFinishPopupTitle("탈퇴 혹은 해지된 파티입니다");
+      setFinishPopupSubTitle("해당 파티는 탈퇴 혹은 해지된 파티입니다.\n종료됨 파티탭을 확인해주세요.");
+      setFinishPopupStatus(true);
+      return
+    };
     // Validation 
-    if (partyDetailData.statusCode !== 200) { return };
+    if (partyDetailData.statusCode !== 200) {
+      setFinishPopupTitle("탈퇴 혹은 해지된 파티입니다");
+      setFinishPopupSubTitle("해당 파티는 탈퇴 혹은 해지된 파티입니다.\n종료됨 파티탭을 확인해주세요.");
+      setFinishPopupStatus(true);
+      return
+    };
     console.log('API 호출 성공 :', partyDetailData);
 
     setResult(partyDetailData.result);
@@ -312,7 +329,7 @@ const MyPartyDetail = () => {
   const handleClickRePayDelete = () => {
 
     //아낀금액
-    const savePrice = membershipInfoObj.originlPrice - membershipInfoObj.price;
+    const savePrice = membershipInfoObj.originalPrice - membershipInfoObj.price;
 
     setRegularFailPopupStatus(false);
     setRegularFailConfirmPopupTitle(`지금 구독을 유지하면\n한달에 ${priceToString(savePrice)}원을 아낄 수 있어요!`);
@@ -471,7 +488,7 @@ const MyPartyDetail = () => {
                 <img className="notice_img" src={icon_notice_duck}></img>
                 <div className="notice_text_div">
                   <span>파티를 이용하면 매달 </span>
-                  <span className="notice_text_yellow">{priceToString(membershipInfoObj.originlPrice - membershipInfoObj.price)}원</span>
+                  <span className="notice_text_yellow">{priceToString(membershipInfoObj.originalPrice - membershipInfoObj.price)}원</span>
                   <span>을 아낄 수 있어요 ! </span>
                 </div>
               </div>
