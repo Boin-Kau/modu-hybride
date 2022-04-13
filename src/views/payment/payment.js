@@ -252,7 +252,7 @@ const Payment = () => {
           <BottomButton
             text={(priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice)) + "원 결제"}
             clickFunc={onClickRevise}
-            status={pageConfirmStatus}
+            activeStatus={pageConfirmStatus}
           />
         </ContentWrap>
       </PageWrap>
