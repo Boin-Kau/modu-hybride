@@ -4,13 +4,18 @@ import styled from "styled-components";
 
 import ic_pay_duck from '../../assets/ic_pay_duck.png';
 
-const Register = () => {
+const Register = ({setConfirmStatus}) => {
 
   const history = useHistory();
 
   const goToRegister = () =>{
     history.push('/card');
   }
+
+  useEffect(() => {
+    setConfirmStatus(false);
+  }, [])
+  
 
   return (
     <Container>

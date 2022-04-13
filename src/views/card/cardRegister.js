@@ -418,7 +418,7 @@ const CardRegister = () => {
           <BottomButton
             text={"확인"}
             clickFunc={onClickRevise}
-            status={pageConfirmStatus}
+            ActiveStatus={pageConfirmStatus}
           />
         </ContentWrap>
         {keyboardUp && (
