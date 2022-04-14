@@ -44,6 +44,7 @@ export const ContentWrap = styled.div`
   bottom: 0;
 
   overflow-y: scroll;
+  overflow-x: hidden;
 
   padding: 0 1.25rem 0 1.25rem;
 `;
