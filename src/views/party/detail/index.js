@@ -96,10 +96,13 @@ const PartyDetail = () => {
   useEffect(() => {
     list = [];
     if (partyInfoObj.currentUserCount && partyInfoObj.personnel) {
+
+      const maxLength = partyInfoObj.personnel > 4 ? partyInfoObj.personnel : 4;
+
       list.push('파티장');
       for (let i = 0; i < partyInfoObj.currentUserCount - 1; i++) list.push('참가완료');
       for (let i = 0; i < partyInfoObj.personnel - partyInfoObj.currentUserCount; i++) list.push('대기중');
-      for (let i = partyInfoObj.personnel; i !== 4; i++) list.push('-');
+      for (let i = partyInfoObj.personnel; i !== maxLength; i++) list.push('-');
       setTypeList(list);
     }
   }, [partyInfoObj])
@@ -199,8 +202,8 @@ const PartyDetail = () => {
             <BottomButton
               clickFunc={partyIsEnrolled === 'Y' ? () => openPartyDetail(partyId) : openPaymentPage}
               text={`${partyIsEnrolled === 'Y' ? '내 파티 상세보기' : '파티참가'}`}
-              activeStatus={true} 
-              isBottomStatus={false}/>
+              activeStatus={true}
+              isBottomStatus={false} />
           </div>
         </MainWrap>
       </PageWrap>
