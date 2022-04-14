@@ -108,18 +108,16 @@ const AppLayout = () => {
             <Route path='/party/detail/change/card' exact component={CardIdxChange} />
             <Route path='/party/detail/change/account' exact component={AccountIdxChange} />
             <Route path='/bank/manage' exact component={BankAccountManagement} />
-            <Route path='/party/detail/change/card' exact component={CardIdxChange} />
-            <Route path='/bank/manage' exact component={BankAccountManagement} />
 
 
             {/* 회원가입/로그인절차 컴포넌트 테스트 */}
-            <Route path='/signup/name' exact component={SignUpName}/>
-            <Route path='/signup/term' exact component={SignUpTerm}/>
-            <Route path='/signin/phone' exact component={SignInPhone}/>
-            <Route path='/signin/phone/auth' exact component={SignInPhoneAuth}/>
-            <Route path='/signin/auth' exact component={SignInAuth}/>
-            <Route path='/signin/auth/finish' exact component={AuthFinish}/>
-            <Route path='/signup/auth' exact component={SignUpAuth}/>
+            <Route path='/signup/name' exact component={SignUpName} />
+            <Route path='/signup/term' exact component={SignUpTerm} />
+            <Route path='/signin/phone' exact component={SignInPhone} />
+            <Route path='/signin/phone/auth' exact component={SignInPhoneAuth} />
+            <Route path='/signin/auth' exact component={SignInAuth} />
+            <Route path='/signin/auth/finish' exact component={AuthFinish} />
+            <Route path='/signup/auth' exact component={SignUpAuth} />
         </>
     );
 };
