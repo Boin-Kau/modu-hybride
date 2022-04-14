@@ -416,8 +416,6 @@ const Main = () => {
 
             {/* 업데이트 팝업 */}
             <UpdatePopUp openStatus={updatePopupStatus} />
-
-            />
         </>
     )
 };

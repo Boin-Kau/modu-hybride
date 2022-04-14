@@ -24,7 +24,6 @@ const AnalysisPage = () => {
 
     const {
         analysisList,
-        analysisReloadStatus
     } = useSelector(state => state.main.analysis);
 
     const closeAnalyPage = useCallback(() => {

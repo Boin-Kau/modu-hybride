@@ -225,7 +225,7 @@ const DetailPage = () => {
 
                 <div className="spoqaBold" style={{ padding: '1.875rem 1.25rem 0 1.25rem' }}>
 
-                    <ContentWrap onClick={() => { openPage('/info/detail/name') }}>이름 변경</ContentWrap>
+                    <ContentWrap onClick={() => { openPage('/info/detail/name') }}>닉네임 변경</ContentWrap>
                     <ContentWrap onClick={() => { openPage('/info/detail/phone') }}>전화번호 변경</ContentWrap>
 
                     <div style={{ height: '0.0437rem', backgroundColor: 'rgba(0,0,0,0.06)', marginBottom: '1.875rem' }}></div>
