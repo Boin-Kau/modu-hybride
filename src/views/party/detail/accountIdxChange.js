@@ -12,8 +12,9 @@ import { useDispatch } from "react-redux";
 import icon_back from "../../../assets/icon-back-arrow.svg";
 import AccountSlide from "../../payment/accountSlide";
 import BottomButton from "../../../components/party/BottomButton";
+import { customApiClient } from "../../../shared/apiClient";
 
-const AccountIdxChange = () => {
+const AccountIdxChange = ({location}) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -22,6 +23,7 @@ const AccountIdxChange = () => {
 
   //state
   const [accountIdx, setAccountIdx] = useState();
+  const [partyRoomIdx, setPartyRoomIdx] = useState(location.data);
   const [confirmStatus, setConfirmStatus] = useState(true);
 
   const closePage = () => {
@@ -34,9 +36,16 @@ const AccountIdxChange = () => {
     history.push('/card/manage');
   }
 
-  const onClickBankAcccountChange = () => {
-    
+  const onClickBankAcccountChange = async () => {
+    const data = await customApiClient('patch', `/party/${partyRoomIdx}/bankAccount/${accountIdx}`);
 
+    console.log(data.message);
+    // Server Error
+    if (!data) { return };
+    // Validation 
+    if (data.statusCode !== 200) { return };
+
+    console.log('API 호출 성공 :', data);
 
     // 계좌 변경 완료 후, 원래 페이지로 이동
     closePage();
