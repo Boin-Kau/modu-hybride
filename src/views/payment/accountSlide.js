@@ -60,7 +60,7 @@ const AccountSlide = ({setAccountIdx}) => {
               </div>
             );
           })}
-          <Register />
+          <Register setAccountIdx={setAccountIdx}/>
         </Slider>
       )}
     </div>
