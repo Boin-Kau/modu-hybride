@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 
@@ -12,6 +12,7 @@ const Register = () => {
     history.push('/card');
   }
 
+  
   return (
     <Container>
         <div style={{display:'flex', flexDirection:'column', alignItems:'center', marginTop:'0.975rem'}}>

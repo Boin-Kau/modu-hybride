@@ -406,6 +406,23 @@ const MyPartyDetail = () => {
     setFinishPopupStatus(true);
   }
 
+  // 정산계좌 변경하기
+  const changeBankAccount = () => {
+    setPageTrans('trans toRight');
+    history.push({
+      pathname: '/party/detail/change/account',
+      data: partyIdx
+    });
+  }
+  // 결제수단 변경하기
+  const changePaymentCard = () => {
+    setPageTrans('trans toRight');
+    history.push({
+      pathname: '/party/detail/change/card',
+      data: partyIdx
+    });
+  }
+
   //신고하기 팝업
   const handleClickReport = async () => {
     dispatch(MemberBottomDialogCloseAction);
@@ -572,8 +589,8 @@ const MyPartyDetail = () => {
                 }
               </span>
             </div>
-            <div className="change_contents_btn">
-              {isHostUser === 'Y' ? "정산계좌" : "결제수단"} 변경하기
+            <div onClick={isHostUser === 'Y' ? changeBankAccount : changePaymentCard} className="change_contents_btn">
+              <span>{isHostUser === 'Y' ? "정산계좌" : "결제수단"} 변경하기</span>
             </div>
           </PaymentContentsWrap>
 

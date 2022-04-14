@@ -81,11 +81,6 @@ const BottomContent = ({ data, cardOpen }) => {
         }
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [])
-
-
     return (
         <>
             <ContentWrap onClick={onclickOpenContent}>
