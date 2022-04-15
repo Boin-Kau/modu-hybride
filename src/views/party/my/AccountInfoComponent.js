@@ -1,5 +1,6 @@
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const AccountInfoComponent = ({partyIdx, isHostUser, accountInfo}) => {
 
@@ -22,14 +23,18 @@ const AccountInfoComponent = ({partyIdx, isHostUser, accountInfo}) => {
           <div className="subtitle">아이디</div>
           <div className="content">{accountInfo.accountId}</div>
         </div>
-        <button className="pasteBtn">복사</button>
+        <CopyToClipboard text={accountInfo.accountId}>
+          <button className="pasteBtn">복사</button>
+        </CopyToClipboard>
       </AccountInfoDiv>
       <AccountInfoDiv isHost={isHostUser} style={{marginTop:'1.75rem'}}>
         <div>
           <div className="subtitle">비밀번호</div>
           <div className="content">{isHostUser==='Y'? accountInfo.accountPw : '*'.repeat(accountInfo.accountPw.length)}</div>
         </div>
-        <button className="pasteBtn">복사</button>
+        <CopyToClipboard text={accountInfo.accountPw}>
+          <button className="pasteBtn">복사</button>
+        </CopyToClipboard>
         <button onClick={onClickEditAccount} className="changeBtn">변경</button>
       </AccountInfoDiv>
     </>
