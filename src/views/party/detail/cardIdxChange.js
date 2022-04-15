@@ -23,7 +23,6 @@ const CardIdxChange = ({ location }) => {
 
   //state
   const [cardIdx, setCardIdx] = useState();
-  const [confirmStatus, setConfirmStatus] = useState(true);
   const [partyRoomIdx, setPartyRoomIdx] = useState(location.data);
 
   const closePage = () => {
@@ -37,17 +36,19 @@ const CardIdxChange = ({ location }) => {
   }
 
   const onClickPaymentChange = async () => {
-    const data = await customApiClient('patch', `party/${partyRoomIdx}/card/${cardIdx}`);
+    if(cardIdx !== -1) {
+      const data = await customApiClient('patch', `party/${partyRoomIdx}/card/${cardIdx}`);
 
-    console.log(data.message);
-    // Server Error
-    if (!data) { return };
-    // Validation 
-    if (data.statusCode !== 200) { return };
+      console.log(data.message);
+      // Server Error
+      if (!data) { return };
+      // Validation 
+      if (data.statusCode !== 200) { return };
 
-    console.log('API 호출 성공 :', data);
+      console.log('API 호출 성공 :', data);
 
-    closePage();
+      closePage();
+    }
   }
 
   useEffect(async () => {
@@ -82,7 +83,7 @@ const CardIdxChange = ({ location }) => {
           <BottomButton
             clickFunc={onClickPaymentChange}
             text={"확인"}
-            activeStatus={confirmStatus}
+            activeStatus={cardIdx === -1 ? false : true}
             isBottomStatus={false} />
         </ContentWrap>
       </PageWrap>
