@@ -18,6 +18,7 @@ import CheckPartyData from "./subPage/checkPartyData";
 import BottomButton from "../../../components/party/BottomButton";
 import { ResetPlatform } from "../../../reducers/party/enrollment/platform";
 import { UpdateCurrentPageAction } from "../../../reducers/party/enrollment/setPage";
+import { checkMobile } from "../../../App";
 
 const PartyEnrollment = () => {
   // Module
@@ -33,6 +34,16 @@ const PartyEnrollment = () => {
   // useEffect
   useEffect(() => {
     dispatch(BottomNavCloseAction);
+
+    const userPlatform = checkMobile();
+    if (userPlatform == 'ios') {
+      //IOS 배경색 설정
+      try {
+        window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+      }
+      catch (err) {
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -70,7 +81,7 @@ const PartyEnrollment = () => {
       setPageTrans('trans toLeft');
       history.push('/party')
     } else {
-      
+
       dispatch(UpdateCurrentPageAction({
         page: currentPage - 1
       }));
@@ -79,7 +90,7 @@ const PartyEnrollment = () => {
 
   const jumpPage = () => {
     // 건너뛰기
-    if(currentPage === 2 && isAccountStatus === 'N') {
+    if (currentPage === 2 && isAccountStatus === 'N') {
       dispatch(UpdateCurrentPageAction({
         page: 3
       }));
@@ -105,7 +116,7 @@ const PartyEnrollment = () => {
         {currentPage === 1 && <ChooseService />}
         {currentPage === 2 && <ChooseAccount />}
         {currentPage === 3 && <ChoosePartyInfo />}
-        {currentPage === 4 && <ChoosePayment  />}
+        {currentPage === 4 && <ChoosePayment />}
         {currentPage === 5 && <ChooseBankAccount />}
         {/* 입금자명 입력 페이지는 오픈뱅킹 도입 이후에 작업 */}
         {currentPage === 6 && <CheckPartyData />}

@@ -130,8 +130,6 @@ const ContentFill = ({ data }) => {
                         <GrapWrap>
                             {
                                 data.map((d, idx) => {
-                                    console.log(getCategoryColor(d.idx))
-                                    console.log(d.idx)
                                     return (
                                         <GrapBar width={d.ratio} color={getCategoryColor(d.idx)} isFirst={firstIdx == d.idx} isLast={lastIdx == d.idx} key={idx} />
                                     )

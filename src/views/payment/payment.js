@@ -19,6 +19,8 @@ import Slide from "./slide";
 import BottomButton from "../../components/party/BottomButton";
 
 import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/loading";
+import { AnalyPageReloadTrueAction } from "../../reducers/main/analysis";
+import { SubscribeReloadTrueAction } from "../../reducers/main/subscribe";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -157,6 +159,10 @@ const Payment = () => {
       alert(data.message);
       return;
     }
+
+    //소비분석 리로드
+    dispatch(AnalyPageReloadTrueAction);
+    dispatch(SubscribeReloadTrueAction);
 
     setPageTrans("trans toRight");
     history.push({
