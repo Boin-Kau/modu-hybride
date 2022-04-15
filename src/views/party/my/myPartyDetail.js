@@ -34,6 +34,8 @@ import { priceToString } from "../../../components/main/bottomCard";
 import DangerDialog from "../../../components/party/DangerDialog";
 import OneButtonDialog from "../../../components/party/OneButtonDialog";
 import { UpdatePartyAction } from "../../../reducers/party/detail";
+import { AnalyPageReloadTrueAction } from "../../../reducers/main/analysis";
+import { SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
 
 const MyPartyDetail = () => {
 
@@ -279,6 +281,10 @@ const MyPartyDetail = () => {
 
     dispatch(PartyDeleteConfirmDialogCloseAction);
     setFinishPopupStatus(true);
+
+    //소비분석 리로드
+    dispatch(AnalyPageReloadTrueAction);
+    dispatch(SubscribeReloadTrueAction);
   }
 
   const onDeletePartyCancel = async () => {
@@ -303,6 +309,10 @@ const MyPartyDetail = () => {
     setFinishPopupTitle(`${type} 취소가 완료되었습니다.`);
     setFinishPopupSubTitle("다시 파티를 정상적으로\n이용하실 수 있습니다.");
     setFinishPopupStatus(true);
+
+    //소비분석 리로드
+    dispatch(AnalyPageReloadTrueAction);
+    dispatch(SubscribeReloadTrueAction);
   }
 
   //정기결제 실패 - 재결제하기
@@ -404,6 +414,10 @@ const MyPartyDetail = () => {
     setFinishPopupTitle("해지가 완료되었습니다.");
     setFinishPopupSubTitle("해지가 모두 완료되었습니다.\n해지된 데이터는 다시 조회할 수 없습니다.");
     setFinishPopupStatus(true);
+
+    //소비분석 리로드
+    dispatch(AnalyPageReloadTrueAction);
+    dispatch(SubscribeReloadTrueAction);
   }
 
   // 정산계좌 변경하기
@@ -598,9 +612,9 @@ const MyPartyDetail = () => {
 
         {/* 최하단 Yellow 버튼 */}
         <div style={{ margin: '1.25rem' }}>
-          <BottomButton 
-            clickFunc={onClickChatLink} 
-            text={'오픈채팅방 열기'} 
+          <BottomButton
+            clickFunc={onClickChatLink}
+            text={'오픈채팅방 열기'}
             activeStatus={true}
             isBottomStatus={false} />
         </div>
