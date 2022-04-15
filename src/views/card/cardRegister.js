@@ -75,15 +75,15 @@ const CardRegister = () => {
   }, [num1, num2, num3, num4, cardNum]);
 
   useEffect(() => {
-    if(focusThree==true){
+    if (focusThree == true) {
       setNum3(keyboardNum);
     }
-    else if(focusFour==true){
+    else if (focusFour == true) {
       setNum4(keyboardNum);
     }
 
   }, [keyboardNum])
-  
+
   //input autoFocusing
   const handleNextFocus = (e, next) => {
     const { value, maxLength } = e.target;
@@ -288,14 +288,15 @@ const CardRegister = () => {
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                    <span style={{fontSize:"0.7125rem"}}>{"●".repeat(num3.length)}</span>
-                  )}
+                      <span style={{ fontSize: "0.625rem" }}>{"●".repeat(num3.length)}</span>
+                    )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusFour}>
                 <Input onClick={onClickKeyboardUpFour}>
-                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span>{"●".repeat(num4.length)}</span>}
+                  {num4.length === 0 ? <span className="placeholder">0000</span> :
+                    <span style={{ fontSize: "0.625rem" }}>{"●".repeat(num4.length)}</span>}
                 </Input>
               </InputWrap>
             </ItemWrap>
@@ -458,6 +459,7 @@ const Input = styled.div`
   font-size: 0.8125rem;
   display: flex;
   padding: 0;
+  overflow-x:scroll;
 
   .placeholder {
     color: #e8e8e8;

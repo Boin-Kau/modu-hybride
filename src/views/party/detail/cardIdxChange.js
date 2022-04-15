@@ -14,7 +14,7 @@ import BottomButton from "../../../components/party/BottomButton";
 import Slide from "../../payment/slide";
 import { customApiClient } from "../../../shared/apiClient";
 
-const CardIdxChange = ({location}) => {
+const CardIdxChange = ({ location }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -31,7 +31,7 @@ const CardIdxChange = ({location}) => {
     history.goBack();
   };
 
-  const goToCardManage = () =>{
+  const goToCardManage = () => {
     setPageTrans("trans toRight");
     history.push('/card/manage');
   }
@@ -72,18 +72,18 @@ const CardIdxChange = ({location}) => {
           </div>
           <TextMiddle>결제수단 변경</TextMiddle>
         </HeaderWrap>
-        <ContentWrap style={{display:"flex", flexDirection:"column"}}>
+        <ContentWrap style={{ display: "flex", flexDirection: "column" }}>
           <TitleWrap>
             <span className="spoqaBold">결제 수단</span>
             <div className="notoMedium manage-button" onClick={goToCardManage}>카드 관리</div>
           </TitleWrap>
-          <Slide setCardIdx={setCardIdx}/>
-          <div style={{flexGrow:"1"}}/>
+          <Slide setCardIdx={setCardIdx} />
+          <div style={{ flexGrow: "1" }} />
           <BottomButton
-            clickFunc={onClickPaymentChange} 
+            clickFunc={onClickPaymentChange}
             text={"확인"}
             activeStatus={confirmStatus}
-            isBottomStatus={false}/>
+            isBottomStatus={false} />
         </ContentWrap>
       </PageWrap>
     </div>

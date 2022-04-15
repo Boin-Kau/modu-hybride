@@ -15,17 +15,19 @@ import { ResetAccount } from "../../../../reducers/party/enrollment/account";
 import { ResetPartyInfo } from "../../../../reducers/party/enrollment/partyInfo";
 import { ResetPayment } from "../../../../reducers/party/enrollment/payment";
 import { ResetBankAccount } from "../../../../reducers/party/enrollment/bankAccount";
+import { AnalyPageReloadTrueAction } from "../../../../reducers/main/analysis";
+import { SubscribeReloadTrueAction } from "../../../../reducers/main/subscribe";
 
 const CheckPartyData = () => {
   const platformState = useSelector(state => state.party.enrollment.platform);
   const { accountId, accountPw } = useSelector(state => state.party.enrollment.account);
   const { title, membership, openChatLink } = useSelector(state => state.party.enrollment.partyInfo);
   const { originalPrice, nextPaymentDate, pricePerPerson, personnel, typeList, formatDate } = useSelector(state => state.party.enrollment.payment);
-  const { 
+  const {
     selectedBankIdx,
     selectedBankAccountUserName,
     selectedBankAccountNum,
-    selectedBankAccountIdx 
+    selectedBankAccountIdx
   } = useSelector(state => state.party.enrollment.bankAccount);
 
   //Context
@@ -76,10 +78,14 @@ const CheckPartyData = () => {
       isAccount: "N",
       isAdult: "N",
     }))
-    dispatch({type: ResetAccount});
-    dispatch({type: ResetPartyInfo});
-    dispatch({type: ResetPayment});
-    dispatch({type: ResetBankAccount});
+    dispatch({ type: ResetAccount });
+    dispatch({ type: ResetPartyInfo });
+    dispatch({ type: ResetPayment });
+    dispatch({ type: ResetBankAccount });
+
+    //소비분석 리로드
+    dispatch(AnalyPageReloadTrueAction);
+    dispatch(SubscribeReloadTrueAction);
 
     setPageTrans('trans toLeft');
     history.push('/party');
@@ -87,20 +93,20 @@ const CheckPartyData = () => {
 
   return (
     <CheckPartyDataWrap>
-      <MainText style={{margin:'1rem 0 1.25rem',padding:'0'}}>
-        파티 등록 전,<br/>
+      <MainText style={{ margin: '1rem 0 1.25rem', padding: '0' }}>
+        파티 등록 전,<br />
         <span className="yellowText">아래 정보를 확인</span>
         해주세요.
       </MainText>
 
       {/* Subtitle */}
-      <PartyDetailSubtitleSpan style={{marginBottom:'1rem', display:'block'}}>멤버십 정보</PartyDetailSubtitleSpan>
+      <PartyDetailSubtitleSpan style={{ marginBottom: '1rem', display: 'block' }}>멤버십 정보</PartyDetailSubtitleSpan>
 
-      <GrayWrap style={{borderBottom:'dashed #eaeaea 1.5px', padding: '0.875rem 0.75rem'}}>
+      <GrayWrap style={{ borderBottom: 'dashed #eaeaea 1.5px', padding: '0.875rem 0.75rem' }}>
         <div className="partyTitleWrap">
-          <PartyTitleDiv 
-            title={title} 
-            isDetail={false} 
+          <PartyTitleDiv
+            title={title}
+            isDetail={false}
             info={{
               platformIdx: platformState.selectedPlatformIdx,
               serverName: platformState.selectedPlatformName,
@@ -116,16 +122,16 @@ const CheckPartyData = () => {
           />
         </div>
       </GrayWrap>
-      <GrayWrap style={{padding:'0.8125rem 1rem 2.1875rem', marginBottom:'2.0313rem'}}>
+      <GrayWrap style={{ padding: '0.8125rem 1rem 2.1875rem', marginBottom: '2.0313rem' }}>
         {/* 파티정보 */}
-        <TitleWrap style={{margin:'0 0 0.625rem'}}>파티 정보</TitleWrap>
-        <PartyPersonnelWrap personnel={personnel+1}>
+        <TitleWrap style={{ margin: '0 0 0.625rem' }}>파티 정보</TitleWrap>
+        <PartyPersonnelWrap personnel={personnel + 1}>
           {
             typeList.map((item, idx) => {
               return (
                 <PartyDataListItem
                   type={item}
-                  margin={personnel+1 > 4 ? "0.9375rem" : "0"}
+                  margin={personnel + 1 > 4 ? "0.9375rem" : "0"}
                   isHost={idx === 0 ? "Y" : "N"}
                   isEnrollment={true}
                   key={idx} />
@@ -135,7 +141,7 @@ const CheckPartyData = () => {
         </PartyPersonnelWrap>
 
         {/* 멤버십 정보 */}
-        <TitleWrap style={{marginBottom:'0.625rem'}}>멤버십 정보</TitleWrap>
+        <TitleWrap style={{ marginBottom: '0.625rem' }}>멤버십 정보</TitleWrap>
         <PartyMembershipDiv
           membershipInfo={{
             paymentCycleDate: formatDate,
@@ -144,12 +150,12 @@ const CheckPartyData = () => {
           }}
           platformInfo={{
             serverCategory: '하이',
-            customCategory:'하이'
+            customCategory: '하이'
           }}
         />
 
         {/* 정산 정보 */}
-        <TitleWrap style={{marginBottom:'0.625rem'}}>정산 정보</TitleWrap>
+        <TitleWrap style={{ marginBottom: '0.625rem' }}>정산 정보</TitleWrap>
         <BankAccountWrap>
           <div className="contents_div margin_bottom">
             <span className="contents_name">정산수단</span>
@@ -163,9 +169,9 @@ const CheckPartyData = () => {
 
       </GrayWrap>
 
-      <BottomButton clickFunc={enrollBtn} text={'확인'} activeStatus={true} isBottomStatus={false}/>
+      <BottomButton clickFunc={enrollBtn} text={'확인'} activeStatus={true} isBottomStatus={false} />
 
-      
+
     </CheckPartyDataWrap>
   );
 }

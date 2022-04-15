@@ -18,6 +18,7 @@ export const getCategoryColor = categoryIdx => {
         case 5: return '#ff9250'
         case 6: return '#8f7deb'
         case 7: return '#3c94ff'
+        case 9: return '#6bd175'
         default: return '#e3e3e3'
     }
 }
