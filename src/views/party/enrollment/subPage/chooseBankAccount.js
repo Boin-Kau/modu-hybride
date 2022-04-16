@@ -22,6 +22,7 @@ import { settings } from "../../../payment/slide";
 import Card from "../../../payment/card";
 
 import { UpdateBankAccountAction } from "../../../../reducers/party/enrollment/bankAccount";
+import AccountSlide from "../../../payment/accountSlide";
 
 const ChooseBankAccount = () => {
 
@@ -38,13 +39,13 @@ const ChooseBankAccount = () => {
   const [bankIdx, setBankIdx] = useState(selectedBankIdx);
   const [bankAccountIdx, setBankAccountIdx] = useState(0);
 
-  const [currentSlide, setCurrentSlide] = useState('0');
-  const [bankAccountData, setBankAccountData] = useState({});
   const [isFocus, setIsFocus] = useState(false);
   const [agreeStatus, setAgreeStatus] = useState('N');
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
   const [isChooseBankClicked, setIsChooseBankClicked] = useState(false);
   const [selectedBankName, setSelectedBankName] = useState('');
+  const [isBankAccountStatus, setIsBankAccountStatus] = useState(false);
+  const [bankAccountList, setBankAccountList] = useState([]);
 
   useEffect(() => {
     dispatch(UpdateBankAccountAction({
@@ -58,11 +59,13 @@ const ChooseBankAccount = () => {
   },[])
 
   useEffect(() => {
-    if(accountOwnerName&&selectedBankName&&bankAccountNum&&(agreeStatus==='Y')) {
-      setNextBtnStatus(true);
-      return
+    if(!isBankAccountStatus) {
+      if(accountOwnerName&&selectedBankName&&bankAccountNum&&(agreeStatus==='Y')) {
+        setNextBtnStatus(true);
+        return
+      }
+      setNextBtnStatus(false);
     }
-    setNextBtnStatus(false);
   },[accountOwnerName, selectedBankName, bankAccountNum, agreeStatus])
 
   const getBankAccountList = async () => {
@@ -72,10 +75,18 @@ const ChooseBankAccount = () => {
     // Server Error
     if (!data) { return };
     // Validation 
-    if (data.statusCode !== 200) { return };
+    if (data.statusCode !== 200) { return } 
+    // 등록된 정산계좌 유무 확인
+    if(data.result.length === 0) {
+      setIsBankAccountStatus(false);
+      console.log(isBankAccountStatus);
+    } else {
+      setIsBankAccountStatus(true);
+      console.log(isBankAccountStatus);
+    }
 
     console.log('API 호출 성공 :', data);
-    setBankAccountData(data);
+    setBankAccountList(data.result);
   }; 
 
   const handleChangeAccountOwnerName = (e) => {
@@ -97,30 +108,45 @@ const ChooseBankAccount = () => {
 
   const nextPage = async () => {
 
-    // 정산계좌 등록하기
-    const body = {
-      bankAccountUserName: accountOwnerName,
-      bankIdx: bankIdx,
-      bankAccountNum: bankAccountNum
-    };
-    const postBankAccountUri = 'party/user/bankAccount'
-    const data = await customApiClient('post', postBankAccountUri, body);
+    if(isBankAccountStatus) {
+      // 정산계좌가 존재할 때 
+      nextBtnStatus && bankAccountList.map((account, index) => {
+        if(account.idx === bankAccountIdx) {
+          dispatch(UpdateBankAccountAction({
+            selectedBankIdx: account.idx,
+            selectedBankAccountUserName: '',
+            selectedBankAccountNum: account.bankAccountNum,
+            selectedBankAccountIdx: bankAccountIdx
+          }));
+        }
+      })
+      nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
+    } else {
+      // 정산계좌가 없을 땐 정산계좌 등록 후 페이지 전환
+      const body = {
+        bankAccountUserName: accountOwnerName,
+        bankIdx: bankIdx,
+        bankAccountNum: bankAccountNum
+      };
+      const postBankAccountUri = 'party/user/bankAccount'
+      const data = await customApiClient('post', postBankAccountUri, body);
 
-    if(data.statusCode !== 400) console.log(data.message);
-    // Server Error
-    if (!data) { return };
-    // Validation 
-    if (data.statusCode !== 200) { return };
+      if(data.statusCode !== 400) console.log(data.message);
+      // Server Error
+      if (!data) { return };
+      // Validation 
+      if (data.statusCode !== 200) { return };
 
-    console.log('API 호출 성공 :', data);
+      console.log('API 호출 성공 :', data);
 
-    data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateBankAccountAction({
-      selectedBankIdx: bankIdx,
-      selectedBankAccountUserName: accountOwnerName,
-      selectedBankAccountNum: bankAccountNum,
-      selectedBankAccountIdx:data.result.bankAccountIdx
-    }));
-    data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
+      data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateBankAccountAction({
+        selectedBankIdx: bankIdx,
+        selectedBankAccountUserName: accountOwnerName,
+        selectedBankAccountNum: bankAccountNum,
+        selectedBankAccountIdx:data.result.bankAccountIdx
+      }));
+      data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
+    } 
   };
 
   return (
@@ -132,7 +158,8 @@ const ChooseBankAccount = () => {
           알려주세요.
         </MainText>
 
-        <AddBankAccountWrap isAddAccount={true}>
+        {/* 등록 계좌가 없을 때 */}
+        <AddBankAccountWrap openStatus={isBankAccountStatus}>
           {/* Notice Div */}
             <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', margin:'1.1563rem 0 1.2813rem'}}>
             <div className="notice_sub_wrap align_center">
@@ -207,49 +234,10 @@ const ChooseBankAccount = () => {
           
         </AddBankAccountWrap>
 
-        
-
-        
-
-
-        {/* {bankAccountData.length === 0 ?
-          (<></>)
-        : 
-          (
-            <Slider
-              {...settings}
-              afterChange={(current, next) => {
-                setCurrentSlide(current);
-              }}
-            >
-              {bankAccountData.result.map((bankData, index) => {
-                {(currentSlide==index) && setBankIdx(bankData.idx)}
-                return (
-                  <div key={bankData.idx}>
-                    {(currentSlide == index ) ? (
-                      <Card
-                        cardImg={ic_pay_cardtab}
-                        cardName={bankData.bankName}
-                        cardNo={bankData.bankAccountNum}
-                      />
-                    ) : (
-                      <Card
-                        cardImg={ic_pay_cardtab_g}
-                        cardName={bankData.bankName}
-                        cardNo={bankData.bankAccountNum}
-                      />
-                    )}
-                  </div>
-                );
-              })}
-              <></>
-            </Slider>
-          )
-        } */}
-
-        
-
-        
+        {/* 등록 계좌가 있을 때 */}
+        <AccountSlideWrap openStatus={isBankAccountStatus}>
+          <AccountSlide setAccountIdx={setBankAccountIdx} />
+        </AccountSlideWrap>
       </div>
 
       <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
@@ -261,7 +249,7 @@ const ChooseBankAccount = () => {
 export default ChooseBankAccount;
 
 const AddBankAccountWrap = styled.div`
-  display: ${props => props.isAddAccount ? 'block':'none'};
+  display: ${props => props.openStatus ? 'none':'block'};
 `;
 
 const ChooseBankAccountWrap = styled.div`
@@ -310,6 +298,10 @@ const ChooseBankBtn = styled.div`
     margin-right: 0.5rem;
   }
 `;
+
+const AccountSlideWrap = styled.div`
+  display: ${props => props.openStatus ? 'block' : 'none'};
+`
 
 export const ChooseBankDialog = ({openStatus, deleteFunc, selectBankFunc, selectBankIdxFunc}) => {
 
