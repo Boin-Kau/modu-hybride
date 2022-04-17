@@ -162,12 +162,18 @@ const CardRegister = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
+    if(focusFour==true){
+      setFocusFour(false);
+    }
     setFocusThree(true);
   };
 
   const onClickKeyboardUpFour = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
+    }
+    if(focusThree==true){
+      setFocusThree(false);
     }
     setFocusFour(true);
   };
@@ -288,15 +294,14 @@ const CardRegister = () => {
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                      <span style={{ fontSize: "0.625rem" }}>{"●".repeat(num3.length)}</span>
-                    )}
+                    <span style={{fontSize:"0.625rem"}}>{"●".repeat(num3.length)}</span>
+                  )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusFour}>
                 <Input onClick={onClickKeyboardUpFour}>
-                  {num4.length === 0 ? <span className="placeholder">0000</span> :
-                    <span style={{ fontSize: "0.625rem" }}>{"●".repeat(num4.length)}</span>}
+                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span style={{fontSize:"0.625rem"}}>{"●".repeat(num4.length)}</span>}
                 </Input>
               </InputWrap>
             </ItemWrap>
@@ -462,6 +467,7 @@ const Input = styled.div`
   overflow-x:scroll;
 
   .placeholder {
+    font-size: 0.8125rem;
     color: #e8e8e8;
   }
 `;

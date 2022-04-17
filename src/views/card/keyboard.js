@@ -22,6 +22,7 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
     (num) => {
       if (number.length === 4) {
         setNum("");
+        console.log(number);
         return;
       }
       setNum(number + num);
