@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import delete_icon from "../../assets/ic_card_numberdelete@3x.png";
@@ -7,6 +7,23 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const [nums, setNums] = useState(nums_init);
 
+
+  useEffect(() => {
+    if (number.length >= 4) {
+      setNum("");
+      console.log(number);
+      if(three===true){
+        setThree(false);
+        setFour(true);
+      }
+      if(four===true){
+        setFour(false);
+        setKeyboardUp(false);
+      }
+      return;
+    }
+  }, [number])
+  
   const shuffle = (nums) => {
     let num_length = nums.length;
     while (num_length) {
@@ -20,11 +37,6 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
 
   const handlePasswordChange = useCallback(
     (num) => {
-      if (number.length === 4) {
-        setNum("");
-        console.log(number);
-        return;
-      }
       setNum(number + num);
     },
     [number]
