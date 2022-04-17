@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 
+import { PageTransContext } from '../../containers/pageTransContext';
 import ic_pay_duck from '../../assets/ic_pay_duck.png';
 
 const Register = () => {
 
   const history = useHistory();
 
+  //context
+  const { setPageTrans } = useContext(PageTransContext);
+
   const goToRegister = () =>{
+    setPageTrans("trans toRight");
     history.push('/card');
   }
 
