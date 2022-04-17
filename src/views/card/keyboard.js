@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
-import delete_icon from "../../assets/ic_card_numberdelete.png";
+import delete_icon from "../../assets/ic_card_numberdelete@3x.png";
 
 const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour}) => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
@@ -79,7 +79,7 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
               Basic_button
             );
           })}
-          <NumberButton onClick={erasePasswordOne}><img src={delete_icon}/></NumberButton>
+          <NumberButton onClick={erasePasswordOne}><img src={delete_icon} className="erase-img"/></NumberButton>
         </ButtonWrap>
       </KeyboardWrap>
   );
@@ -125,6 +125,11 @@ const NumberButton = styled.div`
   font-size: 1.5rem;
   font-weight: 500;
   color: #000;
+
+  .erase-img{
+    width:1.325rem;
+    height: 0.9688rem;
+  }
 `;
 
 export default Keyboard;
