@@ -203,9 +203,8 @@ const CardRegister = () => {
       dispatch({ type: "PopupOpen" });
       return;
     }
-
     //뒤로가기
-    setPageTrans("trans toLeft");
+    setPageTrans("trans toRight");
     history.goBack();
   }, [pageConfirmStatus, cardNum, cardPw, expire, identifyNumber]);
 
