@@ -73,7 +73,7 @@ const Slide = ({ setCardIdx }) => {
                 </div>
               );
             })}
-            <Register />
+            <Register card={true}/>
           </Slider>
         )}
     </div>
