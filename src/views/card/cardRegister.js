@@ -75,15 +75,15 @@ const CardRegister = () => {
   }, [num1, num2, num3, num4, cardNum]);
 
   useEffect(() => {
-    if(focusThree==true){
+    if (focusThree == true) {
       setNum3(keyboardNum);
     }
-    else if(focusFour==true){
+    else if (focusFour == true) {
       setNum4(keyboardNum);
     }
 
   }, [keyboardNum])
-  
+
   //input autoFocusing
   const handleNextFocus = (e, next) => {
     const { value, maxLength } = e.target;
@@ -162,12 +162,18 @@ const CardRegister = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
+    if(focusFour==true){
+      setFocusFour(false);
+    }
     setFocusThree(true);
   };
 
   const onClickKeyboardUpFour = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
+    }
+    if(focusThree==true){
+      setFocusThree(false);
     }
     setFocusFour(true);
   };
@@ -197,9 +203,8 @@ const CardRegister = () => {
       dispatch({ type: "PopupOpen" });
       return;
     }
-
     //뒤로가기
-    setPageTrans("trans toLeft");
+    setPageTrans("trans toRight");
     history.goBack();
   }, [pageConfirmStatus, cardNum, cardPw, expire, identifyNumber]);
 
@@ -255,7 +260,7 @@ const CardRegister = () => {
           <TextMiddle>카드등록</TextMiddle>
         </HeaderWrap>
 
-        <ContentWrap>
+        <ContentWrap style={{display: "flex", flexDirection:"column"}}>
           <MainText>
             <span className="yellowText">구독파티 </span>
             정기결제에 사용할
@@ -288,14 +293,14 @@ const CardRegister = () => {
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                    <span style={{fontSize:"0.7125rem"}}>{"●".repeat(num3.length)}</span>
+                    <span style={{fontSize:"0.625rem"}}>{"●".repeat(num3.length)}</span>
                   )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusFour}>
                 <Input onClick={onClickKeyboardUpFour}>
-                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span>{"●".repeat(num4.length)}</span>}
+                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span style={{fontSize:"0.625rem"}}>{"●".repeat(num4.length)}</span>}
                 </Input>
               </InputWrap>
             </ItemWrap>
@@ -415,6 +420,7 @@ const CardRegister = () => {
               </PartyText>
             </div>
           </div>
+          <div style={{flexGrow:"1"}}/>
           <BottomButton
             text={"확인"}
             clickFunc={onClickRevise}
@@ -458,8 +464,10 @@ const Input = styled.div`
   font-size: 0.8125rem;
   display: flex;
   padding: 0;
+  overflow-x:scroll;
 
   .placeholder {
+    font-size: 0.8125rem;
     color: #e8e8e8;
   }
 `;

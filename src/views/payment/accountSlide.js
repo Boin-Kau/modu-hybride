@@ -17,8 +17,6 @@ const AccountSlide = ({setAccountIdx}) => {
   //life cycle
   useEffect(async () => {
     const data = await customApiClient("get", "/party/user/bankAccount");
-    setCardData(data);
-    console.log(data);
 
     //서버에러
     if (!data) return;
@@ -27,7 +25,31 @@ const AccountSlide = ({setAccountIdx}) => {
     if (data.statusCode != 200) {
       return;
     }
+
+    setCardData(data.result);
+
+    //카드 리스트가 없는경우
+    if (data.result.length === 0) {
+      setAccountIdx(-1);
+    }
+    //카드 리스트가 1개라도 있는경우 가장 처음에 카드를 셋팅
+    else {
+      setAccountIdx(data.result[0].idx);
+    }
+
   }, []);
+
+   //카드 슬라이드가 변경될때를 감지해서 cardIdx 셋팅해주기
+   useEffect(() => {
+    if (cardData.length === 0) return
+
+    if (cardData.length === currentSlide) {
+      setAccountIdx(-1);
+    }
+    else {
+      setAccountIdx(cardData[currentSlide].idx);
+    }
+  }, [currentSlide]);
 
   return (
     <div>
@@ -40,27 +62,18 @@ const AccountSlide = ({setAccountIdx}) => {
             setCurrentSlide(current);
           }}
         >
-          {cardData.result.map((cardData, index) => {
-            {(currentSlide==index) && setAccountIdx(cardData.idx)}
+          {cardData.map((cardData, index) => {
             return (
               <div key={cardData.idx}>
-                {(currentSlide == index ) ? (
                   <Card
-                    cardImg={ic_pay_cardtab}
+                    cardImg={currentSlide === index ? ic_pay_cardtab : ic_pay_cardtab_g}
                     cardName={cardData.bankName}
                     cardNo={cardData.bankAccountNum}
                   />
-                ) : (
-                  <Card
-                    cardImg={ic_pay_cardtab_g}
-                    cardName={cardData.bankName}
-                    cardNo={cardData.bankAccountNum}
-                  />
-                )}
-              </div>
+                </div>
             );
           })}
-          <Register />
+          <Register card={false}/>
         </Slider>
       )}
     </div>

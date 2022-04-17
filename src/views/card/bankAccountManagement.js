@@ -8,8 +8,10 @@ import { ContentWrap, HeaderWrap, PageWrap } from "../../styled/shared/wrap";
 import { TextMiddle } from "../../styled/shared";
 import { customApiClient } from "../../shared/apiClient";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
+import { AddButton, CardWrap } from "./cardManagement";
 
 import icon_back from "../../assets/icon-back-arrow.svg";
+import blank_duck from "../../assets/ic_cardadmin_duck@2x.png"
 import BankComponent from "./bankComponent";
 
 const BankAccountManagement = () => {
@@ -28,6 +30,7 @@ const BankAccountManagement = () => {
   };
 
   const gotoRegister = () => {
+    setPageTrans("trans toRight");
     history.push("/card");
   };
 
@@ -66,7 +69,7 @@ const BankAccountManagement = () => {
           >
             <img src={icon_back}></img>
           </div>
-          <TextMiddle>계좌관리</TextMiddle>
+          <TextMiddle>계좌 관리</TextMiddle>
         </HeaderWrap>
         <ContentWrap>
           <div
@@ -80,18 +83,22 @@ const BankAccountManagement = () => {
             <div className="spoqaBold" style={{ fontSize: "0.875rem" }}>
               결제 수단
             </div>
-            <AddButton className="notoMedium" onClick={gotoRegister}>+ 카드 추가</AddButton>
+            <AddButton className="notoMedium" onClick={gotoRegister}>+ 계좌 추가</AddButton>
           </div>
           {cardData.length === 0 ? (
-            <></>
+            <CardWrap>
+            <img src={blank_duck}/>
+            <div className="notoBold title-text">등록된 카드가 없습니다.</div>
+            <div className="notoMedium sub-text">우측 상단의"카드추가"버튼을 통해<br/> 결제카드를 등록해주세요.</div>
+          </CardWrap>
           ) : (
             <div>
               {cardData.map((card) => {
                 return (
                   <div key={card.idx}>
                     <BankComponent
-                      cardName={card.cardName}
-                      cardNo={card.cardNo.substring(12, 16)}
+                      cardName={card.bankName}
+                      cardNo={card.bankAccountNum}
                       id={card.idx}
                       cardData={cardData}
                       setCardData={setCardData}
@@ -107,13 +114,5 @@ const BankAccountManagement = () => {
   );
 };
 
-const AddButton = styled.div`
-  width: 3.625rem;
-  padding: 0.125rem 0 0.1875rem 0.4375rem;
-  border-radius: 0.625rem;
-  border: solid 0.05rem #9b9b9b;
-  font-size: 0.625rem;
-  color: #5a5a5a;
-`;
 
 export default BankAccountManagement;

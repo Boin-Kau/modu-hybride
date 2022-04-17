@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Card from "./card";
@@ -10,60 +9,73 @@ import { customApiClient } from "../../shared/apiClient";
 import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
 
-const Slide = ({setCardIdx}) => {
+const Slide = ({ setCardIdx }) => {
   //state
   const [cardData, setCardData] = useState([]);
-  const [currentSlide, setCurrentSlide] = useState('0');
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   //life cycle
   useEffect(async () => {
     const data = await customApiClient("get", "/party/user/card");
-    setCardData(data);
-    console.log(data);
 
     //서버에러
     if (!data) return;
 
     //벨리데이션
-    if (data.statusCode != 200) {
+    if (data.statusCode !== 200) {
       return;
     }
+
+    setCardData(data.result);
+
+    //카드 리스트가 없는경우
+    if (data.result.length === 0) {
+      setCardIdx(-1);
+    }
+    //카드 리스트가 1개라도 있는경우 가장 처음에 카드를 셋팅
+    else {
+      setCardIdx(data.result[0].idx);
+    }
+
   }, []);
+
+  //카드 슬라이드가 변경될때를 감지해서 cardIdx 셋팅해주기
+  useEffect(() => {
+    if (cardData.length === 0) return
+
+    if (cardData.length === currentSlide) {
+      setCardIdx(-1);
+    }
+    else {
+      setCardIdx(cardData[currentSlide].idx);
+    }
+  }, [currentSlide]);
 
   return (
     <div>
       {cardData.length === 0 ? (
         <Register />
       ) : (
-        <Slider
-          {...settings}
-          afterChange={(current, next) => {
-            setCurrentSlide(current);
-          }}
-        >
-          {cardData.result.map((cardData, index) => {
-            {(currentSlide==index) && setCardIdx(cardData.idx)}
-            return (
-              <div key={cardData.idx}>
-                {(currentSlide == index ) ? (
+          <Slider
+            {...settings}
+            afterChange={(current) => {
+              setCurrentSlide(current);
+            }}
+          >
+            {cardData.map((cardData, index) => {
+              return (
+                <div key={cardData.idx}>
                   <Card
-                    cardImg={ic_pay_cardtab}
+                    cardImg={currentSlide === index ? ic_pay_cardtab : ic_pay_cardtab_g}
                     cardName={cardData.cardName}
                     cardNo={cardData.cardNo}
                   />
-                ) : (
-                  <Card
-                    cardImg={ic_pay_cardtab_g}
-                    cardName={cardData.cardName}
-                    cardNo={cardData.cardNo}
-                  />
-                )}
-              </div>
-            );
-          })}
-          <Register />
-        </Slider>
-      )}
+                </div>
+              );
+            })}
+            <Register card={true}/>
+          </Slider>
+        )}
     </div>
   );
 };
