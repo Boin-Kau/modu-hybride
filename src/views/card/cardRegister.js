@@ -261,7 +261,7 @@ const CardRegister = () => {
           <TextMiddle>카드등록</TextMiddle>
         </HeaderWrap>
 
-        <ContentWrap>
+        <ContentWrap style={{display: "flex", flexDirection:"column"}}>
           <MainText>
             <span className="yellowText">구독파티 </span>
             정기결제에 사용할
@@ -421,6 +421,7 @@ const CardRegister = () => {
               </PartyText>
             </div>
           </div>
+          <div style={{flexGrow:"1"}}/>
           <BottomButton
             text={"확인"}
             clickFunc={onClickRevise}
