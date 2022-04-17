@@ -10,7 +10,7 @@ const BankComponent = ({ cardName, cardNo, id, cardData, setCardData }) => {
   //회원탈퇴 버튼 최종 클릭
   const onClickDeleteCard = async (bankAccountIdx) => {
     //서버통신
-    const res = await customApiClient("delete", `party/user/card/${bankAccountIdx}`);
+    const res = await customApiClient("delete", `party/user/bankAccount/${bankAccountIdx}`);
     console.log(res);
 
     //서버에러

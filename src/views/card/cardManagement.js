@@ -29,6 +29,7 @@ const CardManagement = () => {
   };
 
   const gotoRegister = () => {
+    setPageTrans("trans toRight");
     history.push("/card");
   };
 
@@ -66,7 +67,7 @@ const CardManagement = () => {
           >
             <img src={icon_back}></img>
           </div>
-          <TextMiddle>카드관리</TextMiddle>
+          <TextMiddle>카드 관리</TextMiddle>
         </HeaderWrap>
         <ContentWrap>
           <div
@@ -111,16 +112,15 @@ const CardManagement = () => {
   );
 };
 
-const AddButton = styled.div`
-  width: 3.625rem;
-  padding: 0.125rem 0 0.1875rem 0.4375rem;
+export const AddButton = styled.div`
+  padding: 0.125rem 0.375rem 0.1875rem 0.4375rem;
   border-radius: 0.625rem;
   border: solid 0.05rem #9b9b9b;
   font-size: 0.625rem;
   color: #5a5a5a;
 `;
 
-const CardWrap = styled.div`
+export const CardWrap = styled.div`
   width: 100%;
   height: 12.9375rem;
   border: 1px solid #e3e3e3;
