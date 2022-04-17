@@ -9,7 +9,10 @@ const Price = ({ priceInfo, priceFunc }) => {
         <span>{priceFunc(priceInfo.currentPrice)}원</span>
       </Container>
       <Container className="notoMedium">
-        <span>수수료</span>
+        <div style={{display:"flex", flexDirection:"row"}}>
+          <span>수수료</span>
+          <DetailButton className="notoMedium">자세히</DetailButton>
+        </div>
         <span>{priceFunc(priceInfo.currentCommissionPrice)}원</span>
       </Container>
       <div
@@ -55,6 +58,20 @@ const Container = styled.div`
     font-size: 0.75rem;
     color: #1d1d1d;
   }
+`;
+
+const DetailButton = styled.div`
+  width:1.625rem;
+  border-radius: 0.375rem;
+  padding: 0.0938rem 0.3125rem;
+  background-color: #f4f4f4;
+  font-size: 0.375rem;
+  color: #5f5f5f;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.25rem;
 `;
 
 export default Price;
