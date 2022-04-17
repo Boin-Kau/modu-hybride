@@ -31,9 +31,9 @@ const AccountIdxChange = ({location}) => {
     history.goBack();
   };
 
-  const goToCardManage = () =>{
+  const goToBankManage = () =>{
     setPageTrans("trans toRight");
-    history.push('/card/manage');
+    history.push('/bank/manage');
   }
 
   const onClickBankAcccountChange = async () => {
@@ -78,7 +78,7 @@ const AccountIdxChange = ({location}) => {
         <ContentWrap style={{display:"flex", flexDirection:"column"}}>
           <TitleWrap>
             <span className="spoqaBold">계좌 목록</span>
-            <div className="notoMedium manage-button" onClick={goToCardManage}>카드 관리</div>
+            <div className="notoMedium manage-button" onClick={goToBankManage}>계좌 관리</div>
           </TitleWrap>
           <AccountSlide setAccountIdx={setAccountIdx}/>
           <div style={{flexGrow:"1"}}/>
