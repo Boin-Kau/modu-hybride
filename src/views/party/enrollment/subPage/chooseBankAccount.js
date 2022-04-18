@@ -65,8 +65,11 @@ const ChooseBankAccount = () => {
         return
       }
       setNextBtnStatus(false);
+    } else {
+        bankAccountIdx === -1 ? setNextBtnStatus(false) : setNextBtnStatus(true);
     }
-  },[accountOwnerName, selectedBankName, bankAccountNum, agreeStatus])
+    
+  },[accountOwnerName, selectedBankName, bankAccountNum, agreeStatus, bankAccountIdx])
 
   const getBankAccountList = async () => {
     const bankAccountUri = '/party/user/bankAccount';
