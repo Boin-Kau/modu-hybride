@@ -22,7 +22,7 @@ const CardIdxChange = ({ location }) => {
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
-  const [cardIdx, setCardIdx] = useState();
+  const [cardIdx, setCardIdx] = useState(-1);
   const [partyRoomIdx, setPartyRoomIdx] = useState(location.data);
 
   const closePage = () => {

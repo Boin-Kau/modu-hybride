@@ -172,7 +172,7 @@ const ChoosePayment = () => {
         <ItemWrap>
           <InputWrap>
             <Input type="number" placeholder="실제 멤버십 금액을 입력해주세요" onChange={handleChangeMembershipPrice} value={membershipPrice}></Input>
-            <div className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)' }}>￦(원)</div>
+            <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight:'1' }}>￦(원)</span>
           </InputWrap>
         </ItemWrap>
 
@@ -215,7 +215,7 @@ const ChoosePayment = () => {
         <ItemWrap>
           <InputWrap>
             <Input type="number" placeholder="1인당 내야할 금액을 입력해주세요" onChange={handleChangePricePerMember} value={pricePerMember}></Input>
-            <div className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)' }}>￦(원)</div>
+            <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight:'1' }}>￦(원)</span>
           </InputWrap>
         </ItemWrap>
 
@@ -245,7 +245,7 @@ const ChoosePayment = () => {
               <SelectWrap>
 
                 {
-                  [2, 3, 4, 5, 6].map((data, index) => {
+                  [1, 2, 3, 4, 5, 6].map((data, index) => {
                     return (
                         <SelectContent selectSatus={data === partyPersonel} onClick={() => { onChangePersonel(data) }} key={index}>
                             {data}

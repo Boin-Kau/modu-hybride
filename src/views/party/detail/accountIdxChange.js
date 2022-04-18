@@ -22,7 +22,7 @@ const AccountIdxChange = ({location}) => {
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
-  const [accountIdx, setAccountIdx] = useState();
+  const [accountIdx, setAccountIdx] = useState(-1);
   const [partyRoomIdx, setPartyRoomIdx] = useState(location.data);
   const [confirmStatus, setConfirmStatus] = useState(true);
 
@@ -37,18 +37,20 @@ const AccountIdxChange = ({location}) => {
   }
 
   const onClickBankAcccountChange = async () => {
-    const data = await customApiClient('patch', `/party/${partyRoomIdx}/bankAccount/${accountIdx}`);
+    if(accountIdx !== -1) {
+      const data = await customApiClient('patch', `/party/${partyRoomIdx}/bankAccount/${accountIdx}`);
 
-    console.log(data.message);
-    // Server Error
-    if (!data) { return };
-    // Validation 
-    if (data.statusCode !== 200) { return };
+      console.log(data.message);
+      // Server Error
+      if (!data) { return };
+      // Validation 
+      if (data.statusCode !== 200) { return };
 
-    console.log('API 호출 성공 :', data);
+      console.log('API 호출 성공 :', data);
 
-    // 계좌 변경 완료 후, 원래 페이지로 이동
-    closePage();
+      // 계좌 변경 완료 후, 원래 페이지로 이동
+      closePage();
+    }
   }
 
   useEffect(async () => {
@@ -85,7 +87,7 @@ const AccountIdxChange = ({location}) => {
           <BottomButton 
             clickFunc={onClickBankAcccountChange}
             text={"확인"}
-            activeStatus={confirmStatus}
+            activeStatus={accountIdx === -1 ? false : true}
             isBottomStatus={false}/>
         </ContentWrap>
       </PageWrap>
