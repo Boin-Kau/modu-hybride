@@ -129,8 +129,14 @@ const CardRegister = () => {
   const onClickIsFreeOne = useCallback(() => {
     if (isFreeOne == "N") {
       setIsFreeOne("Y");
+      setIsFreeTwo("Y");
+      setIsFreeThree("Y");
+      setIsFreeFour("Y");
     } else {
       setIsFreeOne("N");
+      setIsFreeTwo("N");
+      setIsFreeThree("N");
+      setIsFreeFour("N");
     }
   }, [isFreeOne]);
 
@@ -138,6 +144,7 @@ const CardRegister = () => {
     if (isFreeTwo == "N") {
       setIsFreeTwo("Y");
     } else {
+      setIsFreeOne("N");
       setIsFreeTwo("N");
     }
   }, [isFreeTwo]);
@@ -146,6 +153,7 @@ const CardRegister = () => {
     if (isFreeThree == "N") {
       setIsFreeThree("Y");
     } else {
+      setIsFreeOne("N");
       setIsFreeThree("N");
     }
   }, [isFreeThree]);
@@ -154,6 +162,7 @@ const CardRegister = () => {
     if (isFreeFour == "N") {
       setIsFreeFour("Y");
     } else {
+      setIsFreeOne("N");
       setIsFreeFour("N");
     }
   }, [isFreeFour]);
