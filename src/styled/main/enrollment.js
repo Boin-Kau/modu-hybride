@@ -59,8 +59,8 @@ export const Input = styled.input`
 export const PartyIconWrap = styled.div`
     position:relative;
 
-    width:0.9375rem;
-    height: 0.9375rem;
+    width:1.125rem;
+    height: 1.125rem;
 
 
     border-radius:50%;
@@ -74,14 +74,13 @@ export const PartyIcon = styled.img`
     top:50%;
     left:45%;
     
-    width:0.6875rem;
-    height:0.5625rem;
+    width:0.625rem;
+    height:0.4375rem;
 
     transform:translate(-45%,-50%);
 `;
 
 export const PartyText = styled.div`
-    margin-top:0.0625rem;
     margin-left:0.4375rem;
     font-size:0.75rem;
     color:#313131;
