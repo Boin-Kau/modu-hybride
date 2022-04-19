@@ -5,7 +5,7 @@ import { TextMiddle } from "../../../styled/shared";
 import { useHistory } from "react-router-dom";
 
 import { PageTransContext } from "../../../containers/pageTransContext";
-import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
+import { BottomNavCloseAction, BottomNavOpenAction } from "../../../reducers/container/bottomNav";
 import { customApiClient } from "../../../shared/apiClient";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
@@ -13,6 +13,7 @@ import { MainText } from "../../../styled/shared/text";
 import { LoginInput } from "../../../styled/shared";
 import styled from "styled-components";
 import BottomButton from "../../../components/party/BottomButton";
+import { UserInfoUpdate } from "../../../reducers/info/user";
 
 const SignInPhone = () => {
   const history = useHistory();
@@ -85,6 +86,31 @@ const SignInPhone = () => {
   };
 
   const goToPhoneAuth = async () => {
+
+    //애플 검수를 위한 임시 로그인 처리
+    if (phoneNumber == '01092756351') {
+
+      await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjIsIm5hbWUiOiLsnbTquLDtg50iLCJiaXJ0aCI6IiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjUwMzUyMjg4LCJleHAiOjE2ODE4ODgyODh9.0RDWtqyxuPf8i8pUjmhSuhdaOOOx1GIMHmLc9yhPMBM');
+
+      const authData = await customApiClient('get', '/user/jwt');
+
+      //벨리데이션
+      if (!authData || authData.statusCode != 200) {
+        alert("오류가 발생하였습니다. 다시 시도해주세요.");
+        return
+      }
+      dispatch({
+        type: UserInfoUpdate,
+        data: authData.result
+      })
+
+      dispatch(BottomNavOpenAction);
+      setPageTrans('trans toRight');
+      history.push('/main');
+      return
+
+    }
+
     //인증번호 전송 API 호출
     const data = await customApiClient("post", "/user/code/generate", {
       phone: phoneNumber,
@@ -97,8 +123,8 @@ const SignInPhone = () => {
     if (data.statusCode != 200) {
       setPhoneErrorText(data.message);
       return;
-    } 
-    
+    }
+
     if (data.statusCode == 200) {
       //성공시 로직
       setPhoneErrorText("");
