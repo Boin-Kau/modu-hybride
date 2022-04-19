@@ -87,7 +87,7 @@ const CheckPartyData = () => {
     dispatch(AnalyPageReloadTrueAction);
     dispatch(SubscribeReloadTrueAction);
 
-    setPageTrans('trans toLeft');
+    setPageTrans('trans toRight');
     history.push('/party');
   }
 
@@ -116,8 +116,8 @@ const CheckPartyData = () => {
               color: platformState.selectedPlatformImgColor,
               initial: platformState.selectedPlatformImgInitial,
               registerType: platformState.selectedPlatformImgUrl ? "SERVER" : "CUSTOM",
-              serverCategory: '커몬',
-              customCategory: '커몬'
+              serverCategory: platformState.selectedPlatformCatgoryName,
+              customCategory: platformState.selectedPlatformCatgoryName
             }}
           />
         </div>
@@ -149,8 +149,8 @@ const CheckPartyData = () => {
             membership: membership
           }}
           platformInfo={{
-            serverCategory: '하이',
-            customCategory: '하이'
+            serverCategory: platformState.selectedPlatformCatgoryName,
+            customCategory: platformState.selectedPlatformCatgoryName
           }}
         />
 

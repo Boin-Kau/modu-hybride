@@ -35,7 +35,7 @@ const ChoosePayment = () => {
 
   const [paymentDayOpen, setPaymentDayOpen] = useState(false);
   const [personelOpen, setPersonelOpen] = useState(false);
-  
+
   const [membershipPriceInfoStatus, setMembershipPriceInfoStatus] = useState(false)
   const [totalPersonnelInfoStatus, setTotalPersonnelInfoStatus] = useState(false);
 
@@ -50,29 +50,29 @@ const ChoosePayment = () => {
     dispatch({
       type: ResetPayment
     });
-  },[])
+  }, [])
 
   useEffect(() => {
-    if(membershipPrice&&paymentDay&&pricePerMember&&partyPersonel) {
+    if (membershipPrice && paymentDay && pricePerMember && partyPersonel) {
       setNextBtnStatus(true);
     } else {
       setNextBtnStatus(false);
     }
-  },[membershipPrice,paymentDay,pricePerMember,partyPersonel])
+  }, [membershipPrice, paymentDay, pricePerMember, partyPersonel])
 
   useEffect(() => {
     list = [];
     if (partyPersonel) {
       list.push('파티장');
       for (let i = 0; i < partyPersonel; i++) list.push('파티원');
-      for (let i = partyPersonel+1; i < 4; i++) list.push('-');
+      for (let i = partyPersonel + 1; i < 4; i++) list.push('-');
       setTypeList(list);
     }
-  },[partyPersonel])
+  }, [partyPersonel])
 
   useEffect(() => {
     formatDate();
-  },[paymentDay])
+  }, [paymentDay])
 
   const onClickPaymentDayOpen = useCallback(() => {
     if (paymentDayOpen) {
@@ -104,7 +104,7 @@ const ChoosePayment = () => {
     const mm = today.getDate() > paymentDay ? String(today.getMonth() + 2).padStart(2, '0') : String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
 
-    setFormatPaymentDate(yyyy+'-'+mm+'-'+dd);
+    setFormatPaymentDate(yyyy + '-' + mm + '-' + dd);
     console.log(`formatdate: ${formatPaymentDate}`);
   }
 
@@ -122,34 +122,34 @@ const ChoosePayment = () => {
   const nextPage = () => {
     nextBtnStatus && dispatch(UpdatePaymentAction({
       originalPrice: membershipPrice,
-      nextPaymentDate: paymentDay, 
-      pricePerPerson: pricePerMember, 
+      nextPaymentDate: paymentDay,
+      pricePerPerson: pricePerMember,
       personnel: partyPersonel,
       typeList: typeList,
       formatDate: formatPaymentDate
     }))
-    nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 5}));
+    nextBtnStatus && dispatch(UpdateCurrentPageAction({ page: 5 }));
   };
 
   return (
-    <ChoosePaymentWrap style={{flexGrow: '1'}}>
-      <div style={{flexGrow: '1'}}>
-        <MainText style={{margin:'1rem 0 0',padding:'0'}}>
+    <ChoosePaymentWrap style={{ flexGrow: '1' }}>
+      <div style={{ flexGrow: '1' }}>
+        <MainText style={{ margin: '1rem 0 0', padding: '0' }}>
           <span className="yellowText">파티의 결제정보</span>
-          를<br/>
+          를<br />
           입력해주세요.
         </MainText>
 
         {/* Notice Div */}
-        <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', margin:'1.1563rem 0 1.2813rem'}}>
+        <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
           <div className="notice_sub_wrap align_center">
             <div>
               <img className="notice_img" src={icon_notice_duck}></img>
             </div>
             <div className="notice_text_div">
-              구독파티는 
+              구독파티는
               <span className="boldText"> 한달주기로 정산</span>
-              이 이루어져요! 
+              이 이루어져요!
               <span className="boldText"> 실제 멤버십 금액</span>
               을 기준으로 정보를 입력해주세요.
             </div>
@@ -160,7 +160,7 @@ const ChoosePayment = () => {
         <PartyDetailSubtitleSpan>결제 정보</PartyDetailSubtitleSpan>
 
         {/* 멤버십 금액 */}
-        <TitleWrap style={{marginTop:'0.5rem', position:'relative'}}>
+        <TitleWrap style={{ marginTop: '0.5rem', position: 'relative' }}>
           멤버십 금액
           <InfoWrap>
             <img onClick={onClickMembershipPriceInfo} className="infoBtn" src={icon_info} />
@@ -172,12 +172,12 @@ const ChoosePayment = () => {
         <ItemWrap>
           <InputWrap>
             <Input type="number" placeholder="실제 멤버십 금액을 입력해주세요" onChange={handleChangeMembershipPrice} value={membershipPrice}></Input>
-            <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight:'1' }}>￦(원)</span>
+            <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
         </ItemWrap>
 
         {/* 다음 결제일 */}
-        <TitleWrap style={{marginTop:'0.5rem'}}>다음 결제일</TitleWrap>
+        <TitleWrap style={{ marginTop: '0.5rem' }}>다음 결제일</TitleWrap>
         <InputWrap openStatus={paymentDayOpen} isBlocked={!paymentDay} onClick={onClickPaymentDayOpen}>
           <div>
             {
@@ -201,7 +201,7 @@ const ChoosePayment = () => {
                 NumberList.map((data, index) => {
                   return (
                     <SelectContent selectSatus={data == paymentDay} onClick={() => { onClickPaymentDayContent(data) }} key={index}>
-                        {data}
+                      {data}
                     </SelectContent>
                   )
                 })
@@ -211,45 +211,48 @@ const ChoosePayment = () => {
         </div>
 
         {/* 1인당 결제 금액 */}
-        <TitleWrap style={{marginTop:'0.5rem'}}>1인당 결제 금액</TitleWrap>
+        <TitleWrap style={{ marginTop: '0.5rem' }}>1인당 결제 금액</TitleWrap>
         <ItemWrap>
           <InputWrap>
             <Input type="number" placeholder="1인당 내야할 금액을 입력해주세요" onChange={handleChangePricePerMember} value={pricePerMember}></Input>
-            <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight:'1' }}>￦(원)</span>
+            <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
         </ItemWrap>
 
         {/* 모집 인원 */}
-        <TitleWrap style={{marginTop:'0.5rem'}}>모집 인원</TitleWrap>
+        <TitleWrap style={{ marginTop: '0.5rem' }}>
+          <div>모집 인원</div>
+          <div style={{ marginLeft: '0.3125rem', fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
+        </TitleWrap>
         <ItemWrap onClick={onClickPersonelOpen}>
           <InputWrap openStatus={personelOpen} isBlocked={partyPersonel === 0}>
             <div>
               {
                 partyPersonel !== 0 ? partyPersonel :
-                    '모집 인원을 선택해주세요'
+                  '자신을 포함한 모집 인원을 선택해주세요'
               }
             </div>
             <div style={{ flexGrow: "1" }}></div>
             <div>
               {
                 personelOpen ?
-                    <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                    <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                  <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                  <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
               }
             </div>
           </InputWrap>
         </ItemWrap>
         <div style={{ display: 'flex' }}>
-          <div style={{ flexGrow: '1', flexBasis: '0'}}>
+          <div style={{ flexGrow: '1', flexBasis: '0' }}>
             <Fade collapse when={personelOpen} duration={500}>
               <SelectWrap>
 
                 {
-                  [1, 2, 3, 4, 5, 6].map((data, index) => {
+                  [2, 3, 4, 5, 6].map((data, index) => {
                     return (
-                        <SelectContent selectSatus={data === partyPersonel} onClick={() => { onChangePersonel(data) }} key={index}>
-                            {data}
-                        </SelectContent>
+                      <SelectContent selectSatus={data === partyPersonel} onClick={() => { onChangePersonel(data) }} key={index}>
+                        {data}
+                      </SelectContent>
                     )
                   })
                 }
@@ -264,19 +267,19 @@ const ChoosePayment = () => {
           <div className="notice_wrap">
             <img className="notice_img" src={icon_notice_white_duck}></img>
             <div className="notice_text">
-              <span className="weight_500">{today.getDate() > paymentDay ? today.getMonth()+2 : today.getMonth()+1}월 {paymentDay}일</span>
-              부터 정산이 시작될 예정이에요. {priceToString(membershipPrice || 0)}원의 멤버십에서 
-              <span className="weight_600"> {priceToString(pricePerMember*partyPersonel || 0)}원을 아낄 수 </span>
+              <span className="weight_500">{today.getDate() > paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
+              부터 정산이 시작될 예정이에요. {priceToString(membershipPrice || 0)}원의 멤버십에서
+              <span className="weight_600"> {priceToString(pricePerMember * partyPersonel || 0)}원을 아낄 수 </span>
               있네요!
             </div>
           </div>
-        </BottomNoticeWrap> 
+        </BottomNoticeWrap>
 
 
       </div>
 
-      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
-      
+      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false} />
+
     </ChoosePaymentWrap>
   );
 }

@@ -57,10 +57,10 @@ const ChooseService = () => {
 
   useEffect(async () => {
 
-    //인기 리스트, 전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+    //전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
     if (serverPlatformList.length < 1) {
 
-      //인기 구독 플랫폼 리스트 조회
+      //전체 플랫폼 리스트 조회
       const data = await customApiClient('get', '/subscribe/platform?type=REP');
 
       //서버에러
@@ -96,7 +96,6 @@ const ChooseService = () => {
         type: GetSearchPlatformList,
         data: search.result
       })
-      console.log(search.result)
 
     }
 
@@ -156,7 +155,7 @@ const ChooseService = () => {
       selectedPlatformIdx: data.idx,
       selectedPlatformName: data.name,
       selectedPlatformCategoryIdx: data.categoryIdx,
-      selectedPlatformCatgoryName: null,
+      selectedPlatformCatgoryName: data.categoryName,
       selectedPlatformImgUrl: data.imgUrl,
       selectedPlatformImgColor: null,
       selectedPlatformImgInitial: null,
@@ -212,7 +211,7 @@ const ChooseService = () => {
   return (
     <ChooseServiceWrap style={{ flexGrow: '1' }}>
       <div style={{ flexGrow: '1', display: "flex", flexDirection: "column" }}>
-        <MainText style={{ margin: '1rem 1.25rem 0', padding:'0' }}>
+        <MainText style={{ margin: '1rem 1.25rem 0', padding: '0' }}>
           <span className="yellowText">어떤 구독 서비스</span>
           를<br />
           공유하실건가요?
