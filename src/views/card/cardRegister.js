@@ -77,12 +77,10 @@ const CardRegister = () => {
   useEffect(() => {
     if (focusThree == true) {
       setNum3(keyboardNum);
-    }
-    else if (focusFour == true) {
+    } else if (focusFour == true) {
       setNum4(keyboardNum);
     }
-
-  }, [keyboardNum])
+  }, [keyboardNum]);
 
   //input autoFocusing
   const handleNextFocus = (e, next) => {
@@ -171,7 +169,7 @@ const CardRegister = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
-    if(focusFour==true){
+    if (focusFour == true) {
       setFocusFour(false);
     }
     setFocusThree(true);
@@ -181,7 +179,7 @@ const CardRegister = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
-    if(focusThree==true){
+    if (focusThree == true) {
       setFocusThree(false);
     }
     setFocusFour(true);
@@ -269,7 +267,7 @@ const CardRegister = () => {
           <TextMiddle>카드등록</TextMiddle>
         </HeaderWrap>
 
-        <ContentWrap style={{display: "flex", flexDirection:"column"}}>
+        <ContentWrap style={{ display: "flex", flexDirection: "column" }}>
           <MainText>
             <span className="yellowText">구독파티 </span>
             정기결제에 사용할
@@ -286,6 +284,10 @@ const CardRegister = () => {
                 maxLength={4}
                 value={num1}
                 onChange={handleChangeOne}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
               />
               <Hypen>-</Hypen>
               <InputComponent
@@ -295,6 +297,10 @@ const CardRegister = () => {
                 maxLength={4}
                 value={num2}
                 onChange={handleChangeTwo}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
               />
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusThree}>
@@ -302,14 +308,22 @@ const CardRegister = () => {
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                    <span style={{fontSize:"0.625rem"}}>{"●".repeat(num3.length)}</span>
+                    <span style={{ fontSize: "0.625rem" }}>
+                      {"●".repeat(num3.length)}
+                    </span>
                   )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusFour}>
                 <Input onClick={onClickKeyboardUpFour}>
-                  {num4.length === 0 ? <span className="placeholder">0000</span> : <span style={{fontSize:"0.625rem"}}>{"●".repeat(num4.length)}</span>}
+                  {num4.length === 0 ? (
+                    <span className="placeholder">0000</span>
+                  ) : (
+                    <span style={{ fontSize: "0.625rem" }}>
+                      {"●".repeat(num4.length)}
+                    </span>
+                  )}
                 </Input>
               </InputWrap>
             </ItemWrap>
@@ -336,6 +350,10 @@ const CardRegister = () => {
                 maxLength={4}
                 value={expire}
                 onChange={onChangeExpire}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
               />
             </div>
             <div
@@ -353,6 +371,10 @@ const CardRegister = () => {
                 maxLength={2}
                 value={cardPw}
                 onChange={onChangePw}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
               />
             </div>
           </div>
@@ -365,6 +387,10 @@ const CardRegister = () => {
               maxLength={4}
               value={identifyNumber}
               onChange={onChangeId}
+              keyboardUp={keyboardUp}
+              setKeyboardUp={setKeyboardUp}
+              setFocusThree={setFocusThree}
+              setFocusFour={setFocusFour}
             />
           </div>
           <div style={{ margin: "1.4375rem 0 0.75rem 0" }}>
@@ -429,7 +455,7 @@ const CardRegister = () => {
               </PartyText>
             </div>
           </div>
-          <div style={{flexGrow:"1"}}/>
+          <div style={{ flexGrow: "1" }} />
           <BottomButton
             text={"확인"}
             clickFunc={onClickRevise}
@@ -473,7 +499,7 @@ const Input = styled.div`
   font-size: 0.8125rem;
   display: flex;
   padding: 0;
-  overflow-x:scroll;
+  overflow-x: scroll;
 
   .placeholder {
     font-size: 0.8125rem;
