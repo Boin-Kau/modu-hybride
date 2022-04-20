@@ -64,8 +64,8 @@ const ChoosePayment = () => {
     list = [];
     if (partyPersonel) {
       list.push('파티장');
-      for (let i = 0; i < partyPersonel; i++) list.push('파티원');
-      for (let i = partyPersonel + 1; i < 4; i++) list.push('-');
+      for (let i = 0; i < partyPersonel -1; i++) list.push('파티원');
+      for (let i = partyPersonel; i < 4; i++) list.push('-');
       setTypeList(list);
     }
   }, [partyPersonel])
