@@ -14,6 +14,7 @@ const Register = ({card}) => {
 
   const goToRegister = () =>{
     setPageTrans("trans toRight");
+    // 이거이거 찰스가 처리!!!!
     history.push('/card');
   }
 
