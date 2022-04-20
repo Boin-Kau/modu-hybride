@@ -105,7 +105,12 @@ const CardRegister = () => {
   const handleChangeTwo = (e) => {
     if (e.target.value.length == 5) return false;
     setNum2(e.target.value);
-    handleNextFocus(e, "num3");
+    handleNextFocus(e,"num3");
+    if(e.target.value.length ===4){
+      setFocusThree(true);
+      setKeyboardUp(true);
+      document.activeElement.blur();
+    }
   };
 
   const onChangeExpire = (e) => {
