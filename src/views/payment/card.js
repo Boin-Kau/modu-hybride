@@ -30,7 +30,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
 
-  transition: all 0.1s ease-out;
+  /* transition: all 0.1s ease-out; */
 `;
 
 const CardWrap = styled.div`
