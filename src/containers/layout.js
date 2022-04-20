@@ -41,7 +41,7 @@ import Finish from '../views/payment/finish';
 import CardManagement from '../views/card/cardManagement';
 import CardIdxChange from '../views/party/detail/cardIdxChange';
 import BankAccountManagement from '../views/card/bankAccountManagement';
-import EditAccount from '../views/party/my/EditAccount';
+import EditAccount from '../views/party/my/editAccount';
 import PartyEnrollment from '../views/party/enrollment/enrollment';
 import MyPartyRevise from '../views/party/my/myPartyRevise';
 
@@ -54,6 +54,7 @@ import AccountIdxChange from '../views/party/detail/accountIdxChange';
 import SignInPhoneAuth from '../views/login/loginStep/signInPhoneAuth';
 import SignUpTerm from '../views/login/loginStep/signUpTerm';
 import SignUpAuth from '../views/login/loginStep/signUpAuth';
+import SignUp from '../views/login/\bsignUp';
 
 const AppLayout = () => {
 
@@ -69,6 +70,7 @@ const AppLayout = () => {
     return (
         <>
             <Route path='/' exact component={Splash} />
+            <Route path='/signup' exact component={SignUp} />
             <Route path='/login' exact component={Login} />
             <Route path='/inspection' exact component={Inspection} />
             <Route path='/main' exact component={Main} />

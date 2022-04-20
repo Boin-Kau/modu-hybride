@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { customApiClient } from "../../shared/apiClient";
 import { useDispatch } from "react-redux";
 import { UserInfoUpdate } from "../../reducers/info/user";
-import { checkMobile } from "../../App";
+import { checkMobile, onClickTerminate } from "../../App";
 import {
   GAEventSubmit,
   GA_CATEOGRY,
@@ -14,17 +14,23 @@ import styled from "styled-components";
 
 import modu_logo from "../../assets/img_splash_modu.svg";
 import splash_duck from "../../assets/img_splash_duck.png";
+import { PageTransContext } from "../../containers/pageTransContext";
 
 const Splash = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  //context
+  const { setPageTrans } = useContext(PageTransContext);
+
   const goToLogin = () => {
+    setPageTrans('trans toRight');
     history.push("/signin/phone");
   };
 
   const goToSignUp = () => {
-    history.push("/signup/term");
+    setPageTrans('trans toRight');
+    history.push("/signup");
   }
 
   useEffect(async () => {
@@ -96,6 +102,7 @@ const Splash = () => {
   return (
     <>
       <div className="page" style={{ backgroundColor: "#ffca2c" }}>
+        <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }} />
         <SplashWrap>
           <img className="img_splash_modu" src={modu_logo} />
           <span className="spoqaBold">
