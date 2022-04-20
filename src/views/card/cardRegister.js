@@ -8,6 +8,7 @@ import { PageTransContext } from "../../containers/pageTransContext";
 import { TextMiddle } from "../../styled/shared";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 import { PageWrap, HeaderWrap, ContentWrap } from "../../styled/shared/wrap";
+import {LoadingOpenAction,LoadingCloseAction} from "../../reducers/container/loading.js"
 
 import icon_check from "../../assets/icon-check-white.svg";
 import icon_back from "../../assets/icon-back-arrow.svg";
@@ -194,6 +195,9 @@ const CardRegister = () => {
   const onClickRevise = useCallback(async () => {
     if (!pageConfirmStatus) return;
 
+    //로딩시작 액션호출
+    dispatch(LoadingOpenAction);
+
     const data = await customApiClient("post", "/party/user/card", {
       cardNum: cardNum,
       cardPw: cardPw,
@@ -202,7 +206,9 @@ const CardRegister = () => {
       identifyNumber: identifyNumber,
     });
 
-    console.log(data);
+    //로딩종료 액션호출
+    dispatch(LoadingCloseAction);
+
     //서버에러
     if (!data) return;
 
@@ -470,7 +476,7 @@ const CardRegister = () => {
           <Keyboard
             setKeyboardUp={setKeyboardUp}
             number={keyboardNum}
-            setNum={setKeyboardNum}
+            setNum3={setKeyboardNum}
             three={focusThree}
             setThree={setFocusThree}
             four={focusFour}
