@@ -499,6 +499,8 @@ const Input = styled.div`
   display: flex;
   padding: 0;
   overflow-x: scroll;
+  align-items: center;
+  height: 0.8125rem;
 
   .placeholder {
     font-size: 0.8125rem;
