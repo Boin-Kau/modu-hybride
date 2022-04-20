@@ -43,7 +43,7 @@ const CardManagement = () => {
     //서버에러
     if (!data) return;
 
-    if(data.statusCode == 200){
+    if (data.statusCode == 200) {
       setCardData(data.result);
     }
 
@@ -79,33 +79,33 @@ const CardManagement = () => {
             }}
           >
             <div className="spoqaBold" style={{ fontSize: "0.875rem" }}>
-              결제 수단
+              카드 목록
             </div>
             <AddButton className="notoMedium" onClick={gotoRegister}>+ 카드 추가</AddButton>
           </div>
           {cardData.length === 0 ? (
             <CardWrap>
-              <img src={blank_duck}/>
+              <img src={blank_duck} />
               <div className="notoBold title-text">등록된 카드가 없습니다.</div>
-              <div className="notoMedium sub-text">우측 상단의"카드추가"버튼을 통해<br/> 결제카드를 등록해주세요.</div>
+              <div className="notoMedium sub-text">우측 상단의"카드추가"버튼을 통해<br /> 결제카드를 등록해주세요.</div>
             </CardWrap>
           ) : (
-            <div>
-              {cardData.map((card) => {
-                return (
-                  <div key={card.idx}>
-                    <CardComponent
-                      cardName={card.cardName}
-                      cardNo={card.cardNo.substring(12, 16)}
-                      id={card.idx}
-                      cardData={cardData}
-                      setCardData={setCardData}
-                    ></CardComponent>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+              <div>
+                {cardData.map((card) => {
+                  return (
+                    <div key={card.idx}>
+                      <CardComponent
+                        cardName={card.cardName}
+                        cardNo={card.cardNo.substring(12, 16)}
+                        id={card.idx}
+                        cardData={cardData}
+                        setCardData={setCardData}
+                      ></CardComponent>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
         </ContentWrap>
       </PageWrap>
     </div>

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const BottomButton = ({text, clickFunc, activeStatus, isBottomStatus}) => {
-  return(
-    <BottomButtonWrap activeStatus={activeStatus} isBottomStatus={isBottomStatus}>
-      <div onClick={clickFunc} className="bottomButtonText">{text}</div>
+const BottomButton = ({ text, clickFunc, activeStatus, isBottomStatus }) => {
+  return (
+    <BottomButtonWrap onClick={clickFunc} activeStatus={activeStatus} isBottomStatus={isBottomStatus}>
+      <div className="bottomButtonText">{text}</div>
     </BottomButtonWrap>
   );
 }

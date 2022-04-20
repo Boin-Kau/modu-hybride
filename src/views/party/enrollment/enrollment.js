@@ -26,6 +26,13 @@ const PartyEnrollment = () => {
   const history = useHistory();
   //Context
   const { setPageTrans } = useContext(PageTransContext);
+
+  //store
+  const {
+    selectedPlatformIdx,
+    selectedPlatformImgUrl,
+  } = useSelector(state => state.party.enrollment.platform);
+
   // Local State
   const [progress, setProgress] = useState(20);
   // Global State
@@ -73,14 +80,26 @@ const PartyEnrollment = () => {
   }, [currentPage])
 
   const closePage = () => {
+    setPageTrans('trans toLeft');
+
     // 뒤로 가기
     if (currentPage === 1) {
       //구독 리덕스 초기화
       dispatch({ type: ResetPlatform });
-
-      setPageTrans('trans toLeft');
-      history.push('/party')
-    } else {
+      history.push('/party');
+    }
+    else if (currentPage === 2) {
+      //직접입력하기 혹은 이미지가 없는 플랫폼 클릭시 detail 설정 페이지로 이동시키기
+      if (selectedPlatformIdx === 0 | !selectedPlatformImgUrl) {
+        history.push('/party/enroll/platform/detail');
+      }
+      else {
+        dispatch(UpdateCurrentPageAction({
+          page: currentPage - 1
+        }));
+      }
+    }
+    else {
 
       dispatch(UpdateCurrentPageAction({
         page: currentPage - 1

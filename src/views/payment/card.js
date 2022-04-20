@@ -29,6 +29,8 @@ const Container = styled.div`
   margin-top: 1.125rem;
   display: flex;
   justify-content: center;
+
+  transition: all 0.1s ease-out;
 `;
 
 const CardWrap = styled.div`
