@@ -164,7 +164,7 @@ const ChoosePayment = () => {
           </MiniInfoDialog>
         </TitleWrap>
         <ItemWrap>
-          <InputWrap>
+          <InputWrap style={{alignItems:'center'}}>
             <Input type="number" placeholder="실제 멤버십 금액을 입력해주세요" onChange={handleChangeMembershipPrice} value={membershipPrice}></Input>
             <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
@@ -207,7 +207,7 @@ const ChoosePayment = () => {
         {/* 1인당 결제 금액 */}
         <TitleWrap style={{ marginTop: '0.5rem' }}>1인당 결제 금액</TitleWrap>
         <ItemWrap>
-          <InputWrap>
+          <InputWrap style={{alignItems:'center'}}>
             <Input type="number" placeholder="1인당 내야할 금액을 입력해주세요" onChange={handleChangePricePerMember} value={pricePerMember}></Input>
             <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
