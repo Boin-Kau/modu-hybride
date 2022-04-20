@@ -44,6 +44,7 @@ const SignUpTerm = () => {
       setIsFreeOne("Y");
     } else {
       setIsFreeOne("N");
+      setIsFreeAll("N");
     }
   }, [isFreeOne]);
 
@@ -52,6 +53,7 @@ const SignUpTerm = () => {
       setIsFreeTwo("Y");
     } else {
       setIsFreeTwo("N");
+      setIsFreeAll("N");
     }
   }, [isFreeTwo]);
 
@@ -60,6 +62,7 @@ const SignUpTerm = () => {
       setIsFreeThree("Y");
     } else {
       setIsFreeThree("N");
+      setIsFreeAll("N");
     }
   }, [isFreeThree]);
 
@@ -82,13 +85,13 @@ const SignUpTerm = () => {
   }, []);
 
   useEffect(() => {
-    if(isFreeOne=="Y"&&isFreeTwo=="Y"&&isFreeThree=="Y"){
+    if(isFreeOne==="Y"&&isFreeTwo==="Y"&&isFreeThree==="Y"){
       setIsFreeAll("Y")
     }
-    if(isFreeAll=="Y"){
+    if(isFreeAll==="Y"||isFreeOne==="Y"&&isFreeTwo==="Y"){
       setAgreePageStatus(true);
     }
-    else if(isFreeAll=="N"){
+    else if(isFreeAll==="N"){
       setAgreePageStatus(false);
     }
   }, [isFreeAll,isFreeOne,isFreeTwo,isFreeThree])

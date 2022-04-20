@@ -8,6 +8,10 @@ const InputComponent = ({
   maxLength,
   value,
   onChange,
+  keyboardUp,
+  setKeyboardUp,
+  setFocusThree,
+  setFocusFour
 }) => {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -22,6 +26,11 @@ const InputComponent = ({
         onChange={onChange}
         onFocus={(e) => {
           setIsFocus(true);
+          if(keyboardUp===true){
+            setKeyboardUp(false);
+            setFocusThree(false);
+            setFocusFour(false);
+          }
         }}
         onBlur={(e) => {
           setIsFocus(false);

@@ -63,10 +63,10 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
 
   const closeKeyboard = () =>{
     setKeyboardUp(false);
-    if(three==true){
+    if(three===true){
       setThree(false);
     }
-    if(four==true){
+    if(four===true){
       setFour(false);
     }
   }
