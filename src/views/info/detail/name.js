@@ -75,10 +75,10 @@ const NamePage = () => {
         //닉네임 벨리데이션
         //특수문자&띄어쓰기 제외 6자리
         const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"\s]/gi;
-        if (reg.test(name) || name.length > 6) {
+        if (reg.test(name) || name.length > 5) {
             setConfirm(false);
             setError(true);
-            setErrorMsg('특수문자/띄어쓰기 제외 6자리로 입력해주세요.');
+            setErrorMsg('특수문자/띄어쓰기 제외 5자리로 입력해주세요.');
             return
         }
 
@@ -91,6 +91,7 @@ const NamePage = () => {
         if (!confirm) return
 
         if (name == currentName) {
+            setConfirm(false);
             setError(true);
             setErrorMsg('현재 등록된 닉네임과 동일한 이름입니다');
             return
@@ -106,6 +107,7 @@ const NamePage = () => {
 
         //벨리데이션
         if (res.statusCode != 200) {
+            setConfirm(false);
             setError(true);
             setErrorMsg(res.message);
             return

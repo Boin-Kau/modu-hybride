@@ -1,13 +1,9 @@
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useDispatch } from "react-redux";
-import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from "../../../reducers/container/message";
 
 const AccountInfoComponent = ({ partyIdx, isHostUser, accountInfo }) => {
 
   const history = useHistory();
-  const dispatch  = useDispatch();
 
   const onClickEditAccount = () => {
     history.push({
@@ -19,48 +15,6 @@ const AccountInfoComponent = ({ partyIdx, isHostUser, accountInfo }) => {
     });
   };
 
-  const onClickPasteId = () => {
-    dispatch({
-      type: MessageWrapOpen
-    })
-    dispatch({
-      type: MessageOpen,
-      data: '아이디 복사가 완료되었습니다.'
-    })
-
-    setTimeout(() => {
-      dispatch({
-        type: MessageClose
-      })
-    }, 2000);
-    setTimeout(() => {
-      dispatch({
-        type: MessageWrapClose
-      })
-    }, 2300);
-  }
-
-  const onClickPastePw = () => {
-    dispatch({
-      type: MessageWrapOpen
-    })
-    dispatch({
-      type: MessageOpen,
-      data: '비밀번호 복사가 완료되었습니다.'
-    })
-
-    setTimeout(() => {
-      dispatch({
-        type: MessageClose
-      })
-    }, 2000);
-    setTimeout(() => {
-      dispatch({
-        type: MessageWrapClose
-      })
-    }, 2300);
-  }
-
   return (
     <>
       <AccountInfoDiv isHost={isHostUser}>
@@ -68,18 +22,14 @@ const AccountInfoComponent = ({ partyIdx, isHostUser, accountInfo }) => {
           <div className="subtitle">아이디</div>
           <div className="content">{accountInfo.accountId}</div>
         </div>
-        <CopyToClipboard text={accountInfo.accountId}>
-          <button onClick={onClickPasteId} className="pasteBtn">복사</button>
-        </CopyToClipboard>
+        <button className="pasteBtn">복사</button>
       </AccountInfoDiv>
       <AccountInfoDiv isHost={isHostUser} style={{ marginTop: '1.75rem' }}>
         <div>
           <div className="subtitle">비밀번호</div>
           <div className="content">{isHostUser === 'Y' ? accountInfo.accountPw : '*'.repeat(accountInfo.accountPw.length)}</div>
         </div>
-        <CopyToClipboard text={accountInfo.accountPw}>
-          <button onClick={onClickPastePw} className="pasteBtn">복사</button>
-        </CopyToClipboard>
+        <button className="pasteBtn">복사</button>
         <button onClick={onClickEditAccount} className="changeBtn">변경</button>
       </AccountInfoDiv>
     </>
