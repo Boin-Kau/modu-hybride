@@ -12,7 +12,7 @@ import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
 const AccountSlide = ({setAccountIdx, setBankAccountOpenStatus}) => {
   //state
   const [cardData, setCardData] = useState([]);
-  const [currentSlide, setCurrentSlide] = useState('0');
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   //life cycle
   useEffect(async () => {
