@@ -118,6 +118,8 @@ export const AddButton = styled.div`
   border: solid 0.05rem #9b9b9b;
   font-size: 0.625rem;
   color: #5a5a5a;
+  display: flex;
+  align-items: center;
 `;
 
 export const CardWrap = styled.div`
