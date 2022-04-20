@@ -30,6 +30,11 @@ import { UpdatePartyAction } from '../../reducers/party/detail';
 import { UpdateCurrentPageAction } from '../../reducers/party/enrollment/setPage';
 import ChoiceDialog from '../../components/party/ChoiceDialog';
 import duck_popup from  "../../assets/ic_selfcertification_duck@3x.png";
+import { UpdatePlatformAction } from '../../reducers/party/enrollment/platform';
+import { ResetAccount } from '../../reducers/party/enrollment/account';
+import { ResetPartyInfo } from '../../reducers/party/enrollment/partyInfo';
+import { ResetPayment } from '../../reducers/party/enrollment/payment';
+import { ResetBankAccount } from '../../reducers/party/enrollment/bankAccount';
 
 const Party = () => {
 
@@ -96,8 +101,23 @@ const Party = () => {
 
         //bottom nav logic
         dispatch(BottomNavOpenAction);
-
+        // 파티 등록 서브 페이지 첫 페이지로 재설정
         dispatch(UpdateCurrentPageAction({page: 1}));
+        // 파티 등록 리덕스 초기화
+        dispatch(UpdatePlatformAction({
+            selectedPlatformIdx: 0,
+            selectedPlatformName: null,
+            selectedPlatformCategoryIdx: null,
+            selectedPlatformImgUrl: null,
+            selectedPlatformImgColor: null,
+            selectedPlatformImgInitial: null,
+            isAccount: "N",
+            isAdult: "N",
+        }))
+        dispatch({ type: ResetAccount });
+        dispatch({ type: ResetPartyInfo });
+        dispatch({ type: ResetPayment });
+        dispatch({ type: ResetBankAccount });
 
         setContentHeight(window.innerHeight - contentDivRef.current.getBoundingClientRect().top);
 

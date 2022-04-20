@@ -25,12 +25,6 @@ const ChoosePartyInfo = ({updatePage}) => {
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
   useEffect(() => {
-    dispatch({
-      type: ResetPartyInfo
-    });
-  },[])
-
-  useEffect(() => {
     if(partyTitle&&partyLink) {
       //카카오 오픈채팅 링크 벨리데이션
       if (partyLink.includes('https://open.kakao.com')) {

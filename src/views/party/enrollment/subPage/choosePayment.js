@@ -47,12 +47,6 @@ const ChoosePayment = () => {
   let today = new Date()
 
   useEffect(() => {
-    dispatch({
-      type: ResetPayment
-    });
-  }, [])
-
-  useEffect(() => {
     if (membershipPrice && paymentDay && pricePerMember && partyPersonel) {
       setNextBtnStatus(true);
     } else {
