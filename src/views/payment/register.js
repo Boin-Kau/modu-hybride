@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 
 import { PageTransContext } from '../../containers/pageTransContext';
-import ic_pay_duck from '../../assets/ic_pay_duck.png';
+import ic_pay_duck from '../../assets/ic_pay_duck@3x.png';
 
 const Register = ({card}) => {
 
