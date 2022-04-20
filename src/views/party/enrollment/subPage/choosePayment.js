@@ -136,9 +136,9 @@ const ChoosePayment = () => {
 
         {/* Notice Div */}
         <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
-          <div className="notice_sub_wrap align_center">
+          <div className="notice_sub_wrap">
             <div>
-              <img className="notice_img" src={icon_notice_duck}></img>
+              <img className="notice_img mutiple_line_margin" src={icon_notice_duck}></img>
             </div>
             <div className="notice_text_div">
               구독파티는
@@ -330,6 +330,7 @@ const BottomNoticeWrap = styled.div`
   
   .notice_img {
     height: 100%;
+    margin-top: 4px;
   }
 
   .notice_text {
