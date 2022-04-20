@@ -81,7 +81,7 @@ const CardManagement = () => {
             <div className="spoqaBold" style={{ fontSize: "0.875rem" }}>
               카드 목록
             </div>
-            <AddButton className="notoMedium" onClick={gotoRegister}>+ 카드 추가</AddButton>
+            <AddButton className="notoMedium" onClick={gotoRegister}><span>+ 카드 추가</span></AddButton>
           </div>
           {cardData.length === 0 ? (
             <CardWrap>
@@ -116,10 +116,14 @@ export const AddButton = styled.div`
   padding: 0.125rem 0.375rem 0.1875rem 0.4375rem;
   border-radius: 0.625rem;
   border: solid 0.05rem #9b9b9b;
-  font-size: 0.625rem;
   color: #5a5a5a;
   display: flex;
   align-items: center;
+  justify-content: center;
+  
+  span{
+    font-size: 0.625rem;
+  }
 `;
 
 export const CardWrap = styled.div`

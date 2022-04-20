@@ -83,7 +83,7 @@ const BankAccountManagement = () => {
             <div className="spoqaBold" style={{ fontSize: "0.875rem" }}>
               계좌 목록
             </div>
-            <AddButton className="notoMedium" onClick={gotoRegister}>+ 계좌 추가</AddButton>
+            <AddButton className="notoMedium" onClick={gotoRegister}><span>+ 계좌 추가</span></AddButton>
           </div>
           {cardData.length === 0 ? (
             <CardWrap>
