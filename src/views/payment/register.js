@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { PageTransContext } from '../../containers/pageTransContext';
 import ic_pay_duck from '../../assets/ic_pay_duck.png';
 
-const Register = ({card}) => {
+const Register = ({card, setBankAccountOpenStatus}) => {
 
   const history = useHistory();
 
@@ -14,8 +14,7 @@ const Register = ({card}) => {
 
   const goToRegister = () =>{
     setPageTrans("trans toRight");
-    // 이거이거 찰스가 처리!!!!
-    history.push('/card');
+    setBankAccountOpenStatus(false);
   }
 
   

@@ -32,7 +32,8 @@ const ChooseBankAccount = () => {
     selectedBankIdx,
     selectedBankAccountUserName,
     selectedBankAccountNum,
-    selectedBankAccountIdx } = useSelector(state => state.party.enrollment.bankAccount);
+    selectedBankAccountIdx, 
+  } = useSelector(state => state.party.enrollment.bankAccount);
 
   const [accountOwnerName, setAccountOwnerName] = useState(selectedBankAccountUserName);
   const [bankAccountNum, setBankAccountNum] = useState(selectedBankAccountNum);
@@ -239,7 +240,9 @@ const ChooseBankAccount = () => {
 
         {/* 등록 계좌가 있을 때 */}
         <AccountSlideWrap openStatus={isBankAccountStatus}>
-          <AccountSlide setAccountIdx={setBankAccountIdx} />
+          <AccountSlide 
+            setAccountIdx={setBankAccountIdx} 
+            setBankAccountOpenStatus={setIsBankAccountStatus} />
         </AccountSlideWrap>
       </div>
 
