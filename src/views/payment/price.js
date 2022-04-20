@@ -61,11 +61,10 @@ const Container = styled.div`
 `;
 
 const DetailButton = styled.div`
-  width:1.625rem;
   border-radius: 0.375rem;
   padding: 0.0938rem 0.3125rem;
   background-color: #f4f4f4;
-  font-size: 0.375rem;
+  font-size: 0.625rem;
   color: #5f5f5f;
   text-align: center;
   display: flex;
