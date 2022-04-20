@@ -442,7 +442,6 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeFour}
