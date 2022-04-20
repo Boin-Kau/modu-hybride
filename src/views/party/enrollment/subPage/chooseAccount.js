@@ -28,12 +28,6 @@ const ChooseAccount = () => {
   const { isAccount: isAccountStatus } = useSelector(state => state.party.enrollment.platform);
 
   useEffect(() => {
-    dispatch({
-      type: ResetAccount
-    });
-  },[])
-
-  useEffect(() => {
 
     if(isAccountStatus === 'N') { // 건너뛰기 있을 때
       if(id&&pw) {
