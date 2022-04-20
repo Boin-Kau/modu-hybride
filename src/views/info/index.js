@@ -110,6 +110,10 @@ const Info = () => {
                         </div>
                     </InfoWrap>
 
+                    <TitelWrap className="notoMedium">결제수단 관리</TitelWrap>
+                    <ContentWrap onClick={() => { openPage('/bank/manage') }} className="spoqaBold">계좌 관리</ContentWrap>
+                    <ContentWrap onClick={() => { openPage('/card/manage') }} className="spoqaBold">카드 관리</ContentWrap>
+
 
                     <TitelWrap className="notoMedium">고객센터</TitelWrap>
                     <ContentWrap onClick={() => { openPage('/notice') }} className="spoqaBold">공지사항</ContentWrap>

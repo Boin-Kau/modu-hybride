@@ -87,7 +87,7 @@ const CheckPartyData = () => {
     dispatch(AnalyPageReloadTrueAction);
     dispatch(SubscribeReloadTrueAction);
 
-    setPageTrans('trans toLeft');
+    setPageTrans('trans toRight');
     history.push('/party');
   }
 
@@ -116,8 +116,8 @@ const CheckPartyData = () => {
               color: platformState.selectedPlatformImgColor,
               initial: platformState.selectedPlatformImgInitial,
               registerType: platformState.selectedPlatformImgUrl ? "SERVER" : "CUSTOM",
-              serverCategory: '커몬',
-              customCategory: '커몬'
+              serverCategory: platformState.selectedPlatformCatgoryName,
+              customCategory: platformState.selectedPlatformCatgoryName
             }}
           />
         </div>
@@ -125,13 +125,13 @@ const CheckPartyData = () => {
       <GrayWrap style={{ padding: '0.8125rem 1rem 2.1875rem', marginBottom: '2.0313rem' }}>
         {/* 파티정보 */}
         <TitleWrap style={{ margin: '0 0 0.625rem' }}>파티 정보</TitleWrap>
-        <PartyPersonnelWrap personnel={personnel + 1}>
+        <PartyPersonnelWrap personnel={personnel}>
           {
             typeList.map((item, idx) => {
               return (
                 <PartyDataListItem
                   type={item}
-                  margin={personnel + 1 > 4 ? "0.9375rem" : "0"}
+                  margin={personnel > 4 ? "0.9375rem" : "0"}
                   isHost={idx === 0 ? "Y" : "N"}
                   isEnrollment={true}
                   key={idx} />
@@ -149,8 +149,8 @@ const CheckPartyData = () => {
             membership: membership
           }}
           platformInfo={{
-            serverCategory: '하이',
-            customCategory: '하이'
+            serverCategory: platformState.selectedPlatformCatgoryName,
+            customCategory: platformState.selectedPlatformCatgoryName
           }}
         />
 

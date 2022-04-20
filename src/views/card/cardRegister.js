@@ -77,12 +77,10 @@ const CardRegister = () => {
   useEffect(() => {
     if (focusThree == true) {
       setNum3(keyboardNum);
-    }
-    else if (focusFour == true) {
+    } else if (focusFour == true) {
       setNum4(keyboardNum);
     }
-
-  }, [keyboardNum])
+  }, [keyboardNum]);
 
   //input autoFocusing
   const handleNextFocus = (e, next) => {
@@ -107,7 +105,12 @@ const CardRegister = () => {
   const handleChangeTwo = (e) => {
     if (e.target.value.length == 5) return false;
     setNum2(e.target.value);
-    handleNextFocus(e, "num3");
+    handleNextFocus(e,"num3");
+    if(e.target.value.length ===4){
+      setFocusThree(true);
+      setKeyboardUp(true);
+      document.activeElement.blur();
+    }
   };
 
   const onChangeExpire = (e) => {
@@ -129,8 +132,14 @@ const CardRegister = () => {
   const onClickIsFreeOne = useCallback(() => {
     if (isFreeOne == "N") {
       setIsFreeOne("Y");
+      setIsFreeTwo("Y");
+      setIsFreeThree("Y");
+      setIsFreeFour("Y");
     } else {
       setIsFreeOne("N");
+      setIsFreeTwo("N");
+      setIsFreeThree("N");
+      setIsFreeFour("N");
     }
   }, [isFreeOne]);
 
@@ -138,6 +147,7 @@ const CardRegister = () => {
     if (isFreeTwo == "N") {
       setIsFreeTwo("Y");
     } else {
+      setIsFreeOne("N");
       setIsFreeTwo("N");
     }
   }, [isFreeTwo]);
@@ -146,6 +156,7 @@ const CardRegister = () => {
     if (isFreeThree == "N") {
       setIsFreeThree("Y");
     } else {
+      setIsFreeOne("N");
       setIsFreeThree("N");
     }
   }, [isFreeThree]);
@@ -154,6 +165,7 @@ const CardRegister = () => {
     if (isFreeFour == "N") {
       setIsFreeFour("Y");
     } else {
+      setIsFreeOne("N");
       setIsFreeFour("N");
     }
   }, [isFreeFour]);
@@ -162,12 +174,18 @@ const CardRegister = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
+    if (focusFour == true) {
+      setFocusFour(false);
+    }
     setFocusThree(true);
   };
 
   const onClickKeyboardUpFour = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
+    }
+    if (focusThree == true) {
+      setFocusThree(false);
     }
     setFocusFour(true);
   };
@@ -197,9 +215,8 @@ const CardRegister = () => {
       dispatch({ type: "PopupOpen" });
       return;
     }
-
     //뒤로가기
-    setPageTrans("trans toLeft");
+    setPageTrans("trans toRight");
     history.goBack();
   }, [pageConfirmStatus, cardNum, cardPw, expire, identifyNumber]);
 
@@ -255,7 +272,7 @@ const CardRegister = () => {
           <TextMiddle>카드등록</TextMiddle>
         </HeaderWrap>
 
-        <ContentWrap>
+        <ContentWrap style={{ display: "flex", flexDirection: "column" }}>
           <MainText>
             <span className="yellowText">구독파티 </span>
             정기결제에 사용할
@@ -272,6 +289,10 @@ const CardRegister = () => {
                 maxLength={4}
                 value={num1}
                 onChange={handleChangeOne}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
               />
               <Hypen>-</Hypen>
               <InputComponent
@@ -281,6 +302,10 @@ const CardRegister = () => {
                 maxLength={4}
                 value={num2}
                 onChange={handleChangeTwo}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
               />
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusThree}>
@@ -288,15 +313,22 @@ const CardRegister = () => {
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                      <span style={{ fontSize: "0.625rem" }}>{"●".repeat(num3.length)}</span>
-                    )}
+                    <span style={{ fontSize: "0.625rem" }}>
+                      {"●".repeat(num3.length)}
+                    </span>
+                  )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusFour}>
                 <Input onClick={onClickKeyboardUpFour}>
-                  {num4.length === 0 ? <span className="placeholder">0000</span> :
-                    <span style={{ fontSize: "0.625rem" }}>{"●".repeat(num4.length)}</span>}
+                  {num4.length === 0 ? (
+                    <span className="placeholder">0000</span>
+                  ) : (
+                    <span style={{ fontSize: "0.625rem" }}>
+                      {"●".repeat(num4.length)}
+                    </span>
+                  )}
                 </Input>
               </InputWrap>
             </ItemWrap>
@@ -323,6 +355,10 @@ const CardRegister = () => {
                 maxLength={4}
                 value={expire}
                 onChange={onChangeExpire}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
               />
             </div>
             <div
@@ -340,6 +376,10 @@ const CardRegister = () => {
                 maxLength={2}
                 value={cardPw}
                 onChange={onChangePw}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
               />
             </div>
           </div>
@@ -352,6 +392,10 @@ const CardRegister = () => {
               maxLength={4}
               value={identifyNumber}
               onChange={onChangeId}
+              keyboardUp={keyboardUp}
+              setKeyboardUp={setKeyboardUp}
+              setFocusThree={setFocusThree}
+              setFocusFour={setFocusFour}
             />
           </div>
           <div style={{ margin: "1.4375rem 0 0.75rem 0" }}>
@@ -403,7 +447,6 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeFour}
@@ -416,6 +459,7 @@ const CardRegister = () => {
               </PartyText>
             </div>
           </div>
+          <div style={{ flexGrow: "1" }} />
           <BottomButton
             text={"확인"}
             clickFunc={onClickRevise}
@@ -459,9 +503,12 @@ const Input = styled.div`
   font-size: 0.8125rem;
   display: flex;
   padding: 0;
-  overflow-x:scroll;
+  overflow-x: scroll;
+  align-items: center;
+  height: 0.8125rem;
 
   .placeholder {
+    font-size: 0.8125rem;
     color: #e8e8e8;
   }
 `;

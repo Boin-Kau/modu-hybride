@@ -93,16 +93,17 @@ const Payment = () => {
   //페이지 벨리데이션
   useEffect(() => {
     if (
-      partyId &&
-      cardIdx
+      partyId && cardIdx
     ) {
       setPageConfirmStatus(true);
     } else {
       setPageConfirmStatus(false);
     }
-  }, [
-    cardIdx
-  ]);
+
+    if(cardIdx===-1){
+      setPageConfirmStatus(false);
+    }
+  }, [cardIdx]);
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -122,6 +123,7 @@ const Payment = () => {
   const onClickRevise = useCallback(async () => {
     if (!pageConfirmStatus) return;
 
+  
     let uri = "";
 
     //일반적인 가입

@@ -86,6 +86,9 @@ export const NoticeWrap = styled.div`
   .boldText {
     font-weight: 600;
   }
+  .mutiple_line_margin {
+    margin-top: 4px;
+  }
 `;
 
 export const MainWrap = styled.div`

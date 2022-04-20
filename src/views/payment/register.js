@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 
-import ic_pay_duck from '../../assets/ic_pay_duck.png';
+import { PageTransContext } from '../../containers/pageTransContext';
+import ic_pay_duck from '../../assets/ic_pay_duck@3x.png';
 
-const Register = () => {
+const Register = ({card}) => {
 
   const history = useHistory();
 
+  //context
+  const { setPageTrans } = useContext(PageTransContext);
+
   const goToRegister = () =>{
+    setPageTrans("trans toRight");
+    // 이거이거 찰스가 처리!!!!
     history.push('/card');
   }
 
@@ -18,11 +24,9 @@ const Register = () => {
         <div style={{display:'flex', flexDirection:'column', alignItems:'center', marginTop:'0.975rem'}}>
             <img style={{width:'7.475rem', height:'5.3375rem'}} src={ic_pay_duck}/>
             <RegisterButton className='notoBold'>
-                <span onClick={goToRegister} style={{fontSize: '0.75rem', textAlign: 'center', color: '#fff'}}>+ 카드 등록하기</span>
+              {card ? <span onClick={goToRegister}>+ 카드 등록하기</span> : <span onClick={goToRegister}>+ 계좌 등록하기</span>}
             </RegisterButton>
-            <div className='notoRegular' style={{color:'#696969', width:'8rem', fontSize:'0.625rem', lineHeight: '1.9'}}>
-                자주쓰는 카드를 등록해보세요!
-            </div>
+            {card ? <div className='notoRegular register-button'>자주쓰는 카드를 등록해보세요!</div> :<div className='notoRegular register-button'> 자주쓰는 계좌를 등록해보세요!</div>}
         </div>
     </Container>
   );
@@ -39,6 +43,13 @@ const Container = styled.div`
   align-items: center;
   margin-top:1.125rem;
   display:table;
+
+  .register-button{
+    color: #696969;
+    width: 8rem;
+    font-size: 0.625rem;
+    line-height: 1.9;
+  }
 `;
 
 const RegisterButton = styled.div`
@@ -49,6 +60,12 @@ const RegisterButton = styled.div`
   background-color: #ffca2c;
   text-align: center;
   margin: 0.3125rem 0 0.25rem 0;
+
+  span{
+    font-size: 0.75rem;
+    text-align: center; 
+    color: #fff;
+  }
 `;
 
 export default Register

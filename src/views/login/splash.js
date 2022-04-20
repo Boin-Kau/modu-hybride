@@ -72,9 +72,6 @@ const Splash = () => {
 
     const data = await customApiClient("get", "/user/jwt");
 
-    // history.push('/inspection');
-    // return
-
     if (data == "Network Error") {
       history.push("/inspection");
       return;
@@ -85,6 +82,29 @@ const Splash = () => {
       localStorage.removeItem("x-access-token");
       dispatch(BottomNavCloseAction);
       // history.push('/login');
+
+      if (current_user_platform == 'android') {
+
+        //splash close 함수 호출
+        try {
+          window.android.closeSplash();
+        }
+        catch (err) {
+          console.log(err);
+        }
+
+      }
+      else if (current_user_platform == 'ios') {
+
+        //splash close 함수 호출
+        try {
+          window.webkit.messageHandlers.closeSplash.postMessage("hihi");
+        }
+        catch (err) {
+          console.log(err);
+        }
+
+      }
       return;
     }
 

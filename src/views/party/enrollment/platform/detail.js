@@ -36,17 +36,21 @@ const PartyPlatformDetail = () => {
         selectedPlatformIdx,
         selectedPlatformName,
         selectedPlatformCategoryIdx,
+        selectedPlatformCatgoryName,
+        selectedPlatformImgColor,
+        selectedPlatformImgInitial,
         isAccount,
         isAdult,
     } = useSelector(state => state.party.enrollment.platform);
 
-    const [imgColor, setImgColor] = useState('');
-    const [imgInitial, setImgInitial] = useState('');
+    const [imgColor, setImgColor] = useState(selectedPlatformImgColor || '');
+    const [imgInitial, setImgInitial] = useState(selectedPlatformImgInitial || '');
     const [imgEnrollOpen, setImgEnrollOpen] = useState(false);
 
-    const [platformName, setPlatformName] = useState('');
+    const [platformName, setPlatformName] = useState(selectedPlatformName || '');
 
-    const [categoryIndex, setCategoryIndex] = useState(-1);
+    const [categoryIndex, setCategoryIndex] = useState(selectedPlatformCategoryIdx || -1);
+    const [categoryName, setCategoryName] = useState(selectedPlatformCatgoryName || '');
     const [categoryOpen, setCategoryOpen] = useState(false);
 
     const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
@@ -54,6 +58,7 @@ const PartyPlatformDetail = () => {
     //inital logic
     useEffect(() => {
         dispatch(BottomNavCloseAction);
+        setPlatformName(selectedPlatformName || '');
     }, [])
 
     const closeEnrollmentPage = () => {
@@ -61,6 +66,7 @@ const PartyPlatformDetail = () => {
             selectedPlatformIdx: null,
             selectedPlatformName: null,
             selectedPlatformCategoryIdx: null,
+            selectedPlatformCatgoryName: null,
             selectedPlatformImgUrl: null,
             selectedPlatformImgColor: null,
             selectedPlatformImgInitial: null,
@@ -70,8 +76,9 @@ const PartyPlatformDetail = () => {
 
         dispatch(UpdatePlatformAction(data));
 
+        dispatch(UpdateCurrentPageAction({ page: 1 }));
         setPageTrans('trans toLeft');
-        history.goBack();
+        history.push('/party/enroll');
     }
 
     const openImgEnrollPopup = () => {
@@ -81,7 +88,7 @@ const PartyPlatformDetail = () => {
         setImgEnrollOpen(false);
     }
 
-    const onChangePlatformNme = (e) => {
+    const onChangePlatformName = (e) => {
         setPlatformName(e.target.value);
     }
 
@@ -94,8 +101,9 @@ const PartyPlatformDetail = () => {
         }
     }, [categoryOpen]);
 
-    const onClickCategoryContent = (index) => {
+    const onClickCategoryContent = (index, name) => {
         setCategoryIndex(index);
+        setCategoryName(name);
         setCategoryOpen(false);
     }
 
@@ -154,6 +162,7 @@ const PartyPlatformDetail = () => {
                 selectedPlatformIdx: selectedPlatformIdx,
                 selectedPlatformName: selectedPlatformName,
                 selectedPlatformCategoryIdx: selectedPlatformCategoryIdx,
+                selectedPlatformCatgoryName: selectedPlatformCatgoryName,
                 selectedPlatformImgUrl: null,
                 selectedPlatformImgColor: imgColor,
                 selectedPlatformImgInitial: imgInitial,
@@ -163,9 +172,10 @@ const PartyPlatformDetail = () => {
         }
         else {
             data = {
-                selectedPlatformIdx: null,
+                selectedPlatformIdx: 0,
                 selectedPlatformName: platformName,
                 selectedPlatformCategoryIdx: categoryIndex,
+                selectedPlatformCatgoryName: categoryName,
                 selectedPlatformImgUrl: null,
                 selectedPlatformImgColor: imgColor,
                 selectedPlatformImgInitial: imgInitial,
@@ -176,8 +186,8 @@ const PartyPlatformDetail = () => {
 
         dispatch(UpdatePlatformAction(data));
 
-        dispatch(UpdateCurrentPageAction({page: 2}));
-        setPageTrans('trans toLeft');
+        dispatch(UpdateCurrentPageAction({ page: 2 }));
+        setPageTrans('trans toRight');
         history.push('/party/enroll');
     }
 
@@ -188,7 +198,7 @@ const PartyPlatformDetail = () => {
                     <img src={icon_back}></img>
                 </div>
                 <TextMiddle>
-                    {selectedPlatformName ? selectedPlatformName : "직접 입력하기"}
+                    {(selectedPlatformIdx !== 0 && selectedPlatformName) ? selectedPlatformName : "직접 입력하기"}
                 </TextMiddle>
             </HeaderWrap>
 
@@ -219,7 +229,7 @@ const PartyPlatformDetail = () => {
                         <InputWrap>
                             {selectedPlatformIdx ?
                                 selectedPlatformName
-                                : <Input value={platformName} onChange={onChangePlatformNme} placeholder="구독 서비스명을 입력하세요" ></Input>
+                                : <Input value={platformName} onChange={onChangePlatformName} placeholder="구독 서비스명을 입력하세요" />
                             }
                         </InputWrap>
                     </ItemWrap>
@@ -230,7 +240,7 @@ const PartyPlatformDetail = () => {
                     </TitleWrap>
 
                     {
-                        selectedPlatformCategoryIdx ?
+                        (selectedPlatformIdx !== 0 && selectedPlatformCategoryIdx) ?
                             <ItemWrap>
                                 <InputWrap>
                                     {categoryList.map((data) => {
@@ -262,7 +272,7 @@ const PartyPlatformDetail = () => {
                             {
                                 categoryList.map((data) => {
                                     return (
-                                        <SelectContent selectSatus={data.idx == categoryIndex} onClick={() => { onClickCategoryContent(data.idx) }} key={data.idx}>
+                                        <SelectContent selectSatus={data.idx == categoryIndex} onClick={() => { onClickCategoryContent(data.idx, data.name) }} key={data.idx}>
                                             {data.name}
                                         </SelectContent>
                                     )

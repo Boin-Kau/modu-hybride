@@ -29,6 +29,7 @@ const CardManagement = () => {
   };
 
   const gotoRegister = () => {
+    setPageTrans("trans toRight");
     history.push("/card");
   };
 
@@ -42,7 +43,7 @@ const CardManagement = () => {
     //서버에러
     if (!data) return;
 
-    if(data.statusCode == 200){
+    if (data.statusCode == 200) {
       setCardData(data.result);
     }
 
@@ -66,7 +67,7 @@ const CardManagement = () => {
           >
             <img src={icon_back}></img>
           </div>
-          <TextMiddle>카드관리</TextMiddle>
+          <TextMiddle>카드 관리</TextMiddle>
         </HeaderWrap>
         <ContentWrap>
           <div
@@ -78,49 +79,54 @@ const CardManagement = () => {
             }}
           >
             <div className="spoqaBold" style={{ fontSize: "0.875rem" }}>
-              결제 수단
+              카드 목록
             </div>
-            <AddButton className="notoMedium" onClick={gotoRegister}>+ 카드 추가</AddButton>
+            <AddButton className="notoMedium" onClick={gotoRegister}><span>+ 카드 추가</span></AddButton>
           </div>
           {cardData.length === 0 ? (
             <CardWrap>
-              <img src={blank_duck}/>
+              <img src={blank_duck} />
               <div className="notoBold title-text">등록된 카드가 없습니다.</div>
-              <div className="notoMedium sub-text">우측 상단의"카드추가"버튼을 통해<br/> 결제카드를 등록해주세요.</div>
+              <div className="notoMedium sub-text">우측 상단의"카드추가"버튼을 통해<br /> 결제카드를 등록해주세요.</div>
             </CardWrap>
           ) : (
-            <div>
-              {cardData.map((card) => {
-                return (
-                  <div key={card.idx}>
-                    <CardComponent
-                      cardName={card.cardName}
-                      cardNo={card.cardNo.substring(12, 16)}
-                      id={card.idx}
-                      cardData={cardData}
-                      setCardData={setCardData}
-                    ></CardComponent>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+              <div>
+                {cardData.map((card) => {
+                  return (
+                    <div key={card.idx}>
+                      <CardComponent
+                        cardName={card.cardName}
+                        cardNo={card.cardNo.substring(12, 16)}
+                        id={card.idx}
+                        cardData={cardData}
+                        setCardData={setCardData}
+                      ></CardComponent>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
         </ContentWrap>
       </PageWrap>
     </div>
   );
 };
 
-const AddButton = styled.div`
-  width: 3.625rem;
-  padding: 0.125rem 0 0.1875rem 0.4375rem;
+export const AddButton = styled.div`
+  padding: 0.125rem 0.375rem 0.1875rem 0.4375rem;
   border-radius: 0.625rem;
   border: solid 0.05rem #9b9b9b;
-  font-size: 0.625rem;
   color: #5a5a5a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  span{
+    font-size: 0.625rem;
+  }
 `;
 
-const CardWrap = styled.div`
+export const CardWrap = styled.div`
   width: 100%;
   height: 12.9375rem;
   border: 1px solid #e3e3e3;

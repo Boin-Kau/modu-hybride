@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+    <g data-name="ic_pay_ guide">
+        <text data-name="파티 시작일" transform="translate(7 10)" style="fill:#383838;font-size:8px;font-family:NotoSansCJKkr-Medium,Noto Sans CJK KR;font-weight:500"><tspan x="-1.372" y="0">!</tspan></text>
+        <g data-name="타원 10" style="stroke:#383838;stroke-width:.8px;fill:none">
+            <circle cx="7" cy="7" r="7" style="stroke:none"/>
+            <circle cx="7" cy="7" r="6.6" style="fill:none"/>
+        </g>
+    </g>
+</svg>

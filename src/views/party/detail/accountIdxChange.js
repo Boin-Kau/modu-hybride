@@ -22,7 +22,7 @@ const AccountIdxChange = ({location}) => {
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
-  const [accountIdx, setAccountIdx] = useState();
+  const [accountIdx, setAccountIdx] = useState(-1);
   const [partyRoomIdx, setPartyRoomIdx] = useState(location.data);
   const [confirmStatus, setConfirmStatus] = useState(true);
 
@@ -31,24 +31,26 @@ const AccountIdxChange = ({location}) => {
     history.goBack();
   };
 
-  const goToCardManage = () =>{
+  const goToBankManage = () =>{
     setPageTrans("trans toRight");
-    history.push('/card/manage');
+    history.push('/bank/manage');
   }
 
   const onClickBankAcccountChange = async () => {
-    const data = await customApiClient('patch', `/party/${partyRoomIdx}/bankAccount/${accountIdx}`);
+    if(accountIdx !== -1) {
+      const data = await customApiClient('patch', `/party/${partyRoomIdx}/bankAccount/${accountIdx}`);
 
-    console.log(data.message);
-    // Server Error
-    if (!data) { return };
-    // Validation 
-    if (data.statusCode !== 200) { return };
+      console.log(data.message);
+      // Server Error
+      if (!data) { return };
+      // Validation 
+      if (data.statusCode !== 200) { return };
 
-    console.log('API 호출 성공 :', data);
+      console.log('API 호출 성공 :', data);
 
-    // 계좌 변경 완료 후, 원래 페이지로 이동
-    closePage();
+      // 계좌 변경 완료 후, 원래 페이지로 이동
+      closePage();
+    }
   }
 
   useEffect(async () => {
@@ -78,14 +80,14 @@ const AccountIdxChange = ({location}) => {
         <ContentWrap style={{display:"flex", flexDirection:"column"}}>
           <TitleWrap>
             <span className="spoqaBold">계좌 목록</span>
-            <div className="notoMedium manage-button" onClick={goToCardManage}>카드 관리</div>
+            <div className="notoMedium manage-button" onClick={goToBankManage}>계좌 관리</div>
           </TitleWrap>
           <AccountSlide setAccountIdx={setAccountIdx}/>
           <div style={{flexGrow:"1"}}/>
           <BottomButton 
             clickFunc={onClickBankAcccountChange}
             text={"확인"}
-            activeStatus={confirmStatus}
+            activeStatus={accountIdx === -1 ? false : true}
             isBottomStatus={false}/>
         </ContentWrap>
       </PageWrap>
