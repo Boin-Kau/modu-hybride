@@ -136,9 +136,9 @@ const ChoosePayment = () => {
 
         {/* Notice Div */}
         <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
-          <div className="notice_sub_wrap align_center">
+          <div className="notice_sub_wrap">
             <div>
-              <img className="notice_img" src={icon_notice_duck}></img>
+              <img className="notice_img mutiple_line_margin" src={icon_notice_duck}></img>
             </div>
             <div className="notice_text_div">
               구독파티는
@@ -164,7 +164,7 @@ const ChoosePayment = () => {
           </MiniInfoDialog>
         </TitleWrap>
         <ItemWrap>
-          <InputWrap>
+          <InputWrap style={{alignItems:'center'}}>
             <Input type="number" placeholder="실제 멤버십 금액을 입력해주세요" onChange={handleChangeMembershipPrice} value={membershipPrice}></Input>
             <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
@@ -207,7 +207,7 @@ const ChoosePayment = () => {
         {/* 1인당 결제 금액 */}
         <TitleWrap style={{ marginTop: '0.5rem' }}>1인당 결제 금액</TitleWrap>
         <ItemWrap>
-          <InputWrap>
+          <InputWrap style={{alignItems:'center'}}>
             <Input type="number" placeholder="1인당 내야할 금액을 입력해주세요" onChange={handleChangePricePerMember} value={pricePerMember}></Input>
             <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
@@ -330,6 +330,7 @@ const BottomNoticeWrap = styled.div`
   
   .notice_img {
     height: 100%;
+    margin-top: 4px;
   }
 
   .notice_text {

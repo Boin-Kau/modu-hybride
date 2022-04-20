@@ -78,9 +78,9 @@ const ChooseAccount = () => {
 
         {/* Notice Div */}
         <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', marginTop:'0.9063rem'}}>
-          <div className="notice_sub_wrap align_center">
+          <div className="notice_sub_wrap">
             <div>
-              <img className="notice_img" src={icon_notice_duck}></img>
+              <img className="notice_img mutiple_line_margin" src={icon_notice_duck}></img>
             </div>
             <div className="notice_text_div">
               계정정보 입력 시, 

@@ -558,9 +558,9 @@ const MyPartyDetail = () => {
           </div>
           {/* 정산정보or결제수단 Notice Wrap */}
           <NoticeWrap style={{ marginBottom: '0.5rem' }}>
-            <div className="notice_sub_wrap align_center">
+            <div className="notice_sub_wrap">
               <div>
-                <img className="notice_img" src={icon_notice_duck}></img>
+                <img className="notice_img mutiple_line_margin" src={icon_notice_duck}></img>
               </div>
               <div className="notice_text_div">
                 <span>다음 </span>
@@ -772,7 +772,7 @@ const PartyDataTitleDiv = styled.div`
   }
   .memberCountSpan {
     color: #ffffff;
-    font-size: 0.5rem;
+    font-size: 0.625rem;
   }
 `;
 
