@@ -18,7 +18,7 @@ import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import PartyDataListItem, { CustomPartyListItem } from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
-import AccountInfoComponent from "./AccountInfoComponent";
+import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
 import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction, SetReportCategoryListAction, ReportPopupOpenAction, MemberBottomDialogCloseAction, HostBottomDialogCloseAction } from "../../../reducers/party/popup";
 import HostBottomDialog from "./dialog/hostBottomDialog";
