@@ -36,7 +36,14 @@ const CheckPartyData = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  //서버통신 로딩 state
+  const [loading, setLoading] = useState(false);
+
   const enrollBtn = async () => {
+
+    if (loading) return
+    setLoading(true);
+
     const body = {
       title: title,
       registerType: platformState.selectedPlatformImgUrl ? "SERVER" : "CUSTOM",
@@ -62,9 +69,15 @@ const CheckPartyData = () => {
 
     console.log(data.message);
     // Server Error
-    if (!data) { return };
+    if (!data) {
+      setLoading(false);
+      return
+    };
     // Validation 
-    if (data.statusCode !== 200) { return };
+    if (data.statusCode !== 200) {
+      setLoading(false);
+      return
+    };
 
     console.log('API 호출 성공 :', data);
 
@@ -86,6 +99,8 @@ const CheckPartyData = () => {
     //소비분석 리로드
     dispatch(AnalyPageReloadTrueAction);
     dispatch(SubscribeReloadTrueAction);
+
+    setLoading(false);
 
     setPageTrans('trans toRight');
     history.push('/party');
