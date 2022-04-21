@@ -59,7 +59,16 @@ const ReportPopUp = ({ openStatus }) => {
             }));
 
         }
-    }, [])
+
+        //초기화
+        setContentPageStatus(true);
+        setCompletePageStatus(false);
+        setReportCategoryIdx(0);
+        setReportCategoryName('');
+        setReportContent('');
+        setCategoryOpen(false);
+
+    }, [reportPartyIdx])
 
     const onClickCategoryOpen = () => {
         setCategoryOpen(!categoryOpen);

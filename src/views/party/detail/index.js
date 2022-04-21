@@ -17,7 +17,7 @@ import { ResetParty } from "../../../reducers/party/detail";
 import { PartyDetailSubWrap } from "../../../styled/shared/wrap";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import BottomButton from "../../../components/party/BottomButton";
-import { ReportBottomDialogOpenAction } from "../../../reducers/party/popup";
+import { ReportBottomDialogOpenAction, ReportBottomDialogCloseAction, ReportPopupCloseAction } from "../../../reducers/party/popup";
 import ReportBottomDialog from "./reportBottomDialog";
 
 // Page Root Component
@@ -109,6 +109,11 @@ const PartyDetail = () => {
 
   // Function
   const closePage = () => {
+
+    //팝업 닫기
+    dispatch(ReportBottomDialogCloseAction);
+    dispatch(ReportPopupCloseAction());
+
     // 리덕스 설정 (ResetParty)
     dispatch({
       type: ResetParty

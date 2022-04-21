@@ -18,9 +18,9 @@ import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
 import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import PartyDataListItem, { CustomPartyListItem } from "../../../components/party/PartyList";
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
-import AccountInfoComponent from "./accountInfoComponent";
+import AccountInfoComponent from "./AccountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
-import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction, SetReportCategoryListAction, ReportPopupOpenAction, MemberBottomDialogCloseAction } from "../../../reducers/party/popup";
+import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction, SetReportCategoryListAction, ReportPopupOpenAction, MemberBottomDialogCloseAction, HostBottomDialogCloseAction } from "../../../reducers/party/popup";
 import HostBottomDialog from "./dialog/hostBottomDialog";
 import MemberBottomDialog from "./dialog/memberBottomDialog";
 import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
@@ -228,6 +228,19 @@ const MyPartyDetail = () => {
   };
 
   const closePage = () => {
+    //팝업 초기화
+    setRegularFailPopupStatus(false);
+    setRegularFailConfirmPopupStatus(false);
+    setHostInfoPopupStatus(false);
+    setUserInfoBeforePopupStatus(false);
+    setUserInfoPopupStatus(false);
+    setDeletePopupStatus(false);
+    setFinishPopupStatus(false);
+
+    dispatch(HostBottomDialogCloseAction);
+    dispatch(MemberBottomDialogCloseAction);
+    dispatch(PartyDeleteConfirmDialogCloseAction);
+
     // 뒤로 가기
     setPageTrans('trans toLeft');
     history.goBack();
