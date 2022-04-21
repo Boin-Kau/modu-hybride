@@ -101,9 +101,9 @@ const EditAccount = ({ location }) => {
           </MainText>
           {/* Notice Div */}
           <NoticeWrap style={{ backgroundColor: '#fff8e8' }}>
-            <div className="notice_sub_wrap align_center">
+            <div className="notice_sub_wrap">
               <div>
-                <img className="notice_img" src={icon_notice_duck}></img>
+                <img className="notice_img mutiple_line_margin" src={icon_notice_duck}></img>
               </div>
               <div className="notice_text_div">
                 <span>계정정보 입력 시, </span>
@@ -137,7 +137,11 @@ const EditAccount = ({ location }) => {
         </div>
 
         {/* 최하단 Yellow 버튼 */}
-        <BottomButton clickFunc={onClickEdit} text={'확인'} status={pageConfirmStatus} />
+        <BottomButton
+          clickFunc={onClickEdit}
+          text={'확인'}
+          activeStatus={pageConfirmStatus}
+          isBottomStatus={false} />
       </MainWrap>
 
 

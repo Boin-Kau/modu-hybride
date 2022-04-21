@@ -100,7 +100,7 @@ const EditAccount = ({ location }) => {
             <span>입력해주세요.</span>
           </MainText>
           {/* Notice Div */}
-          <NoticeWrap style={{backgroundColor:'#fff8e8'}}>
+          <NoticeWrap style={{ backgroundColor: '#fff8e8' }}>
             <div className="notice_sub_wrap">
               <div>
                 <img className="notice_img mutiple_line_margin" src={icon_notice_duck}></img>
@@ -137,9 +137,9 @@ const EditAccount = ({ location }) => {
         </div>
 
         {/* 최하단 Yellow 버튼 */}
-        <BottomButton 
-          clickFunc={onClickEdit} 
-          text={'확인'} 
+        <BottomButton
+          clickFunc={onClickEdit}
+          text={'확인'}
           activeStatus={pageConfirmStatus}
           isBottomStatus={false} />
       </MainWrap>

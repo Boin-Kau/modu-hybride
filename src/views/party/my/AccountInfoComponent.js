@@ -7,7 +7,7 @@ import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from "..
 const AccountInfoComponent = ({ partyIdx, isHostUser, accountInfo }) => {
 
   const history = useHistory();
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
 
   const onClickEditAccount = () => {
     history.push({
