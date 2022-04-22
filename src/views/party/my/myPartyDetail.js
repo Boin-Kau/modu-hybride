@@ -20,7 +20,7 @@ import PartyDataListItem, { CustomPartyListItem } from "../../../components/part
 import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./accountInfoComponent";
 import BottomButton from "../../../components/party/BottomButton";
-import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction, SetReportCategoryListAction, ReportPopupOpenAction, MemberBottomDialogCloseAction } from "../../../reducers/party/popup";
+import { HostBottomDialogOpenAction, MemberBottomDialogOpenAction, PartyDeleteConfirmDialogCloseAction, SetReportCategoryListAction, ReportPopupOpenAction, MemberBottomDialogCloseAction, HostBottomDialogCloseAction } from "../../../reducers/party/popup";
 import HostBottomDialog from "./dialog/hostBottomDialog";
 import MemberBottomDialog from "./dialog/memberBottomDialog";
 import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
@@ -228,6 +228,19 @@ const MyPartyDetail = () => {
   };
 
   const closePage = () => {
+    //팝업 초기화
+    setRegularFailPopupStatus(false);
+    setRegularFailConfirmPopupStatus(false);
+    setHostInfoPopupStatus(false);
+    setUserInfoBeforePopupStatus(false);
+    setUserInfoPopupStatus(false);
+    setDeletePopupStatus(false);
+    setFinishPopupStatus(false);
+
+    dispatch(HostBottomDialogCloseAction);
+    dispatch(MemberBottomDialogCloseAction);
+    dispatch(PartyDeleteConfirmDialogCloseAction);
+
     // 뒤로 가기
     setPageTrans('trans toLeft');
     history.goBack();
@@ -558,9 +571,9 @@ const MyPartyDetail = () => {
           </div>
           {/* 정산정보or결제수단 Notice Wrap */}
           <NoticeWrap style={{ marginBottom: '0.5rem' }}>
-            <div className="notice_sub_wrap align_center">
+            <div className="notice_sub_wrap">
               <div>
-                <img className="notice_img" src={icon_notice_duck}></img>
+                <img className="notice_img mutiple_line_margin" src={icon_notice_duck}></img>
               </div>
               <div className="notice_text_div">
                 <span>다음 </span>
@@ -772,7 +785,7 @@ const PartyDataTitleDiv = styled.div`
   }
   .memberCountSpan {
     color: #ffffff;
-    font-size: 0.5rem;
+    font-size: 0.625rem;
   }
 `;
 
