@@ -3,26 +3,10 @@ import styled from "styled-components";
 
 import delete_icon from "../../assets/ic_card_numberdelete@3x.png";
 
-const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour}) => {
+const Keyboard = ({setKeyboardUp, num3, num4, setNum3, setNum4, three, setThree, four, setFour}) => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const [nums, setNums] = useState(nums_init);
 
-
-  useEffect(() => {
-    if (number.length >= 4) {
-      setNum("");
-      console.log(number);
-      if(three===true){
-        setThree(false);
-        setFour(true);
-      }
-      if(four===true){
-        setFour(false);
-        setKeyboardUp(false);
-      }
-      return;
-    }
-  }, [number])
   
   const shuffle = (nums) => {
     let num_length = nums.length;
@@ -37,19 +21,48 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
 
   const handlePasswordChange = useCallback(
     (num) => {
-      setNum(number + num);
+      if(three){
+        if(num3.length>=4){
+          setThree(false);
+          setFour(true);
+          return;
+       }
+        setNum3(num3+num);
+        if (num3.length >= 3) {
+          setThree(false);
+          setFour(true);
+       }
+      }
+
+      if(four){
+        if(num4.length>=4){
+          setFour(false);
+          setKeyboardUp(false);
+          return;
+        }
+        setNum4(num4+num);
+        if (num4.length >= 3) {
+        setFour(false);
+        setKeyboardUp(false);
+       }
+      }
     },
-    [number]
+    [three, four, num3, num4]
   );
 
-  const erasePasswordOne = useCallback(
+  const erasePasswordOne = 
     (e) => {
-      setNum(
-        number.slice(0, number.length === 0 ? 0 : number.length - 1)
-      );
-    },
-    [number]
-  );
+      if(three){
+        setNum3(
+          num3.slice(0, num3.length === 0 ? 0 : num3.length - 1)
+        );
+      }
+      if(four){
+        setNum4(
+          num4.slice(0, num4.length === 0 ? 0 : num4.length - 1)
+        );
+      }
+    }
 
   const shuffleNums = useCallback(
     (num) => (e) => {
@@ -70,7 +83,6 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
       setFour(false);
     }
   }
-
 
   return (
       <KeyboardWrap>

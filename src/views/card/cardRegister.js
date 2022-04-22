@@ -475,8 +475,10 @@ const CardRegister = () => {
         {keyboardUp && (
           <Keyboard
             setKeyboardUp={setKeyboardUp}
-            number={keyboardNum}
-            setNum3={setKeyboardNum}
+            num3={num3}
+            num4={num4}
+            setNum3={setNum3}
+            setNum4={setNum4}
             three={focusThree}
             setThree={setFocusThree}
             four={focusFour}
