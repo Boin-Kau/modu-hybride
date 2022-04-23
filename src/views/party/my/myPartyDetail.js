@@ -77,7 +77,7 @@ const MyPartyDetail = () => {
   const [hostInfoPopupStatus, setHostInfoPopupStatus] = useState(false); //기존 파티장 정보 등록로직 처리
   const [userInfoBeforePopupStatus, setUserInfoBeforePopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 전)
   const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 후)
-  const [deleteopupStatus, setDeletePopupStatus] = useState(false); //정말 해지하시겠습니까 팝업
+  const [deletePopupStatus, setDeletePopupStatus] = useState(false); //정말 해지하시겠습니까 팝업
 
   const [finishPopupStatus, setFinishPopupStatus] = useState(false); //최종확인 팝업 데이터
   const [finishPopupTitle, setFinishPopupTitle] = useState(false); //최종확인 팝업 제목
@@ -718,7 +718,7 @@ const MyPartyDetail = () => {
 
       {/* 탈퇴 컨펌 창 */}
       <DangerDialog
-        openStatus={deleteopupStatus}
+        openStatus={deletePopupStatus}
         title={"정말 해지하시겠습니까 ?"}
         subTitle={"내용 필요함"}
         leftButtonText={"취소"}
