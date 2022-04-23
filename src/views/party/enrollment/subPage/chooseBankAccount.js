@@ -28,7 +28,7 @@ const ChooseBankAccount = () => {
 
   const dispatch = useDispatch();
 
-  const { 
+  const {
     selectedBankIdx,
     selectedBankAccountUserName,
     selectedBankAccountNum,
@@ -54,22 +54,22 @@ const ChooseBankAccount = () => {
       selectedBankAccountNum: null,
       selectedBankAccountIdx: null
     }));
-    
+
     getBankAccountList();
-  },[])
+  }, [])
 
   useEffect(() => {
-    if(!isBankAccountStatus) {
-      if(accountOwnerName&&selectedBankName&&bankAccountNum&&(agreeStatus==='Y')) {
+    if (!isBankAccountStatus) {
+      if (accountOwnerName && selectedBankName && bankAccountNum && (agreeStatus === 'Y')) {
         setNextBtnStatus(true);
         return
       }
       setNextBtnStatus(false);
     } else {
-        bankAccountIdx === -1 ? setNextBtnStatus(false) : setNextBtnStatus(true);
+      bankAccountIdx === -1 ? setNextBtnStatus(false) : setNextBtnStatus(true);
     }
-    
-  },[accountOwnerName, selectedBankName, bankAccountNum, agreeStatus, bankAccountIdx])
+
+  }, [accountOwnerName, selectedBankName, bankAccountNum, agreeStatus, bankAccountIdx])
 
   const getBankAccountList = async () => {
     const bankAccountUri = '/party/user/bankAccount';
@@ -78,9 +78,9 @@ const ChooseBankAccount = () => {
     // Server Error
     if (!data) { return };
     // Validation 
-    if (data.statusCode !== 200) { return } 
+    if (data.statusCode !== 200) { return }
     // 등록된 정산계좌 유무 확인
-    if(data.result.length === 0) {
+    if (data.result.length === 0) {
       setIsBankAccountStatus(false);
       console.log(isBankAccountStatus);
     } else {
@@ -90,7 +90,7 @@ const ChooseBankAccount = () => {
 
     console.log('API 호출 성공 :', data);
     setBankAccountList(data.result);
-  }; 
+  };
 
   const handleChangeAccountOwnerName = (e) => {
     setAccountOwnerName(e.target.value);
@@ -107,14 +107,17 @@ const ChooseBankAccount = () => {
     } else {
       setAgreeStatus("N");
     }
-  },[agreeStatus])
+  }, [agreeStatus])
+
+  //서버통신 로딩 state
+  const [loading, setLoading] = useState(false);
 
   const nextPage = async () => {
 
-    if(isBankAccountStatus) {
+    if (isBankAccountStatus) {
       // 정산계좌가 존재할 때 
       nextBtnStatus && bankAccountList.map((account, index) => {
-        if(account.idx === bankAccountIdx) {
+        if (account.idx === bankAccountIdx) {
           dispatch(UpdateBankAccountAction({
             selectedBankIdx: account.idx,
             selectedBankAccountUserName: '',
@@ -123,8 +126,12 @@ const ChooseBankAccount = () => {
           }));
         }
       })
-      nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
+      nextBtnStatus && dispatch(UpdateCurrentPageAction({ page: 6 }));
     } else {
+
+      if (loading) return
+      setLoading(true);
+
       // 정산계좌가 없을 땐 정산계좌 등록 후 페이지 전환
       const body = {
         bankAccountUserName: accountOwnerName,
@@ -134,11 +141,17 @@ const ChooseBankAccount = () => {
       const postBankAccountUri = 'party/user/bankAccount'
       const data = await customApiClient('post', postBankAccountUri, body);
 
-      if(data.statusCode !== 400) console.log(data.message);
       // Server Error
-      if (!data) { return };
+      if (!data) {
+        setLoading(false);
+        return
+      };
       // Validation 
-      if (data.statusCode !== 200) { return };
+      if (data.statusCode !== 200) {
+        setLoading(false);
+        alert(data.message);
+        return
+      };
 
       console.log('API 호출 성공 :', data);
 
@@ -146,25 +159,27 @@ const ChooseBankAccount = () => {
         selectedBankIdx: bankIdx,
         selectedBankAccountUserName: accountOwnerName,
         selectedBankAccountNum: bankAccountNum,
-        selectedBankAccountIdx:data.result.bankAccountIdx
+        selectedBankAccountIdx: data.result.bankAccountIdx
       }));
-      data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 6}));
-    } 
+      data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateCurrentPageAction({ page: 6 }));
+
+      setLoading(false);
+    }
   };
 
   return (
-    <ChooseBankAccountWrap style={{flexGrow: '1'}}>
-      <div style={{flexGrow: '1'}}>
-        <MainText style={{margin:'1rem 0 0',padding:'0'}}>
+    <ChooseBankAccountWrap style={{ flexGrow: '1' }}>
+      <div style={{ flexGrow: '1' }}>
+        <MainText style={{ margin: '1rem 0 0', padding: '0' }}>
           <span className="yellowText">정산받을 계좌</span>
-          를<br/> 
+          를<br />
           알려주세요.
         </MainText>
 
         {/* 등록 계좌가 없을 때 */}
         <AddBankAccountWrap openStatus={isBankAccountStatus}>
           {/* Notice Div */}
-            <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', margin:'1.1563rem 0 1.2813rem'}}>
+          <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
             <div className="notice_sub_wrap align_center">
               <div>
                 <img className="notice_img" src={icon_notice_duck}></img>
@@ -178,7 +193,7 @@ const ChooseBankAccount = () => {
           </NoticeWrap>
 
           {/* 계좌 소유자 */}
-          <TitleWrap style={{marginTop:'0.9688rem'}}>계좌 소유자</TitleWrap>
+          <TitleWrap style={{ marginTop: '0.9688rem' }}>계좌 소유자</TitleWrap>
           <InputComponent
             id={"accountOwnerName"}
             type={"text"}
@@ -195,7 +210,7 @@ const ChooseBankAccount = () => {
               <span>{selectedBankName ? selectedBankName : '은행선택'}</span>
               <img src={icon_arrow_down}></img>
             </ChooseBankBtn>
-            <Input 
+            <Input
               type={'number'}
               placeholder={"계좌번호 (-제외)"}
               value={bankAccountNum}
@@ -221,20 +236,20 @@ const ChooseBankAccount = () => {
             <PartyIconWrap isFree={agreeStatus}>
               <PartyIcon src={icon_check} />
             </PartyIconWrap>
-            <PartyText style={{color:'#6a6a6a'}} className="notoMedium">
+            <PartyText style={{ color: '#6a6a6a' }} className="notoMedium">
               <span>[필수] </span>
-              <span style={{textDecoration:'underline'}}>개인정보 수집</span>
+              <span style={{ textDecoration: 'underline' }}>개인정보 수집</span>
               <span> 및 이용동의</span>
             </PartyText>
           </div>
 
           {/* 은행 선택 다이얼로그 */}
-          <ChooseBankDialog 
-            openStatus={isChooseBankClicked} 
-            deleteFunc={setIsChooseBankClicked} 
+          <ChooseBankDialog
+            openStatus={isChooseBankClicked}
+            deleteFunc={setIsChooseBankClicked}
             selectBankFunc={setSelectedBankName}
-            selectBankIdxFunc={setBankIdx}/>
-          
+            selectBankIdxFunc={setBankIdx} />
+
         </AddBankAccountWrap>
 
         {/* 등록 계좌가 있을 때 */}
@@ -243,8 +258,8 @@ const ChooseBankAccount = () => {
         </AccountSlideWrap>
       </div>
 
-      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
-      
+      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false} />
+
     </ChooseBankAccountWrap>
   );
 }
@@ -252,7 +267,7 @@ const ChooseBankAccount = () => {
 export default ChooseBankAccount;
 
 const AddBankAccountWrap = styled.div`
-  display: ${props => props.openStatus ? 'none':'block'};
+  display: ${props => props.openStatus ? 'none' : 'block'};
 `;
 
 const ChooseBankAccountWrap = styled.div`
@@ -306,14 +321,14 @@ const AccountSlideWrap = styled.div`
   display: ${props => props.openStatus ? 'block' : 'none'};
 `
 
-export const ChooseBankDialog = ({openStatus, deleteFunc, selectBankFunc, selectBankIdxFunc}) => {
+export const ChooseBankDialog = ({ openStatus, deleteFunc, selectBankFunc, selectBankIdxFunc }) => {
 
   const [normalBankList, setNormalBankList] = useState([]);
   const [stockBankList, setStockBankList] = useState([]);
 
   useEffect(() => {
     getBankList();
-  },[])
+  }, [])
 
   const getBankList = async () => {
     const bankUri = '/party/bankInfo';
@@ -325,7 +340,7 @@ export const ChooseBankDialog = ({openStatus, deleteFunc, selectBankFunc, select
     if (data.statusCode !== 200) { return };
 
     console.log('API 호출 성공 :', data);
-    setNormalBankList(data.result.normalBank); 
+    setNormalBankList(data.result.normalBank);
     setStockBankList(data.result.stockBank);
   }
   const onClickDeleteDialog = () => {

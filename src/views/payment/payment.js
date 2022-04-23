@@ -21,6 +21,7 @@ import BottomButton from "../../components/party/BottomButton";
 import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/loading";
 import { AnalyPageReloadTrueAction } from "../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../reducers/main/subscribe";
+import ChoiceDialog from "../../components/party/ChoiceDialog";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -57,6 +58,8 @@ const Payment = () => {
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
+
+  const [paymentPopupStatus, setPaymentPopupStatus] = useState(false);
 
   //local state
   const [cardIdx, setCardIdx] = useState();
@@ -100,7 +103,7 @@ const Payment = () => {
       setPageConfirmStatus(false);
     }
 
-    if(cardIdx===-1){
+    if (cardIdx === -1) {
       setPageConfirmStatus(false);
     }
   }, [cardIdx]);
@@ -119,11 +122,23 @@ const Payment = () => {
     }
   }, [isFree]);
 
+  //결제 클릭 함수
+  const handleClickPaymentOpen = () => {
+    if (!pageConfirmStatus) return;
+    setPaymentPopupStatus(true);
+  }
+
+  //삭제 팝업 취소 함수
+  const handleClickPaymentClose = () => {
+    setPaymentPopupStatus(false);
+  }
+
   //정보 입력 완료
   const onClickRevise = useCallback(async () => {
+    setPaymentPopupStatus(false);
+
     if (!pageConfirmStatus) return;
 
-  
     let uri = "";
 
     //일반적인 가입
@@ -170,6 +185,7 @@ const Payment = () => {
     history.push({
       pathname: '/payment/finish',
       props: {
+        partyIdx: partyId,
         openChatLink: partyOpenChatLink,
       }
     });
@@ -259,11 +275,21 @@ const Payment = () => {
           </div>
           <BottomButton
             text={(priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice)) + "원 결제"}
-            clickFunc={onClickRevise}
+            clickFunc={handleClickPaymentOpen}
             activeStatus={pageConfirmStatus}
           />
         </ContentWrap>
       </PageWrap>
+      {/* 결제 확인 팝업 */}
+      <ChoiceDialog
+        openStatus={paymentPopupStatus}
+        title={"정말 결제하시겠어요 ?"}
+        subTitle={`확인버튼을 누르면\n${priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice)}원이 결제 되고 파티에 가입되어요.`}
+        leftButtonText={"취소"}
+        rightButtonText={"확인"}
+        onClickLeft={handleClickPaymentClose}
+        onClickRight={onClickRevise}
+      />
     </div>
   );
 };
