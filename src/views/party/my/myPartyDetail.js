@@ -37,7 +37,7 @@ import { UpdatePartyAction } from "../../../reducers/party/detail";
 import { AnalyPageReloadTrueAction } from "../../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
 
-const MyPartyDetail = () => {
+const MyPartyDetail = ({ location }) => {
 
   // 테스트 코드
   let list = [];
@@ -243,7 +243,13 @@ const MyPartyDetail = () => {
 
     // 뒤로 가기
     setPageTrans('trans toLeft');
-    history.goBack();
+
+    if (location.props && location.props.isFinish === true) {
+      history.push('/party');
+    }
+    else {
+      history.goBack();
+    }
   };
 
   const openBottomDialog = () => {
@@ -719,7 +725,7 @@ const MyPartyDetail = () => {
       {/* 탈퇴 컨펌 창 */}
       <DangerDialog
         openStatus={deletePopupStatus}
-        title={"정말 해지하시겠습니까 ?"}
+        title={"정말 해지하시겠어요?"}
         subTitle={"내용 필요함"}
         leftButtonText={"취소"}
         rightButtonText={"확인"}
