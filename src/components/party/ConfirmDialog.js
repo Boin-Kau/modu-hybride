@@ -4,7 +4,6 @@ import styled from "styled-components";
 const ConfirmDialog = ({ title, subTitle, onClickConfirm, onClickCancel }) => {
 
   return (
-
     <>
       <div style={{ position: 'relative', height: '1.25rem' }}></div>
       <div className="title">{title}</div>
@@ -50,11 +49,10 @@ export const ConfirmPopup = styled.div`
   padding:0 1.125rem 1.125rem 1.125rem;
 
   text-align:center;
-
   opacity : ${props => props.openStatus ? '1' : '0'};
 
   .title {
-    font-size: 0.875rem;
+    font-size: 1.0625rem;
     line-height: 1.4375rem;
     font-family: 'Spoqa Han Sans';
     font-weight: 600;
@@ -64,9 +62,7 @@ export const ConfirmPopup = styled.div`
     font-weight: 500;
     font-size: 0.75rem;
     color: rgba(49,49,49,0.4);
-    margin: 0.625rem 1.6875rem 1.625rem;
-
-    line-height:1.3125rem;
+    margin: 0.6875rem 0.9375rem 0.9375rem 0.9375rem;
 
     white-space: pre-line;
   }
@@ -89,7 +85,7 @@ export const ConfirmPopup = styled.div`
     left: 50%;
     transform: translate(-50%,-50%);
     font-size: 0.875rem;
-    color: #000;
+    color: #ffffff;
   }
   .yellowButton {
     position: relative;

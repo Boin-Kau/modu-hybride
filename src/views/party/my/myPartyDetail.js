@@ -37,7 +37,7 @@ import { UpdatePartyAction } from "../../../reducers/party/detail";
 import { AnalyPageReloadTrueAction } from "../../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
 
-const MyPartyDetail = () => {
+const MyPartyDetail = ({ location }) => {
 
   // 테스트 코드
   let list = [];
@@ -77,7 +77,7 @@ const MyPartyDetail = () => {
   const [hostInfoPopupStatus, setHostInfoPopupStatus] = useState(false); //기존 파티장 정보 등록로직 처리
   const [userInfoBeforePopupStatus, setUserInfoBeforePopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 전)
   const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 후)
-  const [deleteopupStatus, setDeletePopupStatus] = useState(false); //정말 해지하시겠습니까 팝업
+  const [deletePopupStatus, setDeletePopupStatus] = useState(false); //정말 해지하시겠습니까 팝업
 
   const [finishPopupStatus, setFinishPopupStatus] = useState(false); //최종확인 팝업 데이터
   const [finishPopupTitle, setFinishPopupTitle] = useState(false); //최종확인 팝업 제목
@@ -243,7 +243,13 @@ const MyPartyDetail = () => {
 
     // 뒤로 가기
     setPageTrans('trans toLeft');
-    history.goBack();
+
+    if (location.props && location.props.isFinish === true) {
+      history.push('/party');
+    }
+    else {
+      history.goBack();
+    }
   };
 
   const openBottomDialog = () => {
@@ -718,8 +724,8 @@ const MyPartyDetail = () => {
 
       {/* 탈퇴 컨펌 창 */}
       <DangerDialog
-        openStatus={deleteopupStatus}
-        title={"정말 해지하시겠습니까 ?"}
+        openStatus={deletePopupStatus}
+        title={"정말 해지하시겠어요?"}
         subTitle={"내용 필요함"}
         leftButtonText={"취소"}
         rightButtonText={"확인"}
