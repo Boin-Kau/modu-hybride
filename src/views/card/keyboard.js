@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import delete_icon from "../../assets/ic_card_numberdelete@3x.png";
 
-const Keyboard = ({setKeyboardUp, num2, num3, setNum2, setNum3, three, setThree, four, setFour}) => {
+const Keyboard = ({setKeyboardUp, num2, num3, setNum2, setNum3, two, setTwo, three, setThree, handleChangeThree}) => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const [nums, setNums] = useState(nums_init);
 
@@ -21,43 +21,44 @@ const Keyboard = ({setKeyboardUp, num2, num3, setNum2, setNum3, three, setThree,
 
   const handlePasswordChange = useCallback(
     (num) => {
-      if(three){
+      if(two){
         if(num2.length>=4){
-          setThree(false);
-          setFour(true);
+          setTwo(false);
+          setThree(true);
           return;
        }
         setNum2(num2+num);
         if (num2.length >= 3) {
-          setThree(false);
-          setFour(true);
+          setTwo(false);
+          setThree(true);
        }
       }
 
-      if(four){
+      if(three){
         if(num3.length>=4){
-          setFour(false);
+          setThree(false);
           setKeyboardUp(false);
           return;
         }
         setNum3(num3+num);
         if (num3.length >= 3) {
-        setFour(false);
+        setThree(false);
         setKeyboardUp(false);
+        handleChangeThree();
        }
       }
     },
-    [three, four, num2, num3]
+    [two, three, num2, num3]
   );
 
   const erasePasswordOne = 
     (e) => {
-      if(three){
+      if(two){
         setNum2(
           num2.slice(0, num2.length === 0 ? 0 : num2.length - 1)
         );
       }
-      if(four){
+      if(three){
         setNum3(
           num3.slice(0, num3.length === 0 ? 0 : num3.length - 1)
         );
@@ -76,11 +77,11 @@ const Keyboard = ({setKeyboardUp, num2, num3, setNum2, setNum3, three, setThree,
 
   const closeKeyboard = () =>{
     setKeyboardUp(false);
+    if(two===true){
+      setTwo(false);
+    }
     if(three===true){
       setThree(false);
-    }
-    if(four===true){
-      setFour(false);
     }
   }
 

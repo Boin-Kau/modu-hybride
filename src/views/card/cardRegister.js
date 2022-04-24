@@ -41,8 +41,8 @@ const CardRegister = () => {
 
   //키보드 관련 state
   const [keyboardUp, setKeyboardUp] = useState(false);
+  const [focusTwo, setFocusTwo] = useState(false);
   const [focusThree, setFocusThree] = useState(false);
-  const [focusFour, setFocusFour] = useState(false);
   const [keyboardNum, setKeyboardNum] = useState("");
 
   //state-카드정보
@@ -76,9 +76,9 @@ const CardRegister = () => {
   }, [num1, num2, num3, num4, cardNum]);
 
   useEffect(() => {
-    if (focusThree == true) {
+    if (focusTwo == true) {
       setNum3(keyboardNum);
-    } else if (focusFour == true) {
+    } else if (focusThree == true) {
       setNum4(keyboardNum);
     }
   }, [keyboardNum]);
@@ -102,11 +102,18 @@ const CardRegister = () => {
     setNum1(e.target.value);
     handleNextFocus(e, "num2");
     if(e.target.value.length ===4){
-      setFocusThree(true);
+      setFocusTwo(true);
       setKeyboardUp(true);
       document.activeElement.blur();
     }
   };
+
+  const handleChangeThree = () =>{
+    const nextRef = document.getElementById("num4");
+    if(nextRef){
+      nextRef.focus();
+    }
+  }
 
   const handleChangeFour = (e) => {
     if (e.target.value.length == 5) return false;
@@ -175,20 +182,20 @@ const CardRegister = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
-    if (focusFour == true) {
-      setFocusFour(false);
+    if (focusThree == true) {
+      setFocusThree(false);
     }
-    setFocusThree(true);
+    setFocusTwo(true);
   };
 
   const onClickKeyboardUpFour = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
-    if (focusThree == true) {
-      setFocusThree(false);
+    if (focusTwo == true) {
+      setFocusTwo(false);
     }
-    setFocusFour(true);
+    setFocusThree(true);
   };
 
   //정보 입력 완료
@@ -297,11 +304,11 @@ const CardRegister = () => {
                 onChange={handleChangeOne}
                 keyboardUp={keyboardUp}
                 setKeyboardUp={setKeyboardUp}
+                setFocusTwo={setFocusTwo}
                 setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
               />
               <Hypen>-</Hypen>
-              <InputWrap openStatus={focusThree}>
+              <InputWrap openStatus={focusTwo}>
                 <Input onClick={onClickKeyboardUpThree}>
                   {num2.length === 0 ? (
                     <span className="placeholder">0000</span>
@@ -313,7 +320,7 @@ const CardRegister = () => {
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
-              <InputWrap openStatus={focusFour}>
+              <InputWrap openStatus={focusThree}>
                 <Input onClick={onClickKeyboardUpFour}>
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
@@ -334,8 +341,8 @@ const CardRegister = () => {
                 onChange={handleChangeFour}
                 keyboardUp={keyboardUp}
                 setKeyboardUp={setKeyboardUp}
+                setFocusTwo={setFocusTwo}
                 setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
               />
             </ItemWrap>
           </div>
@@ -363,8 +370,8 @@ const CardRegister = () => {
                 onChange={onChangeExpire}
                 keyboardUp={keyboardUp}
                 setKeyboardUp={setKeyboardUp}
+                setFocusTwo={setFocusTwo}
                 setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
               />
             </div>
             <div
@@ -384,8 +391,8 @@ const CardRegister = () => {
                 onChange={onChangePw}
                 keyboardUp={keyboardUp}
                 setKeyboardUp={setKeyboardUp}
+                setFocusTwo={setFocusTwo}
                 setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
               />
             </div>
           </div>
@@ -400,8 +407,8 @@ const CardRegister = () => {
               onChange={onChangeId}
               keyboardUp={keyboardUp}
               setKeyboardUp={setKeyboardUp}
+              setFocusTwo={setFocusTwo}
               setFocusThree={setFocusThree}
-              setFocusFour={setFocusFour}
             />
           </div>
           <div style={{ margin: "1.4375rem 0 0.75rem 0" }}>
@@ -475,14 +482,15 @@ const CardRegister = () => {
         {keyboardUp && (
           <Keyboard
             setKeyboardUp={setKeyboardUp}
-            num3={num3}
             num2={num2}
-            setNum3={setNum3}
+            num3={num3}
             setNum2={setNum2}
+            setNum3={setNum3}
+            two={focusTwo}
+            setTwo={setFocusTwo}
             three={focusThree}
             setThree={setFocusThree}
-            four={focusFour}
-            setFour={setFocusFour}
+            handleChangeThree={handleChangeThree}
           />
         )}
       </PageWrap>
