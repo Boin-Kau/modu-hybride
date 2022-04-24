@@ -244,10 +244,7 @@ const CardRegister = () => {
       cardPw &&
       expire &&
       identifyNumber &&
-      isFreeOne == "Y" &&
-      isFreeTwo == "Y" &&
-      isFreeThree == "Y" &&
-      isFreeFour == "Y"
+      isFreeOne == "Y"
     ) {
       setPageConfirmStatus(true);
     } else {
@@ -476,7 +473,7 @@ const CardRegister = () => {
           <BottomButton
             text={"확인"}
             clickFunc={onClickRevise}
-            ActiveStatus={pageConfirmStatus}
+            activeStatus={pageConfirmStatus}
           />
         </ContentWrap>
         {keyboardUp && (

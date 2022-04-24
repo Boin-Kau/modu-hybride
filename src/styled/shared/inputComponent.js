@@ -11,7 +11,7 @@ const InputComponent = ({
   keyboardUp,
   setKeyboardUp,
   setFocusThree,
-  setFocusFour
+  setFocusTwo
 }) => {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -28,8 +28,8 @@ const InputComponent = ({
           setIsFocus(true);
           if(keyboardUp===true){
             setKeyboardUp(false);
+            setFocusTwo(false);
             setFocusThree(false);
-            setFocusFour(false);
           }
         }}
         onBlur={(e) => {
