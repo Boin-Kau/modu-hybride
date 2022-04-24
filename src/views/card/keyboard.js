@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import delete_icon from "../../assets/ic_card_numberdelete@3x.png";
 
-const Keyboard = ({setKeyboardUp, num3, num4, setNum3, setNum4, three, setThree, four, setFour}) => {
+const Keyboard = ({setKeyboardUp, num2, num3, setNum2, setNum3, three, setThree, four, setFour}) => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const [nums, setNums] = useState(nums_init);
 
@@ -22,44 +22,44 @@ const Keyboard = ({setKeyboardUp, num3, num4, setNum3, setNum4, three, setThree,
   const handlePasswordChange = useCallback(
     (num) => {
       if(three){
-        if(num3.length>=4){
+        if(num2.length>=4){
           setThree(false);
           setFour(true);
           return;
        }
-        setNum3(num3+num);
-        if (num3.length >= 3) {
+        setNum2(num2+num);
+        if (num2.length >= 3) {
           setThree(false);
           setFour(true);
        }
       }
 
       if(four){
-        if(num4.length>=4){
+        if(num3.length>=4){
           setFour(false);
           setKeyboardUp(false);
           return;
         }
-        setNum4(num4+num);
-        if (num4.length >= 3) {
+        setNum3(num3+num);
+        if (num3.length >= 3) {
         setFour(false);
         setKeyboardUp(false);
        }
       }
     },
-    [three, four, num3, num4]
+    [three, four, num2, num3]
   );
 
   const erasePasswordOne = 
     (e) => {
       if(three){
-        setNum3(
-          num3.slice(0, num3.length === 0 ? 0 : num3.length - 1)
+        setNum2(
+          num2.slice(0, num2.length === 0 ? 0 : num2.length - 1)
         );
       }
       if(four){
-        setNum4(
-          num4.slice(0, num4.length === 0 ? 0 : num4.length - 1)
+        setNum3(
+          num3.slice(0, num3.length === 0 ? 0 : num3.length - 1)
         );
       }
     }

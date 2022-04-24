@@ -101,17 +101,17 @@ const CardRegister = () => {
     if (e.target.value.length == 5) return false;
     setNum1(e.target.value);
     handleNextFocus(e, "num2");
-  };
-
-  const handleChangeTwo = (e) => {
-    if (e.target.value.length == 5) return false;
-    setNum2(e.target.value);
-    handleNextFocus(e,"num3");
     if(e.target.value.length ===4){
       setFocusThree(true);
       setKeyboardUp(true);
       document.activeElement.blur();
     }
+  };
+
+  const handleChangeFour = (e) => {
+    if (e.target.value.length == 5) return false;
+    setNum4(e.target.value);
+    handleNextFocus(e,"expire");
   };
 
   const onChangeExpire = (e) => {
@@ -301,21 +301,20 @@ const CardRegister = () => {
                 setFocusFour={setFocusFour}
               />
               <Hypen>-</Hypen>
-              <InputComponent
-                id={"num2"}
-                type={"number"}
-                placeholder={"0000"}
-                maxLength={4}
-                value={num2}
-                onChange={handleChangeTwo}
-                keyboardUp={keyboardUp}
-                setKeyboardUp={setKeyboardUp}
-                setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
-              />
-              <Hypen>-</Hypen>
               <InputWrap openStatus={focusThree}>
                 <Input onClick={onClickKeyboardUpThree}>
+                  {num2.length === 0 ? (
+                    <span className="placeholder">0000</span>
+                  ) : (
+                    <span style={{ fontSize: "0.625rem" }}>
+                      {"●".repeat(num2.length)}
+                    </span>
+                  )}
+                </Input>
+              </InputWrap>
+              <Hypen>-</Hypen>
+              <InputWrap openStatus={focusFour}>
+                <Input onClick={onClickKeyboardUpFour}>
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
@@ -326,17 +325,18 @@ const CardRegister = () => {
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
-              <InputWrap openStatus={focusFour}>
-                <Input onClick={onClickKeyboardUpFour}>
-                  {num4.length === 0 ? (
-                    <span className="placeholder">0000</span>
-                  ) : (
-                    <span style={{ fontSize: "0.625rem" }}>
-                      {"●".repeat(num4.length)}
-                    </span>
-                  )}
-                </Input>
-              </InputWrap>
+              <InputComponent
+                id={"num4"}
+                type={"number"}
+                placeholder={"0000"}
+                maxLength={4}
+                value={num4}
+                onChange={handleChangeFour}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusThree={setFocusThree}
+                setFocusFour={setFocusFour}
+              />
             </ItemWrap>
           </div>
           <div
@@ -476,9 +476,9 @@ const CardRegister = () => {
           <Keyboard
             setKeyboardUp={setKeyboardUp}
             num3={num3}
-            num4={num4}
+            num2={num2}
             setNum3={setNum3}
-            setNum4={setNum4}
+            setNum2={setNum2}
             three={focusThree}
             setThree={setFocusThree}
             four={focusFour}
