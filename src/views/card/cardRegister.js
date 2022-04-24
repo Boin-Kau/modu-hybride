@@ -12,6 +12,8 @@ import {LoadingOpenAction,LoadingCloseAction} from "../../reducers/container/loa
 
 import icon_check from "../../assets/icon-check-white.svg";
 import icon_back from "../../assets/icon-back-arrow.svg";
+import check_g from "../../assets/ic_payregis_check_g@3x.png";
+import check_y from "../../assets/ic_payregis_check_y@3x.png";
 
 import {
   TitleWrap,
@@ -412,14 +414,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection:"row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeOne}
             >
-              <PartyIconWrap isFree={isFreeOne}>
-                <PartyIcon src={icon_check} />
-              </PartyIconWrap>
+              <CheckIcon src={isFreeOne==="Y" ? check_y : check_g} />
               <PartyText className="notoMedium">
                 19세 이상이며, 아래의 약관에 모두 동의합니다.
               </PartyText>
@@ -427,14 +427,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection:"row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeTwo}
             >
-              <PartyIconWrap isFree={isFreeTwo}>
-                <PartyIcon src={icon_check} />
-              </PartyIconWrap>
+              <CheckIcon src={isFreeTwo==="Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 모두의 이용 약관 및 개인정보 처리방침에 동의합니다.
               </PartyText>
@@ -442,14 +440,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection:"row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeThree}
             >
-              <PartyIconWrap isFree={isFreeThree}>
-                <PartyIcon src={icon_check} />
-              </PartyIconWrap>
+              <CheckIcon src={isFreeThree==="Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 본인의 개인정보를 제 3자에게 제공하는 데에 동의합니다.
               </PartyText>
@@ -457,13 +453,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
+                flexDirection:"row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeFour}
             >
-              <PartyIconWrap isFree={isFreeFour}>
-                <PartyIcon src={icon_check} />
-              </PartyIconWrap>
+              <CheckIcon src={isFreeFour==="Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 본인의 개인정보를 결제 서비스업체에 제공하는 데에 동의합니다.
               </PartyText>
@@ -534,6 +529,11 @@ const Hypen = styled.span`
   font-size: 0.9375rem;
   font-weight: 500;
   color: #888;
+`;
+
+const CheckIcon = styled.img`
+  width:1.1875rem;
+  height: 1.1875rem;
 `;
 
 export default CardRegister;
