@@ -6,6 +6,7 @@ const OneButtonDialog = ({ openStatus, title, subTitle, onClickConfirm, buttonTe
 
     <ConfirmWrapPopup openStatus={openStatus}>
       <ConfirmPopup openStatus={openStatus}>
+        <div style={{ position: 'relative', height: '1.25rem' }}></div>
         <div className="title">{title}</div>
         <div className="subtitle">{subTitle}</div>
         <div className="buttonDiv">
@@ -45,24 +46,23 @@ const ConfirmPopup = styled.div`
   box-shadow: 0 0 0.25rem 0.0625rem rgba(0, 0, 0, 0.05);
   background-color: #ffffff;
 
-  padding:2.5rem 1.125rem 1.8438rem 1.125rem;
+  padding:0 1.125rem 1.125rem 1.125rem;
 
   text-align:center;
-
   opacity : ${props => props.openStatus ? '1' : '0'};
 
   .title {
     font-size: 1.0625rem;
-    line-height: 1.3125rem;
+    line-height: 1.4375rem;
     font-family: 'Spoqa Han Sans';
     font-weight: 600;
   }
   .subtitle {
     font-family: 'Noto Sans KR';
     font-weight: 500;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     color: rgba(49,49,49,0.4);
-    margin: 0.5rem 0.875rem 0.8125rem 0.875rem;
+    margin: 0.6875rem 0.9375rem 0.9375rem 0.9375rem;
 
     white-space: pre-line;
   }

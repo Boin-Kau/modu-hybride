@@ -54,6 +54,7 @@ import AccountIdxChange from '../views/party/detail/accountIdxChange';
 import SignInPhoneAuth from '../views/login/loginStep/signInPhoneAuth';
 import SignUpTerm from '../views/login/loginStep/signUpTerm';
 import SignUpAuth from '../views/login/loginStep/signUpAuth';
+import SignUp from '../views/login/signUp';
 
 const AppLayout = () => {
 
@@ -69,6 +70,7 @@ const AppLayout = () => {
     return (
         <>
             <Route path='/' exact component={Splash} />
+            <Route path='/signup' exact component={SignUp} />
             <Route path='/login' exact component={Login} />
             <Route path='/inspection' exact component={Inspection} />
             <Route path='/main' exact component={Main} />

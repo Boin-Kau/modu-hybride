@@ -13,7 +13,7 @@ const PartyEnrollFinish = () => {
 
     const onClickConfrim = () => {
         setPageTrans('trans toRight');
-        histroy.push('/party');
+        histroy.push('/party/my');
     }
 
     return (

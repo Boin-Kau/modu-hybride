@@ -13,6 +13,8 @@ import { AddButton, CardWrap } from "./cardManagement";
 import icon_back from "../../assets/icon-back-arrow.svg";
 import blank_duck from "../../assets/ic_cardadmin_duck@2x.png"
 import BankComponent from "./bankComponent";
+import DangerDialog from "../../components/party/DangerDialog";
+import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../reducers/container/message";
 
 const BankAccountManagement = () => {
   const dispatch = useDispatch();
@@ -23,6 +25,11 @@ const BankAccountManagement = () => {
 
   //state
   const [cardData, setCardData] = useState([]);
+
+  //삭제 팝업
+  const [deletePopupStatus, setDeletePopupStatus] = useState(false);
+  //삭제 선택한 account idx
+  const [deleteAccountIdx, setDeleteAccountIdx] = useState(-1);
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -44,16 +51,74 @@ const BankAccountManagement = () => {
     //서버에러
     if (!data) return;
 
-    if (data.statusCode == 200) {
-      setCardData(data.result);
-      console.log(data);
-    }
-
     //벨리데이션
     if (data.statusCode != 200) {
       return;
     }
+
+    setCardData(data.result);
+
   }, []);
+
+  //삭제 버튼 클릭 함수
+  const handleClickDeleteOpen = (idx) => {
+    setDeletePopupStatus(true);
+    setDeleteAccountIdx(idx);
+  }
+
+  //삭제 팝업 취소 함수
+  const handleClickDeleteClose = () => {
+    setDeletePopupStatus(false);
+    setDeleteAccountIdx(-1);
+  }
+
+  //최종 삭제 함수
+  const handleClickDeleteConfirm = async () => {
+
+    if (deleteAccountIdx === -1) return
+
+    //서버통신
+    const res = await customApiClient("delete", `party/user/bankAccount/${deleteAccountIdx}`);
+
+    setDeletePopupStatus(false);
+    setDeleteAccountIdx(-1);
+
+    //서버에러
+    if (!res) {
+      alert("오류가 발생하였습니다. 관리자에게 문의해주세요.");
+      return;
+    }
+
+    //벨리데이션
+    if (res.statusCode != 200) {
+      alert(res.message);
+      return;
+    }
+
+    setCardData(cardData.filter((cardData) => cardData.idx !== deleteAccountIdx));
+
+    //토스트 메시지
+    //수정완료 팝업 띄우기
+    dispatch({
+      type: MessageWrapOpen
+    })
+    dispatch({
+      type: MessageOpen,
+      data: '계좌가 정상적으로 삭제되었어요.'
+    })
+
+    setTimeout(() => {
+      dispatch({
+        type: MessageClose
+      })
+    }, 2000);
+    setTimeout(() => {
+      dispatch({
+        type: MessageWrapClose
+      })
+    }, 2300);
+
+  }
 
   return (
     <div className="page">
@@ -102,6 +167,7 @@ const BankAccountManagement = () => {
                         id={card.idx}
                         cardData={cardData}
                         setCardData={setCardData}
+                        deleteFunc={handleClickDeleteOpen}
                       ></BankComponent>
                     </div>
                   );
@@ -109,6 +175,17 @@ const BankAccountManagement = () => {
               </div>
             )}
         </ContentWrap>
+
+        {/* 삭제 컨펌 창 */}
+        <DangerDialog
+          openStatus={deletePopupStatus}
+          title={"정말 삭제하실건가요 ?"}
+          subTitle={"해당 정보는 즉시 삭제되며,\n다시 되돌릴 수 없습니다."}
+          leftButtonText={"취소"}
+          rightButtonText={"확인"}
+          onClickLeft={handleClickDeleteClose}
+          onClickRight={handleClickDeleteConfirm}
+        />
       </PageWrap>
     </div>
   );
