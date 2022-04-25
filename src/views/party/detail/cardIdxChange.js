@@ -30,11 +30,6 @@ const CardIdxChange = ({ location }) => {
     history.goBack();
   };
 
-  const goToCardManage = () => {
-    setPageTrans("trans toRight");
-    history.push('/card/manage');
-  }
-
   const onClickPaymentChange = async () => {
     if(cardIdx !== -1) {
       const data = await customApiClient('patch', `party/${partyRoomIdx}/card/${cardIdx}`);
@@ -76,7 +71,6 @@ const CardIdxChange = ({ location }) => {
         <ContentWrap style={{ display: "flex", flexDirection: "column" }}>
           <TitleWrap>
             <span className="spoqaBold">결제 수단</span>
-            <div className="notoMedium manage-button" onClick={goToCardManage}>카드 관리</div>
           </TitleWrap>
           <Slide setCardIdx={setCardIdx} />
           <div style={{ flexGrow: "1" }} />
