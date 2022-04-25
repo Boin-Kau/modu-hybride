@@ -82,7 +82,7 @@ const CheckPartyData = () => {
     console.log('API 호출 성공 :', data);
 
     dispatch(UpdatePlatformAction({
-      selectedPlatformIdx: 0,
+      selectedPlatformIdx: null,
       selectedPlatformName: null,
       selectedPlatformCategoryIdx: null,
       selectedPlatformImgUrl: null,
