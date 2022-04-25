@@ -25,6 +25,7 @@ import { MainText } from "../../styled/shared/text";
 import InputComponent from "../../styled/shared/inputComponent";
 import Keyboard from "./keyboard";
 import BottomButton from "../../components/party/BottomButton";
+import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../reducers/container/message";
 
 const CardRegister = () => {
   const dispatch = useDispatch();
@@ -105,8 +106,8 @@ const CardRegister = () => {
   const handleChangeTwo = (e) => {
     if (e.target.value.length == 5) return false;
     setNum2(e.target.value);
-    handleNextFocus(e,"num3");
-    if(e.target.value.length ===4){
+    handleNextFocus(e, "num3");
+    if (e.target.value.length === 4) {
       setFocusThree(true);
       setKeyboardUp(true);
       document.activeElement.blur();
@@ -215,6 +216,28 @@ const CardRegister = () => {
       dispatch({ type: "PopupOpen" });
       return;
     }
+
+    //토스트 메시지
+    //수정완료 팝업 띄우기
+    dispatch({
+      type: MessageWrapOpen
+    })
+    dispatch({
+      type: MessageOpen,
+      data: '카드가 정상적으로 등록되었어요.'
+    })
+
+    setTimeout(() => {
+      dispatch({
+        type: MessageClose
+      })
+    }, 2000);
+    setTimeout(() => {
+      dispatch({
+        type: MessageWrapClose
+      })
+    }, 2300);
+
     //뒤로가기
     setPageTrans("trans toRight");
     history.goBack();
@@ -313,10 +336,10 @@ const CardRegister = () => {
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                    <span style={{ fontSize: "0.625rem" }}>
-                      {"●".repeat(num3.length)}
-                    </span>
-                  )}
+                      <span style={{ fontSize: "0.625rem" }}>
+                        {"●".repeat(num3.length)}
+                      </span>
+                    )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
@@ -325,10 +348,10 @@ const CardRegister = () => {
                   {num4.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                    <span style={{ fontSize: "0.625rem" }}>
-                      {"●".repeat(num4.length)}
-                    </span>
-                  )}
+                      <span style={{ fontSize: "0.625rem" }}>
+                        {"●".repeat(num4.length)}
+                      </span>
+                    )}
                 </Input>
               </InputWrap>
             </ItemWrap>

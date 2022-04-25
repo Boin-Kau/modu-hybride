@@ -13,8 +13,9 @@ import icon_back from "../../../assets/icon-back-arrow.svg";
 import AccountSlide from "../../payment/accountSlide";
 import BottomButton from "../../../components/party/BottomButton";
 import { customApiClient } from "../../../shared/apiClient";
+import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../../reducers/container/message";
 
-const AccountIdxChange = ({location}) => {
+const AccountIdxChange = ({ location }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -31,13 +32,13 @@ const AccountIdxChange = ({location}) => {
     history.goBack();
   };
 
-  const goToBankManage = () =>{
+  const goToBankManage = () => {
     setPageTrans("trans toRight");
     history.push('/bank/manage');
   }
 
   const onClickBankAcccountChange = async () => {
-    if(accountIdx !== -1) {
+    if (accountIdx !== -1) {
       const data = await customApiClient('patch', `/party/${partyRoomIdx}/bankAccount/${accountIdx}`);
 
       console.log(data.message);
@@ -47,6 +48,27 @@ const AccountIdxChange = ({location}) => {
       if (data.statusCode !== 200) { return };
 
       console.log('API 호출 성공 :', data);
+
+      //토스트 메시지
+      //수정완료 팝업 띄우기
+      dispatch({
+        type: MessageWrapOpen
+      })
+      dispatch({
+        type: MessageOpen,
+        data: '정산계좌가 정상적으로 변경되었어요.'
+      })
+
+      setTimeout(() => {
+        dispatch({
+          type: MessageClose
+        })
+      }, 2000);
+      setTimeout(() => {
+        dispatch({
+          type: MessageWrapClose
+        })
+      }, 2300);
 
       // 계좌 변경 완료 후, 원래 페이지로 이동
       closePage();
@@ -77,18 +99,18 @@ const AccountIdxChange = ({location}) => {
           </div>
           <TextMiddle>정산계좌 변경</TextMiddle>
         </HeaderWrap>
-        <ContentWrap style={{display:"flex", flexDirection:"column"}}>
+        <ContentWrap style={{ display: "flex", flexDirection: "column" }}>
           <TitleWrap>
             <span className="spoqaBold">계좌 목록</span>
             <div className="notoMedium manage-button" onClick={goToBankManage}>계좌 관리</div>
           </TitleWrap>
-          <AccountSlide setAccountIdx={setAccountIdx}/>
-          <div style={{flexGrow:"1"}}/>
-          <BottomButton 
+          <AccountSlide setAccountIdx={setAccountIdx} />
+          <div style={{ flexGrow: "1" }} />
+          <BottomButton
             clickFunc={onClickBankAcccountChange}
             text={"확인"}
             activeStatus={accountIdx === -1 ? false : true}
-            isBottomStatus={false}/>
+            isBottomStatus={false} />
         </ContentWrap>
       </PageWrap>
     </div>
