@@ -3,26 +3,10 @@ import styled from "styled-components";
 
 import delete_icon from "../../assets/ic_card_numberdelete@3x.png";
 
-const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour}) => {
+const Keyboard = ({setKeyboardUp, num2, num3, setNum2, setNum3, two, setTwo, three, setThree, handleChangeThree}) => {
   let nums_init = Array.from({ length: 10 }, (v, k) => k);
   const [nums, setNums] = useState(nums_init);
 
-
-  useEffect(() => {
-    if (number.length >= 4) {
-      setNum("");
-      console.log(number);
-      if(three===true){
-        setThree(false);
-        setFour(true);
-      }
-      if(four===true){
-        setFour(false);
-        setKeyboardUp(false);
-      }
-      return;
-    }
-  }, [number])
   
   const shuffle = (nums) => {
     let num_length = nums.length;
@@ -37,19 +21,49 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
 
   const handlePasswordChange = useCallback(
     (num) => {
-      setNum(number + num);
+      if(two){
+        if(num2.length>=4){
+          setTwo(false);
+          setThree(true);
+          return;
+       }
+        setNum2(num2+num);
+        if (num2.length >= 3) {
+          setTwo(false);
+          setThree(true);
+       }
+      }
+
+      if(three){
+        if(num3.length>=4){
+          setThree(false);
+          setKeyboardUp(false);
+          return;
+        }
+        setNum3(num3+num);
+        if (num3.length >= 3) {
+        setThree(false);
+        setKeyboardUp(false);
+        handleChangeThree();
+       }
+      }
     },
-    [number]
+    [two, three, num2, num3]
   );
 
-  const erasePasswordOne = useCallback(
+  const erasePasswordOne = 
     (e) => {
-      setNum(
-        number.slice(0, number.length === 0 ? 0 : number.length - 1)
-      );
-    },
-    [number]
-  );
+      if(two){
+        setNum2(
+          num2.slice(0, num2.length === 0 ? 0 : num2.length - 1)
+        );
+      }
+      if(three){
+        setNum3(
+          num3.slice(0, num3.length === 0 ? 0 : num3.length - 1)
+        );
+      }
+    }
 
   const shuffleNums = useCallback(
     (num) => (e) => {
@@ -63,14 +77,13 @@ const Keyboard = ({setKeyboardUp, number, setNum, three, setThree, four, setFour
 
   const closeKeyboard = () =>{
     setKeyboardUp(false);
+    if(two===true){
+      setTwo(false);
+    }
     if(three===true){
       setThree(false);
     }
-    if(four===true){
-      setFour(false);
-    }
   }
-
 
   return (
       <KeyboardWrap>

@@ -25,7 +25,7 @@ const Splash = () => {
 
   const goToLogin = () => {
     setPageTrans('trans toRight');
-    history.push("/signin/phone");
+    history.push("/login");
   };
 
   const goToSignUp = () => {

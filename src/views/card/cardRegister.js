@@ -8,9 +8,12 @@ import { PageTransContext } from "../../containers/pageTransContext";
 import { TextMiddle } from "../../styled/shared";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 import { PageWrap, HeaderWrap, ContentWrap } from "../../styled/shared/wrap";
+import {LoadingOpenAction,LoadingCloseAction} from "../../reducers/container/loading.js"
 
 import icon_check from "../../assets/icon-check-white.svg";
 import icon_back from "../../assets/icon-back-arrow.svg";
+import check_g from "../../assets/ic_payregis_check_g@3x.png";
+import check_y from "../../assets/ic_payregis_check_y@3x.png";
 
 import {
   TitleWrap,
@@ -40,8 +43,8 @@ const CardRegister = () => {
 
   //키보드 관련 state
   const [keyboardUp, setKeyboardUp] = useState(false);
+  const [focusTwo, setFocusTwo] = useState(false);
   const [focusThree, setFocusThree] = useState(false);
-  const [focusFour, setFocusFour] = useState(false);
   const [keyboardNum, setKeyboardNum] = useState("");
 
   //state-카드정보
@@ -75,9 +78,9 @@ const CardRegister = () => {
   }, [num1, num2, num3, num4, cardNum]);
 
   useEffect(() => {
-    if (focusThree == true) {
+    if (focusTwo == true) {
       setNum3(keyboardNum);
-    } else if (focusFour == true) {
+    } else if (focusThree == true) {
       setNum4(keyboardNum);
     }
   }, [keyboardNum]);
@@ -100,17 +103,24 @@ const CardRegister = () => {
     if (e.target.value.length == 5) return false;
     setNum1(e.target.value);
     handleNextFocus(e, "num2");
-  };
-
-  const handleChangeTwo = (e) => {
-    if (e.target.value.length == 5) return false;
-    setNum2(e.target.value);
-    handleNextFocus(e,"num3");
     if(e.target.value.length ===4){
-      setFocusThree(true);
+      setFocusTwo(true);
       setKeyboardUp(true);
       document.activeElement.blur();
     }
+  };
+
+  const handleChangeThree = () =>{
+    const nextRef = document.getElementById("num4");
+    if(nextRef){
+      nextRef.focus();
+    }
+  }
+
+  const handleChangeFour = (e) => {
+    if (e.target.value.length == 5) return false;
+    setNum4(e.target.value);
+    handleNextFocus(e,"expire");
   };
 
   const onChangeExpire = (e) => {
@@ -174,25 +184,28 @@ const CardRegister = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
-    if (focusFour == true) {
-      setFocusFour(false);
+    if (focusThree == true) {
+      setFocusThree(false);
     }
-    setFocusThree(true);
+    setFocusTwo(true);
   };
 
   const onClickKeyboardUpFour = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
     }
-    if (focusThree == true) {
-      setFocusThree(false);
+    if (focusTwo == true) {
+      setFocusTwo(false);
     }
-    setFocusFour(true);
+    setFocusThree(true);
   };
 
   //정보 입력 완료
   const onClickRevise = useCallback(async () => {
     if (!pageConfirmStatus) return;
+
+    //로딩시작 액션호출
+    dispatch(LoadingOpenAction);
 
     const data = await customApiClient("post", "/party/user/card", {
       cardNum: cardNum,
@@ -202,7 +215,9 @@ const CardRegister = () => {
       identifyNumber: identifyNumber,
     });
 
-    console.log(data);
+    //로딩종료 액션호출
+    dispatch(LoadingCloseAction);
+
     //서버에러
     if (!data) return;
 
@@ -231,10 +246,7 @@ const CardRegister = () => {
       cardPw &&
       expire &&
       identifyNumber &&
-      isFreeOne == "Y" &&
-      isFreeTwo == "Y" &&
-      isFreeThree == "Y" &&
-      isFreeFour == "Y"
+      isFreeOne == "Y"
     ) {
       setPageConfirmStatus(true);
     } else {
@@ -291,25 +303,24 @@ const CardRegister = () => {
                 onChange={handleChangeOne}
                 keyboardUp={keyboardUp}
                 setKeyboardUp={setKeyboardUp}
+                setFocusTwo={setFocusTwo}
                 setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
               />
               <Hypen>-</Hypen>
-              <InputComponent
-                id={"num2"}
-                type={"number"}
-                placeholder={"0000"}
-                maxLength={4}
-                value={num2}
-                onChange={handleChangeTwo}
-                keyboardUp={keyboardUp}
-                setKeyboardUp={setKeyboardUp}
-                setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
-              />
+              <InputWrap openStatus={focusTwo}>
+                <Input onClick={onClickKeyboardUpThree}>
+                  {num2.length === 0 ? (
+                    <span className="placeholder">0000</span>
+                  ) : (
+                    <span style={{ fontSize: "0.625rem" }}>
+                      {"●".repeat(num2.length)}
+                    </span>
+                  )}
+                </Input>
+              </InputWrap>
               <Hypen>-</Hypen>
               <InputWrap openStatus={focusThree}>
-                <Input onClick={onClickKeyboardUpThree}>
+                <Input onClick={onClickKeyboardUpFour}>
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
@@ -320,17 +331,18 @@ const CardRegister = () => {
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
-              <InputWrap openStatus={focusFour}>
-                <Input onClick={onClickKeyboardUpFour}>
-                  {num4.length === 0 ? (
-                    <span className="placeholder">0000</span>
-                  ) : (
-                    <span style={{ fontSize: "0.625rem" }}>
-                      {"●".repeat(num4.length)}
-                    </span>
-                  )}
-                </Input>
-              </InputWrap>
+              <InputComponent
+                id={"num4"}
+                type={"number"}
+                placeholder={"0000"}
+                maxLength={4}
+                value={num4}
+                onChange={handleChangeFour}
+                keyboardUp={keyboardUp}
+                setKeyboardUp={setKeyboardUp}
+                setFocusTwo={setFocusTwo}
+                setFocusThree={setFocusThree}
+              />
             </ItemWrap>
           </div>
           <div
@@ -357,8 +369,8 @@ const CardRegister = () => {
                 onChange={onChangeExpire}
                 keyboardUp={keyboardUp}
                 setKeyboardUp={setKeyboardUp}
+                setFocusTwo={setFocusTwo}
                 setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
               />
             </div>
             <div
@@ -378,8 +390,8 @@ const CardRegister = () => {
                 onChange={onChangePw}
                 keyboardUp={keyboardUp}
                 setKeyboardUp={setKeyboardUp}
+                setFocusTwo={setFocusTwo}
                 setFocusThree={setFocusThree}
-                setFocusFour={setFocusFour}
               />
             </div>
           </div>
@@ -394,22 +406,20 @@ const CardRegister = () => {
               onChange={onChangeId}
               keyboardUp={keyboardUp}
               setKeyboardUp={setKeyboardUp}
+              setFocusTwo={setFocusTwo}
               setFocusThree={setFocusThree}
-              setFocusFour={setFocusFour}
             />
           </div>
           <div style={{ margin: "1.4375rem 0 0.75rem 0" }}>
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection:"row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeOne}
             >
-              <PartyIconWrap isFree={isFreeOne}>
-                <PartyIcon src={icon_check} />
-              </PartyIconWrap>
+              <CheckIcon src={isFreeOne==="Y" ? check_y : check_g} />
               <PartyText className="notoMedium">
                 19세 이상이며, 아래의 약관에 모두 동의합니다.
               </PartyText>
@@ -417,14 +427,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection:"row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeTwo}
             >
-              <PartyIconWrap isFree={isFreeTwo}>
-                <PartyIcon src={icon_check} />
-              </PartyIconWrap>
+              <CheckIcon src={isFreeTwo==="Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 모두의 이용 약관 및 개인정보 처리방침에 동의합니다.
               </PartyText>
@@ -432,14 +440,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                alignItems: "center",
+                flexDirection:"row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeThree}
             >
-              <PartyIconWrap isFree={isFreeThree}>
-                <PartyIcon src={icon_check} />
-              </PartyIconWrap>
+              <CheckIcon src={isFreeThree==="Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 본인의 개인정보를 제 3자에게 제공하는 데에 동의합니다.
               </PartyText>
@@ -447,13 +453,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
+                flexDirection:"row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeFour}
             >
-              <PartyIconWrap isFree={isFreeFour}>
-                <PartyIcon src={icon_check} />
-              </PartyIconWrap>
+              <CheckIcon src={isFreeFour==="Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 본인의 개인정보를 결제 서비스업체에 제공하는 데에 동의합니다.
               </PartyText>
@@ -463,18 +468,21 @@ const CardRegister = () => {
           <BottomButton
             text={"확인"}
             clickFunc={onClickRevise}
-            ActiveStatus={pageConfirmStatus}
+            activeStatus={pageConfirmStatus}
           />
         </ContentWrap>
         {keyboardUp && (
           <Keyboard
             setKeyboardUp={setKeyboardUp}
-            number={keyboardNum}
-            setNum={setKeyboardNum}
+            num2={num2}
+            num3={num3}
+            setNum2={setNum2}
+            setNum3={setNum3}
+            two={focusTwo}
+            setTwo={setFocusTwo}
             three={focusThree}
             setThree={setFocusThree}
-            four={focusFour}
-            setFour={setFocusFour}
+            handleChangeThree={handleChangeThree}
           />
         )}
       </PageWrap>
@@ -521,6 +529,11 @@ const Hypen = styled.span`
   font-size: 0.9375rem;
   font-weight: 500;
   color: #888;
+`;
+
+const CheckIcon = styled.img`
+  width:1.1875rem;
+  height: 1.1875rem;
 `;
 
 export default CardRegister;
