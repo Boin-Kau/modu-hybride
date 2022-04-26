@@ -385,11 +385,11 @@ const PartyContent = ({ data, openAuthPopup, authPopupStatus }) => {
     const [openStatus, setOpenStatue] = useState(false);
 
     const openCard = () => {
-        // if (data.roomStatus === "COMPELETE") return
+        if (data.roomStatus === "COMPELETE") return
 
-        // if (!openStatus) {
-        //     GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DETAIL);
-        // }
+        if (!openStatus) {
+            GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DETAIL);
+        }
         setOpenStatue(!openStatus)
     }
 
