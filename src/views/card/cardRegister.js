@@ -8,7 +8,7 @@ import { PageTransContext } from "../../containers/pageTransContext";
 import { TextMiddle } from "../../styled/shared";
 import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 import { PageWrap, HeaderWrap, ContentWrap } from "../../styled/shared/wrap";
-import {LoadingOpenAction,LoadingCloseAction} from "../../reducers/container/loading.js"
+import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/loading.js"
 
 import icon_check from "../../assets/icon-check-white.svg";
 import icon_back from "../../assets/icon-back-arrow.svg";
@@ -28,6 +28,7 @@ import { MainText } from "../../styled/shared/text";
 import InputComponent from "../../styled/shared/inputComponent";
 import Keyboard from "./keyboard";
 import BottomButton from "../../components/party/BottomButton";
+import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../reducers/container/message";
 
 const CardRegister = () => {
   const dispatch = useDispatch();
@@ -103,16 +104,16 @@ const CardRegister = () => {
     if (e.target.value.length == 5) return false;
     setNum1(e.target.value);
     handleNextFocus(e, "num2");
-    if(e.target.value.length ===4){
+    if (e.target.value.length === 4) {
       setFocusTwo(true);
       setKeyboardUp(true);
       document.activeElement.blur();
     }
   };
 
-  const handleChangeThree = () =>{
+  const handleChangeThree = () => {
     const nextRef = document.getElementById("num4");
-    if(nextRef){
+    if (nextRef) {
       nextRef.focus();
     }
   }
@@ -120,7 +121,7 @@ const CardRegister = () => {
   const handleChangeFour = (e) => {
     if (e.target.value.length == 5) return false;
     setNum4(e.target.value);
-    handleNextFocus(e,"expire");
+    handleNextFocus(e, "expire");
   };
 
   const onChangeExpire = (e) => {
@@ -230,6 +231,28 @@ const CardRegister = () => {
       dispatch({ type: "PopupOpen" });
       return;
     }
+
+    //토스트 메시지
+    //수정완료 팝업 띄우기
+    dispatch({
+      type: MessageWrapOpen
+    })
+    dispatch({
+      type: MessageOpen,
+      data: '카드가 정상적으로 등록되었어요.'
+    })
+
+    setTimeout(() => {
+      dispatch({
+        type: MessageClose
+      })
+    }, 2000);
+    setTimeout(() => {
+      dispatch({
+        type: MessageWrapClose
+      })
+    }, 2300);
+
     //뒤로가기
     setPageTrans("trans toRight");
     history.goBack();
@@ -312,10 +335,10 @@ const CardRegister = () => {
                   {num2.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                    <span style={{ fontSize: "0.625rem" }}>
-                      {"●".repeat(num2.length)}
-                    </span>
-                  )}
+                      <span style={{ fontSize: "0.625rem" }}>
+                        {"●".repeat(num2.length)}
+                      </span>
+                    )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
@@ -324,10 +347,10 @@ const CardRegister = () => {
                   {num3.length === 0 ? (
                     <span className="placeholder">0000</span>
                   ) : (
-                    <span style={{ fontSize: "0.625rem" }}>
-                      {"●".repeat(num3.length)}
-                    </span>
-                  )}
+                      <span style={{ fontSize: "0.625rem" }}>
+                        {"●".repeat(num3.length)}
+                      </span>
+                    )}
                 </Input>
               </InputWrap>
               <Hypen>-</Hypen>
@@ -414,12 +437,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                flexDirection:"row",
+                flexDirection: "row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeOne}
             >
-              <CheckIcon src={isFreeOne==="Y" ? check_y : check_g} />
+              <CheckIcon src={isFreeOne === "Y" ? check_y : check_g} />
               <PartyText className="notoMedium">
                 19세 이상이며, 아래의 약관에 모두 동의합니다.
               </PartyText>
@@ -427,12 +450,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                flexDirection:"row",
+                flexDirection: "row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeTwo}
             >
-              <CheckIcon src={isFreeTwo==="Y" ? check_y : check_g} />
+              <CheckIcon src={isFreeTwo === "Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 모두의 이용 약관 및 개인정보 처리방침에 동의합니다.
               </PartyText>
@@ -440,12 +463,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                flexDirection:"row",
+                flexDirection: "row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeThree}
             >
-              <CheckIcon src={isFreeThree==="Y" ? check_y : check_g} />
+              <CheckIcon src={isFreeThree === "Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 본인의 개인정보를 제 3자에게 제공하는 데에 동의합니다.
               </PartyText>
@@ -453,12 +476,12 @@ const CardRegister = () => {
             <div
               style={{
                 display: "flex",
-                flexDirection:"row",
+                flexDirection: "row",
                 marginBottom: "0.625rem",
               }}
               onClick={onClickIsFreeFour}
             >
-              <CheckIcon src={isFreeFour==="Y" ? check_y : check_g} />
+              <CheckIcon src={isFreeFour === "Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
                 본인의 개인정보를 결제 서비스업체에 제공하는 데에 동의합니다.
               </PartyText>

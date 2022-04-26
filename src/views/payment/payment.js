@@ -66,8 +66,6 @@ const Payment = () => {
 
   //initial logic
   useEffect(() => {
-    dispatch(BottomNavCloseAction);
-
     if (
       type &&
       selectedPartyIdx &&
@@ -79,6 +77,8 @@ const Payment = () => {
       selectedPartyPartyInfo &&
       selectedPartyMembershipInfo
     ) {
+      dispatch(BottomNavCloseAction);
+
       setPartyId(selectedPartyIdx);
       setPartyTitle(selectedPartyTitle);
       setPartyOpenChatLink(selectedPartyOpenChatLink);
@@ -90,6 +90,9 @@ const Payment = () => {
 
     } else {
       console.log("리덕스 초기화 감지");
+
+      setPageTrans("trans toLeft");
+      history.push("/party");
     }
   }, []);
 

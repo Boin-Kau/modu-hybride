@@ -29,7 +29,7 @@ import { GA_CATEOGRY, GA_PARTY_ACTION, GAEventSubmit } from '../../shared/gaSett
 import { UpdatePartyAction } from '../../reducers/party/detail';
 import { UpdateCurrentPageAction } from '../../reducers/party/enrollment/setPage';
 import ChoiceDialog from '../../components/party/ChoiceDialog';
-import duck_popup from  "../../assets/ic_selfcertification_duck@3x.png";
+import duck_popup from "../../assets/ic_selfcertification_duck@3x.png";
 import { UpdatePlatformAction } from '../../reducers/party/enrollment/platform';
 import { ResetAccount } from '../../reducers/party/enrollment/account';
 import { ResetPartyInfo } from '../../reducers/party/enrollment/partyInfo';
@@ -85,12 +85,12 @@ const Party = () => {
     }
 
     //본인인증페이지로 이동
-    const openAuth = () =>{
+    const openAuth = () => {
         setPageTrans('trans toRight');
         history.push('/signup/auth');
     }
 
-    const closePopup = () =>{
+    const closePopup = () => {
         setAuthPopupStatus(false);
     }
 
@@ -102,10 +102,10 @@ const Party = () => {
         //bottom nav logic
         dispatch(BottomNavOpenAction);
         // 파티 등록 서브 페이지 첫 페이지로 재설정
-        dispatch(UpdateCurrentPageAction({page: 1}));
+        dispatch(UpdateCurrentPageAction({ page: 1 }));
         // 파티 등록 리덕스 초기화
         dispatch(UpdatePlatformAction({
-            selectedPlatformIdx: 0,
+            selectedPlatformIdx: null,
             selectedPlatformName: null,
             selectedPlatformCategoryIdx: null,
             selectedPlatformImgUrl: null,
@@ -294,7 +294,7 @@ const Party = () => {
                             </div>
                             :
                             partyList.map((data, index) => {
-                                return (<PartyContent data={data} key={index} openAuthPopup={openAuthPopup} authPopupStatus={authPopupStatus}/>)
+                                return (<PartyContent data={data} key={index} openAuthPopup={openAuthPopup} authPopupStatus={authPopupStatus} />)
                             })
                         }
                         <div style={{ height: '6.25rem' }} />
@@ -338,16 +338,16 @@ const Party = () => {
 
             {/* 본인인증 팝업 */}
             <ChoiceDialog
-            openStatus={authPopupStatus}
-            imgUrl={duck_popup}
-            imgWidth={"5.7125"}
-            imgHeight={"7.9437"}
-            title={"모두의 서비스 이용을 위해 \n본인인증이 필요해요."}
-            subTitle={"구독계정 공유 서비스를 이용하기 위해 \n최초 1회 본인인증을 받고 있어요!"}
-            leftButtonText={"취소"}
-            rightButtonText={"확인"}
-            onClickRight={openAuth}
-            onClickLeft={closePopup}
+                openStatus={authPopupStatus}
+                imgUrl={duck_popup}
+                imgWidth={"5.7125"}
+                imgHeight={"7.9437"}
+                title={"모두의 서비스 이용을 위해 \n본인인증이 필요해요."}
+                subTitle={"구독계정 공유 서비스를 이용하기 위해 \n최초 1회 본인인증을 받고 있어요!"}
+                leftButtonText={"취소"}
+                rightButtonText={"확인"}
+                onClickRight={openAuth}
+                onClickLeft={closePopup}
             />
         </>
     )
@@ -385,11 +385,11 @@ const PartyContent = ({ data, openAuthPopup, authPopupStatus }) => {
     const [openStatus, setOpenStatue] = useState(false);
 
     const openCard = () => {
-        if (data.roomStatus === "COMPELETE") return
+        // if (data.roomStatus === "COMPELETE") return
 
-        if (!openStatus) {
-            GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DETAIL);
-        }
+        // if (!openStatus) {
+        //     GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DETAIL);
+        // }
         setOpenStatue(!openStatus)
     }
 
@@ -491,7 +491,7 @@ const PartyContent = ({ data, openAuthPopup, authPopupStatus }) => {
                         </DetailItemWrap>
                     </DetailRowWrap>
                     <div className="spoqaBold" style={{ display: 'flex' }}>
-                        <div onClick={() => { onClickDetailButton() } } style={{ position: 'relative', flexGrow: '1', height: "2.4375rem", backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
+                        <div onClick={() => { onClickDetailButton() }} style={{ position: 'relative', flexGrow: '1', height: "2.4375rem", backgroundColor: '#ffbc26', borderRadius: '0.375rem' }}>
                             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: '#ffffff', fontSize: '0.8125rem' }}>상세보기 </div>
                         </div>
                     </div>

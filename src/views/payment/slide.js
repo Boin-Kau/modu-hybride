@@ -8,21 +8,32 @@ import { customApiClient } from "../../shared/apiClient";
 
 import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
+import LoadingBox from "../../components/LoadingBox";
 
 const Slide = ({ setCardIdx }) => {
   //state
   const [cardData, setCardData] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  //로딩 스테이트
+  const [loading, setLoading] = useState(true);
+
   //life cycle
   useEffect(async () => {
+
+    setLoading(true);
+
     const data = await customApiClient("get", "/party/user/card");
 
     //서버에러
-    if (!data) return;
+    if (!data) {
+      setLoading(false);
+      return
+    };
 
     //벨리데이션
-    if (data.statusCode !== 200) {
+    if (data.statusCode != 200) {
+      setLoading(false);
       return;
     }
 
@@ -36,6 +47,8 @@ const Slide = ({ setCardIdx }) => {
     else {
       setCardIdx(data.result[0].idx);
     }
+
+    setLoading(false);
 
   }, []);
 
@@ -53,29 +66,31 @@ const Slide = ({ setCardIdx }) => {
 
   return (
     <div>
-      {cardData.length === 0 ? (
-        <Register />
-      ) : (
-          <Slider
-            {...settings}
-            afterChange={(current) => {
-              setCurrentSlide(current);
-            }}
-          >
-            {cardData.map((cardData, index) => {
-              return (
-                <div key={cardData.idx}>
-                  <Card
-                    cardImg={currentSlide === index ? ic_pay_cardtab : ic_pay_cardtab_g}
-                    cardName={cardData.cardName}
-                    cardNo={cardData.cardNo}
-                  />
-                </div>
-              );
-            })}
-            <Register card={true}/>
-          </Slider>
-        )}
+      {loading === true ?
+        <LoadingBox /> :
+        cardData.length === 0 ? (
+          <Register />
+        ) : (
+            <Slider
+              {...settings}
+              afterChange={(current) => {
+                setCurrentSlide(current);
+              }}
+            >
+              {cardData.map((cardData, index) => {
+                return (
+                  <div key={cardData.idx}>
+                    <Card
+                      cardImg={currentSlide === index ? ic_pay_cardtab : ic_pay_cardtab_g}
+                      cardName={cardData.cardName}
+                      cardNo={cardData.cardNo}
+                    />
+                  </div>
+                );
+              })}
+              <Register card={true} />
+            </Slider>
+          )}
     </div>
   );
 };

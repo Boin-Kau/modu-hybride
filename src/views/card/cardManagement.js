@@ -14,6 +14,7 @@ import blank_duck from "../../assets/ic_cardadmin_duck@2x.png"
 import CardComponent from "./cardComponent";
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../reducers/container/message";
 import DangerDialog from "../../components/party/DangerDialog";
+import LoadingBox from "../../components/LoadingBox";
 
 const CardManagement = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,9 @@ const CardManagement = () => {
 
   //state
   const [cardData, setCardData] = useState([]);
+
+  //로딩 스테이트
+  const [loading, setLoading] = useState(true);
 
   //삭제 팝업
   const [deletePopupStatus, setDeletePopupStatus] = useState(false);
@@ -46,18 +50,23 @@ const CardManagement = () => {
 
   //life cycle
   useEffect(async () => {
+    setLoading(true);
+
     const data = await customApiClient("get", "/party/user/card");
+
     //서버에러
-    if (!data) return;
+    // if (!data) return;
 
     if (data.statusCode == 200) {
       setCardData(data.result);
     }
 
     //벨리데이션
-    if (data.statusCode != 200) {
-      return;
-    }
+    // if (data.statusCode != 200) {
+    //   return;
+    // }
+
+    setLoading(false);
   }, []);
 
   //삭제 버튼 클릭 함수
@@ -150,30 +159,33 @@ const CardManagement = () => {
             </div>
             <AddButton className="notoMedium" onClick={gotoRegister}><span>+ 카드 추가</span></AddButton>
           </div>
-          {cardData.length === 0 ? (
-            <CardWrap>
-              <img src={blank_duck} />
-              <div className="notoBold title-text">등록된 카드가 없습니다.</div>
-              <div className="notoMedium sub-text">우측 상단의"카드추가"버튼을 통해<br /> 결제카드를 등록해주세요.</div>
-            </CardWrap>
-          ) : (
-              <div>
-                {cardData.map((card) => {
-                  return (
-                    <div key={card.idx}>
-                      <CardComponent
-                        cardName={card.cardName}
-                        cardNo={card.cardNo}
-                        id={card.idx}
-                        cardData={cardData}
-                        setCardData={setCardData}
-                        deleteFunc={handleClickDeleteOpen}
-                      ></CardComponent>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+          {loading === true ?
+            <LoadingBox /> :
+            cardData.length === 0 ? (
+              <CardWrap>
+                <img src={blank_duck} />
+                <div className="notoBold title-text">등록된 카드가 없습니다.</div>
+                <div className="notoMedium sub-text">우측 상단의"카드추가"버튼을 통해<br /> 결제카드를 등록해주세요.</div>
+              </CardWrap>
+            ) : (
+                <div>
+                  {cardData.map((card) => {
+                    return (
+                      <div key={card.idx}>
+                        <CardComponent
+                          cardName={card.cardName}
+                          cardNo={card.cardNo}
+                          id={card.idx}
+                          cardData={cardData}
+                          setCardData={setCardData}
+                          deleteFunc={handleClickDeleteOpen}
+                        ></CardComponent>
+                      </div>
+                    );
+                  })}
+                </div>
+              )
+          }
         </ContentWrap>
         {/* 삭제 컨펌 창 */}
         <DangerDialog

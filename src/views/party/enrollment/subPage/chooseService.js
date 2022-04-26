@@ -40,8 +40,6 @@ const ChooseService = () => {
     searchPlatformList,
   } = useSelector(state => state.main.platform);
 
-  const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
-
   //context
   const { setPageTrans } = useContext(PageTransContext);
 

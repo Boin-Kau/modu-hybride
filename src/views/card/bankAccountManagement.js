@@ -15,6 +15,7 @@ import blank_duck from "../../assets/ic_cardadmin_duck@2x.png"
 import BankComponent from "./bankComponent";
 import DangerDialog from "../../components/party/DangerDialog";
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../reducers/container/message";
+import LoadingBox from "../../components/LoadingBox";
 
 const BankAccountManagement = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,9 @@ const BankAccountManagement = () => {
 
   //state
   const [cardData, setCardData] = useState([]);
+
+  //로딩 스테이트
+  const [loading, setLoading] = useState(true);
 
   //삭제 팝업
   const [deletePopupStatus, setDeletePopupStatus] = useState(false);
@@ -47,16 +51,23 @@ const BankAccountManagement = () => {
 
   //life cycle
   useEffect(async () => {
-    const data = await customApiClient("get", "/party/user/bankAccount");
-    //서버에러
-    if (!data) return;
+    setLoading(true);
 
-    //벨리데이션
-    if (data.statusCode != 200) {
-      return;
+    const data = await customApiClient("get", "/party/user/bankAccount");
+
+    // //서버에러
+    // if (!data) return;
+
+    // //벨리데이션
+    // if (data.statusCode != 200) {
+    //   return;
+    // }
+
+    if (data.statusCode == 200) {
+      setCardData(data.result);
     }
 
-    setCardData(data.result);
+    setLoading(false);
 
   }, []);
 
@@ -150,30 +161,33 @@ const BankAccountManagement = () => {
             </div>
             <AddButton className="notoMedium" onClick={gotoRegister}><span>+ 계좌 추가</span></AddButton>
           </div>
-          {cardData.length === 0 ? (
-            <CardWrap>
-              <img src={blank_duck} />
-              <div className="notoBold title-text">등록된 계좌가 없습니다.</div>
-              <div className="notoMedium sub-text">우측 상단의"계좌추가"버튼을 통해<br /> 정산계좌를 등록해주세요.</div>
-            </CardWrap>
-          ) : (
-              <div>
-                {cardData.map((card) => {
-                  return (
-                    <div key={card.idx}>
-                      <BankComponent
-                        cardName={card.bankName}
-                        cardNo={card.bankAccountNum}
-                        id={card.idx}
-                        cardData={cardData}
-                        setCardData={setCardData}
-                        deleteFunc={handleClickDeleteOpen}
-                      ></BankComponent>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+          {loading === true ?
+            <LoadingBox /> :
+            cardData.length === 0 ? (
+              <CardWrap>
+                <img src={blank_duck} />
+                <div className="notoBold title-text">등록된 계좌가 없습니다.</div>
+                <div className="notoMedium sub-text">우측 상단의"계좌추가"버튼을 통해<br /> 정산계좌를 등록해주세요.</div>
+              </CardWrap>
+            ) : (
+                <div>
+                  {cardData.map((card) => {
+                    return (
+                      <div key={card.idx}>
+                        <BankComponent
+                          cardName={card.bankName}
+                          cardNo={card.bankAccountNum}
+                          id={card.idx}
+                          cardData={cardData}
+                          setCardData={setCardData}
+                          deleteFunc={handleClickDeleteOpen}
+                        ></BankComponent>
+                      </div>
+                    );
+                  })}
+                </div>
+              )
+          }
         </ContentWrap>
 
         {/* 삭제 컨펌 창 */}

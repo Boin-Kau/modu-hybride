@@ -27,10 +27,10 @@ const ChoosePayment = () => {
 
   const { originalPrice, nextPaymentDate, pricePerPerson, personnel } = useSelector(state => state.party.enrollment.payment);
 
-  const [membershipPrice, setMembershipPrice] = useState(originalPrice);
-  const [paymentDay, setPaymentDay] = useState(nextPaymentDate);
-  const [pricePerMember, setPricePerMember] = useState(pricePerPerson);
-  const [partyPersonel, setPartyPersonel] = useState(personnel);
+  const [membershipPrice, setMembershipPrice] = useState(originalPrice || "");
+  const [paymentDay, setPaymentDay] = useState(nextPaymentDate || "");
+  const [pricePerMember, setPricePerMember] = useState(pricePerPerson || "");
+  const [partyPersonel, setPartyPersonel] = useState(personnel || 0);
   const [formatPaymentDate, setFormatPaymentDate] = useState('');
 
   const [paymentDayOpen, setPaymentDayOpen] = useState(false);
@@ -58,7 +58,7 @@ const ChoosePayment = () => {
     list = [];
     if (partyPersonel) {
       list.push('파티장');
-      for (let i = 0; i < partyPersonel -1; i++) list.push('파티원');
+      for (let i = 0; i < partyPersonel - 1; i++) list.push('파티원');
       for (let i = partyPersonel; i < 4; i++) list.push('-');
       setTypeList(list);
     }
@@ -164,7 +164,7 @@ const ChoosePayment = () => {
           </MiniInfoDialog>
         </TitleWrap>
         <ItemWrap>
-          <InputWrap style={{alignItems:'center'}}>
+          <InputWrap style={{ alignItems: 'center' }}>
             <Input type="number" placeholder="실제 멤버십 금액을 입력해주세요" onChange={handleChangeMembershipPrice} value={membershipPrice}></Input>
             <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
@@ -207,7 +207,7 @@ const ChoosePayment = () => {
         {/* 1인당 결제 금액 */}
         <TitleWrap style={{ marginTop: '0.5rem' }}>1인당 결제 금액</TitleWrap>
         <ItemWrap>
-          <InputWrap style={{alignItems:'center'}}>
+          <InputWrap style={{ alignItems: 'center' }}>
             <Input type="number" placeholder="1인당 내야할 금액을 입력해주세요" onChange={handleChangePricePerMember} value={pricePerMember}></Input>
             <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
@@ -263,7 +263,7 @@ const ChoosePayment = () => {
             <div className="notice_text">
               <span className="weight_500">{today.getDate() > paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
               부터 정산이 시작될 예정이에요. {priceToString(membershipPrice || 0)}원의 멤버십에서
-              <span className="weight_600"> {priceToString(pricePerMember * (partyPersonel-1) || 0)}원을 아낄 수 </span>
+              <span className="weight_600"> {priceToString(pricePerMember * (partyPersonel - 1) || 0)}원을 아낄 수 </span>
               있네요!
             </div>
           </div>
