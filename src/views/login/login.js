@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { LoginButton, LoginInput, TextMiddle } from '../../styled/shared';
 
@@ -16,16 +16,11 @@ import Fade from 'react-reveal/Fade';
 
 
 import { customApiClient } from '../../shared/apiClient';
-import { BottomNavOpenAction, BottomNavCloseAction } from '../../reducers/container/bottomNav';
+import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
 import { UserInfoUpdate } from '../../reducers/info/user';
 import PhoneChangePage from './phoneChange';
 import { PageWrapOpen, PageOpen, LoginSubPageKind } from '../../reducers/info/page';
 
-
-import { onClickTerminate, checkMobile } from '../../App';
-import { PartyIconWrap, PartyIcon } from '../../styled/main/enrollment';
-
-import UpdatePopUp from '../popup/update';
 import { PageTransContext } from '../../containers/pageTransContext';
 import { GA_CATEOGRY, GA_USER_ACTION, GAEventSubmit } from '../../shared/gaSetting';
 import { HeaderWrap, PageWrap } from '../../styled/shared/wrap';
@@ -37,7 +32,6 @@ const Login = () => {
     //모듈 선언
     const history = useHistory();
     const dispatch = useDispatch();
-    const location = useLocation();
 
     //context
     const { setPageTrans } = useContext(PageTransContext);
@@ -48,28 +42,19 @@ const Login = () => {
         openLoginPhonePageStatus
     } = useSelector(state => state.info.page);
 
-    //강제 업데이트 팝업
-    const [updatePopupStatus, setUpdatePopupStatus] = useState(false);
 
     //현재 페이지
     const [currentPage, setCurrentPage] = useState(1);
-
-    //현재 페이지의 타이틀
-    const [currentPageTitle, setCurrentPageTitle] = useState("휴대폰 번호를\n입력해주세요.");
 
     //페이지내 최종 벨리데이션
     const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
 
     //페이지별 벨리데이션
-    const [namePageStatus, setNamePageStatus] = useState(false);
     const [phoneNumberPageStatus, setPhoneNumberPageStatus] = useState(false);
     const [phoneAuthPageStatus, setphoneAuthPageStatus] = useState(false);
-    const [etcPageStatus, setEtcPageStatus] = useState(true);
-    const [agreePageStatus, setAgreePageStatus] = useState(false);
 
 
-    //회원가입 데이터
-    const [name, setName] = useState('');
+    //input 데이터
     const [phoneNumber, setPhoneNumber] = useState('');
     const [phoneAuthCode, setPhoneAuthCode] = useState('');
 
@@ -81,90 +66,31 @@ const Login = () => {
 
 
     //에러 메세지
-    const [nameErrorText, setNameErrorText] = useState('');
     const [phoneErrorText, setPhoneErrorText] = useState('');
     const [timerErrorText, setTimerErrorText] = useState('');
 
 
-    //동의 데이터
-    const [totalAgree, setTotalAgree] = useState(false);
-    const [serviceAgree, setServiceAgree] = useState(false);
-    const [personAgree, setPersonAgree] = useState(false);
-    const [marketAgree, setMarketAgree] = useState(false);
-
     //확인버튼 텍스트
     const [buttonText, setButtonText] = useState('다음');
-
-    //페이지 랜더링 시
-    useEffect(() => {
-        dispatch(BottomNavCloseAction);
-
-        localStorage.removeItem('isFcmLoad');
-
-        const userPlatform = checkMobile();
-
-        if (userPlatform == 'android') {
-
-            //splash close 함수 호출
-            try {
-                window.android.closeSplash();
-            }
-            catch (err) {
-                console.log(err);
-            }
-
-        }
-        else if (userPlatform == 'ios') {
-
-            //splash close 함수 호출
-            try {
-                window.webkit.messageHandlers.closeSplash.postMessage("hihi");
-            }
-            catch (err) {
-                console.log(err);
-            }
-
-        }
-
-        //앱 버전 체크
-        const verson = localStorage.getItem('versonName');
-
-        if (!verson || verson < '2.0.0') {
-            if (process.env.NODE_ENV !== 'development') {
-                setUpdatePopupStatus(true);
-            }
-        }
-
-        //이름 찾기 완료시 바로 입력되게 처리
-        if (location.props && location.props.name) {
-            setName(location.props.name);
-            setNameErrorText("");
-            setPageConfirmStatus(true);
-            setNamePageStatus(true);
-        }
-
-    }, []);
-
 
     const onClickBackButton = () => {
 
         //currentPage 값과 pageStatus 값으로 검증 후 넘겨주기
         switch (currentPage) {
             case 1:
-                onClickTerminate();
+                setPageTrans('trans toLeft');
+                history.goBack();
                 break
             case 2:
                 setCurrentPage(1);
                 setPageConfirmStatus(true);
                 setCodeInputAccess(false);
                 clearInterval(intervalId);
-                setphoneAuthPageStatus(false)
-                setCurrentPageTitle("휴대폰 번호를\n 입력해주세요.");
+                setphoneAuthPageStatus(false);
                 break
             case 3:
                 setCurrentPage(2);
                 setPageConfirmStatus(true);
-                setCurrentPageTitle("인증번호를\n입력해주세요.");
                 break
             default:
                 break
@@ -178,7 +104,7 @@ const Login = () => {
         if (currentPage == 1 && phoneNumberPageStatus) {
 
             //애플 검수를 위한 임시 로그인 처리
-            if (name == '이기택' && phoneNumber == '01092756351') {
+            if (phoneNumber == '01092756351') {
 
                 await localStorage.setItem('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHgiOjIsIm5hbWUiOiLsnbTquLDtg50iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTYyNDI4NjMxNCwiZXhwIjoxNjU1ODIyMzE0fQ.bnZz0MZW8VcRAAKOU8PzG8y68Ur1RoiFMJv9W3GYChI');
 
@@ -220,7 +146,6 @@ const Login = () => {
             setPhoneErrorText('');
             beginTimer();
             setCurrentPage(2);
-            setCurrentPageTitle("인증번호를\n입력해주세요.");
             setPageConfirmStatus(phoneAuthPageStatus);
             return
         }
@@ -242,12 +167,6 @@ const Login = () => {
                 return
             }
 
-            //회원가입 로직
-            if (data.statusCode == 100) {
-
-                return
-            }
-
             //로그인 로직
             if (data.statusCode == 200) {
                 clearInterval(intervalId);
@@ -261,11 +180,6 @@ const Login = () => {
                     alert("오류가 발생하였습니다. 다시 시도해주세요.");
                     return
                 }
-
-                // ReactGA.event({
-                //     category: 'User',
-                //     action: 'Login an Account'
-                // });
 
                 GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGIN);
 
@@ -377,7 +291,6 @@ const Login = () => {
 
         //인증번호 전송 API 호출
         const data = await customApiClient('post', '/user/code/generate', {
-            name: name,
             phone: phoneNumber
         })
 
@@ -429,23 +342,23 @@ const Login = () => {
                 <PageWrap>
                     {/* 뒤로가기 버튼 */}
                     {currentPage &&
-                        <HeaderWrap id="back_link" className="spoqaBold" onClick={onClickBackButton} style={{boxShadow:"none"}}>
-                        <div
-                          style={{
-                            position: "absolute",
-                            top: "55%",
-                            left: "1.25rem",
-                            transform: "translate(0,-55%)",
-                          }}
-                        >
-                          <img src={icon_back}></img>
-                        </div>
-                        <TextMiddle>로그인</TextMiddle>
-                      </HeaderWrap>
+                        <HeaderWrap id="back_link" className="spoqaBold" onClick={onClickBackButton} style={{ boxShadow: "none" }}>
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    top: "55%",
+                                    left: "1.25rem",
+                                    transform: "translate(0,-55%)",
+                                }}
+                            >
+                                <img src={icon_back}></img>
+                            </div>
+                            <TextMiddle>로그인</TextMiddle>
+                        </HeaderWrap>
                     }
-    
+
                     {/* 내용 부분 */}
-    
+
                     {currentPage == 1 &&
                         <ContentWrap>
                             <MainText>
@@ -467,7 +380,7 @@ const Login = () => {
                             </div>
                         </ContentWrap>
                     }
-    
+
                     {currentPage == 2 &&
                         <ContentWrap>
                             <MainText>
@@ -494,14 +407,14 @@ const Login = () => {
                             </div>
                         </ContentWrap>
                     }
-    
-    
+
+
                     {/* 하단 '다음' 버튼 */}
                     <LoginButton className="spoqaBold" pageConfirmStatus={pageConfirmStatus} onClick={onclickNextButton}>
                         {buttonText}
                     </LoginButton>
-                    </PageWrap>   
-                </div>
+                </PageWrap>
+            </div>
 
             {/* 휴대폰 변경 안내 페이지 */}
             <div style={openLoginPhonePageWrapStatus ? { display: "block" } : { display: "none" }}>
@@ -511,21 +424,9 @@ const Login = () => {
                     </div>
                 </Fade>
             </div>
-
-            {/* 업데이트 팝업 */}
-            <UpdatePopUp openStatus={updatePopupStatus} />
         </>
     )
 };
-
-const TitleTextWrap = styled.div`
-    margin: 1.6875rem 0 3.0625rem 1.25rem;
-
-    font-size:1.25rem;
-    line-height:1.9375rem;
-
-    color:#313131;
-`;
 
 const ContentWrap = styled.div`
     display:flex;
@@ -533,63 +434,10 @@ const ContentWrap = styled.div`
     padding: 0 1.25rem;
 `;
 
-const BackIconWrap = styled.div`
-    position: absolute;
-    padding:0.9375rem 1.25rem;
-
-    border:1px solid red;
-    width: 100%;
-    top:0;
-    left:0;
-`;
-const BackIcon = styled.img`
-    width:0.9375rem;
-    height:0.8125rem;
-`;
-
 const ReGenerateButton = styled.div`
     padding: 0.375rem 0.7188rem 0.3125rem 0.7188rem;
     border-radius: 0.1875rem;
     background-color: ${props => props.activateStatus ? '#ffca17' : '#e3e3e3'};
-`;
-
-const EtcButtonWrap = styled.div`
-    display:flex;
-`;
-
-const EtcButton = styled.div`
-    flex-grow:1;
-    flex-basis:0;
-
-    background-color: ${props => props.selectedStatus ? '#ffca17' : '#e3e3e3'};
-    border-radius: ${props => props.type == 'age' ? '0.4375rem' : '0.25rem'};
-`;
-
-const EtcButtonIconWrap = styled.div`
-    position: relative;
-    margin:0.8125rem 0 0.125rem 0;
-`;
-
-const EtcButtonIcon = styled.img`
-    position: relative;
-    left:50%;
-    transform:translate(-50%,0);
-
-    width:1.75rem;
-    height:2.5625rem;
-`;
-
-const EtcButtonText = styled.div`
-    text-align:center;
-
-    /* border:1px solid red; */
-
-    color: ${props => props.selectedStatus ? '#ffffff' : '#313131'};
-    opacity: ${props => props.selectedStatus ? 1 : 0.4};
-
-    font-size: ${props => props.type == 'age' ? '0.875rem' : '0.75rem'};
-    line-height: ${props => props.type == 'age' && '1.4375rem'};
-    margin: ${props => props.type == 'age' ? '10px 0 7px 0' : '0 0 0.5rem 0'};
 `;
 
 export default Login;
