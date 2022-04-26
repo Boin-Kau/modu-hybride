@@ -277,6 +277,8 @@ const ChooseBankAccountWrap = styled.div`
   display: flex;
   flex-direction: column; 
   padding: 0 1.25rem;
+
+  overflow-x:hidden;
 `;
 
 const InputWrap = styled.div`
