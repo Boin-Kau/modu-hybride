@@ -336,6 +336,7 @@ const MyPartyDetail = ({ location }) => {
 
   //정기결제 실패 - 재결제하기
   const handleClickRePay = () => {
+
     // 리덕스 설정
     dispatch(UpdatePartyAction({
       type: "PENDING",
@@ -343,7 +344,7 @@ const MyPartyDetail = ({ location }) => {
       selectedPartyTitle: result.title,
       selectedPartyOpenChatLink: result.openChatLink,
       selectedPartyRoomStatus: result.roomStatus,
-      selectedPartyIsEnrolled: result.IsEnrolled,
+      selectedPartyIsEnrolled: result.isEnrolled,
       selectedPartyPlatformInfo: result.platformInfo,
       selectedPartyPartyInfo: result.partyInfo,
       selectedPartyMembershipInfo: result.membershipInfo,
@@ -432,6 +433,7 @@ const MyPartyDetail = ({ location }) => {
 
     setFinishPopupTitle("해지가 완료되었습니다.");
     setFinishPopupSubTitle("해지가 모두 완료되었습니다.\n해지된 데이터는 다시 조회할 수 없습니다.");
+    setRegularFailConfirmPopupStatus(false);
     setFinishPopupStatus(true);
 
     //소비분석 리로드

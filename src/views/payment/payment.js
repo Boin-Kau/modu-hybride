@@ -218,7 +218,7 @@ const Payment = () => {
           >
             <img src={icon_back}></img>
           </div>
-          <TextMiddle>파티참가</TextMiddle>
+          <TextMiddle>{type === "ENROLL" ? "파티참가" : "결제하기"}</TextMiddle>
         </HeaderWrap>
         <ContentWrap>
           <div style={{ margin: "0.75rem 0 1.125rem 0" }}>
