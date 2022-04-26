@@ -23,6 +23,7 @@ import Card from "../../../payment/card";
 
 import { UpdateBankAccountAction } from "../../../../reducers/party/enrollment/bankAccount";
 import AccountSlide from "../../../payment/accountSlide";
+import LoadingBox from "../../../../components/LoadingBox";
 
 const ChooseBankAccount = () => {
 
@@ -47,6 +48,9 @@ const ChooseBankAccount = () => {
   const [selectedBankName, setSelectedBankName] = useState('');
   const [isBankAccountStatus, setIsBankAccountStatus] = useState(false);
   const [bankAccountList, setBankAccountList] = useState([]);
+
+  //로딩 스테이트
+  const [cardListLoading, setCardListLoading] = useState(true);
 
   useEffect(() => {
     dispatch(UpdateBankAccountAction({
@@ -73,13 +77,23 @@ const ChooseBankAccount = () => {
   }, [accountOwnerName, selectedBankName, bankAccountNum, agreeStatus, bankAccountIdx])
 
   const getBankAccountList = async () => {
+
+    setCardListLoading(true);
+
     const bankAccountUri = '/party/user/bankAccount';
     const data = await customApiClient('get', bankAccountUri);
 
     // Server Error
-    if (!data) { return };
+    if (!data) {
+      setCardListLoading(false);
+      return
+    };
     // Validation 
-    if (data.statusCode !== 200) { return }
+    if (data.statusCode !== 200) {
+      setCardListLoading(false);
+      return
+    }
+
     // 등록된 정산계좌 유무 확인
     if (data.result.length === 0) {
       setIsBankAccountStatus(false);
@@ -91,6 +105,8 @@ const ChooseBankAccount = () => {
 
     console.log('API 호출 성공 :', data);
     setBankAccountList(data.result);
+
+    setCardListLoading(false);
   };
 
   const handleChangeAccountOwnerName = (e) => {
@@ -177,88 +193,93 @@ const ChooseBankAccount = () => {
           알려주세요.
         </MainText>
 
-        {/* 등록 계좌가 없을 때 */}
-        <AddBankAccountWrap openStatus={isBankAccountStatus}>
-          {/* Notice Div */}
-          <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
-            <div className="notice_sub_wrap align_center">
-              <div>
-                <img className="notice_img" src={icon_notice_duck}></img>
-              </div>
-              <div className="notice_text_div">
-                파티금액을
+        {cardListLoading === true ?
+          <LoadingBox /> :
+          <div>
+            {/* 등록 계좌가 없을 때 */}
+            <AddBankAccountWrap openStatus={isBankAccountStatus}>
+              {/* Notice Div */}
+              <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
+                <div className="notice_sub_wrap align_center">
+                  <div>
+                    <img className="notice_img" src={icon_notice_duck}></img>
+                  </div>
+                  <div className="notice_text_div">
+                    파티금액을
                 <span className="boldText"> 입금받을 계좌</span>
                 를 알려주세요. 계좌는 본인명의의 계좌만 등록이 가능합니다.
               </div>
-            </div>
-          </NoticeWrap>
+                </div>
+              </NoticeWrap>
 
-          {/* 계좌 소유자 */}
-          <TitleWrap style={{ marginTop: '0.9688rem' }}>계좌 소유자</TitleWrap>
-          <InputComponent
-            id={"accountOwnerName"}
-            type={"text"}
-            placeholder={"계좌 소유자의 이름을 입력해주세요."}
-            maxLength={200}
-            value={accountOwnerName}
-            onChange={handleChangeAccountOwnerName}
-          />
+              {/* 계좌 소유자 */}
+              <TitleWrap style={{ marginTop: '0.9688rem' }}>계좌 소유자</TitleWrap>
+              <InputComponent
+                id={"accountOwnerName"}
+                type={"text"}
+                placeholder={"계좌 소유자의 이름을 입력해주세요."}
+                maxLength={200}
+                value={accountOwnerName}
+                onChange={handleChangeAccountOwnerName}
+              />
 
-          {/* 계좌번호 */}
-          <TitleWrap >계좌 번호</TitleWrap>
-          <InputWrap openStatus={isFocus}>
-            <ChooseBankBtn onClick={onClickChooseBank}>
-              <span>{selectedBankName ? selectedBankName : '은행선택'}</span>
-              <img src={icon_arrow_down}></img>
-            </ChooseBankBtn>
-            <Input
-              type={'number'}
-              placeholder={"계좌번호 (-제외)"}
-              value={bankAccountNum}
-              onChange={handleChangeBankAccountNum}
-              onFocus={(e) => {
-                setIsFocus(true);
-              }}
-              onBlur={(e) => {
-                setIsFocus(false);
-              }}
-            ></Input>
-          </InputWrap>
+              {/* 계좌번호 */}
+              <TitleWrap >계좌 번호</TitleWrap>
+              <InputWrap openStatus={isFocus}>
+                <ChooseBankBtn onClick={onClickChooseBank}>
+                  <span>{selectedBankName ? selectedBankName : '은행선택'}</span>
+                  <img src={icon_arrow_down}></img>
+                </ChooseBankBtn>
+                <Input
+                  type={'number'}
+                  placeholder={"계좌번호 (-제외)"}
+                  value={bankAccountNum}
+                  onChange={handleChangeBankAccountNum}
+                  onFocus={(e) => {
+                    setIsFocus(true);
+                  }}
+                  onBlur={(e) => {
+                    setIsFocus(false);
+                  }}
+                ></Input>
+              </InputWrap>
 
-          {/* 개인정보 동의 체크박스 */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: "0.75rem",
-            }}
-            onClick={onClickCheckBox}
-          >
-            <PartyIconWrap isFree={agreeStatus}>
-              <PartyIcon src={icon_check} />
-            </PartyIconWrap>
-            <PartyText style={{ color: '#6a6a6a' }} className="notoMedium">
-              <span>[필수] </span>
-              <span style={{ textDecoration: 'underline' }}>개인정보 수집</span>
-              <span> 및 이용동의</span>
-            </PartyText>
+              {/* 개인정보 동의 체크박스 */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "0.75rem",
+                }}
+                onClick={onClickCheckBox}
+              >
+                <PartyIconWrap isFree={agreeStatus}>
+                  <PartyIcon src={icon_check} />
+                </PartyIconWrap>
+                <PartyText style={{ color: '#6a6a6a' }} className="notoMedium">
+                  <span>[필수] </span>
+                  <span style={{ textDecoration: 'underline' }}>개인정보 수집</span>
+                  <span> 및 이용동의</span>
+                </PartyText>
+              </div>
+
+              {/* 은행 선택 다이얼로그 */}
+              <ChooseBankDialog
+                openStatus={isChooseBankClicked}
+                deleteFunc={setIsChooseBankClicked}
+                selectBankFunc={setSelectedBankName}
+                selectBankIdxFunc={setBankIdx} />
+
+            </AddBankAccountWrap>
+
+            {/* 등록 계좌가 있을 때 */}
+            <AccountSlideWrap openStatus={isBankAccountStatus}>
+              <AccountSlide
+                setAccountIdx={setBankAccountIdx}
+                setBankAccountOpenStatus={setIsBankAccountStatus} />
+            </AccountSlideWrap>
           </div>
-
-          {/* 은행 선택 다이얼로그 */}
-          <ChooseBankDialog
-            openStatus={isChooseBankClicked}
-            deleteFunc={setIsChooseBankClicked}
-            selectBankFunc={setSelectedBankName}
-            selectBankIdxFunc={setBankIdx} />
-
-        </AddBankAccountWrap>
-
-        {/* 등록 계좌가 있을 때 */}
-        <AccountSlideWrap openStatus={isBankAccountStatus}>
-          <AccountSlide
-            setAccountIdx={setBankAccountIdx}
-            setBankAccountOpenStatus={setIsBankAccountStatus} />
-        </AccountSlideWrap>
+        }
       </div>
 
       <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false} />
