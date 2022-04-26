@@ -2,12 +2,12 @@ export const initialState = {
     selectedBankIdx: null,
     selectedBankAccountUserName: null,
     selectedBankAccountNum: null,
-
     selectedBankAccountIdx: null, 
 };
 
 export const ResetBankAccount ='ResetBankAccount';
 const UpdateBankAccount = 'UpdateBankAccount';
+
 export const UpdateBankAccountAction = (data) => {
     return {
         type: UpdateBankAccount,
@@ -25,6 +25,18 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.data
+            }
+        }
+        case 'AddBankAccountPageOpen': {
+            return {
+                ...state, 
+                isBankAccountStatus: false,
+            }
+        }
+        case 'AddBankAccountPageClose': {
+            return {
+                ...state, 
+                isBankAccountStatus: false,
             }
         }
         default: {

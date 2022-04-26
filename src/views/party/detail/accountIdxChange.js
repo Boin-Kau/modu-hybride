@@ -31,11 +31,6 @@ const AccountIdxChange = ({location}) => {
     history.goBack();
   };
 
-  const goToBankManage = () =>{
-    setPageTrans("trans toRight");
-    history.push('/bank/manage');
-  }
-
   const onClickBankAcccountChange = async () => {
     if(accountIdx !== -1) {
       const data = await customApiClient('patch', `/party/${partyRoomIdx}/bankAccount/${accountIdx}`);
@@ -80,7 +75,6 @@ const AccountIdxChange = ({location}) => {
         <ContentWrap style={{display:"flex", flexDirection:"column"}}>
           <TitleWrap>
             <span className="spoqaBold">계좌 목록</span>
-            <div className="notoMedium manage-button" onClick={goToBankManage}>계좌 관리</div>
           </TitleWrap>
           <AccountSlide setAccountIdx={setAccountIdx}/>
           <div style={{flexGrow:"1"}}/>

@@ -9,7 +9,7 @@ import { customApiClient } from "../../shared/apiClient";
 import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
 
-const AccountSlide = ({setAccountIdx}) => {
+const AccountSlide = ({setAccountIdx, setBankAccountOpenStatus}) => {
   //state
   const [cardData, setCardData] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -54,7 +54,7 @@ const AccountSlide = ({setAccountIdx}) => {
   return (
     <div>
       {cardData.length === 0 ? (
-        <Register />
+        <Register setBankAccountOpenStatus={setBankAccountOpenStatus}/>
       ) : (
         <Slider
           {...settings}
@@ -73,7 +73,7 @@ const AccountSlide = ({setAccountIdx}) => {
                 </div>
             );
           })}
-          <Register card={false}/>
+          <Register card={false} setBankAccountOpenStatus={setBankAccountOpenStatus}/>
         </Slider>
       )}
     </div>
