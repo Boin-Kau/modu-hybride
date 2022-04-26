@@ -277,7 +277,7 @@ const MyPartyRevise = ({location}) => {
           </div>
         </SectionWrap>
 
-        <BottomButton clickFunc={onClickConfirmButton} text={'확인'} status={confirmBtnStatus}/>
+        <BottomButton clickFunc={onClickConfirmButton} text={'확인'} activeStatus={confirmBtnStatus} isBottomStatus={false}/>
       </ContentWrap>
 
     </div>

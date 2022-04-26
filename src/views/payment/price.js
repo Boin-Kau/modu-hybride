@@ -62,16 +62,18 @@ const Container = styled.div`
 
 const DetailButton = styled.div`
   border-radius: 0.375rem;
-  padding: 0.0938rem 0.3125rem;
+  padding: 0 0.3125rem;
   background-color: #f4f4f4;
   color: #5f5f5f;
   display: flex;
   margin-left: 0.25rem;
   align-items: center;
+  justify-content: center;
 
   span{
     display: flex;
     font-size: 0.625rem;
+    text-align: center;
   }
 `;
 

@@ -46,7 +46,7 @@ const SignUpName = () => {
 
       //이름 벨리데이션
       //한글 이름 2~4자 이내
-      const reg = /^[가-힣]{2,6}$/;
+      const reg = /^[가-힣]{2,5}$/;
 
       if (!reg.test(e.target.value)) {
         setPageConfirmStatus(false);
