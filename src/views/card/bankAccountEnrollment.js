@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import { ChooseBankDialog } from '../party/enrollment/subPage/chooseBankAccount';
 import BottomButton from '../../components/party/BottomButton';
 import { customApiClient } from '../../shared/apiClient';
+import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from '../../reducers/container/message';
 
 const BankAccountEnrollment = () => {
 
@@ -35,6 +36,7 @@ const BankAccountEnrollment = () => {
   const [bankAccountNum, setBankAccountNum] = useState('');
   const [agreeStatus, setAgreeStatus] = useState('N');
   const [bankIdx, setBankIdx] = useState(null);
+  const [enrollmentStatus, setEnrollmentStatus] = useState(false);
 
   //서버통신 로딩 state
   const [loading, setLoading] = useState(false);
@@ -42,6 +44,15 @@ const BankAccountEnrollment = () => {
   useEffect(() => {
     dispatch(BottomNavCloseAction);
   }, []);
+
+  useEffect(() => {
+    if (accountOwnerName && selectedBankName && bankAccountNum && (agreeStatus === 'Y')) {
+      setEnrollmentStatus(true);
+      return;
+    }
+    setEnrollmentStatus(false);
+
+  },[accountOwnerName, selectedBankName, bankAccountNum, agreeStatus])
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -69,6 +80,7 @@ const BankAccountEnrollment = () => {
   const onClickBankAccountEnrollment = async () => {
 
     if (loading) return
+    if (!enrollmentStatus) return
     setLoading(true);
 
     // 정산계좌가 없을 땐 정산계좌 등록 후 페이지 전환
@@ -94,8 +106,27 @@ const BankAccountEnrollment = () => {
 
     console.log('API 호출 성공 :', data);
 
+    dispatch({
+      type: MessageWrapOpen
+    })
+    dispatch({
+      type: MessageOpen,
+      data: '계좌가 정상적으로 등록되었어요.'
+    })
+
+    setTimeout(() => {
+      dispatch({
+        type: MessageClose
+      })
+    }, 2000);
+    setTimeout(() => {
+      dispatch({
+        type: MessageWrapClose
+      })
+    }, 2300);
+
     // 정산계좌 등록 완료 후 페이지 이동
-    closePage();
+    data.result.bankAccountIdx && closePage();
 
     setLoading(false);
   };
@@ -197,8 +228,8 @@ const BankAccountEnrollment = () => {
           <BottomButton
             clickFunc={onClickBankAccountEnrollment}
             text={"확인"}
-            activeStatus={true}
-            isBottomStatus={false} />
+            activeStatus={enrollmentStatus}
+            isBottomStatus={true} />
 
         </ContentWrap>
       </PageWrap>
