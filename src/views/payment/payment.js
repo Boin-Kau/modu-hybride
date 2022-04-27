@@ -22,6 +22,7 @@ import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/
 import { AnalyPageReloadTrueAction } from "../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../reducers/main/subscribe";
 import ChoiceDialog from "../../components/party/ChoiceDialog";
+import DetailPopup from "../popup/detailPopup";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -293,6 +294,8 @@ const Payment = () => {
         onClickLeft={handleClickPaymentClose}
         onClickRight={onClickRevise}
       />
+
+      {/* <DetailPopup/> */}
     </div>
   );
 };
