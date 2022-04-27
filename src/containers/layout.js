@@ -53,6 +53,7 @@ import AccountIdxChange from '../views/party/detail/accountIdxChange';
 import SignUpTerm from '../views/login/loginStep/signUpTerm';
 import SignUpAuth from '../views/login/loginStep/signUpAuth';
 import SignUp from '../views/login/signUp';
+import PartyEnrollmentPast from '../views/party/enrollment/enrollmentPast';
 
 const AppLayout = () => {
 
@@ -85,6 +86,7 @@ const AppLayout = () => {
             <Route path='/party/my/revise/:idx' exact component={MyPartyRevise} />
             <Route path='/party/my/detail/account' exact component={EditAccount} />
             <Route path='/party/enroll' exact component={PartyEnrollment} />
+            <Route path='/party/enroll/:idx' exact component={PartyEnrollmentPast} />
             <Route path='/party/enroll/platform' exact component={PartyPlatform} />
             <Route path='/party/enroll/platform/search' exact component={PartyPlatformSearch} />
             <Route path='/party/enroll/platform/detail' exact component={PartyPlatformDetail} />

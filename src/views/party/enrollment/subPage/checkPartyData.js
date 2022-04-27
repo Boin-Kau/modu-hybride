@@ -9,7 +9,7 @@ import PartyMembershipDiv from "../../../../components/party/PartyMembershipDiv"
 import BottomButton from "../../../../components/party/BottomButton";
 import { customApiClient } from "../../../../shared/apiClient";
 import { PageTransContext } from "../../../../containers/pageTransContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { UpdatePlatformAction } from "../../../../reducers/party/enrollment/platform";
 import { ResetAccount } from "../../../../reducers/party/enrollment/account";
 import { ResetPartyInfo } from "../../../../reducers/party/enrollment/partyInfo";
@@ -17,6 +17,7 @@ import { ResetPayment } from "../../../../reducers/party/enrollment/payment";
 import { ResetBankAccount } from "../../../../reducers/party/enrollment/bankAccount";
 import { AnalyPageReloadTrueAction } from "../../../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../../../reducers/main/subscribe";
+import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../../../reducers/container/message";
 
 const CheckPartyData = () => {
   const platformState = useSelector(state => state.party.enrollment.platform);
@@ -39,33 +40,68 @@ const CheckPartyData = () => {
   //서버통신 로딩 state
   const [loading, setLoading] = useState(false);
 
+  //기존 파티장 등록 로직
+  const { idx } = useParams();
+
   const enrollBtn = async () => {
 
     if (loading) return
     setLoading(true);
 
-    const body = {
-      title: title,
-      registerType: platformState.selectedPlatformImgUrl ? "SERVER" : "CUSTOM",
-      price: Number(pricePerPerson),
-      originalPrice: Number(originalPrice),
-      openChatLink: openChatLink,
-      membership: membership,
-      personnel: personnel,
-      platformIdx: platformState.selectedPlatformIdx,
-      name: platformState.selectedPlatformImgUrl ? platformState.selectedPlatformName : platformState.selectedPlatformName,
-      color: platformState.selectedPlatformImgColor,
-      initial: platformState.selectedPlatformImgInitial,
-      categoryIdx: platformState.selectedPlatformCategoryIdx,
-      accountId: accountId,
-      accountPw: accountPw,
-      bankAccountIdx: selectedBankAccountIdx,
-      paymentDate: formatDate,
-      paymentCycleData: 1,
-      paymentCycleUnit: "MONTH"
+    console.log(idx)
+
+    let body = {};
+    let url = "";
+
+    //신규 파티 등록 로직
+    if (!idx) {
+      console.log("신규 파티 등록 로직");
+      body = {
+        title: title,
+        registerType: platformState.selectedPlatformImgUrl ? "SERVER" : "CUSTOM",
+        price: Number(pricePerPerson),
+        originalPrice: Number(originalPrice),
+        openChatLink: openChatLink,
+        membership: membership,
+        personnel: personnel,
+        platformIdx: platformState.selectedPlatformIdx,
+        name: platformState.selectedPlatformImgUrl ? platformState.selectedPlatformName : platformState.selectedPlatformName,
+        color: platformState.selectedPlatformImgColor,
+        initial: platformState.selectedPlatformImgInitial,
+        categoryIdx: platformState.selectedPlatformCategoryIdx,
+        accountId: accountId,
+        accountPw: accountPw,
+        bankAccountIdx: selectedBankAccountIdx,
+        paymentDate: formatDate,
+        paymentCycleData: 1,
+        paymentCycleUnit: "MONTH"
+      }
+
+      url = "/party";
+    }
+    //기존 파티장 등록 로직
+    else {
+      console.log("기존 파티 등록 로직");
+      body = {
+        partyIdx: Number(idx),
+        title: title,
+        price: Number(pricePerPerson),
+        originalPrice: Number(originalPrice),
+        openChatLink: openChatLink,
+        membership: membership,
+        personnel: personnel,
+        accountId: accountId,
+        accountPw: accountPw,
+        bankAccountIdx: selectedBankAccountIdx,
+        paymentDate: formatDate,
+        paymentCycleData: 1,
+        paymentCycleUnit: "MONTH"
+      }
+
+      url = "/party/past";
     }
 
-    const data = await customApiClient('post', '/party', body);
+    const data = await customApiClient('post', url, body);
 
     console.log(data.message);
     // Server Error
@@ -101,6 +137,25 @@ const CheckPartyData = () => {
     dispatch(SubscribeReloadTrueAction);
 
     setLoading(false);
+
+    dispatch({
+      type: MessageWrapOpen
+    })
+    dispatch({
+      type: MessageOpen,
+      data: '파티가 정상적으로 등록되었어요.'
+    })
+
+    setTimeout(() => {
+      dispatch({
+        type: MessageClose
+      })
+    }, 2000);
+    setTimeout(() => {
+      dispatch({
+        type: MessageWrapClose
+      })
+    }, 2300);
 
     setPageTrans('trans toRight');
     history.push('/party');
