@@ -41,6 +41,7 @@ import Finish from '../views/payment/finish';
 import CardManagement from '../views/card/cardManagement';
 import CardIdxChange from '../views/party/detail/cardIdxChange';
 import BankAccountManagement from '../views/card/bankAccountManagement';
+import BankAccountEnrollment from '../views/card/bankAccountEnrollment';
 import EditAccount from '../views/party/my/editAccount';
 import PartyEnrollment from '../views/party/enrollment/enrollment';
 import MyPartyRevise from '../views/party/my/myPartyRevise';
@@ -53,6 +54,7 @@ import AccountIdxChange from '../views/party/detail/accountIdxChange';
 import SignUpTerm from '../views/login/loginStep/signUpTerm';
 import SignUpAuth from '../views/login/loginStep/signUpAuth';
 import SignUp from '../views/login/signUp';
+
 
 const AppLayout = () => {
 
@@ -108,6 +110,7 @@ const AppLayout = () => {
             <Route path='/party/detail/change/card' exact component={CardIdxChange} />
             <Route path='/party/detail/change/account' exact component={AccountIdxChange} />
             <Route path='/bank/manage' exact component={BankAccountManagement} />
+            <Route path='/bank/enrollment' exact component={BankAccountEnrollment} />
 
 
             {/* 회원가입/로그인절차 컴포넌트 테스트 */}
