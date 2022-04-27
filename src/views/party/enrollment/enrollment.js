@@ -126,12 +126,15 @@ const PartyEnrollment = () => {
         <JumpWrap onClick={jumpPage} isJump={currentPage === 2 && isAccountStatus === 'N' ? true : false}>
           <div className="jumpWrapItem">건너뛰기</div>
         </JumpWrap>
+        {/* Progress Bar */}
+        <div style={{position:'absolute', bottom:'0',left:'0', right:'0'}}>
+          <ProgressDiv progress={`${progress}%`} />
+        </div>
+        
       </HeaderWrap>
 
       <MainWrap style={{ padding: '0' }}>
-        {/* Progress Bar */}
-        <ProgressDiv progress={`${progress}%`} />
-
+        
         {currentPage === 1 && <ChooseService />}
         {currentPage === 2 && <ChooseAccount />}
         {currentPage === 3 && <ChoosePartyInfo />}
