@@ -40,9 +40,9 @@ const BankAccountManagement = () => {
     history.goBack();
   };
 
-  const gotoRegister = () => {
+  const goToBankEnrollment = () => {
     setPageTrans("trans toRight");
-    history.push("/card");
+    history.push("/bank/enrollment");
   };
 
   useEffect(async () => {
@@ -159,7 +159,7 @@ const BankAccountManagement = () => {
             <div className="spoqaBold" style={{ fontSize: "0.875rem" }}>
               계좌 목록
             </div>
-            <AddButton className="notoMedium" onClick={gotoRegister}><span>+ 계좌 추가</span></AddButton>
+            <AddButton className="notoMedium" onClick={goToBankEnrollment}><span>+ 계좌 추가</span></AddButton>
           </div>
           {loading === true ?
             <LoadingBox /> :
