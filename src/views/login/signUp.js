@@ -362,6 +362,10 @@ const SignUp = () => {
                 data: authData.result
             })
 
+            localStorage.setItem("phone", data.result.phone);
+            localStorage.setItem("isAuth", data.result.isAuth);
+            localStorage.setItem("isAdult", data.result.isAdult);
+
             GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.SIGNIN);
 
             //메인 페이지 이동 로직

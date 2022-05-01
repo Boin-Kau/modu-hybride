@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
+    "bootpay-js": "^3.3.3",
     "history": "^4.10.1",
     "lodash-es": "^4.17.21",
     "node-sass": "^5.0.0",

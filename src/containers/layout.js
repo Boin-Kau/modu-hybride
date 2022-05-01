@@ -48,7 +48,7 @@ import MyPartyRevise from '../views/party/my/myPartyRevise';
 
 //회원가입,로그인 테스트
 import SignUpName from '../views/login/loginStep/signUpName';
-import SignInAuth from '../views/login/loginStep/signInAuth';
+import RealNameAuth from '../views/login/realNameAuth';
 import AuthFinish from '../views/login/loginStep/authFinish';
 import AccountIdxChange from '../views/party/detail/accountIdxChange';
 import SignUpTerm from '../views/login/loginStep/signUpTerm';
@@ -114,11 +114,12 @@ const AppLayout = () => {
             <Route path='/bank/manage' exact component={BankAccountManagement} />
             <Route path='/bank/enrollment' exact component={BankAccountEnrollment} />
 
+            {/* 본인인증 */}
+            <Route path='/realName/auth' exact component={RealNameAuth} />
 
             {/* 회원가입/로그인절차 컴포넌트 테스트 */}
             <Route path='/signup/name' exact component={SignUpName} />
             <Route path='/signup/term' exact component={SignUpTerm} />
-            <Route path='/signin/auth' exact component={SignInAuth} />
             <Route path='/signin/auth/finish' exact component={AuthFinish} />
             <Route path='/signup/auth' exact component={SignUpAuth} />
         </>

@@ -81,7 +81,6 @@ const Splash = () => {
     if (!data || data.statusCode != 200) {
       localStorage.removeItem("x-access-token");
       dispatch(BottomNavCloseAction);
-      // history.push('/login');
 
       if (current_user_platform == 'android') {
 
@@ -112,6 +111,10 @@ const Splash = () => {
       type: UserInfoUpdate,
       data: data.result,
     });
+
+    localStorage.setItem("phone", data.result.phone);
+    localStorage.setItem("isAuth", data.result.isAuth);
+    localStorage.setItem("isAdult", data.result.isAdult);
 
     GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGIN);
 
