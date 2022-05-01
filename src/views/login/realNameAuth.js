@@ -18,6 +18,7 @@ import BootPay from "bootpay-js";
 import { customApiClient } from "../../shared/apiClient";
 import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/loading";
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../reducers/container/message";
+import { checkMobile } from "../../App";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -39,6 +40,16 @@ const RealNameAuth = () => {
 
   useEffect(async () => {
     dispatch(BottomNavCloseAction);
+
+    const userPlatform = checkMobile();
+    if (userPlatform == 'ios') {
+      //IOS 배경색 설정
+      try {
+        window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+      }
+      catch (err) {
+      }
+    }
   }, []);
 
   //본인인증 버튼
