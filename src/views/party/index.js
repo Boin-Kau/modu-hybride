@@ -36,6 +36,9 @@ import { ResetPartyInfo } from '../../reducers/party/enrollment/partyInfo';
 import { ResetPayment } from '../../reducers/party/enrollment/payment';
 import { ResetBankAccount } from '../../reducers/party/enrollment/bankAccount';
 
+import BootPay from "bootpay-js"
+
+
 const Party = () => {
 
     const dispatch = useDispatch();
@@ -246,6 +249,20 @@ const Party = () => {
         history.push('/party/my');
     }
 
+    const handleClickTest = () => {
+        const isAuth = localStorage.getItem("isAuth");
+
+        if (isAuth === "Y") {
+            alert("본인인증이 완료된 유저입니다.");
+        }
+        else {
+            alert("본인인증을 아직 진행하지 않은 유저입니다.");
+        }
+
+        history.push("/realName/auth?path=/party");
+
+    }
+
     return (
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundColor: '#FFCA17', backgroundSize: 'cover' }}>
@@ -281,6 +298,7 @@ const Party = () => {
                     <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginLeft: '1.25rem' }}>
                         {seletedCategoryName}
                     </div>
+                    <button onClick={handleClickTest}>본인인증 테스트</button>
                     <PartyListWrap ref={contentDivRef} contentHeight={contentHeight}>
 
                         {partyList.length === 0 ?
