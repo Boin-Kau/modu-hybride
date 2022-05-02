@@ -85,7 +85,7 @@ const MyParty = () => {
         dispatch(BanishPopupCloseAction());
         dispatch(ReportPopupCloseAction());
         setPageTrans('trans toLeft');
-        history.goBack();
+        history.push("/party");
     };
 
     const onClickMenu = useCallback(async (type) => {

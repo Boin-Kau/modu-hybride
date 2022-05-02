@@ -130,6 +130,15 @@ const PartyDetail = () => {
 
   // 파티 미가입 상태일 때, 결제하기 화면으로 이동
   const openPaymentPage = () => {
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/party");
+      setPageTrans('trans toRight');
+      history.push("/realName/auth?path=/payment");
+      return
+    }
+
     setPageTrans('trans toRight');
     history.push('/payment');
   }

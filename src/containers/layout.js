@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, useLocation } from 'react-router-dom'
+import { Route, useLocation, useHistory } from 'react-router-dom'
 
 import Splash from '../views/login/splash';
 import Login from '../views/login/login';
@@ -58,7 +58,6 @@ import PartyEnrollmentPast from '../views/party/enrollment/enrollmentPast';
 
 
 const AppLayout = () => {
-
     const location = useLocation();
 
     //google analytics 연동

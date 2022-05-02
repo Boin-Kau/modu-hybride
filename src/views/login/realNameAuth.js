@@ -18,6 +18,7 @@ import BootPay from "bootpay-js";
 import { customApiClient } from "../../shared/apiClient";
 import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/loading";
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../reducers/container/message";
+import { checkMobile } from "../../App";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -38,7 +39,35 @@ const RealNameAuth = () => {
   };
 
   useEffect(async () => {
+
+    //본인인증 뒤로가기 처리
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth === "Y") {
+      const pastPath = sessionStorage.getItem("pastPath");
+      setPageTrans('trans toLeft');
+
+      if (!pastPath || pastPath.length < 0) {
+        history.push("/party");
+      }
+      else {
+        history.push(pastPath);
+      }
+
+      return
+    }
+
     dispatch(BottomNavCloseAction);
+
+    const userPlatform = checkMobile();
+    if (userPlatform == 'ios') {
+      //IOS 배경색 설정
+      try {
+        window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+      }
+      catch (err) {
+      }
+    }
   }, []);
 
   //본인인증 버튼

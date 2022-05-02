@@ -249,18 +249,17 @@ const Party = () => {
         history.push('/party/my');
     }
 
-    const handleClickTest = () => {
+    const handleClickEnroll = () => {
         const isAuth = localStorage.getItem("isAuth");
 
-        if (isAuth === "Y") {
-            alert("본인인증이 완료된 유저입니다.");
-        }
-        else {
-            alert("본인인증을 아직 진행하지 않은 유저입니다.");
+        if (isAuth !== "Y") {
+            sessionStorage.setItem("pastPath", "/party");
+            setPageTrans('trans toRight');
+            history.push("/realName/auth?path=/party/enroll");
+            return
         }
 
-        history.push("/realName/auth?path=/party");
-
+        openPage('/party/enroll');
     }
 
     return (
@@ -270,7 +269,7 @@ const Party = () => {
                 <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
                 <div style={{ zIndex: '10' }}>
                     <div className="spoqaBold" style={{ marginTop: '2.3125rem', marginLeft: '1.25rem', fontSize: '0.875rem', lineHeight: '1.4375rem' }}>구독 파티</div>
-                    <PartyIconWrap onClick={() => { openPage('/party/enroll') }} style={{ right: '3.375rem' }}>
+                    <PartyIconWrap onClick={handleClickEnroll} style={{ right: '3.375rem' }}>
                         <img src={partyPlusIcon} style={{ width: '1.4375rem', height: '1.4375rem' }} />
                     </PartyIconWrap>
                     <PartyIconWrap onClick={() => { openPage('/party/my') }} style={{ right: '0.625rem' }}>
@@ -298,7 +297,6 @@ const Party = () => {
                     <div className="spoqaBold" style={{ fontSize: '0.875rem', lineHeight: '1.4375rem', marginLeft: '1.25rem' }}>
                         {seletedCategoryName}
                     </div>
-                    <button onClick={handleClickTest}>본인인증 테스트</button>
                     <PartyListWrap ref={contentDivRef} contentHeight={contentHeight}>
 
                         {partyList.length === 0 ?

@@ -37,10 +37,20 @@ const BankAccountManagement = () => {
 
   const closePage = () => {
     setPageTrans("trans toLeft");
-    history.goBack();
+    history.push("/info");
   };
 
   const goToBankEnrollment = () => {
+
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/bank/manage");
+      setPageTrans('trans toRight');
+      history.push("/realName/auth?path=/bank/enrollment");
+      return
+    }
+
     setPageTrans("trans toRight");
     history.push("/bank/enrollment");
   };
