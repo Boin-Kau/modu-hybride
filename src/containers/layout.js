@@ -58,8 +58,6 @@ import PartyEnrollmentPast from '../views/party/enrollment/enrollmentPast';
 
 
 const AppLayout = () => {
-
-    const history = useHistory();
     const location = useLocation();
 
     //google analytics 연동
@@ -67,25 +65,6 @@ const AppLayout = () => {
         ReactGA.set({ page: location.pathname });
         ReactGA.pageview(location.pathname);
     }, [location]);
-
-    //결제완료 / 본인인증 뒤로가기 처리
-    useEffect(() => {
-        let unlisten = history.listen((location) => {
-            if (history.action === 'POP') {
-
-                //본인인증 뒤로가기 처리
-                if (location.pathname === "/realName/auth") {
-                    history.goBack();
-                }
-
-                //결제완료 뒤로가기 처리
-            }
-        });
-
-        return () => {
-            unlisten();
-        };
-    }, [history]);
 
     //routing
     return (

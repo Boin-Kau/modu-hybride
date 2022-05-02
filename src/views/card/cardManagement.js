@@ -36,10 +36,20 @@ const CardManagement = () => {
 
   const closePage = () => {
     setPageTrans("trans toLeft");
-    history.goBack();
+    history.push("/info");
   };
 
   const gotoRegister = () => {
+
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/card/manage");
+      setPageTrans('trans toRight');
+      history.push("/realName/auth?path=/card");
+      return
+    }
+
     setPageTrans("trans toRight");
     history.push("/card");
   };

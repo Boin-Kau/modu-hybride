@@ -39,6 +39,24 @@ const RealNameAuth = () => {
   };
 
   useEffect(async () => {
+
+    //본인인증 뒤로가기 처리
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth === "Y") {
+      const pastPath = sessionStorage.getItem("pastPath");
+      setPageTrans('trans toLeft');
+
+      if (!pastPath || pastPath.length < 0) {
+        history.push("/party");
+      }
+      else {
+        history.push(pastPath);
+      }
+
+      return
+    }
+
     dispatch(BottomNavCloseAction);
 
     const userPlatform = checkMobile();

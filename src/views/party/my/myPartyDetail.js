@@ -33,7 +33,7 @@ import WaitingDuck from "../../../assets/party/ic-popup-waiting-duck.png";
 import { priceToString } from "../../../components/main/bottomCard";
 import DangerDialog from "../../../components/party/DangerDialog";
 import OneButtonDialog from "../../../components/party/OneButtonDialog";
-import { UpdatePartyAction } from "../../../reducers/party/detail";
+import { UpdatePartyAction, ResetParty } from "../../../reducers/party/detail";
 import { AnalyPageReloadTrueAction } from "../../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
 import { UpdatePlatformAction } from "../../../reducers/party/enrollment/platform";
@@ -244,6 +244,8 @@ const MyPartyDetail = ({ location }) => {
     dispatch(MemberBottomDialogCloseAction);
     dispatch(PartyDeleteConfirmDialogCloseAction);
 
+    dispatch({ type: ResetParty });
+
     // 뒤로 가기
     setPageTrans('trans toLeft');
 
@@ -353,6 +355,15 @@ const MyPartyDetail = ({ location }) => {
       selectedPartyMembershipInfo: result.membershipInfo,
     }))
 
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/party/my");
+      setPageTrans('trans toRight');
+      history.push("/realName/auth?path=/payment");
+      return
+    }
+
     // 페이지 전환
     setPageTrans('trans toRight');
     history.push('/payment');
@@ -401,6 +412,15 @@ const MyPartyDetail = ({ location }) => {
       typeList: null,
       formatDate: null
     }))
+
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/party/my");
+      setPageTrans('trans toRight');
+      history.push(`/realName/auth?path=/party/enroll/${result.idx}`);
+      return
+    }
 
     // 페이지 전환
     setPageTrans('trans toRight');
