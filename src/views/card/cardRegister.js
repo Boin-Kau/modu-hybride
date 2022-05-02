@@ -181,6 +181,17 @@ const CardRegister = () => {
     }
   }, [isFreeFour]);
 
+  //전체동의
+  useEffect(() => {
+
+    if (isFreeTwo == "Y" &&
+      isFreeThree == "Y" &&
+      isFreeFour == "Y") {
+      setIsFreeOne("Y");
+    }
+
+  }, [isFreeTwo, isFreeThree, isFreeFour])
+
   const onClickKeyboardUpThree = () => {
     if (keyboardUp == false) {
       setKeyboardUp(true);
