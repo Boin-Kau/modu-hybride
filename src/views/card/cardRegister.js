@@ -317,55 +317,63 @@ const CardRegister = () => {
           <div>
             <TitleWrap className="notoMedium">카드번호</TitleWrap>
             <ItemWrap style={{ flexDirection: "row" }}>
-              <InputComponent
-                id={"num1"}
-                type={"number"}
-                placeholder={"0000"}
-                maxLength={4}
-                value={num1}
-                onChange={handleChangeOne}
-                keyboardUp={keyboardUp}
-                setKeyboardUp={setKeyboardUp}
-                setFocusTwo={setFocusTwo}
-                setFocusThree={setFocusThree}
-              />
+              <div>
+                <InputComponent
+                  id={"num1"}
+                  type={"number"}
+                  placeholder={"0000"}
+                  maxLength={4}
+                  value={num1}
+                  onChange={handleChangeOne}
+                  keyboardUp={keyboardUp}
+                  setKeyboardUp={setKeyboardUp}
+                  setFocusTwo={setFocusTwo}
+                  setFocusThree={setFocusThree}
+                />
+              </div>
               <Hypen>-</Hypen>
-              <InputWrap openStatus={focusTwo}>
-                <Input onClick={onClickKeyboardUpThree}>
-                  {num2.length === 0 ? (
-                    <span className="placeholder">0000</span>
-                  ) : (
-                      <span style={{ fontSize: "0.625rem" }}>
-                        {"●".repeat(num2.length)}
-                      </span>
-                    )}
-                </Input>
-              </InputWrap>
+              <div style={{ position: "relative" }}>
+                <InputComponent
+                  id={"num2"}
+                  type={"password"}
+                  placeholder={"0000"}
+                  maxLength={4}
+                  value={num2}
+                  onChange={() => { }}
+                />
+                <InputWrap openStatus={focusTwo}>
+                  <Input onClick={onClickKeyboardUpThree} />
+                </InputWrap>
+              </div>
               <Hypen>-</Hypen>
-              <InputWrap openStatus={focusThree}>
-                <Input onClick={onClickKeyboardUpFour}>
-                  {num3.length === 0 ? (
-                    <span className="placeholder">0000</span>
-                  ) : (
-                      <span style={{ fontSize: "0.625rem" }}>
-                        {"●".repeat(num3.length)}
-                      </span>
-                    )}
-                </Input>
-              </InputWrap>
+              <div style={{ position: "relative" }}>
+                <InputComponent
+                  id={"num3"}
+                  type={"password"}
+                  placeholder={"0000"}
+                  maxLength={4}
+                  value={num3}
+                  onChange={() => { }}
+                />
+                <InputWrap openStatus={focusThree}>
+                  <Input onClick={onClickKeyboardUpFour} />
+                </InputWrap>
+              </div>
               <Hypen>-</Hypen>
-              <InputComponent
-                id={"num4"}
-                type={"number"}
-                placeholder={"0000"}
-                maxLength={4}
-                value={num4}
-                onChange={handleChangeFour}
-                keyboardUp={keyboardUp}
-                setKeyboardUp={setKeyboardUp}
-                setFocusTwo={setFocusTwo}
-                setFocusThree={setFocusThree}
-              />
+              <div>
+                <InputComponent
+                  id={"num4"}
+                  type={"number"}
+                  placeholder={"0000"}
+                  maxLength={4}
+                  value={num4}
+                  onChange={handleChangeFour}
+                  keyboardUp={keyboardUp}
+                  setKeyboardUp={setKeyboardUp}
+                  setFocusTwo={setFocusTwo}
+                  setFocusThree={setFocusThree}
+                />
+              </div>
             </ItemWrap>
           </div>
           <div
@@ -514,44 +522,51 @@ const CardRegister = () => {
 };
 
 const InputWrap = styled.div`
-  display: flex;
-  padding: 0.625rem 0.875rem;
-  flex-grow: 1;
-  flex-basis: 0;
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
 
   border: ${(props) =>
     props.openStatus ? "0.0625rem solid #ffca2c" : "0.0625rem solid #e8e8e8"};
 
   border-radius: 0.25rem;
-
-  font-size: 0.8125rem;
-
-  background-color: #ffffff;
 `;
 
 const Input = styled.div`
-  border: none;
-  font-size: 0.8125rem;
-  display: flex;
-  padding: 0;
-  overflow-x: scroll;
-  align-items: center;
-  height: 0.8125rem;
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
 
   .placeholder {
     font-size: 0.8125rem;
     color: #e8e8e8;
   }
+
+  .textWrap {
+    position:absolute;
+    top:50%;
+    left:0;
+    right:0;
+    transform:translate(0,-50%);
+    border:1px solid red;
+  }
 `;
 
-const Hypen = styled.span`
+const Hypen = styled.div`
+  position: relative;
   display: flex;
-  height: 1.3125rem;
-  margin: 0.3125rem 0.25rem 0 0.25rem;
+  /* height: 1.3125rem; */
+  margin: 0 0.25rem;
   font-family: "NotoSansCJKkr";
   font-size: 0.9375rem;
   font-weight: 500;
   color: #888;
+  
+  padding-top:0.6563rem;
 `;
 
 const CheckIcon = styled.img`

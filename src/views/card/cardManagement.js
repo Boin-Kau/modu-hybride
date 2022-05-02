@@ -167,7 +167,7 @@ const CardManagement = () => {
             <div className="spoqaBold" style={{ fontSize: "0.875rem" }}>
               카드 목록
             </div>
-            <AddButton className="notoMedium" onClick={gotoRegister}><span>+ 카드 추가</span></AddButton>
+            <AddButton className="notoMedium" onClick={gotoRegister}><div>+ 카드 추가</div></AddButton>
           </div>
           {loading === true ?
             <LoadingBox /> :
@@ -213,16 +213,20 @@ const CardManagement = () => {
 };
 
 export const AddButton = styled.div`
-  padding: 0.125rem 0.375rem 0.1875rem 0.4375rem;
+  position: relative;
   border-radius: 0.625rem;
   border: solid 0.05rem #9b9b9b;
   color: #5a5a5a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+  width:3.625rem;
   
-  span{
+  div{
     font-size: 0.625rem;
+    position:absolute;
+    top:0.1875rem;
+    left:0;
+    right:0.0625rem;
+    text-align:center;
   }
 `;
 
