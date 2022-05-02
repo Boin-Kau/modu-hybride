@@ -362,9 +362,9 @@ const SignUp = () => {
                 data: authData.result
             })
 
-            localStorage.setItem("phone", data.result.phone);
-            localStorage.setItem("isAuth", data.result.isAuth);
-            localStorage.setItem("isAdult", data.result.isAdult);
+            localStorage.setItem("phone", authData.result.phone);
+            localStorage.setItem("isAuth", authData.result.isAuth);
+            localStorage.setItem("isAdult", authData.result.isAdult);
 
             GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.SIGNIN);
 
