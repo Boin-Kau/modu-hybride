@@ -120,6 +120,10 @@ const Login = () => {
                     data: authData.result
                 })
 
+                localStorage.setItem("phone", authData.result.phone);
+                localStorage.setItem("isAuth", authData.result.isAuth);
+                localStorage.setItem("isAdult", authData.result.isAdult);
+
                 dispatch(BottomNavOpenAction);
                 setPageTrans('trans toRight');
                 history.push('/main');
@@ -187,6 +191,10 @@ const Login = () => {
                     type: UserInfoUpdate,
                     data: authData.result
                 })
+
+                localStorage.setItem("phone", authData.result.phone);
+                localStorage.setItem("isAuth", authData.result.isAuth);
+                localStorage.setItem("isAdult", authData.result.isAdult);
 
                 dispatch(BottomNavOpenAction);
                 setPageTrans('trans toRight');

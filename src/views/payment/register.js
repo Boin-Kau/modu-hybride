@@ -12,9 +12,14 @@ const Register = ({ card, setBankAccountOpenStatus }) => {
   //context
   const { setPageTrans } = useContext(PageTransContext);
 
-  const goToRegister = () => {
+  const goToBankRegister = () => {
     setPageTrans("trans toRight");
     setBankAccountOpenStatus(false);
+  }
+
+  const goToCardRegister = () => {
+    setPageTrans("trans toRight");
+    history.push('/card');
   }
 
 
@@ -23,7 +28,7 @@ const Register = ({ card, setBankAccountOpenStatus }) => {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '0.975rem' }}>
         <img style={{ width: '7.475rem', height: '5.3375rem' }} src={ic_pay_duck} />
         <RegisterButton className='notoBold'>
-          {card ? <span onClick={goToRegister}>+ 카드 등록하기</span> : <span onClick={goToRegister}>+ 계좌 등록하기</span>}
+          {card ? <span onClick={goToCardRegister}>+ 카드 등록하기</span> : <span onClick={goToBankRegister}>+ 계좌 등록하기</span>}
         </RegisterButton>
         {card ? <div className='notoRegular register-button'>자주쓰는 카드를 등록해보세요!</div> : <div className='notoRegular register-button'> 자주쓰는 계좌를 등록해보세요!</div>}
       </div>

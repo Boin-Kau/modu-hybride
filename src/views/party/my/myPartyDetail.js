@@ -33,9 +33,12 @@ import WaitingDuck from "../../../assets/party/ic-popup-waiting-duck.png";
 import { priceToString } from "../../../components/main/bottomCard";
 import DangerDialog from "../../../components/party/DangerDialog";
 import OneButtonDialog from "../../../components/party/OneButtonDialog";
-import { UpdatePartyAction } from "../../../reducers/party/detail";
+import { UpdatePartyAction, ResetParty } from "../../../reducers/party/detail";
 import { AnalyPageReloadTrueAction } from "../../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
+import { UpdatePlatformAction } from "../../../reducers/party/enrollment/platform";
+import { UpdatePartyInfoAction } from "../../../reducers/party/enrollment/partyInfo";
+import { UpdatePaymentAction } from "../../../reducers/party/enrollment/payment";
 
 const MyPartyDetail = ({ location }) => {
 
@@ -241,6 +244,8 @@ const MyPartyDetail = ({ location }) => {
     dispatch(MemberBottomDialogCloseAction);
     dispatch(PartyDeleteConfirmDialogCloseAction);
 
+    dispatch({ type: ResetParty });
+
     // 뒤로 가기
     setPageTrans('trans toLeft');
 
@@ -350,6 +355,15 @@ const MyPartyDetail = ({ location }) => {
       selectedPartyMembershipInfo: result.membershipInfo,
     }))
 
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/party/my");
+      setPageTrans('trans toRight');
+      history.push("/realName/auth?path=/payment");
+      return
+    }
+
     // 페이지 전환
     setPageTrans('trans toRight');
     history.push('/payment');
@@ -368,7 +382,49 @@ const MyPartyDetail = ({ location }) => {
 
   //기존 파티장 - 파티정보 등록하기
   const handleClickHostInfo = () => {
-    alert("기존 파티장 - 파티정보 등록하기");
+
+    //플랫폼 정보 등록
+    dispatch(UpdatePlatformAction({
+      selectedPlatformIdx: platformInfoObj.registerType === "SERVER" ? platformInfoObj.platformIdx : 0,
+      selectedPlatformName: platformInfoObj.registerType === "SERVER" ? platformInfoObj.serverName : platformInfoObj.customName,
+      selectedPlatformCategoryIdx: platformInfoObj.registerType === "SERVER" ? platformInfoObj.serverCategoryIdx : platformInfoObj.customCategoryIdx,
+      selectedPlatformCatgoryName: platformInfoObj.registerType === "SERVER" ? platformInfoObj.serverCategory : platformInfoObj.customCategory,
+      selectedPlatformImgUrl: platformInfoObj.serverImgUrl,
+      selectedPlatformImgColor: platformInfoObj.color,
+      selectedPlatformImgInitial: platformInfoObj.initial,
+      isAccount: platformInfoObj.isAccount,
+      isAdult: platformInfoObj.isAdult,
+    }))
+
+    //파티 관련 정보 등록
+    dispatch(UpdatePartyInfoAction({
+      title: partyTitle,
+      membership: membershipInfoObj.membership,
+      openChatLink: openChatLink
+    }));
+
+    //파티 결제 정보 등록 (1인당 결제 금액, 모집 인원)
+    dispatch(UpdatePaymentAction({
+      originalPrice: null,
+      nextPaymentDate: null,
+      pricePerPerson: membershipInfoObj.price,
+      personnel: partyInfoObj.personnel,
+      typeList: null,
+      formatDate: null
+    }))
+
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/party/my");
+      setPageTrans('trans toRight');
+      history.push(`/realName/auth?path=/party/enroll/${result.idx}`);
+      return
+    }
+
+    // 페이지 전환
+    setPageTrans('trans toRight');
+    history.push(`/party/enroll/${result.idx}`);
   }
 
   //기존 파티원 - 결제정보 등록하기

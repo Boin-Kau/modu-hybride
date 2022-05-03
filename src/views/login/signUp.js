@@ -59,9 +59,6 @@ const SignUp = () => {
     //현재 페이지
     const [currentPage, setCurrentPage] = useState(1);
 
-    //현재 페이지의 타이틀
-    const [currentPageTitle, setCurrentPageTitle] = useState("모두에서 사용할\n<span>닉네임</span>을 입력해주세요.");
-
     //페이지내 최종 벨리데이션
     const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
 
@@ -201,7 +198,6 @@ const SignUp = () => {
             case 2:
                 setCurrentPage(1);
                 setPageConfirmStatus(true);
-                setCurrentPageTitle("이름을\n알려주세요.");
                 break
             case 3:
                 setCurrentPage(2);
@@ -209,18 +205,15 @@ const SignUp = () => {
                 setCodeInputAccess(false);
                 clearInterval(intervalId);
                 setphoneAuthPageStatus(false)
-                setCurrentPageTitle("본인 인증을\n진행해주세요.");
                 break
             case 4:
                 setCurrentPage(3);
                 setPageConfirmStatus(true);
-                setCurrentPageTitle("인증번호를\n입력해주세요.");
                 break
             case 5:
                 setCurrentPage(4);
                 setButtonText('다음');
                 setPageConfirmStatus(true);
-                setCurrentPageTitle("당신에 대해서\n알려주세요!");
                 break
             default:
                 break
@@ -249,7 +242,6 @@ const SignUp = () => {
 
             setCurrentPage(2);
             setPhoneErrorText('');
-            setCurrentPageTitle("본인 인증을\n진행해주세요.");
             setPageConfirmStatus(phoneNumberPageStatus);
             return
         }
@@ -275,7 +267,6 @@ const SignUp = () => {
             setPhoneErrorText('');
             beginTimer();
             setCurrentPage(3);
-            setCurrentPageTitle("인증번호를\n입력해주세요.");
             setPageConfirmStatus(phoneAuthPageStatus);
             return
         }
@@ -299,14 +290,12 @@ const SignUp = () => {
 
             clearInterval(intervalId);
             setCurrentPage(4);
-            setCurrentPageTitle("당신에 대해서\n알려주세요!")
             setPageConfirmStatus(etcPageStatus);
         }
 
         if (currentPage == 4 && etcPageStatus) {
             setCurrentPage(5);
             setButtonText('확인');
-            setCurrentPageTitle("모두의 서비스 이용을 위해\n약관에 동의해주세요.")
             setPageConfirmStatus(agreePageStatus);
         }
 
@@ -373,10 +362,9 @@ const SignUp = () => {
                 data: authData.result
             })
 
-            // ReactGA.event({
-            //     category: 'User',
-            //     action: 'SignUp an Account'
-            // });
+            localStorage.setItem("phone", authData.result.phone);
+            localStorage.setItem("isAuth", authData.result.isAuth);
+            localStorage.setItem("isAdult", authData.result.isAdult);
 
             GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.SIGNIN);
 

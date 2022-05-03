@@ -36,6 +36,9 @@ import { ResetPartyInfo } from '../../reducers/party/enrollment/partyInfo';
 import { ResetPayment } from '../../reducers/party/enrollment/payment';
 import { ResetBankAccount } from '../../reducers/party/enrollment/bankAccount';
 
+import BootPay from "bootpay-js"
+
+
 const Party = () => {
 
     const dispatch = useDispatch();
@@ -246,6 +249,19 @@ const Party = () => {
         history.push('/party/my');
     }
 
+    const handleClickEnroll = () => {
+        const isAuth = localStorage.getItem("isAuth");
+
+        if (isAuth !== "Y") {
+            sessionStorage.setItem("pastPath", "/party");
+            setPageTrans('trans toRight');
+            history.push("/realName/auth?path=/party/enroll");
+            return
+        }
+
+        openPage('/party/enroll');
+    }
+
     return (
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundColor: '#FFCA17', backgroundSize: 'cover' }}>
@@ -253,7 +269,7 @@ const Party = () => {
                 <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
                 <div style={{ zIndex: '10' }}>
                     <div className="spoqaBold" style={{ marginTop: '2.3125rem', marginLeft: '1.25rem', fontSize: '0.875rem', lineHeight: '1.4375rem' }}>구독 파티</div>
-                    <PartyIconWrap onClick={() => { openPage('/party/enroll') }} style={{ right: '3.375rem' }}>
+                    <PartyIconWrap onClick={handleClickEnroll} style={{ right: '3.375rem' }}>
                         <img src={partyPlusIcon} style={{ width: '1.4375rem', height: '1.4375rem' }} />
                     </PartyIconWrap>
                     <PartyIconWrap onClick={() => { openPage('/party/my') }} style={{ right: '0.625rem' }}>

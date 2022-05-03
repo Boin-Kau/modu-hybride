@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { PageTransContext } from "../../../containers/pageTransContext";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 import { ContentWrap, HeaderWrap, MainWrap, PageWrap } from "../../../styled/shared/wrap";
@@ -20,26 +20,43 @@ import { ResetPlatform } from "../../../reducers/party/enrollment/platform";
 import { UpdateCurrentPageAction } from "../../../reducers/party/enrollment/setPage";
 import { checkMobile } from "../../../App";
 
-const PartyEnrollment = () => {
+const PartyEnrollmentPast = () => {
   // Module
   const dispatch = useDispatch();
   const history = useHistory();
+
   //Context
   const { setPageTrans } = useContext(PageTransContext);
 
   //store
   const {
-    selectedPlatformIdx,
-    selectedPlatformImgUrl,
+    selectedPlatformName,
+    isAccount: isAccountStatus
   } = useSelector(state => state.party.enrollment.platform);
+
+  const {
+    title,
+  } = useSelector(state => state.party.enrollment.partyInfo);
+
+  const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
 
   // Local State
   const [progress, setProgress] = useState(20);
-  // Global State
-  const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
-  const { isAccount: isAccountStatus } = useSelector(state => state.party.enrollment.platform);
+
+  //기존 파티 인덱스
+  const { idx } = useParams();
+
   // useEffect
   useEffect(() => {
+
+    //리덕스 값 없으면 뒤로가기
+    if (!idx || !selectedPlatformName || !title) {
+      setPageTrans('trans toLeft');
+      history.goBack();
+      return
+    }
+
+
     dispatch(BottomNavCloseAction);
 
     const userPlatform = checkMobile();
@@ -56,19 +73,19 @@ const PartyEnrollment = () => {
   useEffect(() => {
     switch (currentPage) {
       case 1:
-        setProgress(20);
+        dispatch(UpdateCurrentPageAction({ page: 2 }));
         break;
       case 2:
-        setProgress(35);
+        setProgress(25);
         break;
       case 3:
-        setProgress(50);
+        dispatch(UpdateCurrentPageAction({ page: 4 }));
         break;
       case 4:
-        setProgress(65);
+        setProgress(50);
         break;
       case 5:
-        setProgress(80);
+        setProgress(75);
         break;
       case 6:
         setProgress(100);
@@ -80,27 +97,18 @@ const PartyEnrollment = () => {
   }, [currentPage])
 
   const closePage = () => {
-    setPageTrans('trans toLeft');
 
     // 뒤로 가기
-    if (currentPage === 1) {
-      //구독 리덕스 초기화
-      dispatch({ type: ResetPlatform });
-      history.push('/party');
+    if (currentPage === 2) {
+      setPageTrans('trans toLeft');
+      history.goBack();
     }
-    else if (currentPage === 2) {
-      //직접입력하기 혹은 이미지가 없는 플랫폼 클릭시 detail 설정 페이지로 이동시키기
-      if (selectedPlatformIdx === 0 | !selectedPlatformImgUrl) {
-        history.push('/party/enroll/platform/detail');
-      }
-      else {
-        dispatch(UpdateCurrentPageAction({
-          page: currentPage - 1
-        }));
-      }
+    else if (currentPage === 4) {
+      dispatch(UpdateCurrentPageAction({
+        page: 2
+      }));
     }
     else {
-
       dispatch(UpdateCurrentPageAction({
         page: currentPage - 1
       }));
@@ -111,7 +119,7 @@ const PartyEnrollment = () => {
     // 건너뛰기
     if (currentPage === 2 && isAccountStatus === 'N') {
       dispatch(UpdateCurrentPageAction({
-        page: 3
+        page: 4
       }));
     }
   }
@@ -126,28 +134,22 @@ const PartyEnrollment = () => {
         <JumpWrap onClick={jumpPage} isJump={currentPage === 2 && isAccountStatus === 'N' ? true : false}>
           <div className="jumpWrapItem">건너뛰기</div>
         </JumpWrap>
-        {/* Progress Bar */}
-        <div style={{position:'absolute', bottom:'0',left:'0', right:'0'}}>
-          <ProgressDiv progress={`${progress}%`} />
-        </div>
-        
       </HeaderWrap>
 
       <MainWrap style={{ padding: '0' }}>
-        
-        {currentPage === 1 && <ChooseService />}
+        {/* Progress Bar */}
+        <ProgressDiv progress={`${progress}%`} />
+
         {currentPage === 2 && <ChooseAccount />}
-        {currentPage === 3 && <ChoosePartyInfo />}
         {currentPage === 4 && <ChoosePayment />}
         {currentPage === 5 && <ChooseBankAccount />}
-        {/* 입금자명 입력 페이지는 오픈뱅킹 도입 이후에 작업 */}
         {currentPage === 6 && <CheckPartyData />}
       </MainWrap>
     </div>
   );
 };
 
-export default PartyEnrollment;
+export default PartyEnrollmentPast;
 
 const ProgressDiv = styled.div`
   background-color: #ffca17;

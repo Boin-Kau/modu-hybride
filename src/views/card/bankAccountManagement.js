@@ -37,12 +37,22 @@ const BankAccountManagement = () => {
 
   const closePage = () => {
     setPageTrans("trans toLeft");
-    history.goBack();
+    history.push("/info");
   };
 
-  const gotoRegister = () => {
+  const goToBankEnrollment = () => {
+
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/bank/manage");
+      setPageTrans('trans toRight');
+      history.push("/realName/auth?path=/bank/enrollment");
+      return
+    }
+
     setPageTrans("trans toRight");
-    history.push("/card");
+    history.push("/bank/enrollment");
   };
 
   useEffect(async () => {
@@ -159,7 +169,7 @@ const BankAccountManagement = () => {
             <div className="spoqaBold" style={{ fontSize: "0.875rem" }}>
               계좌 목록
             </div>
-            <AddButton className="notoMedium" onClick={gotoRegister}><span>+ 계좌 추가</span></AddButton>
+            <AddButton className="notoMedium" onClick={goToBankEnrollment}><div>+ 계좌 추가</div></AddButton>
           </div>
           {loading === true ?
             <LoadingBox /> :
