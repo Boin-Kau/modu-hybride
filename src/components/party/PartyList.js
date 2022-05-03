@@ -5,7 +5,7 @@ import icon_party_user_reserved from "../../assets/party/detail/ic-partydetail-d
 import icon_party_waiting from "../../assets/icon-partydetail-partynotyet.svg";
 import icon_party_nothing from "../../assets/icon-partydetail-partynope.svg";
 
-const PartyDataListItem = ({ type, margin, isHost, isEnrollment }) => {
+const PartyDataListItem = ({ type, margin, isEnrollment }) => {
 
   const setMemberType = () => {
     switch (type) {
@@ -85,15 +85,16 @@ const PartyItemWrap = styled.div`
     color:#ffffff;
   }
   .itemTag {
-    margin: ${props => props.isEnrollment? '0.1875rem auto 0' : '0.25rem auto 0'};   
-    font-size: ${props => props.isEnrollment? '0.75rem' : '0.875rem'};
+    margin: ${props => props.isEnrollment ? '0.1875rem auto 0' : '0.25rem auto 0'};   
+    font-size: ${props => props.isEnrollment ? '0.75rem' : '0.875rem'};
     line-height: 1.79;
+    white-space:nowrap;
   }
 `;
 
 export const CustomPartyListItem = ({ name, margin, isHost, status, isEnrollment }) => {
   return (
-    <PartyItemWrap 
+    <PartyItemWrap
       marginRight={margin}
       isEnrollment={isEnrollment}
       color={
