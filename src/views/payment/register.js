@@ -5,33 +5,33 @@ import styled from "styled-components";
 import { PageTransContext } from '../../containers/pageTransContext';
 import ic_pay_duck from '../../assets/ic_pay_duck@3x.png';
 
-const Register = ({card, setBankAccountOpenStatus}) => {
+const Register = ({ card, setBankAccountOpenStatus }) => {
 
   const history = useHistory();
 
   //context
   const { setPageTrans } = useContext(PageTransContext);
 
-  const goToBankRegister = () =>{
+  const goToBankRegister = () => {
     setPageTrans("trans toRight");
     setBankAccountOpenStatus(false);
   }
 
-  const goToCardRegister = () =>{
+  const goToCardRegister = () => {
     setPageTrans("trans toRight");
     history.push('/card');
   }
 
-  
+
   return (
     <Container>
-        <div style={{display:'flex', flexDirection:'column', alignItems:'center', marginTop:'0.975rem'}}>
-            <img style={{width:'7.475rem', height:'5.3375rem'}} src={ic_pay_duck}/>
-            <RegisterButton className='notoBold'>
-              {card ? <span onClick={goToCardRegister}>+ 카드 등록하기</span> : <span onClick={goToBankRegister}>+ 계좌 등록하기</span>}
-            </RegisterButton>
-            {card ? <div className='notoRegular register-button'>자주쓰는 카드를 등록해보세요!</div> :<div className='notoRegular register-button'> 자주쓰는 계좌를 등록해보세요!</div>}
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '0.975rem' }}>
+        <img style={{ width: '7.475rem', height: '5.3375rem' }} src={ic_pay_duck} />
+        <RegisterButton className='notoBold'>
+          {card ? <span onClick={goToCardRegister}>+ 카드 등록하기</span> : <span onClick={goToBankRegister}>+ 계좌 등록하기</span>}
+        </RegisterButton>
+        {card ? <div className='notoRegular register-button'>자주쓰는 카드를 등록해보세요!</div> : <div className='notoRegular register-button'> 자주쓰는 계좌를 등록해보세요!</div>}
+      </div>
     </Container>
   );
 };
@@ -50,7 +50,8 @@ const Container = styled.div`
 
   .register-button{
     color: #696969;
-    width: 8rem;
+    width: 100%;
+    text-align:center;
     font-size: 0.625rem;
     line-height: 1.9;
   }
