@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import { PageTransContext } from "../../../../containers/pageTransContext";
 import { HostBottomDialogCloseAction, PartyDeleteConfirmDialogOpenAction } from "../../../../reducers/party/popup";
 import { BottomDialogDiv, BottomDialogWrap } from "../../../../styled/shared/wrap";
@@ -32,10 +31,6 @@ const HostBottomDialog = ({ dataForRevise, roomStatus, partyIdx }) => {
     dispatch(HostBottomDialogCloseAction);
     dispatch(PartyDeleteConfirmDialogOpenAction);
   };
-
-  const openQnAPage = () => {
-
-  }
 
   const closeDialog = () => {
     dispatch(HostBottomDialogCloseAction);
