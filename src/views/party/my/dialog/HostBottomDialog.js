@@ -33,6 +33,10 @@ const HostBottomDialog = ({ dataForRevise, roomStatus, partyIdx }) => {
     dispatch(PartyDeleteConfirmDialogOpenAction);
   };
 
+  const openQnAPage = () => {
+
+  }
+
   const closeDialog = () => {
     dispatch(HostBottomDialogCloseAction);
   };
@@ -43,7 +47,10 @@ const HostBottomDialog = ({ dataForRevise, roomStatus, partyIdx }) => {
         {/* 삭제하기 or 삭제 취소하기 */}
         <div className="btn_style margin_bottom">
           <div onClick={openPartyRevisePage} className="one_btn gray_border_bottom">파티 정보 수정</div>
-          <div onClick={openDeleteConfirmDialog} className="one_btn">{roomStatus === 'RESERVED' ? '삭제 취소하기' : '삭제하기'}</div>
+          <div onClick={openDeleteConfirmDialog} className="one_btn gray_border_bottom">{roomStatus === 'RESERVED' ? '삭제 취소하기' : '삭제하기'}</div>
+          <a href="https://pf.kakao.com/_tKfKs" target="blank" style={{ textDecoration: 'none' }}>
+            <div className="one_btn" style={{ color: "#000000" }}>문의하기</div>
+          </a>
         </div>
         <div onClick={closeDialog} className="btn_style one_btn">취소</div>
       </BottomDialogDiv>
