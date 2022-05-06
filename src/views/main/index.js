@@ -58,6 +58,7 @@ const Main = () => {
         analysisReloadStatus
     } = useSelector(state => state.main.analysis);
     const {
+        subscribeList,
         closeItemClick
     } = useSelector(state => state.main.subscribe);
 
@@ -397,7 +398,11 @@ const Main = () => {
                 <div style={{ flexGrow: "1", flexBasis: "0", zIndex: "20" }}>
                     <animated.div {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
                         <TitleWrap className="notoMedium" style={{ paddingRight: '0' }}>
-                            <div className="spoqaBold" style={{ fontSize: '0.875rem', position: 'relative' }}>구독내역
+                            <div className="spoqaBold" style={{ fontSize: '0.875rem', position: 'relative', display: "flex" }}>
+                                <div style={{ lineHeight: "1.4375rem" }}>구독내역</div>
+                                <div style={{ fontSize: "0.75rem", color: "white", backgroundColor: "#ffca17", borderRadius: "0.75rem", marginLeft: "0.3438rem", padding: "0 0.5rem" }}>
+                                    <div style={{ lineHeight: "1.4375rem" }}>{subscribeList.length || 0}개</div>
+                                </div>
                                 <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "0px", transform: "translate(0, -50%)", width: '50px', paddingRight: '1.25rem', textAlign: 'right' }}>
                                     <img src={cardPlus} alt="pluse" style={{ width: '0.75rem', height: '0.75rem' }} />
                                 </div>
