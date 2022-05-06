@@ -411,6 +411,14 @@ const PartyContent = ({ data, openAuthPopup, authPopupStatus }) => {
 
     const onClickDetailButton = () => {
 
+        //가입된 파티의 경우, 내 파티 상세페이지로 이동
+        if (data.IsEnrolled === "Y") {
+            // 페이지 전환
+            setPageTrans('trans toRight');
+            history.push(`/party/my/${data.idx}`);
+            return
+        }
+
         // 리덕스 설정
         dispatch(UpdatePartyAction({
             type: "ENROLL",
