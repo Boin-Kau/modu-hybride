@@ -1,33 +1,23 @@
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
-
-import clamp from 'lodash-es/clamp'
-import { useSpring, animated } from 'react-spring'
-import { useGesture } from 'react-with-gesture'
-
+import clamp from 'lodash-es/clamp';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-
-import styled from "styled-components";
-
-
-// import backgroundImg from '../../assets/group-2.svg';
-import backgroundImg from '../../assets/back-money.svg';
-import mainLoading from '../../assets/main-loading.gif';
-import duck_see from "../../assets/duck-see.png";
-
-import cardPlus from '../../assets/card-plus.svg';
-
-import BottomCard from '../../components/main/bottomCard';
-import TopCard from '../../components/main/topCard';
-import ConsumCard from '../../components/main/consumCard';
-
-import { customApiClient } from '../../shared/apiClient';
-import { GetAnalyPageList, AnalyPageReloadFalseAction } from '../../reducers/main/analysis';
 import { useHistory } from 'react-router-dom';
-import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
-
-import { onClickTerminate, checkMobile } from '../../App';
-import { CloseItemFalseAction } from '../../reducers/main/subscribe';
+import { animated, useSpring } from 'react-spring';
+import { useGesture } from 'react-with-gesture';
+import styled from "styled-components";
+import { checkMobile, onClickTerminate } from '../../App';
+import backgroundImg from '../../assets/back-money.svg';
+import cardPlus from '../../assets/card-plus.svg';
+import duck_see from "../../assets/duck-see.png";
+import mainLoading from '../../assets/main-loading.gif';
+import BottomCard from '../../components/main/bottomCard';
+import ConsumCard from '../../components/main/consumCard';
+import TopCard from '../../components/main/topCard';
 import { PageTransContext } from '../../containers/pageTransContext';
+import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
+import { AnalyPageReloadFalseAction, GetAnalyPageList } from '../../reducers/main/analysis';
+import { CloseItemFalseAction } from '../../reducers/main/subscribe';
+import { customApiClient } from '../../shared/apiClient';
 import UpdatePopUp from '../popup/update';
 
 const CardStyle = {
