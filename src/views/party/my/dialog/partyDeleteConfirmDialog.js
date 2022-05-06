@@ -21,18 +21,18 @@ const PartyDeleteConfirmDialog = ({ roomStatus, userStatus, isHostUser, currentU
 
     if (isHostUser === 'Y') {
       if (currentUserCount === 1) {
-        setDeleteSubtitleMsg("파티를 삭제하면 파티원을\n다시 모집할 수 없게됩니다.");
+        setDeleteSubtitleMsg("파티를 삭제하면 파티원을\n다시 모집할 수 없게 되어요.");
       } else {
-        setDeleteSubtitleMsg(`지금 파티를 삭제하면 다음 결제주기인 ${(paymentCycleDate || "").replace(/-/gi, ".")}에 종료됩니다.`);
+        setDeleteSubtitleMsg(`지금 파티를 삭제하면\n다음 결제주기인 ${(paymentCycleDate || "").replace(/-/gi, ".")}에 종료되고,\n인원을 추가적으로 모집할 수 없게 되어요.`);
       }
     }
     else {
-      setDeleteSubtitleMsg(`지금 파티를 해지하면 다음 결제주기인 ${(paymentCycleDate || "").replace(/-/gi, ".")}에 종료됩니다.`);
+      setDeleteSubtitleMsg(`지금 파티를 해지하면\n다음 결제주기인 ${(paymentCycleDate || "").replace(/-/gi, ".")}에 종료 되어요.`);
     }
 
     // 파티 삭제 취소 메시지
     setCancelTitleMsg(`${isHostUser === 'Y' ? '삭제' : '해지'}를 취소하시겠어요?`);
-    setCancelSubtitleMsg(`결제일 전이라면\n언제든 취소할 수 있습니다.`);
+    setCancelSubtitleMsg(`결제일 전이라면\n언제든 취소할 수 있어요.`);
 
   }, [roomStatus, userStatus, isHostUser, currentUserCount, clickDelete, clickCancel, paymentCycleDate])
 

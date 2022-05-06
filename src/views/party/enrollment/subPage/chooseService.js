@@ -28,8 +28,6 @@ const ChooseService = () => {
     selectedPlatformImgUrl,
     selectedPlatformImgColor,
     selectedPlatformImgInitial,
-    isAccount,
-    isAdult,
   } = useSelector(state => state.party.enrollment.platform);
 
   const {
@@ -303,10 +301,7 @@ const ChooseServiceWrap = styled.div`
   }
 
   .buttonWrap {
-    position: absolute;
-    bottom:0;
-    left:1.25rem;
-    right:1.25rem;
+    padding: 0.9375rem 1.25rem 0 1.25rem;
   }
 `;
 

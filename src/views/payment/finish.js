@@ -16,8 +16,6 @@ const Finish = ({ location }) => {
 
   const onClickOpenChat = () => {
     setPageTrans("trans toRight");
-    window.open(location.props.openChatLink, '_blank');
-
     history.push({
       pathname: `/party/my/${location.props.partyIdx}`,
       props: {
@@ -40,7 +38,8 @@ const Finish = ({ location }) => {
         />
         <span className="spoqaBold firstText">파티 결제 완료!</span>
         <span className="notoMedium secondText">
-          오픈카톡에서 파티원들과 파티와 관련된 더 자세한 대화를 나눠요.
+          파티 상세 페이지에서 계정 정보를 <br />
+          확인하고 오픈 카톡방에 참여해주세요 :)
         </span>
       </Container>
       <ButtonWrap onClick={onClickOpenChat} className="spoqaBold">
@@ -54,7 +53,7 @@ const Finish = ({ location }) => {
             fontSize: "0.8125rem",
           }}
         >
-          오픈카톡으로 이동
+          파티 상세보기
         </div>
       </ButtonWrap>
     </div>
@@ -66,7 +65,6 @@ const Container = styled.div`
   top: 30%;
   left: 0;
   right: 0;
-  margin: 0 5.5625rem 0 5.5625rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,7 +77,7 @@ const Container = styled.div`
   }
 
   .firstText {
-    margin-bottom:0.375rem;
+    margin-bottom:0.625rem;
     font-size: 1.25rem;
     text-align: center;
     line-height:1.75rem;

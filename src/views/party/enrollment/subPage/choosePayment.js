@@ -215,15 +215,15 @@ const ChoosePayment = () => {
 
         {/* 모집 인원 */}
         <TitleWrap style={{ marginTop: '0.5rem' }}>
-          <div>모집 인원</div>
-          <div style={{ marginLeft: '0.3125rem', fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
+          <div>파티 인원</div>
+          <div style={{ marginLeft: '0.3125rem', fontSize: "0.7188rem", color: "#ff0000" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
         </TitleWrap>
         <ItemWrap onClick={onClickPersonelOpen}>
           <InputWrap openStatus={personelOpen} isBlocked={partyPersonel === 0}>
-            <div>
+            <div >
               {
                 partyPersonel !== 0 ? partyPersonel :
-                  '자신을 포함한 모집 인원을 선택해주세요'
+                  '자신을 포함한 파티 인원을 선택해주세요'
               }
             </div>
             <div style={{ flexGrow: "1" }}></div>

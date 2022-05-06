@@ -472,24 +472,43 @@ const MyPartyDetail = ({ location }) => {
       setUserInfoPopupStatus(true);
       return
     }
+
+
+    //기존 파티장 로직 처리
+    if (result.isHostUser === "Y" &&
+      !result.membershipInfo.paymentCycleDate) {
+      setHostInfoPopupStatus(true);
+      return
+    }
+  }
+
+  //기존 파티장 삭제하기 -> 삭제컨펌 팝업 띄우기
+  const handleClickPartyDelete = () => {
+    setHostInfoPopupStatus(false);
+    setDeletePopupStatus(true);
   }
 
   //최종 해지 함수 -> API 실행
   const handleClickDeleteConfirm = async () => {
+
+    const userRole = result.isHostUser === "Y" ? "HOST" : "USER";
+    const message = result.isHostUser === "Y" ? "삭제" : "해지";
+
     // 파티 삭제
-    const partyDeleteUri = `/party/${partyIdx}?userRole=USER`;
+    const partyDeleteUri = `/party/${partyIdx}?userRole=${userRole}`;
     const partyDeleteData = await customApiClient('delete', partyDeleteUri);
 
     // Server Error
     if (!partyDeleteData) { return };
 
     // Validation
-    if (partyDeleteData.statusCode !== 202) { return alert(partyDeleteData.message) };
+    if (partyDeleteData.statusCode !== 201 && partyDeleteData.statusCode !== 202) { return alert(partyDeleteData.message) };
     console.log('API 호출 성공 :', partyDeleteData);
 
-    setFinishPopupTitle("해지가 완료되었습니다.");
-    setFinishPopupSubTitle("해지가 모두 완료되었습니다.\n해지된 데이터는 다시 조회할 수 없습니다.");
+    setFinishPopupTitle(`${message}가 완료되었습니다.`);
+    setFinishPopupSubTitle(`${message}가 모두 완료되었습니다.\n${message}된 데이터는 다시 조회할 수 없습니다.`);
     setRegularFailConfirmPopupStatus(false);
+    setDeletePopupStatus(false);
     setFinishPopupStatus(true);
 
     //소비분석 리로드
@@ -731,7 +750,7 @@ const MyPartyDetail = ({ location }) => {
         imgWidth={"8.1375"}
         imgHeight={"8.3125"}
         title={regularFailConfirmPopupTitle}
-        subTitle={"해지시 즉시 해지가 되고,\n이전 데이터는 사라지게 됩니다."}
+        subTitle={"해지시 즉시 해지가 되고,\n이전 데이터는 사라지게 되어요."}
         leftButtonText={"구독 유지하기"}
         rightButtonText={"지금 해지"}
         onClickLeft={handleClickRePay}
@@ -746,9 +765,9 @@ const MyPartyDetail = ({ location }) => {
         imgHeight={"7.1875"}
         title={"정산정보를 등록해주세요."}
         subTitle={"정보를 등록하지 않으면 신규 파티원을\n모집할 수 없어요."}
-        leftButtonText={"다음에 하기"}
+        leftButtonText={"삭제하기"}
         rightButtonText={"등록하기"}
-        onClickLeft={closePage}
+        onClickLeft={handleClickPartyDelete}
         onClickRight={handleClickHostInfo}
       />
 
@@ -783,8 +802,8 @@ const MyPartyDetail = ({ location }) => {
       {/* 탈퇴 컨펌 창 */}
       <DangerDialog
         openStatus={deletePopupStatus}
-        title={"정말 해지하시겠어요?"}
-        subTitle={"내용 필요함"}
+        title={result.isHostUser === "Y" ? "정말 삭제하시겠어요?" : "정말 해지하시겠어요?"}
+        subTitle={result.isHostUser === "Y" ? "삭제시 즉시 삭제가 되고,\n이전 데이터는 사라지게 되어요." : "해지시 즉시 해지가 되고,\n이전 데이터는 사라지게 되어요."}
         leftButtonText={"취소"}
         rightButtonText={"확인"}
         onClickLeft={handleClickDeleteCancle}
