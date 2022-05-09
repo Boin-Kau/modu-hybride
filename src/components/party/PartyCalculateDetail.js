@@ -5,25 +5,6 @@ import { priceToString } from "../main/bottomCard";
 
 const PartyCalculateDetail = ({ openStatus, closeFunc, nextCalculatePrice, nextCalculateDetail }) => {
 
-    nextCalculateDetail = [
-        {
-            idx: 1,
-            name: "기리기리택",
-            gap: 4,
-            startDate: "22.04.11",
-            endDate: "22.05.06",
-            price: 3000
-        },
-        {
-            idx: 2,
-            name: "로건로건",
-            gap: 23,
-            startDate: "22.04.11",
-            endDate: "22.05.13",
-            price: 5000
-        }
-    ]
-
     return (
         <PabeWrap openStatus={openStatus}>
             <div className="subWrap" onClick={closeFunc} />

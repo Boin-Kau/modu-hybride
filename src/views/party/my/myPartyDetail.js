@@ -739,7 +739,7 @@ const MyPartyDetail = ({ location }) => {
         openStatus={calculateDetailStatus}
         closeFunc={handleClickCalculateDetail}
         nextCalculatePrice={membershipInfoObj.nextCalculatePrice}
-        nextCalculateDetail={{}}
+        nextCalculateDetail={membershipInfoObj.nextCalculateDetail}
       />
 
       <HostBottomDialog dataForRevise={result} roomStatus={roomStatus} partyIdx={partyIdx} />
