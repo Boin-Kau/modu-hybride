@@ -276,7 +276,8 @@ const ChooseBankAccount = () => {
             <AccountSlideWrap openStatus={isBankAccountStatus}>
               <AccountSlide
                 setAccountIdx={setBankAccountIdx}
-                setBankAccountOpenStatus={setIsBankAccountStatus} />
+                setBankAccountOpenStatus={setIsBankAccountStatus}
+                isEnrollment={true} />
             </AccountSlideWrap>
           </div>
         }
