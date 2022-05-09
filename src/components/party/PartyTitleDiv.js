@@ -62,9 +62,9 @@ const CustomImg = styled.div`
 
 const CustomInitial = styled.div`
   position: absolute;
-  top: 30%;
+  top: 38%;
   left: 50%;
-  transform: translate(-50%,-30%);
+  transform: translate(-50%,-38%);
   color: #ffffff;
   /* 수정필요 */
   font-size: ${(props) => props.isDetail ? '1.375rem' : '1.375rem'};
