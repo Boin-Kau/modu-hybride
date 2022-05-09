@@ -6,6 +6,7 @@ import icon_back from "../../../assets/icon-back-arrow.svg";
 import icon_more from "../../../assets/icon-partydetail-more.svg";
 import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
 import icon_notice_duck from '../../../assets/icon-notice-duck.svg';
+import ic_partydetail_more from "../../../assets/party/detail/ic-partydetail-more.png";
 
 import { useHistory, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
@@ -39,6 +40,7 @@ import { SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
 import { UpdatePlatformAction } from "../../../reducers/party/enrollment/platform";
 import { UpdatePartyInfoAction } from "../../../reducers/party/enrollment/partyInfo";
 import { UpdatePaymentAction } from "../../../reducers/party/enrollment/payment";
+import PartyCalculateDetail from "../../../components/party/PartyCalculateDetail";
 
 const MyPartyDetail = ({ location }) => {
 
@@ -85,6 +87,9 @@ const MyPartyDetail = ({ location }) => {
   const [finishPopupStatus, setFinishPopupStatus] = useState(false); //최종확인 팝업 데이터
   const [finishPopupTitle, setFinishPopupTitle] = useState(false); //최종확인 팝업 제목
   const [finishPopupSubTitle, setFinishPopupSubTitle] = useState(false); //최종확인 팝업 내용
+
+  const [calculateDetail, setCalculateDetail] = useState({}); //파티장 정산 디테일 데이터
+  const [calculateDetailStatus, setCalculateDetailStatus] = useState(false); //파티장 정산 상세보기 팝업
 
   // Lifecycle - Initial Logic
   useEffect(() => {
@@ -337,6 +342,10 @@ const MyPartyDetail = ({ location }) => {
     //소비분석 리로드
     dispatch(AnalyPageReloadTrueAction);
     dispatch(SubscribeReloadTrueAction);
+  }
+
+  const handleClickCalculateDetail = () => {
+    setCalculateDetailStatus(!calculateDetailStatus);
   }
 
   //정기결제 실패 - 재결제하기
@@ -649,8 +658,17 @@ const MyPartyDetail = ({ location }) => {
         {/* 파티장은 정산정보, 파티원은 결제수단 */}
         <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem' }}>
           {/* 서브타이틀 */}
-          <div style={{ marginBottom: '0.625rem' }}>
+          <div style={{ position: "relative", marginBottom: '0.625rem' }}>
             <PartyDetailSubtitleSpan>{isHostUser === 'Y' ? '정산정보' : '결제수단'}</PartyDetailSubtitleSpan>
+            {
+              isHostUser === 'Y' &&
+              <div onClick={handleClickCalculateDetail} style={{ position: "absolute", top: "0", right: "0", display: "flex", padding: "0.1875rem" }}>
+                <div className="notoMedium" style={{ marginRight: "0.25rem", fontSize: "0.75rem", color: "#939393", lineHeight: "1.125rem" }}>자세히 보기</div>
+                <div>
+                  <img style={{ width: "0.6875rem", height: "0.6875rem" }} src={ic_partydetail_more} alt="ic_partydetail_more" />
+                </div>
+              </div>
+            }
           </div>
           {/* 정산정보or결제수단 Notice Wrap */}
           <NoticeWrap style={{ marginBottom: '0.5rem' }}>
@@ -715,6 +733,14 @@ const MyPartyDetail = ({ location }) => {
             isBottomStatus={false} />
         </div>
       </MainWrap>
+
+      {/* 파티장 정산정보 디테일 팝업*/}
+      <PartyCalculateDetail
+        openStatus={calculateDetailStatus}
+        closeFunc={handleClickCalculateDetail}
+        nextCalculatePrice={membershipInfoObj.nextCalculatePrice}
+        nextCalculateDetail={{}}
+      />
 
       <HostBottomDialog dataForRevise={result} roomStatus={roomStatus} partyIdx={partyIdx} />
       <MemberBottomDialog userStatus={userStatus} handleClickReport={handleClickReport} />
