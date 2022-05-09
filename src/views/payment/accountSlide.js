@@ -10,7 +10,7 @@ import ic_pay_cardtab from "../../assets/ic_pay_cardtab.svg";
 import ic_pay_cardtab_g from "../../assets/ic_pay_cardtab_g.svg";
 import LoadingBox from "../../components/LoadingBox";
 
-const AccountSlide = ({ setAccountIdx, setBankAccountOpenStatus }) => {
+const AccountSlide = ({ setAccountIdx, setBankAccountOpenStatus, isEnrollment }) => {
   //state
   const [cardData, setCardData] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -88,7 +88,7 @@ const AccountSlide = ({ setAccountIdx, setBankAccountOpenStatus }) => {
                   </div>
                 );
               })}
-              <Register card={false} setBankAccountOpenStatus={setBankAccountOpenStatus} />
+              <Register card={false} setBankAccountOpenStatus={setBankAccountOpenStatus} isEnrollment={isEnrollment} />
             </Slider>
           )}
     </div>

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { PageTransContext } from '../../containers/pageTransContext';
 import ic_pay_duck from '../../assets/ic_pay_duck@3x.png';
 
-const Register = ({ card, setBankAccountOpenStatus }) => {
+const Register = ({ card, setBankAccountOpenStatus, isEnrollment }) => {
 
   const history = useHistory();
 
@@ -13,8 +13,17 @@ const Register = ({ card, setBankAccountOpenStatus }) => {
   const { setPageTrans } = useContext(PageTransContext);
 
   const goToBankRegister = () => {
-    setPageTrans("trans toRight");
-    setBankAccountOpenStatus(false);
+    
+
+    if(isEnrollment) {
+      // 파티등록에서 "계좌등록"
+      setPageTrans("trans toRight");
+      setBankAccountOpenStatus(false);
+    } else {
+      // 내파티상세보기 - 계좌변경에서 "계좌등록"
+      setPageTrans("trans toRight");
+      history.push("/bank/enrollment");
+    }
   }
 
   const goToCardRegister = () => {
