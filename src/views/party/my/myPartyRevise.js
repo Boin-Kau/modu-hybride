@@ -22,6 +22,7 @@ import { customApiClient } from "../../../shared/apiClient";
 import { useDispatch } from "react-redux";
 import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from "../../../reducers/container/message";
 import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
+import PartyLinkPopup from "../../../components/party/PartyLinkPopup";
 
 const MyPartyRevise = ({ location }) => {
 
@@ -49,6 +50,8 @@ const MyPartyRevise = ({ location }) => {
   const [personnelInfoStatus, setPersonnelInfoStatus] = useState(false);
   const [personnelOpenStatus, setPersonnelOpenStatus] = useState(false);
   const [confirmBtnStatus, setConfirmBtnStatus] = useState(true);
+
+  const [partyLinkPopupStatus, setPartyLinkPopupStatus] = useState(false);
 
   useEffect(() => {
     //에러 처리
@@ -144,7 +147,6 @@ const MyPartyRevise = ({ location }) => {
     closePage();
   }
 
-  const onClickPersonnelInfo = () => setPersonnelInfoStatus(!personnelInfoStatus);
   const onClickPersonnelOpen = () => setPersonnelOpenStatus(!personnelOpenStatus);
 
   // 페이지 뒤로 이동
@@ -153,6 +155,10 @@ const MyPartyRevise = ({ location }) => {
     setPageTrans('trans toLeft');
     history.goBack();
   };
+
+  const handleClickPartyLink = () => {
+    setPartyLinkPopupStatus(!partyLinkPopupStatus);
+  }
 
   return (
     <div className="page">
@@ -219,14 +225,17 @@ const MyPartyRevise = ({ location }) => {
 
           {/* 오픈카톡방 링크 */}
           <TitleWrap style={{ marginTop: '0.5625rem' }}>오픈카톡방 링크</TitleWrap>
-          <InputComponent
-            id={"partyLink"}
-            type={"text"}
-            placeholder={"오픈카톡방 링크를 입력하세요"}
-            maxLength={200}
-            value={partyLink}
-            onChange={handleChangePartyLink}
-          />
+          <div style={{ position: "relative" }}>
+            <InputComponent
+              id={"partyLink"}
+              type={"text"}
+              placeholder={"오픈카톡방 링크를 입력하세요"}
+              maxLength={200}
+              value={partyLink}
+              onChange={handleChangePartyLink}
+            />
+            <div onClick={handleClickPartyLink} style={{ zIndex: "10", position: "absolute", top: "0", left: "0", bottom: "0", right: "0" }} />
+          </div>
 
           {/* 필요한 인원 */}
           <TitleWrap style={{ marginTop: '0.5625rem', position: 'relative' }}>
@@ -279,6 +288,13 @@ const MyPartyRevise = ({ location }) => {
         </SectionWrap>
 
         <BottomButton clickFunc={onClickConfirmButton} text={'확인'} activeStatus={confirmBtnStatus} isBottomStatus={false} />
+
+        {/* 오픈카톡 팝업 */}
+        <PartyLinkPopup
+          openStatus={partyLinkPopupStatus}
+          closeFunc={handleClickPartyLink}
+          setPartyLink={setPartyLink}
+        />
       </ContentWrap>
 
     </div>

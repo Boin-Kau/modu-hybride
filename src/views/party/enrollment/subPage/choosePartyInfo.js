@@ -26,7 +26,6 @@ const ChoosePartyInfo = ({ updatePage }) => {
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
   const [partyLinkPopupStatus, setPartyLinkPopupStatus] = useState(false);
-  const [partyLinkContent, setPartyLinkContent] = useState("");
 
   useEffect(() => {
     if (partyTitle && partyLink) {
