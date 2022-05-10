@@ -38,7 +38,7 @@ const PartyTitleDiv = ({ title, info, isDetail, isUserReserved, isPartyReserved,
               <img className="notionImg" src={notionIcon} alt="notionIcon" />
               {
                 isUserReserved ? <span className="notionText notoMedium">{leftDay === 0 ? "오늘 해지" : `${leftDay}일 후 해지`}</span> :
-                  <span className="notionText notoMedium">{leftDay === 0 ? "오늘 해체" : `${leftDay}일 후 해체`}</span>
+                  <span className="notionText notoMedium">{leftDay === 0 ? "오늘 삭제" : `${leftDay}일 후 삭제`}</span>
               }
             </div>
           }
