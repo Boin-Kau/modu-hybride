@@ -12,6 +12,7 @@ import BottomButton from "../../../../components/party/BottomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/setPage";
 import { ResetPartyInfo, UpdatePartyInfoAction } from "../../../../reducers/party/enrollment/partyInfo";
+import PartyLinkPopup from "../../../../components/party/PartyLinkPopup";
 
 const ChoosePartyInfo = ({ updatePage }) => {
 
@@ -23,6 +24,9 @@ const ChoosePartyInfo = ({ updatePage }) => {
   const [partyLink, setPartyLink] = useState(openChatLink || "");
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
+
+  const [partyLinkPopupStatus, setPartyLinkPopupStatus] = useState(false);
+  const [partyLinkContent, setPartyLinkContent] = useState("");
 
   useEffect(() => {
     if (partyTitle && partyLink) {
@@ -56,6 +60,10 @@ const ChoosePartyInfo = ({ updatePage }) => {
     }));
     nextBtnStatus && dispatch(UpdateCurrentPageAction({ page: 4 }));
   };
+
+  const handleClickPartyLink = () => {
+    setPartyLinkPopupStatus(!partyLinkPopupStatus);
+  }
 
   return (
     <ChoosePartyInfoWrap style={{ flexGrow: '1' }}>
@@ -107,18 +115,27 @@ const ChoosePartyInfo = ({ updatePage }) => {
             <span className="moreInfoText">더보기</span>
           </MoreInfoWrap>
         </TitleWrap>
-        <InputComponent
-          id={"partyLink"}
-          type={"text"}
-          placeholder={"오픈카톡방 링크를 입력하세요"}
-          maxLength={200}
-          value={partyLink}
-          onChange={handleChangePartyLink}
-        />
+        <div style={{ position: "relative" }}>
+          <InputComponent
+            id={"partyLink"}
+            type={"text"}
+            placeholder={"오픈카톡방 링크를 입력하세요"}
+            maxLength={200}
+            value={partyLink}
+            onChange={handleChangePartyLink}
+          />
+          <div onClick={handleClickPartyLink} style={{ zIndex: "10", position: "absolute", top: "0", left: "0", bottom: "0", right: "0" }} />
+        </div>
 
       </div>
       <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false} />
 
+      {/* 오픈카톡 팝업 */}
+      <PartyLinkPopup
+        openStatus={partyLinkPopupStatus}
+        closeFunc={handleClickPartyLink}
+        setPartyLink={setPartyLink}
+      />
     </ChoosePartyInfoWrap>
   );
 }
