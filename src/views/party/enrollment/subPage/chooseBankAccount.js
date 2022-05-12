@@ -34,6 +34,7 @@ const ChooseBankAccount = () => {
     selectedBankAccountUserName,
     selectedBankAccountNum,
     selectedBankAccountIdx,
+    selectedBankNameState,
   } = useSelector(state => state.party.enrollment.bankAccount);
 
   const [accountOwnerName, setAccountOwnerName] = useState(selectedBankAccountUserName || "");
@@ -57,7 +58,8 @@ const ChooseBankAccount = () => {
       selectedBankIdx: null,
       selectedBankAccountUserName: null,
       selectedBankAccountNum: null,
-      selectedBankAccountIdx: null
+      selectedBankAccountIdx: null,
+      selectedBankNameState: null,
     }));
 
     getBankAccountList();
@@ -139,7 +141,8 @@ const ChooseBankAccount = () => {
             selectedBankIdx: account.idx,
             selectedBankAccountUserName: '',
             selectedBankAccountNum: account.bankAccountNum,
-            selectedBankAccountIdx: bankAccountIdx
+            selectedBankAccountIdx: bankAccountIdx,
+            selectedBankNameState: account.bankName
           }));
         }
       })
@@ -176,7 +179,8 @@ const ChooseBankAccount = () => {
         selectedBankIdx: bankIdx,
         selectedBankAccountUserName: accountOwnerName,
         selectedBankAccountNum: bankAccountNum,
-        selectedBankAccountIdx: data.result.bankAccountIdx
+        selectedBankAccountIdx: data.result.bankAccountIdx,
+        selectedBankNameState: selectedBankName,
       }));
       data.result.bankAccountIdx && nextBtnStatus && dispatch(UpdateCurrentPageAction({ page: 6 }));
 
