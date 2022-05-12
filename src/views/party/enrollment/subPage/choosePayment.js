@@ -38,6 +38,7 @@ const ChoosePayment = () => {
 
   const [membershipPriceInfoStatus, setMembershipPriceInfoStatus] = useState(false)
   const [totalPersonnelInfoStatus, setTotalPersonnelInfoStatus] = useState(false);
+  const [firstPaymentWrapOpenStatus, setFirstPaymentWrapOpenStatus] = useState(false);
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
@@ -67,6 +68,14 @@ const ChoosePayment = () => {
   useEffect(() => {
     formatDate();
   }, [paymentDay])
+
+  useEffect(() => {
+    if(membershipPrice && paymentDay) {
+      setFirstPaymentWrapOpenStatus(true);
+    } else {
+      setFirstPaymentWrapOpenStatus(false);
+    }
+  },[membershipPrice, paymentDay])
 
   const onClickPaymentDayOpen = useCallback(() => {
     if (paymentDayOpen) {
@@ -204,6 +213,12 @@ const ChoosePayment = () => {
           </Fade>
         </div>
 
+        {/* 첫 정산일 */}
+        <FirstPaymentWrap openStatus={firstPaymentWrapOpenStatus}>
+          <span style={{color:'#505050'}}>첫 정산일</span>
+          <span style={{color:'#000'}}>{today.getDate() > paymentDay && today.getMonth() === 11 ? today.getFullYear()+1 : today.getFullYear()}년 {today.getDate() > paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
+        </FirstPaymentWrap>
+
         {/* 1인당 결제 금액 */}
         <TitleWrap style={{ marginTop: '0.5rem' }}>1인당 결제 금액</TitleWrap>
         <ItemWrap>
@@ -261,9 +276,12 @@ const ChoosePayment = () => {
           <div className="notice_wrap">
             <img className="notice_img" src={icon_notice_white_duck}></img>
             <div className="notice_text">
-              <span className="weight_500">{today.getDate() > paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
+              {/* <span className="weight_500">{today.getDate() > paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
               부터 정산이 시작될 예정이에요. {priceToString(membershipPrice || 0)}원의 멤버십에서
               <span className="weight_600"> {priceToString(pricePerMember * (partyPersonel - 1) || 0)}원을 아낄 수 </span>
+              있네요! */}
+              {membershipPrice}의 멤버십에서 총
+              <span className="weight_600"> {Number(pricePerMember) * partyPersonel}원을 아낄 수 </span>
               있네요!
             </div>
           </div>
@@ -354,4 +372,17 @@ const BottomNoticeWrap = styled.div`
     left: 20%;
     transform:translate(-50%,0);
   }
+`;
+
+const FirstPaymentWrap = styled.div`
+  border-radius: 0.4375rem;
+  background-color: #fff8e8;
+  padding: 1rem 0.875rem;
+  font-size: 0.75rem;
+  font-family: 'Noto Sans KR';
+  font-weight: 500;
+  margin-top: 0.5rem;
+
+  display: ${props => props.openStatus ? 'flex' : 'none'};
+  justify-content: space-between;
 `;
