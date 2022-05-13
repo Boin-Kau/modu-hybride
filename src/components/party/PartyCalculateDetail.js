@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import icon_delete from "../../assets/icon-popup-delete.svg";
+import duck_none_img from "../../assets/duck-none.svg";
 import icon_party_user from "../../assets/party/detail/ic-partydetail-partysucess.png";
 import { priceToString } from "../main/bottomCard";
 
@@ -22,7 +23,15 @@ const PartyCalculateDetail = ({ openStatus, closeFunc, nextCalculatePrice, nextC
 
                 {!nextCalculateDetail || nextCalculateDetail.length < 1 ?
                     <div className="contentNoneWrap">
-                        정산 내역이 아직 없습니다.
+                        <div style={{ margin: "2.5625rem 0 3.9375rem 0", textAlign: "center" }}>
+                            <div style={{ textAlign: "left", marginBottom: "1.1875rem" }}>
+                                <img style={{ marginLeft: "38.8%" }} src={duck_none_img} />
+                            </div>
+                            <div className="spoqaMedium" style={{ fontSize: "0.75rem", lineHeight: "1.375rem", color: "#313131", opacity: "0.2" }}>
+                                정산 예정된 내역이 아직 없어요.<br />
+                                파티원을 모집해보아요 :)
+                            </div>
+                        </div>
                     </div> :
                     <div className="contentFillWrap">
                         {nextCalculateDetail.map((item) => {

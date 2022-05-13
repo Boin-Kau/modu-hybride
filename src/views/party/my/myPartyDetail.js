@@ -653,10 +653,10 @@ const MyPartyDetail = ({ location }) => {
 
         {/* 계정 정보 */}
         {
-          (isHostUser === 'Y' || (accountInfoObj.accountId && accountInfoObj.accountPw)) &&  
+          (isHostUser === 'Y' || (accountInfoObj.accountId && accountInfoObj.accountPw)) &&
           <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem', borderBottom: '0.5rem #f7f7f7 solid' }} >
             {/* 서브타이틀 */}
-            <div style={{ marginBottom: '1.25rem', position:'relative' }}>
+            <div style={{ marginBottom: '1.25rem', position: 'relative' }}>
               <PartyDetailSubtitleSpan>계정 정보</PartyDetailSubtitleSpan>
               {
                 isHostUser === 'Y' && !(accountInfoObj.accountId && accountInfoObj.accountPw) &&
@@ -666,7 +666,7 @@ const MyPartyDetail = ({ location }) => {
                     <img style={{ width: "0.6875rem", height: "0.6875rem" }} src={ic_partydetail_more} alt="ic_partydetail_more" />
                   </div>
                 </div>
-              }  
+              }
             </div>
             {/* 파티장은 계정변경, 파티원은 계정복사로 버튼 구성 */}
             <AccountInfoComponent
@@ -683,7 +683,7 @@ const MyPartyDetail = ({ location }) => {
             <PartyDetailSubtitleSpan>{isHostUser === 'Y' ? '정산정보' : '결제수단'}</PartyDetailSubtitleSpan>
             {
               isHostUser === 'Y' &&
-              <div onClick={undefined} style={{ position: "absolute", top: "0", right: "0", display: "flex", padding: "0.1875rem" }}>
+              <div onClick={handleClickCalculateDetail} style={{ position: "absolute", top: "0", right: "0", display: "flex", padding: "0.1875rem" }}>
                 <div className="notoMedium" style={{ marginRight: "0.25rem", fontSize: "0.75rem", color: "#939393", lineHeight: "1.125rem" }}>자세히 보기</div>
                 <div>
                   <img style={{ width: "0.6875rem", height: "0.6875rem" }} src={ic_partydetail_more} alt="ic_partydetail_more" />
