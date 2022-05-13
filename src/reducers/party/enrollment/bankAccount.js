@@ -2,7 +2,8 @@ export const initialState = {
     selectedBankIdx: null,
     selectedBankAccountUserName: null,
     selectedBankAccountNum: null,
-    selectedBankAccountIdx: null, 
+    selectedBankAccountIdx: null,
+    selectedBankNameState: null, 
 };
 
 export const ResetBankAccount ='ResetBankAccount';

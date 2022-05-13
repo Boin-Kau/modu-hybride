@@ -33,7 +33,7 @@ const EditAccount = ({ location }) => {
     dispatch(BottomNavCloseAction);
 
     location.state.idx ? setPartyIdx(location.state.idx) : closePage();
-    location.state.id ? setAccountId(location.state.id) : closePage();
+    // location.state.id ? setAccountId(location.state.id) : closePage();
   }, []);
 
   useEffect(() => {

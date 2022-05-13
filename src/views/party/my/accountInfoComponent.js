@@ -4,6 +4,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useDispatch } from "react-redux";
 import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from "../../../reducers/container/message";
 
+import ic_warning from '../../../assets/icon-partydetail-warning.svg'
+
 const AccountInfoComponent = ({ partyIdx, isHostUser, accountInfo }) => {
 
   const history = useHistory();
@@ -66,21 +68,48 @@ const AccountInfoComponent = ({ partyIdx, isHostUser, accountInfo }) => {
       <AccountInfoDiv isHost={isHostUser}>
         <div>
           <div className="subtitle">아이디</div>
-          <div className="content">{accountInfo.accountId}</div>
+          <div className="content">
+          { 
+            accountInfo.accountId ?
+              accountInfo.accountId
+              :
+              <>
+                <img src={ic_warning} alt='warning icon'></img>
+                <span style={{color:'#ffca2c', marginLeft:'0.2625rem'}}>아이디를 등록해주세요.</span>
+              </>
+          }
+          </div>
         </div>
         <CopyToClipboard text={accountInfo.accountId}>
           <button onClick={onClickPasteId} className="pasteBtn">복사</button>
         </CopyToClipboard>
       </AccountInfoDiv>
+
       <AccountInfoDiv isHost={isHostUser} style={{ marginTop: '1.75rem' }}>
         <div>
           <div className="subtitle">비밀번호</div>
-          <div className="content">{isHostUser === 'Y' ? accountInfo.accountPw : '*'.repeat(accountInfo.accountPw.length)}</div>
+          <div className="content">
+          {
+            isHostUser === 'Y' ? 
+              accountInfo.accountPw ?
+                accountInfo.accountPw
+                :
+                <>
+                  <img src={ic_warning} alt='warning icon'></img>
+                  <span style={{color:'#ffca2c', marginLeft:'0.2625rem'}}>비밀번호를 등록해주세요.</span>
+                </>
+                
+              : 
+              accountInfo.accountPw && '*'.repeat(accountInfo.accountPw.length)
+          }
+          </div>
         </div>
         <CopyToClipboard text={accountInfo.accountPw}>
           <button onClick={onClickPastePw} className="pasteBtn">복사</button>
         </CopyToClipboard>
-        <button onClick={onClickEditAccount} className="changeBtn">변경</button>
+        {
+          accountInfo.accountPw && <button onClick={onClickEditAccount} className="changeBtn">변경</button>
+        }
       </AccountInfoDiv>
     </>
   );
@@ -106,6 +135,9 @@ const AccountInfoDiv = styled.div`
     font-weight: 600;
     color: #313131;
     margin-top: 0.3125rem;
+
+    display: flex;
+    align-items: center;
   }
 
   .pasteBtn {
