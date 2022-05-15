@@ -205,6 +205,10 @@ const Payment = () => {
     }
   };
 
+  const popupOpen = ()=>{
+    dispatch({ type: "DetailPopupOpen" });
+  }
+
   return (
     <div className="page">
       <PageWrap>
@@ -275,7 +279,7 @@ const Payment = () => {
             </div>
           </NoticeWrap>
           <div className="notoMedium notice-text">
-            <div style={{ borderBottom: "1px solid #797979" }}>개인정보 제3자 제공 </div> 내용 및 결제에 동의합니다.
+            <div style={{ borderBottom: "1px solid #797979" }} onClick={popupOpen}>개인정보 제3자 제공 </div>&nbsp;내용 및 결제에 동의합니다.
           </div>
           <BottomButton
             text={(priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice)) + "원 결제"}
@@ -294,8 +298,6 @@ const Payment = () => {
         onClickLeft={handleClickPaymentClose}
         onClickRight={onClickRevise}
       />
-
-      {/* <DetailPopup/> */}
     </div>
   );
 };
