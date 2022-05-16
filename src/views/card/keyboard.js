@@ -120,7 +120,7 @@ const KeyboardWrap = styled.div`
   box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  padding: 1.4375rem 3.125rem;
+  padding: 1.4375rem 2.5rem;
   border-radius: 1.25rem;
 
   span{

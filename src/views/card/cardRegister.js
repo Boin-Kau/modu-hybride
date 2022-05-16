@@ -18,8 +18,6 @@ import check_y from "../../assets/ic_payregis_check_y@3x.png";
 import {
   TitleWrap,
   ItemWrap,
-  PartyIconWrap,
-  PartyIcon,
   PartyText,
 } from "../../styled/main/enrollment";
 import { customApiClient } from "../../shared/apiClient";
