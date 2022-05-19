@@ -69,14 +69,6 @@ const ChoosePayment = () => {
     formatDate();
   }, [paymentDay])
 
-  useEffect(() => {
-    if (membershipPrice && paymentDay) {
-      setFirstPaymentWrapOpenStatus(true);
-    } else {
-      setFirstPaymentWrapOpenStatus(false);
-    }
-  }, [membershipPrice, paymentDay])
-
   const onClickPaymentDayOpen = useCallback(() => {
     if (paymentDayOpen) {
       setPaymentDayOpen(false);
@@ -101,14 +93,16 @@ const ChoosePayment = () => {
   const onClickPaymentDayContent = (data) => {
     setPaymentDay(data);
     setPaymentDayOpen(false);
+    setFirstPaymentWrapOpenStatus(true);
   }
   const formatDate = () => {
     const dd = String(paymentDay).padStart(2, '0');
-    const mm = today.getDate() > paymentDay ? String(today.getMonth() + 2).padStart(2, '0') : String(today.getMonth() + 1).padStart(2, '0');
+    console.log(today.getDate() >= paymentDay)
+    const mm = today.getDate() >= paymentDay ? String(today.getMonth() + 2).padStart(2, '0') : String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
 
     setFormatPaymentDate(yyyy + '-' + mm + '-' + dd);
-    console.log(`formatdate: ${formatPaymentDate}`);
+    console.log(`formatdate: ${yyyy + '-' + mm + '-' + dd}`);
   }
 
   const onChangePersonel = (personel) => {
@@ -216,7 +210,7 @@ const ChoosePayment = () => {
         {/* 첫 정산일 */}
         <FirstPaymentWrap openStatus={firstPaymentWrapOpenStatus}>
           <span style={{ color: '#505050' }}>첫 정산일</span>
-          <span style={{ color: '#000' }}>{today.getDate() > paymentDay && today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear()}년 {today.getDate() > paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
+          <span style={{ color: '#000' }}>{today.getDate() >= paymentDay && today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear()}년 {today.getDate() >= paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
         </FirstPaymentWrap>
 
         {/* 1인당 결제 금액 */}
