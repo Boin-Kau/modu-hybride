@@ -97,12 +97,10 @@ const ChoosePayment = () => {
   }
   const formatDate = () => {
     const dd = String(paymentDay).padStart(2, '0');
-    console.log(today.getDate() >= paymentDay)
     const mm = today.getDate() >= paymentDay ? String(today.getMonth() + 2).padStart(2, '0') : String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
 
     setFormatPaymentDate(yyyy + '-' + mm + '-' + dd);
-    console.log(`formatdate: ${yyyy + '-' + mm + '-' + dd}`);
   }
 
   const onChangePersonel = (personel) => {
