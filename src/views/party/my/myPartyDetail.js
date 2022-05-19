@@ -124,7 +124,7 @@ const MyPartyDetail = ({ location }) => {
       //IOS 배경색 설정
       try {
         window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
-      } catch (err) {}
+      } catch (err) { }
     }
   }, []);
 
@@ -307,7 +307,7 @@ const MyPartyDetail = ({ location }) => {
     // 파티 삭제
     const partyDeleteUri = `/party/${partyIdx}?userRole=${
       isHostUser === "Y" ? "HOST" : "USER"
-    }`;
+      }`;
     const partyDeleteData = await customApiClient("delete", partyDeleteUri);
 
     // Server Error
@@ -359,7 +359,7 @@ const MyPartyDetail = ({ location }) => {
     // 파티 삭제 취소
     const partyDeleteCancelUri = `/party/${partyIdx}/revert?userRole=${
       isHostUser === "Y" ? "HOST" : "USER"
-    }`;
+      }`;
     const partyDeleteCancelData = await customApiClient(
       "patch",
       partyDeleteCancelUri
@@ -588,7 +588,7 @@ const MyPartyDetail = ({ location }) => {
     });
   };
   // 결제수단 변경하기
-  const changePaymentCard = ({partyIdx}) => {
+  const changePaymentCard = ({ partyIdx }) => {
     setPageTrans("trans toRight");
     history.push(`/party/detail/change/card/${partyIdx}`);
   };
@@ -814,14 +814,14 @@ const MyPartyDetail = ({ location }) => {
                   {(membershipInfoObj.nextCalculatePrice ||
                     (membershipInfoObj.price &&
                       membershipInfoObj.commissionPrice)) &&
-                  isHostUser === "Y"
+                    isHostUser === "Y"
                     ? `${priceToString(
-                        membershipInfoObj.nextCalculatePrice || 0
-                      )}원이 정산`
+                      membershipInfoObj.nextCalculatePrice || 0
+                    )}원이 정산`
                     : `${priceToString(
-                        membershipInfoObj.price +
-                          membershipInfoObj.commissionPrice
-                      )}원이 결제`}
+                      membershipInfoObj.price +
+                      membershipInfoObj.commissionPrice
+                    )}원이 결제`}
                 </span>
                 <span>될 예정이에요.</span>
               </div>
@@ -843,17 +843,17 @@ const MyPartyDetail = ({ location }) => {
                 {isHostUser === "Y"
                   ? bankAccountInfoObj.bankName
                     ? bankAccountInfoObj.bankName +
-                      " " +
-                      bankAccountInfoObj.bankAccountNum
+                    " " +
+                    bankAccountInfoObj.bankAccountNum
                     : "없음"
                   : userCardInfoObj.cardName
-                  ? userCardInfoObj.cardName + " " + userCardInfoObj.cardNo
-                  : "없음"}
+                    ? userCardInfoObj.cardName + " " + userCardInfoObj.cardNo
+                    : "없음"}
               </span>
             </div>
             <div
               onClick={
-                isHostUser === "Y" ? changeBankAccount : changePaymentCard(partyIdx)
+                isHostUser === "Y" ? changeBankAccount : () => { changePaymentCard(partyIdx) }
               }
               className="change_contents_btn"
             >
