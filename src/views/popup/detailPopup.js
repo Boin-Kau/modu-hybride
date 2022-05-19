@@ -3,36 +3,35 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { DangerWrapPopup } from "../../styled/shared";
 
+import ic_cancle from "../../assets/ic_popup_cancle@3x.png";
+
 const DetailPopup = (status) => {
   const dispatch = useDispatch();
 
-  const PopupClose=()=>{
-    dispatch({type:'PopupClose'});
-  }
+  const PopupClose = () => {
+    dispatch({ type: "DetailPopupClose" });
+  };
 
   return (
     <DangerWrapPopup
       openStatus={status}
-      style={{backgroundColor:"transparent"}}
+      style={{ backgroundColor: "transparent" }}
     >
       <Popup className="spoqaBold" openStatus={true}>
-        <div style={{ fontSize: "1rem" }}>서비스 이용약관</div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{ fontSize: "1rem" }}>서비스 이용약관</div>
+          <img src={ic_cancle} onClick={PopupClose}/>
+        </div>
         <div className="spoqaMedium detail-box">
-            <div className="text">
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-              팝업에 관한 내용이 들어갑니다.
-            </div>
+          <div className="text">
+            팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에
+            관한 내용이 들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한
+            내용이 들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이
+            들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이
+            들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이
+            들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이
+            들어갑니다.
+          </div>
         </div>
       </Popup>
     </DangerWrapPopup>
@@ -64,29 +63,37 @@ const Popup = styled.div`
   transition: opacity 300ms ease-out;
   opacity: ${(props) => (props.openStatus ? "1" : "0")};
 
-  .detail-box{
-      display: flex;
-      width: 12.9375rem;
-      height: 13.375rem;
-      margin-top: 1rem;
-      border-radius: 0.5625rem;
-      background-color: #f4f4f4;
+  img {
+    width: 1.5625rem;
+    height: 1.5625rem;
+    object-fit: contain;
+    position: absolute;
+    right: 1.1875rem;
   }
 
-  .text{
-      color:#5c5c5c;
-      font-size: 0.75rem;
-      text-align: left;
-      overflow-y: scroll;
-      margin: 1rem;
+  .detail-box {
+    display: flex;
+    width: 12.9375rem;
+    height: 13.375rem;
+    margin-top: 1rem;
+    border-radius: 0.5625rem;
+    background-color: #f4f4f4;
   }
 
-  .text::-webkit-scrollbar-thumb{
-        width:0.375rem;
-        height: 5.9375rem;
-        border-radius: 0.1875rem;
-        background-color: #d5d5d5;
-    }
+  .text {
+    color: #5c5c5c;
+    font-size: 0.75rem;
+    text-align: left;
+    overflow-y: scroll;
+    margin: 1rem;
+  }
+
+  .text::-webkit-scrollbar-thumb {
+    width: 0.375rem;
+    height: 5.9375rem;
+    border-radius: 0.1875rem;
+    background-color: #d5d5d5;
+  }
 `;
 
 export default DetailPopup;

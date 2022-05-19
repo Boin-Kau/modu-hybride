@@ -6,7 +6,7 @@ import { TextMiddle } from "../../../styled/shared";
 import { PageTransContext } from "../../../containers/pageTransContext";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
@@ -15,16 +15,18 @@ import Slide from "../../payment/slide";
 import { customApiClient } from "../../../shared/apiClient";
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../../reducers/container/message";
 
-const CardIdxChange = ({ location }) => {
+const CardIdxChange = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { idx } = useParams();
+
 
   //context
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
   const [cardIdx, setCardIdx] = useState(-1);
-  const [partyRoomIdx, setPartyRoomIdx] = useState(location.data);
+  const [partyRoomIdx, setPartyRoomIdx] = useState(0);
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -70,6 +72,13 @@ const CardIdxChange = ({ location }) => {
 
   useEffect(async () => {
     dispatch(BottomNavCloseAction);
+
+    if (idx) {
+      setPartyRoomIdx(idx);
+      console.log(idx);
+    } else {
+      closePage();
+    }
   }, []);
 
   //결제수단 바꾸는 api -> 파티 아이디랑 그런것도 필요할것같은디..요건 찰스랑 협의
