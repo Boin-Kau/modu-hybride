@@ -23,6 +23,7 @@ import { AnalyPageReloadTrueAction } from "../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../reducers/main/subscribe";
 import ChoiceDialog from "../../components/party/ChoiceDialog";
 import DetailPopup from "../popup/detailPopup";
+import CommissionPopup from "../popup/commissionPopup";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,8 @@ const Payment = () => {
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
 
   const [paymentPopupStatus, setPaymentPopupStatus] = useState(false);
+
+  const [commissionPopupStatus, setCommissionPopupStatus] = useState(false);
 
   //local state
   const [cardIdx, setCardIdx] = useState();
@@ -209,6 +212,11 @@ const Payment = () => {
     dispatch({ type: "DetailPopupOpen" });
   }
 
+  //수수료 팝업 오픈/클로즈 함수
+  const handleClickCommissionPopup = () => {
+    setCommissionPopupStatus(!commissionPopupStatus);
+  }
+
   return (
     <div className="page">
       <PageWrap>
@@ -269,7 +277,7 @@ const Payment = () => {
           >
             결제 금액
           </span>
-          <Price priceInfo={membershipInfoObj} priceFunc={priceNum} />
+          <Price priceInfo={membershipInfoObj} priceFunc={priceNum} openFunc={handleClickCommissionPopup} />
           <NoticeWrap className="notoMedium">
             <div className="notice-wrap">
               <img className="icon" src={notice_icon} />
@@ -298,6 +306,9 @@ const Payment = () => {
         onClickLeft={handleClickPaymentClose}
         onClickRight={onClickRevise}
       />
+
+      {/* 수수료 팝업 */}
+      <CommissionPopup status={commissionPopupStatus} closeFunc={handleClickCommissionPopup} />
     </div>
   );
 };
