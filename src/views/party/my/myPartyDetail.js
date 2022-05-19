@@ -947,8 +947,8 @@ const MyPartyDetail = ({ location }) => {
         imgUrl={WaitingDuck}
         imgWidth={"5.8875"}
         imgHeight={"8.1875"}
-        title={"파티장이 파티정보 등록하지않았을때"}
-        subTitle={"내용 들어가야함 !!"}
+        title={"정산 정보가 아직 없어요."}
+        subTitle={"파티장이 먼저 정산 정보를 등록해야\n결제정보를 입력할 수 있어요.\n파티장에게 등록 요청을 해주세요."}
         leftButtonText={"기다리기"}
         rightButtonText={"해지하기"}
         onClickLeft={closePage}
