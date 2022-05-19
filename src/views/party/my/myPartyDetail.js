@@ -732,7 +732,9 @@ const MyPartyDetail = ({ location }) => {
                 <div className="notice_text_div">
                   <span>파티를 이용하면 매달 </span>
                   <span className="notice_text_yellow">
-                    {priceToString(
+                    {isHostUser === 'Y' ? priceToString(
+                      membershipInfoObj.price * (partyInfoObj.personnel - 1)
+                    ) : priceToString(
                       membershipInfoObj.originalPrice - membershipInfoObj.price
                     )}
                     원
