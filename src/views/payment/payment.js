@@ -205,7 +205,7 @@ const Payment = () => {
     }
   };
 
-  const popupOpen = ()=>{
+  const popupOpen = () => {
     dispatch({ type: "DetailPopupOpen" });
   }
 
@@ -274,7 +274,7 @@ const Payment = () => {
             <div className="notice-wrap">
               <img className="icon" src={notice_icon} />
               <div className="notice">
-                안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다.
+                처음 가입시에는 파티의 정산일을 기준으로 남은 일수 만큼의 금액만 결제가 되어요.
               </div>
             </div>
           </NoticeWrap>
