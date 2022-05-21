@@ -38,37 +38,37 @@ const RealNameAuth = () => {
     history.goBack();
   };
 
-  // useEffect(async () => {
+  useEffect(async () => {
 
-  //   //본인인증 뒤로가기 처리
-  //   const isAuth = localStorage.getItem("isAuth");
+    //본인인증 뒤로가기 처리
+    const isAuth = localStorage.getItem("isAuth");
 
-  //   if (isAuth === "Y") {
-  //     const pastPath = sessionStorage.getItem("pastPath");
-  //     setPageTrans('trans toLeft');
+    if (isAuth === "Y") {
+      const pastPath = sessionStorage.getItem("pastPath");
+      setPageTrans('trans toLeft');
 
-  //     if (!pastPath || pastPath.length < 0) {
-  //       history.push("/party");
-  //     }
-  //     else {
-  //       history.push(pastPath);
-  //     }
+      if (!pastPath || pastPath.length < 0) {
+        history.push("/party");
+      }
+      else {
+        history.push(pastPath);
+      }
 
-  //     return
-  //   }
+      return
+    }
 
-  //   dispatch(BottomNavCloseAction);
+    dispatch(BottomNavCloseAction);
 
-  //   const userPlatform = checkMobile();
-  //   if (userPlatform == 'ios') {
-  //     //IOS 배경색 설정
-  //     try {
-  //       window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
-  //     }
-  //     catch (err) {
-  //     }
-  //   }
-  // }, []);
+    const userPlatform = checkMobile();
+    if (userPlatform == 'ios') {
+      //IOS 배경색 설정
+      try {
+        window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
+      }
+      catch (err) {
+      }
+    }
+  }, []);
 
   //본인인증 버튼
   const handleClickRealNameAuth = () => {

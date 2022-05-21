@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+    <text transform="translate(5.5 11)" style="fill:#ffca2c;font-size:10px;font-family:SpoqaHanSansNeo-Bold,Spoqa Han Sans Neo;font-weight:700"><tspan x="0" y="0">!</tspan></text>
+    <g data-name="타원 16" style="stroke:#ffca2c;fill:none">
+        <circle cx="7.5" cy="7.5" r="7.5" style="stroke:none"/>
+        <circle cx="7.5" cy="7.5" r="7" style="fill:none"/>
+    </g>
+</svg>
