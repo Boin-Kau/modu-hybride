@@ -98,7 +98,7 @@ const AccountIdxChange = ({ location }) => {
           <TitleWrap>
             <span className="spoqaBold">계좌 목록</span>
           </TitleWrap>
-          <AccountSlide setAccountIdx={setAccountIdx} />
+          <AccountSlide setAccountIdx={setAccountIdx} isEnrollment={false} />
           <div style={{ flexGrow: "1" }} />
           <BottomButton
             clickFunc={onClickBankAcccountChange}

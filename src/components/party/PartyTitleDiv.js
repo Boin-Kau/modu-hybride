@@ -38,7 +38,7 @@ const PartyTitleDiv = ({ title, info, isDetail, isUserReserved, isPartyReserved,
               <img className="notionImg" src={notionIcon} alt="notionIcon" />
               {
                 isUserReserved ? <span className="notionText notoMedium">{leftDay === 0 ? "오늘 해지" : `${leftDay}일 후 해지`}</span> :
-                  <span className="notionText notoMedium">{leftDay === 0 ? "오늘 해체" : `${leftDay}일 후 해체`}</span>
+                  <span className="notionText notoMedium">{leftDay === 0 ? "오늘 삭제" : `${leftDay}일 후 삭제`}</span>
               }
             </div>
           }
@@ -62,9 +62,9 @@ const CustomImg = styled.div`
 
 const CustomInitial = styled.div`
   position: absolute;
-  top: 30%;
+  top: 38%;
   left: 50%;
-  transform: translate(-50%,-30%);
+  transform: translate(-50%,-38%);
   color: #ffffff;
   /* 수정필요 */
   font-size: ${(props) => props.isDetail ? '1.375rem' : '1.375rem'};

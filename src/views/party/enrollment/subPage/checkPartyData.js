@@ -28,7 +28,8 @@ const CheckPartyData = () => {
     selectedBankIdx,
     selectedBankAccountUserName,
     selectedBankAccountNum,
-    selectedBankAccountIdx
+    selectedBankAccountIdx,
+    selectedBankNameState
   } = useSelector(state => state.party.enrollment.bankAccount);
 
   //Context
@@ -233,7 +234,7 @@ const CheckPartyData = () => {
           </div>
           <div className="contents_div">
             <span className="contents_name">상세</span>
-            <span className="contents_description">{selectedBankAccountNum}</span>
+            <span className="contents_description">{selectedBankNameState} {selectedBankAccountNum}</span>
           </div>
         </BankAccountWrap>
 

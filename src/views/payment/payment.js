@@ -23,6 +23,7 @@ import { AnalyPageReloadTrueAction } from "../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../reducers/main/subscribe";
 import ChoiceDialog from "../../components/party/ChoiceDialog";
 import DetailPopup from "../popup/detailPopup";
+import CommissionPopup from "../popup/commissionPopup";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,8 @@ const Payment = () => {
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
 
   const [paymentPopupStatus, setPaymentPopupStatus] = useState(false);
+
+  const [commissionPopupStatus, setCommissionPopupStatus] = useState(false);
 
   //local state
   const [cardIdx, setCardIdx] = useState();
@@ -205,6 +208,15 @@ const Payment = () => {
     }
   };
 
+  const popupOpen = () => {
+    dispatch({ type: "DetailPopupOpen" });
+  }
+
+  //수수료 팝업 오픈/클로즈 함수
+  const handleClickCommissionPopup = () => {
+    setCommissionPopupStatus(!commissionPopupStatus);
+  }
+
   return (
     <div className="page">
       <PageWrap>
@@ -265,17 +277,17 @@ const Payment = () => {
           >
             결제 금액
           </span>
-          <Price priceInfo={membershipInfoObj} priceFunc={priceNum} />
+          <Price priceInfo={membershipInfoObj} priceFunc={priceNum} openFunc={handleClickCommissionPopup} />
           <NoticeWrap className="notoMedium">
             <div className="notice-wrap">
               <img className="icon" src={notice_icon} />
               <div className="notice">
-                안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다.
+                처음 가입시에는 파티의 정산일을 기준으로 남은 일수 만큼의 금액만 결제가 되어요.
               </div>
             </div>
           </NoticeWrap>
           <div className="notoMedium notice-text">
-            <div style={{ borderBottom: "1px solid #797979" }}>개인정보 제3자 제공 </div> 내용 및 결제에 동의합니다.
+            <div style={{ borderBottom: "1px solid #797979" }} onClick={popupOpen}>개인정보 제3자 제공 </div>&nbsp;내용 및 결제에 동의합니다.
           </div>
           <BottomButton
             text={(priceNum(membershipInfoObj.currentPrice + membershipInfoObj.currentCommissionPrice)) + "원 결제"}
@@ -295,7 +307,8 @@ const Payment = () => {
         onClickRight={onClickRevise}
       />
 
-      {/* <DetailPopup/> */}
+      {/* 수수료 팝업 */}
+      <CommissionPopup status={commissionPopupStatus} closeFunc={handleClickCommissionPopup} />
     </div>
   );
 };

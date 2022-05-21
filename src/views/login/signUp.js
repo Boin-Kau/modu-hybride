@@ -103,6 +103,7 @@ const SignUp = () => {
 
     //동의 데이터
     const [totalAgree, setTotalAgree] = useState(false);
+    const [ageAgree, setAgeAgree] = useState(false);
     const [serviceAgree, setServiceAgree] = useState(false);
     const [personAgree, setPersonAgree] = useState(false);
     const [marketAgree, setMarketAgree] = useState(false);
@@ -167,7 +168,7 @@ const SignUp = () => {
         if (!phoneAuthPageStatus) return
 
         //선택 처리 로직
-        if (serviceAgree && personAgree) {
+        if (ageAgree && serviceAgree && personAgree) {
             setPageConfirmStatus(true);
             setAgreePageStatus(true);
         }
@@ -177,14 +178,14 @@ const SignUp = () => {
         }
 
         //전체선택 처리 로직
-        if (serviceAgree && personAgree && marketAgree) {
+        if (ageAgree && serviceAgree && personAgree && marketAgree) {
             setTotalAgree(true);
         }
         else {
             setTotalAgree(false);
         }
 
-    }, [serviceAgree, personAgree, marketAgree])
+    }, [ageAgree, serviceAgree, personAgree, marketAgree])
 
 
     const onClickBackButton = () => {
@@ -543,6 +544,7 @@ const SignUp = () => {
     const handleOnclickTotal = () => {
         setTotalAgree(!totalAgree);
 
+        setAgeAgree(!totalAgree);
         setServiceAgree(!totalAgree);
         setPersonAgree(!totalAgree);
         setMarketAgree(!totalAgree);
@@ -552,9 +554,12 @@ const SignUp = () => {
     const handleOnclickSub = (index) => {
 
         if (index == 0) {
-            setServiceAgree(!serviceAgree);
+            setAgeAgree(!ageAgree);
         }
         else if (index == 1) {
+            setServiceAgree(!serviceAgree);
+        }
+        else if (index == 2) {
             setPersonAgree(!personAgree);
         }
         else {
@@ -583,12 +588,6 @@ const SignUp = () => {
         });
 
     };
-
-    //이름찾기 페이지 이동
-    const handleClickFindName = () => {
-        setPageTrans('trans toRight');
-        history.push('phone');
-    }
 
     return (
         <>
@@ -766,10 +765,19 @@ const SignUp = () => {
                         </div>
 
                         <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
-                            <PartyIconWrap isFree={serviceAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(0) }}>
+                            <PartyIconWrap isFree={ageAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(0) }}>
                                 <PartyIcon src={icon_check} />
                             </PartyIconWrap>
                             <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(0) }}>
+                                만 14세 이상 동의 (필수)
+                            </div>
+                        </div>
+
+                        <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
+                            <PartyIconWrap isFree={serviceAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(1) }}>
+                                <PartyIcon src={icon_check} />
+                            </PartyIconWrap>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(1) }}>
                                 서비스 이용약관 (필수)
                             </div>
                             <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }} onClick={() => { openPage('serviceDetail') }}>
@@ -778,10 +786,10 @@ const SignUp = () => {
                         </div>
 
                         <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
-                            <PartyIconWrap isFree={personAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(1) }}>
+                            <PartyIconWrap isFree={personAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(2) }}>
                                 <PartyIcon src={icon_check} />
                             </PartyIconWrap>
-                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(1) }}>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(2) }}>
                                 개인정보 수집 이용 동의 (필수)
                             </div>
                             <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }} onClick={() => { openPage('personDetail') }}>
@@ -790,10 +798,10 @@ const SignUp = () => {
                         </div>
 
                         <div style={{ display: "flex", padding: '0.6875rem 1.1875rem' }}>
-                            <PartyIconWrap isFree={marketAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(2) }}>
+                            <PartyIconWrap isFree={marketAgree ? 'Y' : 'N'} style={{ width: '1.1875rem', height: '1.1875rem' }} onClick={() => { handleOnclickSub(3) }}>
                                 <PartyIcon src={icon_check} />
                             </PartyIconWrap>
-                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(2) }}>
+                            <div className="notoRegular" style={{ fontSize: '0.875rem', color: '#313131', marginLeft: '0.5rem' }} onClick={() => { handleOnclickSub(3) }}>
                                 마케팅 정보 수신 동의 (선택)
                             </div>
                             <div style={{ flexGrow: '1', marginTop: '0.125rem', textAlign: 'right' }} onClick={() => { openPage('marketingDetail') }}>

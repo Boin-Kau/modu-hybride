@@ -1,33 +1,23 @@
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
-
-import clamp from 'lodash-es/clamp'
-import { useSpring, animated } from 'react-spring'
-import { useGesture } from 'react-with-gesture'
-
+import clamp from 'lodash-es/clamp';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-
-import styled from "styled-components";
-
-
-// import backgroundImg from '../../assets/group-2.svg';
-import backgroundImg from '../../assets/back-money.svg';
-import mainLoading from '../../assets/main-loading.gif';
-import duck_see from "../../assets/duck-see.png";
-
-import cardPlus from '../../assets/card-plus.svg';
-
-import BottomCard from '../../components/main/bottomCard';
-import TopCard from '../../components/main/topCard';
-import ConsumCard from '../../components/main/consumCard';
-
-import { customApiClient } from '../../shared/apiClient';
-import { GetAnalyPageList, AnalyPageReloadFalseAction } from '../../reducers/main/analysis';
 import { useHistory } from 'react-router-dom';
-import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
-
-import { onClickTerminate, checkMobile } from '../../App';
-import { CloseItemFalseAction } from '../../reducers/main/subscribe';
+import { animated, useSpring } from 'react-spring';
+import { useGesture } from 'react-with-gesture';
+import styled from "styled-components";
+import { checkMobile, onClickTerminate } from '../../App';
+import backgroundImg from '../../assets/back-money.svg';
+import cardPlus from '../../assets/card-plus.svg';
+import duck_see from "../../assets/duck-see.png";
+import mainLoading from '../../assets/main-loading.gif';
+import BottomCard from '../../components/main/bottomCard';
+import ConsumCard from '../../components/main/consumCard';
+import TopCard from '../../components/main/topCard';
 import { PageTransContext } from '../../containers/pageTransContext';
+import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
+import { AnalyPageReloadFalseAction, GetAnalyPageList } from '../../reducers/main/analysis';
+import { CloseItemFalseAction } from '../../reducers/main/subscribe';
+import { customApiClient } from '../../shared/apiClient';
 import UpdatePopUp from '../popup/update';
 
 const CardStyle = {
@@ -58,6 +48,7 @@ const Main = () => {
         analysisReloadStatus
     } = useSelector(state => state.main.analysis);
     const {
+        subscribeList,
         closeItemClick
     } = useSelector(state => state.main.subscribe);
 
@@ -397,7 +388,11 @@ const Main = () => {
                 <div style={{ flexGrow: "1", flexBasis: "0", zIndex: "20" }}>
                     <animated.div {...bind()} style={{ ...CardStyle, transform: xy.interpolate((x, y) => `translate3d(0,${y}px,0)`) }}>
                         <TitleWrap className="notoMedium" style={{ paddingRight: '0' }}>
-                            <div className="spoqaBold" style={{ fontSize: '0.875rem', position: 'relative' }}>구독내역
+                            <div className="spoqaBold" style={{ fontSize: '0.875rem', position: 'relative', display: "flex" }}>
+                                <div style={{ lineHeight: "1.4375rem" }}>구독내역</div>
+                                <div style={{ fontSize: "0.75rem", color: "white", backgroundColor: "#ffca17", borderRadius: "0.75rem", marginLeft: "0.3438rem", padding: "0 0.5rem" }}>
+                                    <div style={{ lineHeight: "1.4375rem" }}>{subscribeList.length || 0}개</div>
+                                </div>
                                 <div onClick={openSubscribePage} style={{ position: "absolute", top: "50%", right: "0px", transform: "translate(0, -50%)", width: '50px', paddingRight: '1.25rem', textAlign: 'right' }}>
                                     <img src={cardPlus} alt="pluse" style={{ width: '0.75rem', height: '0.75rem' }} />
                                 </div>

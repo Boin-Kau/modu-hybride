@@ -20,7 +20,7 @@ const DangerDialog = ({
                 <div className="spoqaBold" style={{ fontSize: '1.0625rem', lineHeight: '1.3125rem' }}>
                     {title}
                 </div>
-                <div className="notoMedium" style={{ marginTop: '0.6875rem', marginBottom: '0.9375rem', fontSize: '0.8125rem', lineHeight: "1.3125rem", color: 'rgba(49,49,49,0.4)', whiteSpace: "pre-line" }}>{subTitle}</div>
+                <div className="notoMedium" style={{ marginTop: '0.6875rem', marginBottom: '0.9375rem', fontSize: '0.75rem', lineHeight: "1.3125rem", color: 'rgba(49,49,49,0.4)', whiteSpace: "pre-line" }}>{subTitle}</div>
                 <div className="spoqaBold" style={{ display: 'flex' }}>
                     <div onClick={onClickLeft} style={{ position: 'relative', width: '7.6875rem', height: '2.4375rem', backgroundColor: '#e3e3e3', borderRadius: '0.375rem', marginRight: '0.625rem' }}>
                         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '0.875rem', color: 'rgba(0,0,0,0.26)' }}>{leftButtonText}</div>

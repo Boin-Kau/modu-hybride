@@ -22,14 +22,15 @@ import { customApiClient } from "../../../shared/apiClient";
 import { useDispatch } from "react-redux";
 import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from "../../../reducers/container/message";
 import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
+import PartyLinkPopup from "../../../components/party/PartyLinkPopup";
 
-const MyPartyRevise = ({location}) => {
+const MyPartyRevise = ({ location }) => {
 
   // Module
   const history = useHistory();
   const dispatch = useDispatch();
 
-    //Context
+  //Context
   const { setPageTrans } = useContext(PageTransContext);
 
   // State
@@ -50,6 +51,8 @@ const MyPartyRevise = ({location}) => {
   const [personnelOpenStatus, setPersonnelOpenStatus] = useState(false);
   const [confirmBtnStatus, setConfirmBtnStatus] = useState(true);
 
+  const [partyLinkPopupStatus, setPartyLinkPopupStatus] = useState(false);
+
   useEffect(() => {
     //에러 처리
     if (!location.data) {
@@ -65,14 +68,14 @@ const MyPartyRevise = ({location}) => {
     setServerCategory(location.data.platformInfo.serverCategory);
     setCustomCategory(location.data.platformInfo.customCategory);
     setPartyTitle(location.data.title);
-    setPartyMembership(location.data.membershipInfo.membership? location.data.membershipInfo.membership : "");
+    setPartyMembership(location.data.membershipInfo.membership ? location.data.membershipInfo.membership : "");
     setPartyLink(location.data.openChatLink);
     setPartyPersonnel(location.data.partyInfo.personnel);
     setPartyIdx(location.data.idx);
-  },[]);
+  }, []);
 
   useEffect(() => {
-    if(partyTitle && partyLink && partyPersonnel) {
+    if (partyTitle && partyLink && partyPersonnel) {
       //카카오 오픈채팅 링크 벨리데이션
       if (partyLink.includes('https://open.kakao.com')) {
         setConfirmBtnStatus(true);
@@ -81,7 +84,7 @@ const MyPartyRevise = ({location}) => {
     }
     setConfirmBtnStatus(false);
 
-  },[partyTitle,partyLink,partyPersonnel,partyMembership]);
+  }, [partyTitle, partyLink, partyPersonnel, partyMembership]);
 
   const handleChangePartyTitle = (e) => {
     setPartyTitle(e.target.value);
@@ -121,22 +124,22 @@ const MyPartyRevise = ({location}) => {
 
     //수정완료 팝업 띄우기
     dispatch({
-        type: MessageWrapOpen
+      type: MessageWrapOpen
     })
     dispatch({
-        type: MessageOpen,
-        data: '파티 정보가 수정되었습니다.'
+      type: MessageOpen,
+      data: '파티 정보가 수정되었습니다.'
     })
 
     setTimeout(() => {
-        dispatch({
-            type: MessageClose
-        })
+      dispatch({
+        type: MessageClose
+      })
     }, 2000);
     setTimeout(() => {
-        dispatch({
-            type: MessageWrapClose
-        })
+      dispatch({
+        type: MessageWrapClose
+      })
     }, 2300);
 
     GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.UPDATE);
@@ -144,7 +147,6 @@ const MyPartyRevise = ({location}) => {
     closePage();
   }
 
-  const onClickPersonnelInfo = () => setPersonnelInfoStatus(!personnelInfoStatus);
   const onClickPersonnelOpen = () => setPersonnelOpenStatus(!personnelOpenStatus);
 
   // 페이지 뒤로 이동
@@ -154,24 +156,28 @@ const MyPartyRevise = ({location}) => {
     history.goBack();
   };
 
+  const handleClickPartyLink = () => {
+    setPartyLinkPopupStatus(!partyLinkPopupStatus);
+  }
+
   return (
     <div className="page">
       <HeaderWrap>
-          <div id="back_link" onClick={closePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
-              <img src={icon_back}></img>
-          </div>
-          <TextMiddle>파티 정보 수정</TextMiddle>
+        <div id="back_link" onClick={closePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
+          <img src={icon_back}></img>
+        </div>
+        <TextMiddle>파티 정보 수정</TextMiddle>
       </HeaderWrap>
 
-      <ContentWrap style={{position:'absolute', padding:'1.25rem 1.25rem 0 1.25rem', display:'flex', flexDirection:'column', top:'3.0625rem'}}>
+      <ContentWrap style={{ position: 'absolute', padding: '1.25rem 1.25rem 0 1.25rem', display: 'flex', flexDirection: 'column', top: '3.0625rem' }}>
         <SectionWrap>
           {/* 플랫폼 정보 */}
           <PlatformWrap>
             {
               serverImgUrl ?
-                <ServerImg src={serverImgUrl} alt="구독서비스이미지"/>
+                <ServerImg src={serverImgUrl} alt="구독서비스이미지" />
                 :
-                color && initial ? 
+                color && initial ?
                   <CustomImg color={color}>
                     <CustomInitial className="spoqaBold">
                       {initial}
@@ -186,17 +192,17 @@ const MyPartyRevise = ({location}) => {
             }
             <div className="platformInfoWrap">
               <div className="infoTitle">서비스</div>
-              <div className="infoContents space">{serverName? serverName : customName}</div>
+              <div className="infoContents space">{serverName ? serverName : customName}</div>
               <div className="infoTitle">카테고리</div>
-              <div className="infoContents">{serverCategory? serverCategory : customCategory}</div>
+              <div className="infoContents">{serverCategory ? serverCategory : customCategory}</div>
             </div>
           </PlatformWrap>
 
           {/* Subtitle : 파티 정보 */}
-          <PartyDetailSubtitleSpan style={{marginTop:'1.8125rem', display:'block'}}>파티 정보</PartyDetailSubtitleSpan>
+          <PartyDetailSubtitleSpan style={{ marginTop: '1.8125rem', display: 'block' }}>파티 정보</PartyDetailSubtitleSpan>
 
           {/* 파티 개설 제목 */}
-          <TitleWrap style={{marginTop:'0.75rem'}}>파티 개설 제목</TitleWrap>
+          <TitleWrap style={{ marginTop: '0.75rem' }}>파티 개설 제목</TitleWrap>
           <InputComponent
             id={"partyTitle"}
             type={"text"}
@@ -207,7 +213,7 @@ const MyPartyRevise = ({location}) => {
           />
 
           {/* 멤버십 종류 */}
-          <TitleWrap style={{marginTop:'0.5625rem'}}>멤버십 종류</TitleWrap>
+          <TitleWrap style={{ marginTop: '0.5625rem' }}>멤버십 종류</TitleWrap>
           <InputComponent
             id={"partyMembership"}
             type={"text"}
@@ -218,21 +224,25 @@ const MyPartyRevise = ({location}) => {
           />
 
           {/* 오픈카톡방 링크 */}
-          <TitleWrap style={{marginTop:'0.5625rem'}}>오픈카톡방 링크</TitleWrap>
-          <InputComponent
-            id={"partyLink"}
-            type={"text"}
-            placeholder={"오픈카톡방 링크를 입력하세요"}
-            maxLength={200}
-            value={partyLink}
-            onChange={handleChangePartyLink}
-          />
+          <TitleWrap style={{ marginTop: '0.5625rem' }}>오픈카톡방 링크</TitleWrap>
+          <div style={{ position: "relative" }}>
+            <InputComponent
+              id={"partyLink"}
+              type={"text"}
+              placeholder={"오픈카톡방 링크를 입력하세요"}
+              maxLength={200}
+              value={partyLink}
+              onChange={handleChangePartyLink}
+            />
+            <div onClick={handleClickPartyLink} style={{ zIndex: "10", position: "absolute", top: "0", left: "0", bottom: "0", right: "0" }} />
+          </div>
 
           {/* 필요한 인원 */}
-          <TitleWrap style={{marginTop:'0.5625rem', position:'relative'}}>
-            필요한 인원
+          <TitleWrap style={{ marginTop: '0.5625rem', position: 'relative' }}>
+            파티 인원
             <InfoWrap>
-              <img onClick={onClickPersonnelInfo} className="infoBtn" src={icon_info} />
+              <div style={{ fontSize: "0.7188rem", color: "#ff0000" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
+              {/* <img onClick={onClickPersonnelInfo} className="infoBtn" src={icon_info} /> */}
             </InfoWrap>
             <MiniInfoDialog trianglePosition={'28%'} openStatus={personnelInfoStatus}>
               설명이 들어갑니다. 설명이 들어갑니다. 설명이 들어갑니다. 설명이 들어갑니다.
@@ -243,30 +253,30 @@ const MyPartyRevise = ({location}) => {
               <div>
                 {
                   partyPersonnel !== 0 ? partyPersonnel :
-                      '모집 인원을 선택해주세요'
+                    '모집 인원을 선택해주세요'
                 }
               </div>
               <div style={{ flexGrow: "1" }}></div>
               <div>
                 {
                   personnelOpenStatus ?
-                      <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
-                      <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
+                    <img src={icon_arrow_up} style={{ width: "0.6875rem", height: "0.5rem" }} /> :
+                    <img src={icon_arrow_down} style={{ width: "0.6875rem", height: "0.5rem" }} />
                 }
               </div>
             </InputWrap>
           </ItemWrap>
           <div style={{ display: 'flex' }}>
-            <div style={{ flexGrow: '1', flexBasis: '0'}}>
+            <div style={{ flexGrow: '1', flexBasis: '0' }}>
               <Fade collapse when={personnelOpenStatus} duration={500}>
                 <SelectWrap>
 
                   {
                     [2, 3, 4, 5, 6].map((data, index) => {
                       return (
-                          <SelectContent selectSatus={data === partyPersonnel} onClick={() => { onChangePersonnel(data) }} key={index}>
-                              {data}
-                          </SelectContent>
+                        <SelectContent selectSatus={data === partyPersonnel} onClick={() => { onChangePersonnel(data) }} key={index}>
+                          {data}
+                        </SelectContent>
                       )
                     })
                   }
@@ -277,7 +287,14 @@ const MyPartyRevise = ({location}) => {
           </div>
         </SectionWrap>
 
-        <BottomButton clickFunc={onClickConfirmButton} text={'확인'} activeStatus={confirmBtnStatus} isBottomStatus={false}/>
+        <BottomButton clickFunc={onClickConfirmButton} text={'확인'} activeStatus={confirmBtnStatus} isBottomStatus={false} />
+
+        {/* 오픈카톡 팝업 */}
+        <PartyLinkPopup
+          openStatus={partyLinkPopupStatus}
+          closeFunc={handleClickPartyLink}
+          setPartyLink={setPartyLink}
+        />
       </ContentWrap>
 
     </div>

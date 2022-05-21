@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const InputComponent = ({
@@ -8,15 +8,16 @@ const InputComponent = ({
   maxLength,
   value,
   onChange,
+  errorStatus,
   keyboardUp,
   setKeyboardUp,
   setFocusThree,
-  setFocusTwo
+  setFocusTwo,
 }) => {
   const [isFocus, setIsFocus] = useState(false);
 
   return (
-    <InputWrap openStatus={isFocus}>
+    <InputWrap openStatus={isFocus} errorStatus={errorStatus}>
       <Input
         id={id}
         type={type}
@@ -26,7 +27,7 @@ const InputComponent = ({
         onChange={onChange}
         onFocus={(e) => {
           setIsFocus(true);
-          if(keyboardUp===true){
+          if (keyboardUp === true) {
             setKeyboardUp(false);
             setFocusTwo(false);
             setFocusThree(false);
@@ -49,6 +50,9 @@ const InputWrap = styled.div`
 
   border: ${(props) =>
     props.openStatus ? "0.0625rem solid #ffca2c" : "0.0625rem solid #e8e8e8"};
+
+  //입력에러일때
+  border: ${(props) => props.errorStatus && "0.0625rem solid red"};
 
   border-radius: 0.25rem;
 

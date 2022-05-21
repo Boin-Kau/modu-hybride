@@ -9,6 +9,7 @@ import icon_party_memeber from "../../../assets/icon-party-member.svg";
 import icon_party_host from "../../../assets/icon-party-host.svg";
 import ReportIcon from '../../../assets/icon-report.svg';
 import MyPartyEmptyImg from '../../../assets/banner-party-new-party-activated.svg';
+import notionIcon from "../../../assets/party/detail/ic-partydetail-delete.png";
 
 import { TextMiddle } from '../../../styled/shared';
 import { customApiClient } from '../../../shared/apiClient';
@@ -62,7 +63,6 @@ const MyParty = () => {
     const getMyPartyList = async (type) => {
 
         const data = await customApiClient('get', `/party/my?type=${type}`);
-        console.log(data);
 
         //서버에러
         if (!data) return
@@ -141,7 +141,16 @@ const MyParty = () => {
                             {
                                 progressData.length !== 0 ?
                                     progressData.map((data, index) => {
-                                        return (<BottomContent onClickDetailButton={onClickDetailButton} data={data.partyDetail} room={data.partyRoom} enrolledAt={data.createdAt} endedAt={data.deletedAt} isProgress={progressMenuStatus} key={index}></BottomContent>)
+                                        return (<BottomContent
+                                            key={index}
+                                            onClickDetailButton={onClickDetailButton}
+                                            data={data.partyDetail}
+                                            room={data.partyRoom}
+                                            enrolledAt={data.createdAt}
+                                            endedAt={data.deletedAt}
+                                            isProgress={progressMenuStatus}
+                                            status={data.status}
+                                        ></BottomContent>)
                                     }) :
                                     <div style={{ marginTop: "4.5938rem", marginBottom: '4.25rem', textAlign: "center" }}>
                                         <div style={{ marginBottom: '0.75rem' }}>
@@ -175,7 +184,7 @@ const MyParty = () => {
 };
 
 
-const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress, onClickDetailButton }) => {
+const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress, onClickDetailButton, status }) => {
 
     const dispatch = useDispatch();
 
@@ -225,7 +234,26 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress, onClickDet
                             <img src={data.IsHost === 'Y' ? icon_party_host : icon_party_memeber} style={{ width: '0.875rem', height: '0.625rem' }} />
                         </div>
                     </div>
-                    <div className="notoMedium" style={{ flexGrow: "1", flexBasis: "0", fontSize: "0.75rem", opacity: '0.4' }}>{data.customName ? data.customName : data.serverName}</div>
+                    <NotionWrap>
+                        <div className="notoMedium" style={{ fontSize: "0.75rem", opacity: '0.4', lineHeight: "1.25rem" }}>{data.customName ? data.customName : data.serverName}</div>
+
+                        {isProgress &&
+                            room.status === "RESERVED" ?
+                            <div className="notionWrap">
+                                <div>
+                                    <img className="notionImg" src={notionIcon} alt="notionIcon" />
+                                </div>
+                                <div className="notionText notoMedium">삭제예정</div>
+                            </div> :
+                            status === "RESERVED" &&
+                            <div className="notionWrap">
+                                <div>
+                                    <img className="notionImg" src={notionIcon} alt="notionIcon" />
+                                </div>
+                                <div className="notionText notoMedium">해지예정</div>
+                            </div>
+                        }
+                    </NotionWrap>
                 </div>
             </ContentWrap>
 
@@ -326,8 +354,6 @@ const HeaderWrap = styled.div`
 
     font-size:0.875rem;
     color:#313131;
-    
-    box-shadow: 0 0 0.25rem 0.0625rem #efefef;
 `;
 const MainWrap = styled.div`
     /* border:1px solid red; */
@@ -390,13 +416,26 @@ const ItemListView = styled.div`
     position: relative;
 `;
 
-
-const ButtonWrap = styled.div`
-    position: relative;
+const NotionWrap = styled.div`
+    display: flex;
     flex-grow: 1;
-    padding: 0.5625rem 0 0.75rem 0;
-    background-color: ${props => props.isComplte ? '#ffbc26' : '#e3e3e3'};
-    border-radius: 0.375rem;
+    flex-basis: 0;
+
+    .notionWrap {
+        display:flex;
+        margin-left:0.3438rem;
+    }
+    .notionImg {
+        width:0.8125rem;
+        height:0.6875rem;
+        margin-right:0.0875rem;
+    }
+    .notionText {
+        font-size:0.75rem;
+        color:#fb5e5e;
+
+        line-height:1.25rem;
+    }
 `;
 
 

@@ -79,6 +79,8 @@ const ConfirmPopup = styled.div`
     color: rgba(49,49,49,0.4);
     margin: 0.6875rem 0.9375rem 0.9375rem 0.9375rem;
 
+    line-height:1.3125rem;
+
     white-space: pre-line;
   }
   .buttonDiv {
