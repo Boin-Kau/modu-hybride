@@ -69,7 +69,7 @@ const Slide = ({ setCardIdx }) => {
       {loading === true ?
         <LoadingBox /> :
         cardData.length === 0 ? (
-          <Register />
+          <Register card={true}/>
         ) : (
             <Slider
               {...settings}
