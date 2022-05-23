@@ -587,10 +587,11 @@ const MyPartyDetail = ({ location }) => {
       data: partyIdx,
     });
   };
+
   // 결제수단 변경하기
   const changePaymentCard = ({partyIdx}) => {
     setPageTrans("trans toRight");
-    history.push(`/party/detail/change/card/${partyIdx}`);
+    history.push(`/party/${partyIdx}/detail/change/card`);
   };
 
   //신고하기 팝업
@@ -853,7 +854,7 @@ const MyPartyDetail = ({ location }) => {
             </div>
             <div
               onClick={
-                isHostUser === "Y" ? changeBankAccount : changePaymentCard(partyIdx)
+                isHostUser === "Y" ? changeBankAccount : ()=>changePaymentCard(partyIdx)
               }
               className="change_contents_btn"
             >

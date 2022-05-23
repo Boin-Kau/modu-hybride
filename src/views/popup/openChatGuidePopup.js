@@ -22,12 +22,10 @@ const OpenChatGuidePopup = (status) => {
 
   const onClickBackButton = () => {
     setStep(step-1);
-    console.log(step);
   };
 
   const onClickNextButton = () => {
     setStep(step+1);
-    console.log(step);
   };
 
   return (

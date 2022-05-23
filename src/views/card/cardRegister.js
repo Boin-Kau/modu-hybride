@@ -74,7 +74,6 @@ const CardRegister = () => {
 
   useEffect(async () => {
     setCardNum(num1 + num2 + num3 + num4);
-    // console.log(cardNum);
   }, [num1, num2, num3, num4, cardNum]);
 
   useEffect(() => {

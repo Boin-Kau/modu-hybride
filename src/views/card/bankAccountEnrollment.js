@@ -104,8 +104,6 @@ const BankAccountEnrollment = () => {
       return
     };
 
-    console.log('API 호출 성공 :', data);
-
     dispatch({
       type: MessageWrapOpen
     })
