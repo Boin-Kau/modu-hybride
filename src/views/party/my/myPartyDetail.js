@@ -605,7 +605,7 @@ const MyPartyDetail = ({ location }) => {
 
   // 계정정보 등록하기
   const onClickEnrollAccount = () => {
-    console.log('hi')
+    setPageTrans("trans toRight");
     history.push({
       pathname: '/party/my/detail/account',
       state: {
