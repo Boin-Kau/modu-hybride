@@ -205,8 +205,6 @@ const HeaderWrap = styled.div`
 
     font-size:0.875rem;
     color:#313131;
-    
-    box-shadow: 0 0 0.25rem 0.0625rem #efefef;
 `;
 
 const AlertWrap = styled.div`

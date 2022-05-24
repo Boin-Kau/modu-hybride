@@ -1,28 +1,26 @@
 import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import Fade from 'react-reveal/Fade';
 import { useHistory } from "react-router-dom";
-import { PageTransContext } from "../../../containers/pageTransContext";
-import { ContentWrap, HeaderWrap } from "../../../styled/shared/wrap";
-
-import icon_back from "../../../assets/icon-back-arrow.svg";
-import icon_info from "../../../assets/info-black-192-x-192@3x.png";
+import styled from "styled-components";
 import icon_arrow_down from "../../../assets/icon-arrow-down-gray.svg";
 import icon_arrow_up from "../../../assets/icon-arrow-up-gray.svg";
-
-import { TextMiddle } from "../../../styled/shared";
-import styled from "styled-components";
-import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
-import { InputWrap, ItemWrap, TitleWrap } from "../../../styled/main/enrollment";
-import InputComponent from "../../../styled/shared/inputComponent";
-import { InfoWrap, MiniInfoDialog } from "../enrollment/subPage/chooseAccount";
-
-import Fade from 'react-reveal/Fade';
-import { SelectContent, SelectWrap } from "../enrollment/subPage/choosePayment";
+import icon_back from "../../../assets/icon-back-arrow.svg";
 import BottomButton from "../../../components/party/BottomButton";
-import { customApiClient } from "../../../shared/apiClient";
-import { useDispatch } from "react-redux";
-import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from "../../../reducers/container/message";
-import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
 import PartyLinkPopup from "../../../components/party/PartyLinkPopup";
+import { PageTransContext } from "../../../containers/pageTransContext";
+import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from "../../../reducers/container/message";
+import { customApiClient } from "../../../shared/apiClient";
+import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from "../../../shared/gaSetting";
+import { InputWrap, ItemWrap, TitleWrap } from "../../../styled/main/enrollment";
+import { TextMiddle } from "../../../styled/shared";
+import InputComponent from "../../../styled/shared/inputComponent";
+import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
+import { ContentWrap, HeaderWrap } from "../../../styled/shared/wrap";
+import { SelectContent, SelectWrap } from "../enrollment/subPage/choosePayment";
+
+
+
 
 const MyPartyRevise = ({ location }) => {
 
@@ -47,9 +45,11 @@ const MyPartyRevise = ({ location }) => {
   const [partyPersonnel, setPartyPersonnel] = useState('');
   const [partyIdx, setPartyIdx] = useState(0);
 
-  const [personnelInfoStatus, setPersonnelInfoStatus] = useState(false);
   const [personnelOpenStatus, setPersonnelOpenStatus] = useState(false);
   const [confirmBtnStatus, setConfirmBtnStatus] = useState(true);
+
+  const [partyLinkValid, setPartyLinkValid] = useState(false);
+
 
   const [partyLinkPopupStatus, setPartyLinkPopupStatus] = useState(false);
 
@@ -58,7 +58,6 @@ const MyPartyRevise = ({ location }) => {
     if (!location.data) {
       closePage();
     }
-    console.log('데이터 확인 : ', location.data);
 
     setServerImgUrl(location.data.platformInfo.serverImgUrl);
     setInitial(location.data.platformInfo.initial);
@@ -75,12 +74,21 @@ const MyPartyRevise = ({ location }) => {
   }, []);
 
   useEffect(() => {
+
+    //카카오 오픈채팅 링크 벨리데이션
+    if (partyLink.length > 0 && !partyLink.includes('https://open.kakao.com')) {
+
+      setPartyLinkValid(true);
+      setConfirmBtnStatus(false);
+      return
+    }
+    else {
+      setPartyLinkValid(false);
+    }
+
     if (partyTitle && partyLink && partyPersonnel) {
-      //카카오 오픈채팅 링크 벨리데이션
-      if (partyLink.includes('https://open.kakao.com')) {
-        setConfirmBtnStatus(true);
-        return
-      }
+      setConfirmBtnStatus(true);
+      return
     }
     setConfirmBtnStatus(false);
 
@@ -224,7 +232,15 @@ const MyPartyRevise = ({ location }) => {
           />
 
           {/* 오픈카톡방 링크 */}
-          <TitleWrap style={{ marginTop: '0.5625rem' }}>오픈카톡방 링크</TitleWrap>
+          <TitleWrap style={{ marginTop: '0.5625rem' }}>
+            <div>오픈카톡방 링크</div>
+            {partyLinkValid && <div style={{
+              flexGrow: "1",
+              fontSize: "0.75rem",
+              color: "#fb5e5e",
+              textAlign: "right"
+            }}>* 올바른 URL을 입력해주세요.</div>}
+          </TitleWrap>
           <div style={{ position: "relative" }}>
             <InputComponent
               id={"partyLink"}
@@ -233,20 +249,20 @@ const MyPartyRevise = ({ location }) => {
               maxLength={200}
               value={partyLink}
               onChange={handleChangePartyLink}
+              errorStatus={partyLinkValid}
             />
             <div onClick={handleClickPartyLink} style={{ zIndex: "10", position: "absolute", top: "0", left: "0", bottom: "0", right: "0" }} />
           </div>
 
           {/* 필요한 인원 */}
           <TitleWrap style={{ marginTop: '0.5625rem', position: 'relative' }}>
-            파티 인원
-            <InfoWrap>
-              <div style={{ fontSize: "0.7188rem", color: "#ff0000" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
-              {/* <img onClick={onClickPersonnelInfo} className="infoBtn" src={icon_info} /> */}
-            </InfoWrap>
-            <MiniInfoDialog trianglePosition={'28%'} openStatus={personnelInfoStatus}>
-              설명이 들어갑니다. 설명이 들어갑니다. 설명이 들어갑니다. 설명이 들어갑니다.
-            </MiniInfoDialog>
+            <div>파티 인원</div>
+            <div style={{
+              flexGrow: "1",
+              fontSize: "0.75rem",
+              color: "#fb5e5e",
+              textAlign: "right"
+            }}>* 자신을 포함한 인원으로 선택해주세요.</div>
           </TitleWrap>
           <ItemWrap onClick={onClickPersonnelOpen}>
             <InputWrap openStatus={personnelOpenStatus} isBlocked={partyPersonnel === 0}>

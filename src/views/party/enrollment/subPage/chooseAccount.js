@@ -19,8 +19,8 @@ const ChooseAccount = () => {
 
   const { accountId, accountPw } = useSelector(state => state.party.enrollment.account);
 
-  const [ id, setId ] = useState(accountId);
-  const [ pw, setPw] = useState(accountPw);
+  const [id, setId] = useState(accountId);
+  const [pw, setPw] = useState(accountPw);
 
   const [miniInfoStatus, setMiniInfoStatus] = useState(false)
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
@@ -29,23 +29,23 @@ const ChooseAccount = () => {
 
   useEffect(() => {
 
-    if(isAccountStatus === 'N') { // 건너뛰기 있을 때
-      if(id&&pw) {
+    if (isAccountStatus === 'N') { // 건너뛰기 있을 때
+      if (id && pw) {
         setNextBtnStatus(true);
         return
-      } else if (!(id||pw)) {
+      } else if (!(id || pw)) {
         setNextBtnStatus(true);
         return
       }
       setNextBtnStatus(false);
     } else { // 건너뛰기 없을 때
-      if(id&&pw) {
+      if (id && pw) {
         setNextBtnStatus(true);
         return
       }
       setNextBtnStatus(false);
     }
-  },[id,pw])
+  }, [id, pw])
 
   const handleChangeAccountId = (e) => {
     setId(e.target.value);
@@ -55,7 +55,7 @@ const ChooseAccount = () => {
   };
   //구독계정 비밀번호 내 개인정보를 포함하지 말라는 안내 아이콘 클릭
   const onClickMiniInfo = () => {
-      setMiniInfoStatus(!miniInfoStatus);
+    setMiniInfoStatus(!miniInfoStatus);
   };
 
   const nextPage = () => {
@@ -63,29 +63,29 @@ const ChooseAccount = () => {
       accountId: id,
       accountPw: pw
     }))
-    nextBtnStatus && dispatch(UpdateCurrentPageAction({page: 3}));
+    nextBtnStatus && dispatch(UpdateCurrentPageAction({ page: 3 }));
   };
 
   return (
-    <ChooseAccountWrap style={{flexGrow: '1'}}>
-      <div style={{flexGrow: '1'}}>
-        <MainText style={{margin:'1rem 0 0', padding:'0'}}>
-          공유할  
+    <ChooseAccountWrap style={{ flexGrow: '1' }}>
+      <div style={{ flexGrow: '1' }}>
+        <MainText style={{ margin: '1rem 0 0', padding: '0' }}>
+          공유할
           <span className="yellowText"> 구독 계정 정보</span>
-          를<br/>
+          를<br />
           입력해주세요.
         </MainText>
 
         {/* Notice Div */}
-        <NoticeWrap style={{boxShadow:'none', backgroundColor:'#fff8e8', marginTop:'0.9063rem'}}>
+        <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', marginTop: '0.9063rem' }}>
           <div className="notice_sub_wrap">
             <div>
               <img className="notice_img mutiple_line_margin" src={icon_notice_duck}></img>
             </div>
             <div className="notice_text_div">
-              계정정보 입력 시, 
+              계정정보 입력 시,
               <span className="boldText"> 성인인증을 완료</span>
-              됐는지 확인해주세요! 
+              됐는지 확인해주세요!
               <span className="boldText"> SNS연동 계정</span>
               은 공유가 불가능해요.
             </div>
@@ -102,7 +102,7 @@ const ChooseAccount = () => {
           value={id}
           onChange={handleChangeAccountId}
         />
-        <TitleWrap style={{position:'relative'}}>
+        <TitleWrap style={{ position: 'relative' }}>
           비밀번호
           <InfoWrap>
             <img onClick={onClickMiniInfo} className="infoBtn" src={icon_info} />
@@ -120,8 +120,8 @@ const ChooseAccount = () => {
           onChange={handleChangeAccountPw}
         />
       </div>
-      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false}/>
-      
+      <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false} />
+
 
     </ChooseAccountWrap>
   );
@@ -162,7 +162,7 @@ export const MiniInfoDialog = styled.div`
   line-height:1.25rem;
   font-family: 'Spoqa Han Sans';
   font-weight: 600;
-  width: 15rem;
+  max-width: 15rem;
 
   padding: 0.5625rem 0.5313rem 0.6875rem 0.5188rem;
   border-radius: 0.3125rem;

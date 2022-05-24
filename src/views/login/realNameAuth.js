@@ -174,8 +174,8 @@ const RealNameAuth = () => {
         </HeaderWrap>
         <ContentWrap>
           <MainText>
-            하단 버튼탭을 누르면
-            <br /> <span className="yellowText">본인인증</span>으로 이동합니다.
+            구독파티 이용을 위해
+            <br /> 최초 1회 <span className="yellowText">본인인증</span>이 필요해요.
           </MainText>
           <AuthContentWrap>
             <div style={{ textAlign: "center" }}>
@@ -185,8 +185,7 @@ const RealNameAuth = () => {
               <div className="notice-wrap">
                 <img src={yellow_duck} className="notice-img" />
                 <div className="notice-text notoMedium">
-                  구독파티 내 구독계정 공유 서비스를 위해 최초 1회 본인인증이
-                  필요해요.
+                  계정공유 시 서로 간의 신뢰를 보장하기 위하여 최초 1회 본인인증이 필요해요.
                 </div>
               </div>
             </div>

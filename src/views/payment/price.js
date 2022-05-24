@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Price = ({ priceInfo, priceFunc }) => {
+const Price = ({ priceInfo, priceFunc, openFunc }) => {
   return (
     <div style={{ margin: "1.6625rem 0 0.75rem 0" }}>
       <Container className="notoMedium">
@@ -9,9 +9,9 @@ const Price = ({ priceInfo, priceFunc }) => {
         <span>{priceFunc(priceInfo.currentPrice)}원</span>
       </Container>
       <Container className="notoMedium">
-        <div style={{display:"flex", flexDirection:"row"}}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
           <span>수수료</span>
-          <DetailButton className="notoMedium"><span>자세히</span></DetailButton>
+          <DetailButton className="notoMedium" onClick={openFunc}><span>자세히</span></DetailButton>
         </div>
         <span>{priceFunc(priceInfo.currentCommissionPrice)}원</span>
       </Container>
