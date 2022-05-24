@@ -22,18 +22,28 @@ const ChoosePartyInfo = ({ updatePage }) => {
   const [partyTitle, setPartyTitle] = useState(title || "");
   const [partyMembership, setPartyMembership] = useState(membership || "");
   const [partyLink, setPartyLink] = useState(openChatLink || "");
+  const [partyLinkValid, setPartyLinkValid] = useState(false);
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
   const [partyLinkPopupStatus, setPartyLinkPopupStatus] = useState(false);
 
   useEffect(() => {
+
+    //카카오 오픈채팅 링크 벨리데이션
+    if (partyLink.length > 0 && !partyLink.includes('https://open.kakao.com')) {
+
+      setPartyLinkValid(true);
+      setNextBtnStatus(false);
+      return
+    }
+    else {
+      setPartyLinkValid(false);
+    }
+
     if (partyTitle && partyLink) {
-      //카카오 오픈채팅 링크 벨리데이션
-      if (partyLink.includes('https://open.kakao.com')) {
-        setNextBtnStatus(true);
-        return
-      }
+      setNextBtnStatus(true);
+      return
     }
     setNextBtnStatus(false);
 
@@ -108,11 +118,17 @@ const ChoosePartyInfo = ({ updatePage }) => {
         />
 
         <TitleWrap style={{ marginTop: '0.5rem' }}>
-          오픈카톡방 링크
+          <div>오픈카톡방 링크</div>
           <MoreInfoWrap>
             <img src={icon_question_about_link} className="moreInfoBtn" />
             <span className="moreInfoText">더보기</span>
           </MoreInfoWrap>
+          {partyLinkValid && <div style={{
+            flexGrow: "1",
+            fontSize: "0.75rem",
+            color: "#fb5e5e",
+            textAlign: "right"
+          }}>* 올바른 URL을 입력해주세요.</div>}
         </TitleWrap>
         <div style={{ position: "relative" }}>
           <InputComponent
@@ -122,6 +138,7 @@ const ChoosePartyInfo = ({ updatePage }) => {
             maxLength={200}
             value={partyLink}
             onChange={handleChangePartyLink}
+            errorStatus={partyLinkValid}
           />
           <div onClick={handleClickPartyLink} style={{ zIndex: "10", position: "absolute", top: "0", left: "0", bottom: "0", right: "0" }} />
         </div>
