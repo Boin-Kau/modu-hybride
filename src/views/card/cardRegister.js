@@ -233,29 +233,34 @@ const CardRegister = () => {
 
     //벨리데이션
     if (data.statusCode !== 200) {
-      setError(true);
-      setErrorMsg(data.message);
-      console.log(errorMsg);
       console.log(data.statusCode);
       //리덕스에 넣어주기
-
       if(data.statusCode === 4001){
         dispatch({
           type: PopupOpen,
           data: '입력하신 카드번호를 다시 한번 확인해주십시오.'
         })
       }
-      if(data.statusCode === 4002){
+      else if(data.statusCode === 4002){
         dispatch({
           type: PopupOpen,
           data: '카드잔고가 부족합니다. 잔고 확인 후, 다시 시도해주세요.'
         })
       }
-      if(data.statusCode === 4003){
+      else if(data.statusCode === 4003){
         dispatch({
           type: PopupOpen,
           data: '이미 등록된 카드입니다.'
         })
+      }
+      else if(data.statusCode === 4005){
+        dispatch({
+          type: PopupOpen,
+          data: '본인 명의의 카드만 등록 가능합니다.'
+        })
+      }
+      else{
+        alert(data.message);
       }
       return;
     }
