@@ -239,14 +239,13 @@ const MyPartyRevise = ({ location }) => {
 
           {/* 필요한 인원 */}
           <TitleWrap style={{ marginTop: '0.5625rem', position: 'relative' }}>
-            파티 인원
-            <InfoWrap>
-              <div style={{ fontSize: "0.7188rem", color: "#ff0000" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
-              {/* <img onClick={onClickPersonnelInfo} className="infoBtn" src={icon_info} /> */}
-            </InfoWrap>
-            <MiniInfoDialog trianglePosition={'28%'} openStatus={personnelInfoStatus}>
-              설명이 들어갑니다. 설명이 들어갑니다. 설명이 들어갑니다. 설명이 들어갑니다.
-            </MiniInfoDialog>
+            <div>파티 인원</div>
+            <div style={{
+              flexGrow: "1",
+              fontSize: "0.75rem",
+              color: "#fb5e5e",
+              textAlign: "right"
+            }}>* 자신을 포함한 인원으로 선택해주세요.</div>
           </TitleWrap>
           <ItemWrap onClick={onClickPersonnelOpen}>
             <InputWrap openStatus={personnelOpenStatus} isBlocked={partyPersonnel === 0}>
