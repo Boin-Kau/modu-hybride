@@ -29,7 +29,7 @@ import { GAEventSubmit, GA_CATEOGRY, GA_SUBSCRIBE_ACTION } from '../../../../sha
 
 export const ImgColorList = ['#e96a6a', '#fa9754', '#f8cc54', '#9de154', '#82e3cd', '#76d7fd', '#54b5fd', '#9578fd', '#cd6ae9', '#9c9c9c'];
 export const ImgInitialList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'N', 'M', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-export const NumberList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
+export const NumberList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
 export const UnitList = ['DAY', 'WEEK', 'MONTH', 'YEAR'];
 export const YearList = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
 export const MonthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -910,8 +910,6 @@ const HeaderWrap = styled.div`
 
     font-size:0.875rem;
     color:#313131;
-    
-    box-shadow: 0 0 0.25rem 0.0625rem #efefef;
 `;
 
 const SaveButton = styled.div`

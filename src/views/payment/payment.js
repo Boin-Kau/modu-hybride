@@ -23,6 +23,7 @@ import { AnalyPageReloadTrueAction } from "../../reducers/main/analysis";
 import { SubscribeReloadTrueAction } from "../../reducers/main/subscribe";
 import ChoiceDialog from "../../components/party/ChoiceDialog";
 import DetailPopup from "../popup/detailPopup";
+import CommissionPopup from "../popup/commissionPopup";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,8 @@ const Payment = () => {
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
 
   const [paymentPopupStatus, setPaymentPopupStatus] = useState(false);
+
+  const [commissionPopupStatus, setCommissionPopupStatus] = useState(false);
 
   //local state
   const [cardIdx, setCardIdx] = useState();
@@ -204,8 +207,13 @@ const Payment = () => {
     }
   };
 
-  const popupOpen = ()=>{
+  const popupOpen = () => {
     dispatch({ type: "DetailPopupOpen" });
+  }
+
+  //수수료 팝업 오픈/클로즈 함수
+  const handleClickCommissionPopup = () => {
+    setCommissionPopupStatus(!commissionPopupStatus);
   }
 
   return (
@@ -268,12 +276,12 @@ const Payment = () => {
           >
             결제 금액
           </span>
-          <Price priceInfo={membershipInfoObj} priceFunc={priceNum} />
+          <Price priceInfo={membershipInfoObj} priceFunc={priceNum} openFunc={handleClickCommissionPopup} />
           <NoticeWrap className="notoMedium">
             <div className="notice-wrap">
               <img className="icon" src={notice_icon} />
               <div className="notice">
-                안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다. 안내가 들어갑니다.
+                처음 가입시에는 파티의 정산일을 기준으로 남은 일수 만큼의 금액만 결제가 되어요.
               </div>
             </div>
           </NoticeWrap>
@@ -297,6 +305,9 @@ const Payment = () => {
         onClickLeft={handleClickPaymentClose}
         onClickRight={onClickRevise}
       />
+
+      {/* 수수료 팝업 */}
+      <CommissionPopup status={commissionPopupStatus} closeFunc={handleClickCommissionPopup} />
     </div>
   );
 };

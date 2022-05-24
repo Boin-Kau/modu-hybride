@@ -69,14 +69,6 @@ const ChoosePayment = () => {
     formatDate();
   }, [paymentDay])
 
-  useEffect(() => {
-    if(membershipPrice && paymentDay) {
-      setFirstPaymentWrapOpenStatus(true);
-    } else {
-      setFirstPaymentWrapOpenStatus(false);
-    }
-  },[membershipPrice, paymentDay])
-
   const onClickPaymentDayOpen = useCallback(() => {
     if (paymentDayOpen) {
       setPaymentDayOpen(false);
@@ -101,14 +93,14 @@ const ChoosePayment = () => {
   const onClickPaymentDayContent = (data) => {
     setPaymentDay(data);
     setPaymentDayOpen(false);
+    setFirstPaymentWrapOpenStatus(true);
   }
   const formatDate = () => {
     const dd = String(paymentDay).padStart(2, '0');
-    const mm = today.getDate() > paymentDay ? String(today.getMonth() + 2).padStart(2, '0') : String(today.getMonth() + 1).padStart(2, '0');
+    const mm = today.getDate() >= paymentDay ? String(today.getMonth() + 2).padStart(2, '0') : String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
 
     setFormatPaymentDate(yyyy + '-' + mm + '-' + dd);
-    console.log(`formatdate: ${formatPaymentDate}`);
   }
 
   const onChangePersonel = (personel) => {
@@ -169,7 +161,7 @@ const ChoosePayment = () => {
             <img onClick={onClickMembershipPriceInfo} className="infoBtn" src={icon_info} />
           </InfoWrap>
           <MiniInfoDialog trianglePosition={'28%'} openStatus={membershipPriceInfoStatus}>
-            설명이 들어갑니다. 설명이 들어갑니다. 설명이 들어갑니다. 설명이 들어갑니다.
+            해당 서비스의 원래 결제 금액을 입력해주세요.<br />ex) 넷플릭스 (스탠다드 맴버십) : 13,500원
           </MiniInfoDialog>
         </TitleWrap>
         <ItemWrap>
@@ -215,8 +207,8 @@ const ChoosePayment = () => {
 
         {/* 첫 정산일 */}
         <FirstPaymentWrap openStatus={firstPaymentWrapOpenStatus}>
-          <span style={{color:'#505050'}}>첫 정산일</span>
-          <span style={{color:'#000'}}>{today.getDate() > paymentDay && today.getMonth() === 11 ? today.getFullYear()+1 : today.getFullYear()}년 {today.getDate() > paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
+          <span style={{ color: '#505050' }}>첫 정산일</span>
+          <span style={{ color: '#000' }}>{today.getDate() >= paymentDay && today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear()}년 {today.getDate() >= paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
         </FirstPaymentWrap>
 
         {/* 1인당 결제 금액 */}
@@ -276,12 +268,8 @@ const ChoosePayment = () => {
           <div className="notice_wrap">
             <img className="notice_img" src={icon_notice_white_duck}></img>
             <div className="notice_text">
-              {/* <span className="weight_500">{today.getDate() > paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
-              부터 정산이 시작될 예정이에요. {priceToString(membershipPrice || 0)}원의 멤버십에서
-              <span className="weight_600"> {priceToString(pricePerMember * (partyPersonel - 1) || 0)}원을 아낄 수 </span>
-              있네요! */}
-              {membershipPrice}의 멤버십에서 총
-              <span className="weight_600"> {Number(pricePerMember) * partyPersonel}원을 아낄 수 </span>
+              {priceToString(Number(membershipPrice))}원의 멤버십에서 총
+              <span className="weight_600"> {priceToString(Number(pricePerMember) * Number(partyPersonel - 1))}원을 아낄 수 </span>
               있네요!
             </div>
           </div>

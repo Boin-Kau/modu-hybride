@@ -124,7 +124,7 @@ const MyPartyDetail = ({ location }) => {
       //IOS 배경색 설정
       try {
         window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
-      } catch (err) {}
+      } catch (err) { }
     }
   }, []);
 
@@ -307,7 +307,7 @@ const MyPartyDetail = ({ location }) => {
     // 파티 삭제
     const partyDeleteUri = `/party/${partyIdx}?userRole=${
       isHostUser === "Y" ? "HOST" : "USER"
-    }`;
+      }`;
     const partyDeleteData = await customApiClient("delete", partyDeleteUri);
 
     // Server Error
@@ -359,7 +359,7 @@ const MyPartyDetail = ({ location }) => {
     // 파티 삭제 취소
     const partyDeleteCancelUri = `/party/${partyIdx}/revert?userRole=${
       isHostUser === "Y" ? "HOST" : "USER"
-    }`;
+      }`;
     const partyDeleteCancelData = await customApiClient(
       "patch",
       partyDeleteCancelUri
@@ -589,7 +589,7 @@ const MyPartyDetail = ({ location }) => {
   };
 
   // 결제수단 변경하기
-  const changePaymentCard = ({partyIdx}) => {
+  const changePaymentCard = ({ partyIdx }) => {
     setPageTrans("trans toRight");
     history.push(`/party/${partyIdx}/detail/change/card`);
   };
@@ -606,7 +606,7 @@ const MyPartyDetail = ({ location }) => {
 
   // 계정정보 등록하기
   const onClickEnrollAccount = () => {
-    console.log('hi')
+    setPageTrans("trans toRight");
     history.push({
       pathname: '/party/my/detail/account',
       state: {
@@ -733,7 +733,9 @@ const MyPartyDetail = ({ location }) => {
                 <div className="notice_text_div">
                   <span>파티를 이용하면 매달 </span>
                   <span className="notice_text_yellow">
-                    {priceToString(
+                    {isHostUser === 'Y' ? priceToString(
+                      membershipInfoObj.price * (partyInfoObj.personnel - 1)
+                    ) : priceToString(
                       membershipInfoObj.originalPrice - membershipInfoObj.price
                     )}
                     원
@@ -815,14 +817,14 @@ const MyPartyDetail = ({ location }) => {
                   {(membershipInfoObj.nextCalculatePrice ||
                     (membershipInfoObj.price &&
                       membershipInfoObj.commissionPrice)) &&
-                  isHostUser === "Y"
+                    isHostUser === "Y"
                     ? `${priceToString(
-                        membershipInfoObj.nextCalculatePrice || 0
-                      )}원이 정산`
+                      membershipInfoObj.nextCalculatePrice || 0
+                    )}원이 정산`
                     : `${priceToString(
-                        membershipInfoObj.price +
-                          membershipInfoObj.commissionPrice
-                      )}원이 결제`}
+                      membershipInfoObj.price +
+                      membershipInfoObj.commissionPrice
+                    )}원이 결제`}
                 </span>
                 <span>될 예정이에요.</span>
               </div>
@@ -844,17 +846,17 @@ const MyPartyDetail = ({ location }) => {
                 {isHostUser === "Y"
                   ? bankAccountInfoObj.bankName
                     ? bankAccountInfoObj.bankName +
-                      " " +
-                      bankAccountInfoObj.bankAccountNum
+                    " " +
+                    bankAccountInfoObj.bankAccountNum
                     : "없음"
                   : userCardInfoObj.cardName
-                  ? userCardInfoObj.cardName + " " + userCardInfoObj.cardNo
-                  : "없음"}
+                    ? userCardInfoObj.cardName + " " + userCardInfoObj.cardNo
+                    : "없음"}
               </span>
             </div>
             <div
               onClick={
-                isHostUser === "Y" ? changeBankAccount : ()=>changePaymentCard(partyIdx)
+                isHostUser === "Y" ? changeBankAccount : () => { changePaymentCard(partyIdx) }
               }
               className="change_contents_btn"
             >
@@ -948,8 +950,8 @@ const MyPartyDetail = ({ location }) => {
         imgUrl={WaitingDuck}
         imgWidth={"5.8875"}
         imgHeight={"8.1875"}
-        title={"파티장이 파티정보 등록하지않았을때"}
-        subTitle={"내용 들어가야함 !!"}
+        title={"정산 정보가 아직 없어요."}
+        subTitle={"파티장이 먼저 정산 정보를 등록해야\n결제정보를 입력할 수 있어요.\n파티장에게 등록 요청을 해주세요."}
         leftButtonText={"기다리기"}
         rightButtonText={"해지하기"}
         onClickLeft={closePage}
