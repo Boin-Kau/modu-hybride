@@ -1,10 +1,9 @@
 export const initialState = {
-    popupMessage:'',
-    popupShow: false
+    guidePopupShow: false
 };
 
-export const PopupOpen = 'PopupOpen';
-export const PopupClose = 'PopupClose';
+export const GuidePopupOpen = 'GuidePopupOpen';
+export const GuidePopupClose = 'GuidePopupClose';
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -12,17 +11,16 @@ const reducer = (state = initialState, action) => {
             return initialState
         }
         
-        case 'PopupOpen': {
+        case 'GuidePopupOpen': {
             return {
                 ...state,
-                popupMessage: action.data,
-                popupShow: true,
+                guidePopupShow: true,
             }
         }
-        case 'PopupClose': {
+        case 'GuidePopupClose': {
             return {
                 ...state,
-                popupShow: false,
+                guidePopupShow: false,
             }
         }
         default: {

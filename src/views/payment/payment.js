@@ -93,7 +93,6 @@ const Payment = () => {
       setMembershipInfoObj(selectedPartyMembershipInfo);
 
     } else {
-      console.log("리덕스 초기화 감지");
 
       setPageTrans("trans toLeft");
       history.push("/party");
