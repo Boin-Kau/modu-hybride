@@ -580,12 +580,9 @@ const MyPartyDetail = ({ location }) => {
   };
 
   // 정산계좌 변경하기
-  const changeBankAccount = () => {
+  const changeBankAccount = ({partyIdx}) => {
     setPageTrans("trans toRight");
-    history.push({
-      pathname: "/party/detail/change/account",
-      data: partyIdx,
-    });
+    history.push(`/party/${partyIdx}/detail/change/account`);
   };
 
   // 결제수단 변경하기
@@ -856,7 +853,7 @@ const MyPartyDetail = ({ location }) => {
             </div>
             <div
               onClick={
-                isHostUser === "Y" ? changeBankAccount : () => { changePaymentCard(partyIdx) }
+                isHostUser === "Y" ? ()=>changeBankAccount({partyIdx}) : ()=>changePaymentCard({partyIdx})
               }
               className="change_contents_btn"
             >
