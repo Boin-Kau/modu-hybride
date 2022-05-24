@@ -15,6 +15,7 @@ import BottomNav from './containers/bottomNav';
 import ErrorPopup from './views/popup/errorPopup';
 import ReportPopUp from './views/party/popup/reportPopup';
 import DetailPopup from './views/popup/detailPopup';
+import OpenChatGuidePopup from './views/popup/openChatGuidePopup';
 
 const history = createBrowserHistory();
 
@@ -68,11 +69,16 @@ function App() {
 
   const {
     popupShow,
+    popupMessage
   } = useSelector(state => state.popup.popup);
 
   const {
     detailPopupShow,
   } = useSelector(state => state.popup.detailPopup);
+
+  const {
+    guidePopupShow,
+  } = useSelector(state => state.popup.guidePopup);
 
   const {
     openLoadingStatus,
@@ -122,10 +128,13 @@ function App() {
         </MessageWrapPopup>
 
         {/* 팝업창 */}
-        {popupShow && <ErrorPopup status={popupShow} />}
+        {popupShow && <ErrorPopup status={popupShow} popupMessage={popupMessage}/>}
 
         {/* 이용약관 팝업창 */}
         {detailPopupShow && <DetailPopup status={detailPopupShow} />}
+
+        {/* 오픈채팅가이드 팝업창 */}
+        {guidePopupShow && <OpenChatGuidePopup status={guidePopupShow}/>}
 
         {/* 로딩 */}
         <LoadingPopup openStatus={openLoadingStatus} />

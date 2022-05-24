@@ -268,7 +268,7 @@ const ChoosePayment = () => {
           <div className="notice_wrap">
             <img className="notice_img" src={icon_notice_white_duck}></img>
             <div className="notice_text">
-              {membershipPrice}의 멤버십에서 총
+              {priceToString(Number(membershipPrice))}원의 멤버십에서 총
               <span className="weight_600"> {priceToString(Number(pricePerMember) * Number(partyPersonel - 1))}원을 아낄 수 </span>
               있네요!
             </div>

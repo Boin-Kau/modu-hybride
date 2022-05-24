@@ -74,6 +74,10 @@ const ChoosePartyInfo = ({ updatePage }) => {
     setPartyLinkPopupStatus(!partyLinkPopupStatus);
   }
 
+  const guidePopupOpen = () => {
+    dispatch({ type: "GuidePopupOpen" });
+  }
+
   return (
     <ChoosePartyInfoWrap style={{ flexGrow: '1' }}>
       <div style={{ flexGrow: '1' }}>
@@ -118,8 +122,8 @@ const ChoosePartyInfo = ({ updatePage }) => {
         />
 
         <TitleWrap style={{ marginTop: '0.5rem' }}>
-          <div>오픈카톡방 링크</div>
-          <MoreInfoWrap>
+          오픈카톡방 링크
+          <MoreInfoWrap onClick={guidePopupOpen}>
             <img src={icon_question_about_link} className="moreInfoBtn" />
             <span className="moreInfoText">더보기</span>
           </MoreInfoWrap>
