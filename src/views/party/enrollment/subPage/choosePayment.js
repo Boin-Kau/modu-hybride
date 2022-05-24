@@ -42,12 +42,48 @@ const ChoosePayment = () => {
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
+  //벨리데이션
+  const [membershipPriceValid, setMembershipPriceValid] = useState(false);
+  const [pricePerMemberValid, setPricePerMemberValid] = useState(false);
+
   let list = [];
   const [typeList, setTypeList] = useState([]);
 
   let today = new Date()
 
   useEffect(() => {
+    //1인당 금액 벨리데이션
+    if (pricePerMember.length < 1) {
+      setPricePerMemberValid(false);
+      setNextBtnStatus(false);
+      return
+    }
+
+    if (Number(pricePerMember) < 1000) {
+      setPricePerMemberValid(true);
+      setNextBtnStatus(false);
+      return
+    }
+    else {
+      setPricePerMemberValid(false);
+    }
+
+    //멤버십 금액 벨리데이션
+    if (membershipPrice.length > 0 && pricePerMember.length > 0) {
+      if (Number(membershipPrice) <= Number(pricePerMember)) {
+        setMembershipPriceValid(true);
+        setNextBtnStatus(false);
+        return
+      }
+      else {
+        setMembershipPriceValid(false);
+      }
+    }
+    else {
+      setMembershipPriceValid(false);
+    }
+
+
     if (membershipPrice && paymentDay && pricePerMember && partyPersonel) {
       setNextBtnStatus(true);
     } else {
@@ -156,16 +192,22 @@ const ChoosePayment = () => {
 
         {/* 멤버십 금액 */}
         <TitleWrap style={{ marginTop: '0.5rem', position: 'relative' }}>
-          멤버십 금액
+          <div>멤버십 금액</div>
           <InfoWrap>
             <img onClick={onClickMembershipPriceInfo} className="infoBtn" src={icon_info} />
           </InfoWrap>
+          {membershipPriceValid && <div style={{
+            flexGrow: "1",
+            fontSize: "0.75rem",
+            color: "#fb5e5e",
+            textAlign: "right"
+          }}>* 1인당 결제 금액보다 커야해요.</div>}
           <MiniInfoDialog trianglePosition={'28%'} openStatus={membershipPriceInfoStatus}>
             해당 서비스의 원래 결제 금액을 입력해주세요.<br />ex) 넷플릭스 (스탠다드 맴버십) : 13,500원
           </MiniInfoDialog>
         </TitleWrap>
         <ItemWrap>
-          <InputWrap style={{ alignItems: 'center' }}>
+          <InputWrap style={{ alignItems: 'center' }} errorStatus={membershipPriceValid}>
             <Input type="number" placeholder="실제 멤버십 금액을 입력해주세요" onChange={handleChangeMembershipPrice} value={membershipPrice}></Input>
             <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
@@ -212,9 +254,17 @@ const ChoosePayment = () => {
         </FirstPaymentWrap>
 
         {/* 1인당 결제 금액 */}
-        <TitleWrap style={{ marginTop: '0.5rem' }}>1인당 결제 금액</TitleWrap>
+        <TitleWrap style={{ marginTop: '0.5rem' }}>
+          <div>1인당 결제 금액</div>
+          {pricePerMemberValid && <div style={{
+            flexGrow: "1",
+            fontSize: "0.75rem",
+            color: "#fb5e5e",
+            textAlign: "right"
+          }}>* 1,000원 이상의 금액을 입력해주세요.</div>}
+        </TitleWrap>
         <ItemWrap>
-          <InputWrap style={{ alignItems: 'center' }}>
+          <InputWrap style={{ alignItems: 'center' }} errorStatus={pricePerMemberValid}>
             <Input type="number" placeholder="1인당 내야할 금액을 입력해주세요" onChange={handleChangePricePerMember} value={pricePerMember}></Input>
             <span className="notoBold" style={{ fontSize: '0.8125rem', color: 'rgba(49,49,49,0.31)', lineHeight: '1' }}>￦(원)</span>
           </InputWrap>
@@ -223,7 +273,12 @@ const ChoosePayment = () => {
         {/* 모집 인원 */}
         <TitleWrap style={{ marginTop: '0.5rem' }}>
           <div>파티 인원</div>
-          <div style={{ marginLeft: '0.3125rem', fontSize: "0.7188rem", color: "#ff0000" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
+          <div style={{
+            flexGrow: "1",
+            fontSize: "0.75rem",
+            color: "#fb5e5e",
+            textAlign: "right"
+          }}>* 자신을 포함한 인원으로 선택해주세요.</div>
         </TitleWrap>
         <ItemWrap onClick={onClickPersonelOpen}>
           <InputWrap openStatus={personelOpen} isBlocked={partyPersonel === 0}>
@@ -243,7 +298,7 @@ const ChoosePayment = () => {
             </div>
           </InputWrap>
         </ItemWrap>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', marginBottom: "1.25rem" }}>
           <div style={{ flexGrow: '1', flexBasis: '0' }}>
             <Fade collapse when={personelOpen} duration={500}>
               <SelectWrap>

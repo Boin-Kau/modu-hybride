@@ -30,6 +30,9 @@ export const InputWrap = styled.div`
 
     border:${props => props.openStatus ? '0.0625rem solid #949494' : '0.0625rem solid #e8e8e8'};
 
+    /* 입력에러일때 */
+    border: ${(props) => props.errorStatus && "0.0625rem solid red"};
+
     border-radius:0.25rem;
 
     font-size:0.8125rem;
