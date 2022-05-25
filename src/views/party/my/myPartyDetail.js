@@ -154,7 +154,6 @@ const MyPartyDetail = ({ location }) => {
   useEffect(() => {
     list = [];
 
-    console.log(partyInfoObj);
     if (partyInfoObj.currentUserCount && partyInfoObj.personnel) {
       const maxLength = partyInfoObj.personnel > 4 ? partyInfoObj.personnel : 4;
 
@@ -194,7 +193,6 @@ const MyPartyDetail = ({ location }) => {
       setFinishPopupStatus(true);
       return;
     }
-    console.log("API 호출 성공 :", partyDetailData);
 
     setResult(partyDetailData.result);
     setPartyTitle(partyDetailData.result.title);

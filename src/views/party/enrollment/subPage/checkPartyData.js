@@ -56,7 +56,6 @@ const CheckPartyData = () => {
 
     //신규 파티 등록 로직
     if (!idx) {
-      console.log("신규 파티 등록 로직");
       body = {
         title: title,
         registerType: platformState.selectedPlatformImgUrl ? "SERVER" : "CUSTOM",
@@ -82,7 +81,6 @@ const CheckPartyData = () => {
     }
     //기존 파티장 등록 로직
     else {
-      console.log("기존 파티 등록 로직");
       body = {
         partyIdx: Number(idx),
         title: title,
@@ -104,7 +102,6 @@ const CheckPartyData = () => {
 
     const data = await customApiClient('post', url, body);
 
-    console.log(data.message);
     // Server Error
     if (!data) {
       setLoading(false);

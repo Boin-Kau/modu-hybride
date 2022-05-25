@@ -99,13 +99,10 @@ const ChooseBankAccount = () => {
     // 등록된 정산계좌 유무 확인
     if (data.result.length === 0) {
       setIsBankAccountStatus(false);
-      console.log(isBankAccountStatus);
     } else {
       setIsBankAccountStatus(true);
-      console.log(isBankAccountStatus);
     }
 
-    console.log('API 호출 성공 :', data);
     setBankAccountList(data.result);
 
     setCardListLoading(false);
@@ -370,7 +367,6 @@ export const ChooseBankDialog = ({ openStatus, deleteFunc, selectBankFunc, selec
     // Validation 
     if (data.statusCode !== 200) { return };
 
-    console.log('API 호출 성공 :', data);
     setNormalBankList(data.result.normalBank);
     setStockBankList(data.result.stockBank);
   }
