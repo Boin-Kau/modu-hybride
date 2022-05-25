@@ -109,7 +109,7 @@ const AppLayout = () => {
             <Route path='/card' exact component={CardRegister} />
             <Route path='/card/manage' exact component={CardManagement} />
             <Route path='/party/:idx/detail/change/card' exact component={CardIdxChange} />
-            <Route path='/party/detail/change/account' exact component={AccountIdxChange} />
+            <Route path='/party/:idx/detail/change/account' exact component={AccountIdxChange} />
             <Route path='/bank/manage' exact component={BankAccountManagement} />
             <Route path='/bank/enrollment' exact component={BankAccountEnrollment} />
 

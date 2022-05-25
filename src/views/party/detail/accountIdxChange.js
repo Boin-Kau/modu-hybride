@@ -6,7 +6,7 @@ import { TextMiddle } from "../../../styled/shared";
 import { PageTransContext } from "../../../containers/pageTransContext";
 import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import icon_back from "../../../assets/icon-back-arrow.svg";
@@ -15,17 +15,17 @@ import BottomButton from "../../../components/party/BottomButton";
 import { customApiClient } from "../../../shared/apiClient";
 import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../../reducers/container/message";
 
-const AccountIdxChange = ({ location }) => {
+const AccountIdxChange = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { idx } = useParams();
 
   //context
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
   const [accountIdx, setAccountIdx] = useState(-1);
-  const [partyRoomIdx, setPartyRoomIdx] = useState(location.data);
-  const [confirmStatus, setConfirmStatus] = useState(true);
+  const [partyRoomIdx, setPartyRoomIdx] = useState(0);
 
   const closePage = () => {
     setPageTrans("trans toLeft");
@@ -72,6 +72,13 @@ const AccountIdxChange = ({ location }) => {
 
   useEffect(async () => {
     dispatch(BottomNavCloseAction);
+
+    if (idx) {
+      setPartyRoomIdx(idx);
+      console.log(idx);
+    } else {
+      closePage();
+    }
   }, []);
 
   console.log(`Account Index : ${accountIdx}`);
