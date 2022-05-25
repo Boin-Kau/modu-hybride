@@ -1,6 +1,6 @@
 export const initialState = {
-    popupMessage:'',
-    popupShow: false
+    popupShow: false,
+    popupMessage:''
 };
 
 export const PopupOpen = 'PopupOpen';

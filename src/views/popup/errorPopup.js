@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { DangerWrapPopup } from "../../styled/shared";
 
-const ErrorPopup = (status, popupMessage) => {
+const ErrorPopup = ({status, popupMessage}) => {
   const dispatch = useDispatch();
 
   const PopupClose=()=>{
@@ -25,7 +25,7 @@ const ErrorPopup = (status, popupMessage) => {
             padding: "0 1.25rem 0 1.25rem",
           }}
         >
-          [C00001] 등록할 수 없는 카드입니다.
+          등록할 수 없는 카드입니다.
           <br />
           {popupMessage}
         </div>
