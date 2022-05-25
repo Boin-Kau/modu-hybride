@@ -18,7 +18,7 @@ const CommissionPopup = ({ status, closeFunc }) => {
         </div>
         <div className="spoqaMedium detail-box">
           <div className="text" style={{ wordBreak: "keep-all" }}>
-            파티원의 파티 이용 수수료는 결제금액의 10%로 책정하고 있어요.<br /><br />
+            파티원의 파티 이용 수수료는 결제금액의 9.9%로 책정하고 있어요. (수수료 9% + 부가세 0.9%)<br /><br />
             파티 금액을 결제하고 파티장에게 정산해주는 기능을 제공하고, 이러한 서비스를 유지하기 위한 최소한의 수수료율로 책정하였어요.
           </div>
         </div>
