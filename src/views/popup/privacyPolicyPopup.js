@@ -5,11 +5,11 @@ import { DangerWrapPopup } from "../../styled/shared";
 
 import ic_cancle from "../../assets/ic_popup_cancle@3x.png";
 
-const DetailPopup = (status) => {
+const PrivacyPolicyPopup = (status) => {
   const dispatch = useDispatch();
 
   const PopupClose = () => {
-    dispatch({ type: "DetailPopupClose" });
+    dispatch({ type: "PolicyPopupClose" });
   };
 
   return (
@@ -19,7 +19,7 @@ const DetailPopup = (status) => {
     >
       <Popup className="spoqaBold" openStatus={true}>
         <div style={{ display: "flex", flexDirection: "row" }}>
-          <div style={{ fontSize: "1rem" }}>개인정보 처리방침</div>
+          <div style={{ fontSize: "1rem" }}>서비스 이용약관</div>
           <img src={ic_cancle} onClick={PopupClose}/>
         </div>
         <div className="spoqaMedium detail-box">
@@ -96,4 +96,4 @@ const Popup = styled.div`
   }
 `;
 
-export default DetailPopup;
+export default PrivacyPolicyPopup;

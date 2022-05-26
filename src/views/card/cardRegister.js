@@ -291,6 +291,14 @@ const CardRegister = () => {
     history.goBack();
   }, [pageConfirmStatus, cardNum, cardPw, expire, identifyNumber]);
 
+  const TermPopupOpen = () => {
+    dispatch({ type: "DetailPopupOpen" });
+  };
+
+  const PolicyPopupOpen = () => {
+    dispatch({ type: "PolicyPopupOpen" });
+  };
+
   //페이지 벨리데이션
   useEffect(() => {
     if (
@@ -498,7 +506,7 @@ const CardRegister = () => {
             >
               <CheckIcon src={isFreeTwo === "Y" ? check_y : check_g} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
-                모두의 이용 약관 및 개인정보 처리방침에 동의합니다.
+                모두의 <span onClick={TermPopupOpen} style={{textDecoration:"underline"}}>이용 약관</span> 및 <span onClick={PolicyPopupOpen} style={{textDecoration:"underline"}}>개인정보 처리방침</span>에 동의합니다.
               </PartyText>
             </div>
             <div
