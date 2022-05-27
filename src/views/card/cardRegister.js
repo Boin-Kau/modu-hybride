@@ -235,31 +235,31 @@ const CardRegister = () => {
     if (data.statusCode !== 200) {
       console.log(data.statusCode);
       //리덕스에 넣어주기
-      if(data.statusCode === 4001){
+      if (data.statusCode === 4001) {
         dispatch({
           type: PopupOpen,
           data: '입력하신 카드번호를 다시 한번 확인해주십시오.'
         })
       }
-      else if(data.statusCode === 4002){
+      else if (data.statusCode === 4002) {
         dispatch({
           type: PopupOpen,
           data: '카드잔고가 부족합니다. 잔고 확인 후, 다시 시도해주세요.'
         })
       }
-      else if(data.statusCode === 4003){
+      else if (data.statusCode === 4003) {
         dispatch({
           type: PopupOpen,
           data: '이미 등록된 카드입니다.'
         })
       }
-      else if(data.statusCode === 4005){
+      else if (data.statusCode === 4005) {
         dispatch({
           type: PopupOpen,
           data: '본인 명의의 카드만 등록 가능합니다.'
         })
       }
-      else{
+      else {
         alert(data.message);
       }
       return;
@@ -502,11 +502,10 @@ const CardRegister = () => {
                 flexDirection: "row",
                 marginBottom: "0.625rem",
               }}
-              onClick={onClickIsFreeTwo}
             >
-              <CheckIcon src={isFreeTwo === "Y" ? check_y : check_g} />
+              <CheckIcon src={isFreeTwo === "Y" ? check_y : check_g} onClick={onClickIsFreeTwo} />
               <PartyText className="notoRegular" style={{ color: "#6a6a6a" }}>
-                모두의 <span onClick={TermPopupOpen} style={{textDecoration:"underline"}}>이용 약관</span> 및 <span onClick={PolicyPopupOpen} style={{textDecoration:"underline"}}>개인정보 처리방침</span>에 동의합니다.
+                모두의 <span onClick={TermPopupOpen} style={{ textDecoration: "underline" }}>이용 약관</span> 및 <span onClick={PolicyPopupOpen} style={{ textDecoration: "underline" }}>개인정보 처리방침</span>에 동의합니다.
               </PartyText>
             </div>
             <div

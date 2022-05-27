@@ -185,6 +185,10 @@ const ChooseBankAccount = () => {
     }
   };
 
+  const TermPopupOpen = () => {
+    dispatch({ type: "DetailPopupOpen" });
+  };
+
   return (
     <ChooseBankAccountWrap style={{ flexGrow: '1' }}>
       <div style={{ flexGrow: '1' }}>
@@ -252,14 +256,13 @@ const ChooseBankAccount = () => {
                   alignItems: "center",
                   marginTop: "0.75rem",
                 }}
-                onClick={onClickCheckBox}
               >
-                <PartyIconWrap isFree={agreeStatus}>
+                <PartyIconWrap isFree={agreeStatus} onClick={onClickCheckBox}>
                   <PartyIcon src={icon_check} />
                 </PartyIconWrap>
                 <PartyText style={{ color: '#6a6a6a' }} className="notoMedium">
                   <span>[필수] </span>
-                  <span style={{ textDecoration: 'underline' }}>개인정보 수집</span>
+                  <span onClick={TermPopupOpen} style={{ textDecoration: 'underline' }}>개인정보 수집</span>
                   <span> 및 이용동의</span>
                 </PartyText>
               </div>

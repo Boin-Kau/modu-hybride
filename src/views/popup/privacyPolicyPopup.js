@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { DangerWrapPopup } from "../../styled/shared";
 
 import ic_cancle from "../../assets/ic_popup_cancle@3x.png";
+import ServiceTerm from "../../components/term/serviceTerm";
 
 const PrivacyPolicyPopup = (status) => {
   const dispatch = useDispatch();
@@ -20,17 +21,11 @@ const PrivacyPolicyPopup = (status) => {
       <Popup className="spoqaBold" openStatus={true}>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <div style={{ fontSize: "1rem" }}>서비스 이용약관</div>
-          <img src={ic_cancle} onClick={PopupClose}/>
+          <img src={ic_cancle} onClick={PopupClose} />
         </div>
         <div className="spoqaMedium detail-box">
           <div className="text">
-            팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에
-            관한 내용이 들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한
-            내용이 들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이
-            들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이
-            들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이
-            들어갑니다. 팝업에 관한 내용이 들어갑니다. 팝업에 관한 내용이
-            들어갑니다.
+            <ServiceTerm />
           </div>
         </div>
       </Popup>
