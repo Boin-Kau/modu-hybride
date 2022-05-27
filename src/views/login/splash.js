@@ -1,20 +1,21 @@
-import React, { useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { customApiClient } from "../../shared/apiClient";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { UserInfoUpdate } from "../../reducers/info/user";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 import { checkMobile, onClickTerminate } from "../../App";
+import splash_duck from "../../assets/img_splash_duck.png";
+import modu_logo from "../../assets/img_splash_modu.svg";
+import { PageTransContext } from "../../containers/pageTransContext";
+import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
+import { UserInfoUpdate } from "../../reducers/info/user";
+import { customApiClient } from "../../shared/apiClient";
 import {
   GAEventSubmit,
   GA_CATEOGRY,
-  GA_USER_ACTION,
+  GA_USER_ACTION
 } from "../../shared/gaSetting";
-import { BottomNavCloseAction, BottomNavOpenAction } from "../../reducers/container/bottomNav";
-import styled from "styled-components";
+import UpdatePopUp from "../popup/update";
 
-import modu_logo from "../../assets/img_splash_modu.svg";
-import splash_duck from "../../assets/img_splash_duck.png";
-import { PageTransContext } from "../../containers/pageTransContext";
 
 const Splash = () => {
   const history = useHistory();
@@ -22,6 +23,9 @@ const Splash = () => {
 
   //context
   const { setPageTrans } = useContext(PageTransContext);
+
+  //강제 업데이트 팝업
+  const [updatePopupStatus, setUpdatePopupStatus] = useState(false);
 
   const goToLogin = () => {
     setPageTrans('trans toRight');
@@ -104,6 +108,17 @@ const Splash = () => {
         }
 
       }
+
+      //앱 버전 체크
+      const verson = localStorage.getItem('versonName');
+
+      if (!verson || verson < '2.0.0') {
+        if (process.env.NODE_ENV !== 'development') {
+          setUpdatePopupStatus(true);
+        }
+      }
+
+
       return;
     }
 
@@ -147,6 +162,9 @@ const Splash = () => {
           </div>
         </SplashWrap>
       </div>
+
+      {/* 업데이트 팝업 */}
+      <UpdatePopUp openStatus={updatePopupStatus} />
     </>
   );
 };

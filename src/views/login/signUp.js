@@ -1,41 +1,27 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react';
-
-import styled from "styled-components";
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-
+import Fade from 'react-reveal/Fade';
 import { useHistory, useLocation } from 'react-router-dom';
-
-import { LoginButton, LoginInput, TextMiddle } from '../../styled/shared';
-
+import styled from "styled-components";
+import { checkMobile } from '../../App';
+import icon_arrow_right from "../../assets/icon-arrow-right-gray.svg";
 import icon_back from "../../assets/icon-back-arrow.svg";
-import icon_info from "../../assets/info-black-192-x-192@3x.png";
-
-import icon_male_fill from "../../assets/icon-male-fill.svg";
-import icon_male_none from "../../assets/icon-male-none.svg";
+import icon_check from "../../assets/icon-check-white.svg";
 import icon_female_fill from "../../assets/icon-female-fill.svg";
 import icon_female_none from "../../assets/icon-female-none.svg";
+import icon_male_fill from "../../assets/icon-male-fill.svg";
+import icon_male_none from "../../assets/icon-male-none.svg";
 import icon_timeout from "../../assets/icon-timeout.svg";
-import icon_check from "../../assets/icon-check-white.svg";
-import icon_arrow_right from "../../assets/icon-arrow-right-gray.svg";
-
-import Fade from 'react-reveal/Fade';
-
-
-import { customApiClient } from '../../shared/apiClient';
-import { BottomNavOpenAction, BottomNavCloseAction } from '../../reducers/container/bottomNav';
-import { UserInfoUpdate } from '../../reducers/info/user';
-import PhoneChangePage from './phoneChange';
-import { PageWrapOpen, PageOpen, LoginSubPageKind } from '../../reducers/info/page';
-
-
-import { onClickTerminate, checkMobile } from '../../App';
-import { PartyIconWrap, PartyIcon } from '../../styled/main/enrollment';
-
-import UpdatePopUp from '../popup/update';
 import { PageTransContext } from '../../containers/pageTransContext';
-import { GA_CATEOGRY, GA_USER_ACTION, GAEventSubmit } from '../../shared/gaSetting';
+import { BottomNavCloseAction, BottomNavOpenAction } from '../../reducers/container/bottomNav';
+import { LoginSubPageKind, PageOpen, PageWrapOpen } from '../../reducers/info/page';
+import { UserInfoUpdate } from '../../reducers/info/user';
+import { customApiClient } from '../../shared/apiClient';
+import { GAEventSubmit, GA_CATEOGRY, GA_USER_ACTION } from '../../shared/gaSetting';
+import { PartyIcon, PartyIconWrap } from '../../styled/main/enrollment';
+import { LoginButton, LoginInput, TextMiddle } from '../../styled/shared';
 import { HeaderWrap } from '../../styled/shared/wrap';
-
+import PhoneChangePage from './phoneChange';
 
 const SignUp = () => {
 
@@ -52,9 +38,6 @@ const SignUp = () => {
         openLoginPhonePageWrapStatus,
         openLoginPhonePageStatus
     } = useSelector(state => state.info.page);
-
-    //강제 업데이트 팝업
-    const [updatePopupStatus, setUpdatePopupStatus] = useState(false);
 
     //현재 페이지
     const [currentPage, setCurrentPage] = useState(1);
@@ -140,15 +123,6 @@ const SignUp = () => {
                 console.log(err);
             }
 
-        }
-
-        //앱 버전 체크
-        const verson = localStorage.getItem('versonName');
-
-        if (!verson || verson < '2.0.0') {
-            if (process.env.NODE_ENV !== 'development') {
-                setUpdatePopupStatus(true);
-            }
         }
 
         //이름 찾기 완료시 바로 입력되게 처리
@@ -826,9 +800,6 @@ const SignUp = () => {
                     </div>
                 </Fade>
             </div>
-
-            {/* 업데이트 팝업 */}
-            {/* <UpdatePopUp openStatus={updatePopupStatus} /> */}
         </>
     )
 };
