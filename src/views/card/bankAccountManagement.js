@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import styled from "styled-components";
 
 import { PageTransContext } from "../../containers/pageTransContext";
 import { ContentWrap, HeaderWrap, PageWrap } from "../../styled/shared/wrap";
@@ -64,14 +63,6 @@ const BankAccountManagement = () => {
     setLoading(true);
 
     const data = await customApiClient("get", "/party/user/bankAccount");
-
-    // //서버에러
-    // if (!data) return;
-
-    // //벨리데이션
-    // if (data.statusCode != 200) {
-    //   return;
-    // }
 
     if (data.statusCode == 200) {
       setCardData(data.result);
