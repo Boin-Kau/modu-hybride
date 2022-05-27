@@ -91,7 +91,7 @@ const Keyboard = ({setKeyboardUp, num2, num3, setNum2, setNum3, two, setTwo, thr
         <ButtonWrap>
           {nums.map((n, i) => {
             const Basic_button = (
-              <NumberButton value={n} onClick={shuffleNums(n)} key={i}>
+              <NumberButton value={n} onClick={shuffleNums(n)} key={n.id}>
                 {n}
               </NumberButton>
             );
