@@ -455,6 +455,7 @@ const ChooseBankDiv = styled.div`
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: minmax(70px, auto);
     gap: 0.8125rem 0.9375rem;
+    padding-bottom:1.25rem;
   }
 `;
 
@@ -465,13 +466,13 @@ const BankItem = styled.div`
   align-items: center;
 
   img {
-    width: 1rem;
-    height: 1.125rem;
-    margin-bottom: 0.25rem;
+    width: 2.6875rem;
+    height: 1.75rem;
   }
   span {
     font-size: 0.75rem;
     font-family: 'Noto Sans KR';
     font-weight: 500;
+    line-height:1.125rem;
   }
 `;
