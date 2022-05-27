@@ -247,7 +247,7 @@ const Party = () => {
     }
 
     const handleClickTutorial = () => {
-        window.open("https://onyx-scourge-fe4.notion.site/d9a1ff834526450b825aafbce47816d0", '_blank');
+        window.open("https://bit.ly/modu-party-tutorial", '_blank');
     }
 
     return (
