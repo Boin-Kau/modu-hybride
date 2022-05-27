@@ -16,6 +16,7 @@ import ErrorPopup from './views/popup/errorPopup';
 import ReportPopUp from './views/party/popup/reportPopup';
 import DetailPopup from './views/popup/detailPopup';
 import OpenChatGuidePopup from './views/popup/openChatGuidePopup';
+import PrivacyPolicyPopup from './views/popup/privacyPolicyPopup';
 
 const history = createBrowserHistory();
 
@@ -77,6 +78,10 @@ function App() {
   } = useSelector(state => state.popup.detailPopup);
 
   const {
+    policyPopupShow,
+  } = useSelector(state => state.popup.policyPopup);
+
+  const {
     guidePopupShow,
   } = useSelector(state => state.popup.guidePopup);
 
@@ -132,6 +137,9 @@ function App() {
 
         {/* 이용약관 팝업창 */}
         {detailPopupShow && <DetailPopup status={detailPopupShow} />}
+
+        {/* 개인정보 처리방침 팝업창 */}
+        {policyPopupShow && <PrivacyPolicyPopup status={policyPopupShow} />}
 
         {/* 오픈채팅가이드 팝업창 */}
         {guidePopupShow && <OpenChatGuidePopup status={guidePopupShow}/>}
