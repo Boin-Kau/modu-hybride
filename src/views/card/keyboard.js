@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
 import delete_icon from "../../assets/ic_card_numberdelete@3x.png";
