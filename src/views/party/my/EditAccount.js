@@ -60,7 +60,6 @@ const EditAccount = ({ location }) => {
   const onClickEdit = useCallback(async () => {
     if (!pageConfirmStatus) return;
 
-    console.log('pw확인 : ', accountPw)
     const data = await customApiClient('put', `/party/${partyIdx}/account`, {
       accountId: accountId,
       accountPw: accountPw

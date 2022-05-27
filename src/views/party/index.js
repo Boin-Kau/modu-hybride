@@ -11,6 +11,8 @@ import ActiveDuckIcon from '../../assets/icon-activate-people.svg';
 import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
 import PartyEmprtyImg from '../../assets/banner-main-new-party.svg';
 import PartyEnrollDuckImg from '../../assets/character-main-party-paticipate.svg';
+import PartyEnrollIcon from '../../assets/party/ic-main-plus.png';
+import PartyTutorialIcon from '../../assets/party/ic-main-book.png';
 
 import partyLoading from '../../assets/party-loading.gif';
 
@@ -244,6 +246,10 @@ const Party = () => {
         openPage('/party/enroll');
     }
 
+    const handleClickTutorial = () => {
+        window.open("https://onyx-scourge-fe4.notion.site/d9a1ff834526450b825aafbce47816d0", '_blank');
+    }
+
     return (
         <>
             <div className="page" style={{ display: "flex", flexDirection: "column", backgroundColor: '#FFCA17', backgroundSize: 'cover' }}>
@@ -251,8 +257,8 @@ const Party = () => {
                 <div id="back_link" onClick={onClickTerminate} style={{ display: 'none' }}></div>
                 <div style={{ zIndex: '10' }}>
                     <div className="spoqaBold" style={{ marginTop: '2.3125rem', marginLeft: '1.25rem', fontSize: '0.875rem', lineHeight: '1.4375rem' }}>구독 파티</div>
-                    <PartyIconWrap onClick={handleClickEnroll} style={{ right: '3.375rem' }}>
-                        <img src={partyPlusIcon} style={{ width: '1.4375rem', height: '1.4375rem' }} />
+                    <PartyIconWrap onClick={handleClickTutorial} style={{ right: '3.375rem' }}>
+                        <img src={PartyTutorialIcon} style={{ width: '1.2188rem', height: '1.4375rem' }} />
                     </PartyIconWrap>
                     <PartyIconWrap onClick={() => { openPage('/party/my') }} style={{ right: '0.625rem' }}>
                         <img src={MyPartyIcon} style={{ width: '1.5rem', height: '1.4375rem' }} />
@@ -300,8 +306,26 @@ const Party = () => {
                 </CardWrap>
 
                 <PartyLoading isLoading={isLoading} style={{ background: `#ffca17 url(${partyLoading}) no-repeat top center`, backgroundSize: '100% auto' }} />
-
+                {/* 파티 등록하기 버튼 */}
+                <div
+                    onClick={handleClickEnroll}
+                    style={{
+                        zIndex: 500,
+                        position: "absolute",
+                        right: "0.625rem",
+                        bottom: "4.5rem",
+                        width: "3.125rem",
+                        height: "3.125rem",
+                        borderRadius: "50%",
+                        boxShadow: "0 0 0.25rem 0.0625rem #efefef"
+                    }}>
+                    <img src={PartyEnrollIcon} alt="PartyEnrollIcon" style={{
+                        width: "3.125rem",
+                        height: "3.125rem",
+                    }} />
+                </div>
             </div>
+
 
             {/* 참여하기 버튼 팝업 */}
             <DangerWrapPopup openStatus={enrollPopupStatus}>
