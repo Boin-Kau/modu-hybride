@@ -185,6 +185,10 @@ const ChooseBankAccount = () => {
     }
   };
 
+  const TermPopupOpen = () => {
+    dispatch({ type: "DetailPopupOpen" });
+  };
+
   return (
     <ChooseBankAccountWrap style={{ flexGrow: '1' }}>
       <div style={{ flexGrow: '1' }}>
@@ -252,14 +256,13 @@ const ChooseBankAccount = () => {
                   alignItems: "center",
                   marginTop: "0.75rem",
                 }}
-                onClick={onClickCheckBox}
               >
-                <PartyIconWrap isFree={agreeStatus}>
+                <PartyIconWrap isFree={agreeStatus} onClick={onClickCheckBox}>
                   <PartyIcon src={icon_check} />
                 </PartyIconWrap>
                 <PartyText style={{ color: '#6a6a6a' }} className="notoMedium">
                   <span>[필수] </span>
-                  <span style={{ textDecoration: 'underline' }}>개인정보 수집</span>
+                  <span onClick={TermPopupOpen} style={{ textDecoration: 'underline' }}>개인정보 수집</span>
                   <span> 및 이용동의</span>
                 </PartyText>
               </div>
@@ -455,6 +458,7 @@ const ChooseBankDiv = styled.div`
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: minmax(70px, auto);
     gap: 0.8125rem 0.9375rem;
+    padding-bottom:1.25rem;
   }
 `;
 
@@ -465,13 +469,13 @@ const BankItem = styled.div`
   align-items: center;
 
   img {
-    width: 1rem;
-    height: 1.125rem;
-    margin-bottom: 0.25rem;
+    width: 2.6875rem;
+    height: 1.75rem;
   }
   span {
     font-size: 0.75rem;
     font-family: 'Noto Sans KR';
     font-weight: 500;
+    line-height:1.125rem;
   }
 `;
