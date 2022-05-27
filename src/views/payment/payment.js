@@ -47,8 +47,6 @@ const Payment = () => {
   const { setPageTrans } = useContext(PageTransContext);
 
   //state
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
 
   const [isFree, setIsFree] = useState("N");
@@ -177,8 +175,6 @@ const Payment = () => {
 
     //벨리데이션
     if (data.statusCode != 200) {
-      setError(true);
-      setErrorMsg(data.message);
       alert(data.message);
       return;
     }

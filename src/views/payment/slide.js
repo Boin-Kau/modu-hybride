@@ -102,11 +102,10 @@ export const settings = {
   dots: false,
   centerMode: true,
   infinite: false,
-  centerPadding: "2%", //px아니면 slick-slider에서 인식을 안해줌..
+  centerPadding: "2%",
   slidesToshow: 2,
   speed: 400,
   focusOnSelect: true,
-  // beforeChange: (crruent, next) => setImageIndex(next)
 };
 
 

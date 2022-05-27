@@ -10,7 +10,6 @@ import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 import { PageWrap, HeaderWrap, ContentWrap } from "../../styled/shared/wrap";
 import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/loading.js"
 
-import icon_check from "../../assets/icon-check-white.svg";
 import icon_back from "../../assets/icon-back-arrow.svg";
 import check_g from "../../assets/ic_payregis_check_g@3x.png";
 import check_y from "../../assets/ic_payregis_check_y@3x.png";
@@ -38,8 +37,6 @@ const CardRegister = () => {
 
   //state
   const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
 
   //키보드 관련 state
   const [keyboardUp, setKeyboardUp] = useState(false);
