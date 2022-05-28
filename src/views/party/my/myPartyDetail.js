@@ -57,19 +57,16 @@ import { UpdatePaymentAction } from "../../../reducers/party/enrollment/payment"
 import PartyCalculateDetail from "../../../components/party/PartyCalculateDetail";
 
 const MyPartyDetail = ({ location }) => {
-  // 테스트 코드
+
   let list = [];
   const [typeList, setTypeList] = useState([]);
 
-  // Module
   const history = useHistory();
   const dispatch = useDispatch();
   const { idx } = useParams();
 
-  //Context
   const { setPageTrans } = useContext(PageTransContext);
 
-  // Local State
   const [partyIdx, setPartyIdx] = useState(0);
   const [payMonth, setPayMonth] = useState(0);
   const [payDay, setPayDay] = useState(0);
@@ -78,38 +75,38 @@ const MyPartyDetail = ({ location }) => {
   const [isHostUser, setIsHostUser] = useState("");
   const [openChatLink, setOpenChatLink] = useState("");
   const [roomStatus, setRoomStatus] = useState("");
-  const [userStatus, setUserStatus] = useState(""); // 유저 상태값
+  const [userStatus, setUserStatus] = useState(""); 
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
   const [accountInfoObj, setAccountInfoObj] = useState({});
   const [bankAccountInfoObj, setBankAccountInfoObj] = useState({});
   const [userCardInfoObj, setUserCardInfoObj] = useState({});
-  const [result, setResult] = useState({}); // 파티 상세정보 전체 데이터
+  const [result, setResult] = useState({}); 
 
-  const [leftDay, setLeftDay] = useState(0); // 결제일 남은 일수
+  const [leftDay, setLeftDay] = useState(0); 
 
-  const [regularFailPopupStatus, setRegularFailPopupStatus] = useState(false); //정기결제 실패 팝업 데이터
+  const [regularFailPopupStatus, setRegularFailPopupStatus] = useState(false); 
   const [regularFailConfirmPopupStatus, setRegularFailConfirmPopupStatus] =
-    useState(false); //정기결제 실패 최종확인 팝업 데이터
+    useState(false); 
   const [regularFailConfirmPopupTitle, setRegularFailConfirmPopupTitle] =
-    useState(""); //정기결제 실패 최종확인 팝업 제목
-  const [hostInfoPopupStatus, setHostInfoPopupStatus] = useState(false); //기존 파티장 정보 등록로직 처리
+    useState(""); 
+  const [hostInfoPopupStatus, setHostInfoPopupStatus] = useState(false); 
   const [userInfoBeforePopupStatus, setUserInfoBeforePopupStatus] =
-    useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 전)
-  const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false); //기존 파티원 로직 처리 (파티장이 정보 등록 후)
-  const [deletePopupStatus, setDeletePopupStatus] = useState(false); //정말 해지하시겠습니까 팝업
+    useState(false); 
+  const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false); 
+  const [deletePopupStatus, setDeletePopupStatus] = useState(false); 
 
-  const [finishPopupStatus, setFinishPopupStatus] = useState(false); //최종확인 팝업 데이터
-  const [finishPopupTitle, setFinishPopupTitle] = useState(false); //최종확인 팝업 제목
-  const [finishPopupSubTitle, setFinishPopupSubTitle] = useState(false); //최종확인 팝업 내용
+  const [finishPopupStatus, setFinishPopupStatus] = useState(false);
+  const [finishPopupTitle, setFinishPopupTitle] = useState(false); 
+  const [finishPopupSubTitle, setFinishPopupSubTitle] = useState(false); 
 
-  const [calculateDetail, setCalculateDetail] = useState({}); //파티장 정산 디테일 데이터
-  const [calculateDetailStatus, setCalculateDetailStatus] = useState(false); //파티장 정산 상세보기 팝업
+  const [calculateDetail, setCalculateDetail] = useState({}); 
+  const [calculateDetailStatus, setCalculateDetailStatus] = useState(false);
 
-  // Lifecycle - Initial Logic
+
   useEffect(() => {
-    // Bottom Nav
+
     dispatch(BottomNavCloseAction);
 
     if (idx) {
@@ -118,10 +115,10 @@ const MyPartyDetail = ({ location }) => {
       closePage();
     }
 
-    // 배경색 LOGIC
+
     const userPlatform = checkMobile();
     if (userPlatform == "ios") {
-      //IOS 배경색 설정
+
       try {
         window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
       } catch (err) { }
@@ -168,14 +165,14 @@ const MyPartyDetail = ({ location }) => {
     }
   }, [partyInfoObj]);
 
-  // Function
+
   const getPartyDetail = async () => {
     if (!partyIdx || partyIdx === 0) return;
-    // 파티 상세 조회
+
     const partyDetailUri = `/party/${partyIdx}`;
     const partyDetailData = await customApiClient("get", partyDetailUri);
 
-    // Server Error
+
     if (!partyDetailData) {
       setFinishPopupTitle("탈퇴 혹은 해지된 파티입니다");
       setFinishPopupSubTitle(
@@ -184,7 +181,7 @@ const MyPartyDetail = ({ location }) => {
       setFinishPopupStatus(true);
       return;
     }
-    // Validation
+
     if (partyDetailData.statusCode !== 200) {
       setFinishPopupTitle("탈퇴 혹은 해지된 파티입니다");
       setFinishPopupSubTitle(
@@ -207,7 +204,7 @@ const MyPartyDetail = ({ location }) => {
     setBankAccountInfoObj(partyDetailData.result.bankAccountInfo);
     setUserCardInfoObj(partyDetailData.result.userCardInfo);
 
-    //남은일수 계산
+
     if (partyDetailData.result.membershipInfo.paymentCycleDate) {
       const paymentCycleDate =
         partyDetailData.result.membershipInfo.paymentCycleDate;
@@ -230,13 +227,13 @@ const MyPartyDetail = ({ location }) => {
       setLeftDay(dateDiff);
     }
 
-    //파티원 정기결제 실패로직 처리
+
     if (partyDetailData.result.userStatus === "PENDING") {
       setRegularFailPopupStatus(true);
       return;
     }
 
-    //기존 파티장 정보 등록로직 처리
+
     if (
       partyDetailData.result.isHostUser === "Y" &&
       !partyDetailData.result.membershipInfo.paymentCycleDate
@@ -245,7 +242,7 @@ const MyPartyDetail = ({ location }) => {
       return;
     }
 
-    //기존 파티원 로직 처리 (파티장이 정보 등록전)
+
     if (
       partyDetailData.result.isHostUser === "N" &&
       !partyDetailData.result.membershipInfo.paymentCycleDate
@@ -254,7 +251,7 @@ const MyPartyDetail = ({ location }) => {
       return;
     }
 
-    //기존 파티원 로직 처리 (파티장이 정보 등록후)
+
     if (
       partyDetailData.result.isHostUser === "N" &&
       partyDetailData.result.membershipInfo.paymentCycleDate &&
@@ -266,7 +263,7 @@ const MyPartyDetail = ({ location }) => {
   };
 
   const closePage = () => {
-    //팝업 초기화
+
     setRegularFailPopupStatus(false);
     setRegularFailConfirmPopupStatus(false);
     setHostInfoPopupStatus(false);
@@ -281,7 +278,7 @@ const MyPartyDetail = ({ location }) => {
 
     dispatch({ type: ResetParty });
 
-    // 뒤로 가기
+
     setPageTrans("trans toLeft");
 
     if (location.props && location.props.isFinish === true) {
@@ -296,24 +293,24 @@ const MyPartyDetail = ({ location }) => {
       ? dispatch(HostBottomDialogOpenAction)
       : dispatch(MemberBottomDialogOpenAction);
   };
-  // 오픈채팅방 링크 열기 Function
+
   const onClickChatLink = () => window.open(openChatLink, "_blank");
 
   const isNotEmpty = (param) => Object.keys(param).length !== 0;
 
   const onDeleteParty = async () => {
-    // 파티 삭제
+
     const partyDeleteUri = `/party/${partyIdx}?userRole=${
       isHostUser === "Y" ? "HOST" : "USER"
       }`;
     const partyDeleteData = await customApiClient("delete", partyDeleteUri);
 
-    // Server Error
+
     if (!partyDeleteData) {
       return;
     }
 
-    //파티 삭제/해지 예약 완료
+
     if (partyDeleteData.statusCode === 200) {
       if (isHostUser === "Y") {
         setFinishPopupTitle("삭제 예약이 완료되었습니다.");
@@ -324,21 +321,21 @@ const MyPartyDetail = ({ location }) => {
         "해당 예약은 결제일 전이라면\n언제든 취소할 수 있습니다."
       );
     }
-    //파티 삭제 완료
+
     else if (partyDeleteData.statusCode === 201) {
       setFinishPopupTitle("삭제가 완료되었습니다.");
       setFinishPopupSubTitle(
         "종료된 파티는 내파티에서 확인 가능합니다.\n내파티를 확인해주세요!"
       );
     }
-    //파티 즉시 탈퇴 완료
+
     else if (partyDeleteData.statusCode === 201) {
       setFinishPopupTitle("탈퇴가 완료되었습니다.");
       setFinishPopupSubTitle(
         "종료된 파티는 내파티에서 확인 가능합니다.\n내파티를 확인해주세요!"
       );
     }
-    // Validation
+
     else {
       alert(partyDeleteData.message);
       return;
@@ -348,13 +345,13 @@ const MyPartyDetail = ({ location }) => {
     dispatch(PartyDeleteConfirmDialogCloseAction);
     setFinishPopupStatus(true);
 
-    //소비분석 리로드
+
     dispatch(AnalyPageReloadTrueAction);
     dispatch(SubscribeReloadTrueAction);
   };
 
   const onDeletePartyCancel = async () => {
-    // 파티 삭제 취소
+
     const partyDeleteCancelUri = `/party/${partyIdx}/revert?userRole=${
       isHostUser === "Y" ? "HOST" : "USER"
       }`;
@@ -363,12 +360,12 @@ const MyPartyDetail = ({ location }) => {
       partyDeleteCancelUri
     );
 
-    // Server Error
+
     if (!partyDeleteCancelData) {
       return;
     }
 
-    // Validation
+
     if (partyDeleteCancelData.statusCode !== 200) {
       alert(partyDeleteCancelData.message);
       return;
@@ -382,7 +379,7 @@ const MyPartyDetail = ({ location }) => {
     setFinishPopupSubTitle("다시 파티를 정상적으로\n이용하실 수 있습니다.");
     setFinishPopupStatus(true);
 
-    //소비분석 리로드
+
     dispatch(AnalyPageReloadTrueAction);
     dispatch(SubscribeReloadTrueAction);
   };
@@ -391,9 +388,9 @@ const MyPartyDetail = ({ location }) => {
     setCalculateDetailStatus(!calculateDetailStatus);
   }
 
-  //정기결제 실패 - 재결제하기
+
   const handleClickRePay = () => {
-    // 리덕스 설정
+
     dispatch(
       UpdatePartyAction({
         type: "PENDING",
@@ -417,14 +414,13 @@ const MyPartyDetail = ({ location }) => {
       return
     }
 
-    // 페이지 전환
+
     setPageTrans("trans toRight");
     history.push("/payment");
   };
 
-  //정기결제 실패 - 해지하기 -> 정기결제 해지컨펌 팝업 띄우기
   const handleClickRePayDelete = () => {
-    //아낀금액
+
     const savePrice = membershipInfoObj.originalPrice - membershipInfoObj.price;
 
     setRegularFailPopupStatus(false);
@@ -436,10 +432,10 @@ const MyPartyDetail = ({ location }) => {
     setRegularFailConfirmPopupStatus(true);
   };
 
-  //기존 파티장 - 파티정보 등록하기
+
   const handleClickHostInfo = () => {
 
-    //플랫폼 정보 등록
+
     dispatch(UpdatePlatformAction({
       selectedPlatformIdx: platformInfoObj.registerType === "SERVER" ? platformInfoObj.platformIdx : 0,
       selectedPlatformName: platformInfoObj.registerType === "SERVER" ? platformInfoObj.serverName : platformInfoObj.customName,
@@ -452,14 +448,14 @@ const MyPartyDetail = ({ location }) => {
       isAdult: platformInfoObj.isAdult,
     }))
 
-    //파티 관련 정보 등록
+
     dispatch(UpdatePartyInfoAction({
       title: partyTitle,
       membership: membershipInfoObj.membership,
       openChatLink: openChatLink
     }));
 
-    //파티 결제 정보 등록 (1인당 결제 금액, 모집 인원)
+
     dispatch(UpdatePaymentAction({
       originalPrice: null,
       nextPaymentDate: null,
@@ -478,14 +474,14 @@ const MyPartyDetail = ({ location }) => {
       return
     }
 
-    // 페이지 전환
+
     setPageTrans('trans toRight');
     history.push(`/party/enroll/${result.idx}`);
   }
 
-  //기존 파티원 - 결제정보 등록하기
+
   const handleClickUserInfo = () => {
-    // 리덕스 설정
+
     dispatch(
       UpdatePartyAction({
         type: "PASTUSER",
@@ -500,29 +496,29 @@ const MyPartyDetail = ({ location }) => {
       })
     );
 
-    // 페이지 전환
+
     setPageTrans("trans toRight");
     history.push("/payment");
   };
 
-  //해지하기 (기존파티원 동일 함수 사용) -> 해지컨펌 팝업 띄우기
+
   const handleClickDelete = () => {
     setUserInfoBeforePopupStatus(false);
     setUserInfoPopupStatus(false);
     setDeletePopupStatus(true);
   };
 
-  //해지하기 팝업 취소 -> 이전 팝업 띄워주기
+
   const handleClickDeleteCancle = () => {
     setDeletePopupStatus(false);
 
-    //기존 파티원 로직 처리 (파티장이 정보 등록전)
+
     if (result.isHostUser === "N" && !result.membershipInfo.paymentCycleDate) {
       setUserInfoBeforePopupStatus(true);
       return;
     }
 
-    //기존 파티원 로직 처리 (파티장이 정보 등록후)
+
     if (
       result.isHostUser === "N" &&
       result.membershipInfo.paymentCycleDate &&
@@ -533,7 +529,7 @@ const MyPartyDetail = ({ location }) => {
     }
 
 
-    //기존 파티장 로직 처리
+
     if (result.isHostUser === "Y" &&
       !result.membershipInfo.paymentCycleDate) {
       setHostInfoPopupStatus(true);
@@ -541,28 +537,27 @@ const MyPartyDetail = ({ location }) => {
     }
   }
 
-  //기존 파티장 삭제하기 -> 삭제컨펌 팝업 띄우기
   const handleClickPartyDelete = () => {
     setHostInfoPopupStatus(false);
     setDeletePopupStatus(true);
   }
 
-  //최종 해지 함수 -> API 실행
+
   const handleClickDeleteConfirm = async () => {
 
     const userRole = result.isHostUser === "Y" ? "HOST" : "USER";
     const message = result.isHostUser === "Y" ? "삭제" : "해지";
 
-    // 파티 삭제
+
     const partyDeleteUri = `/party/${partyIdx}?userRole=${userRole}`;
     const partyDeleteData = await customApiClient('delete', partyDeleteUri);
 
-    // Server Error
+
     if (!partyDeleteData) {
       return;
     }
 
-    // Validation
+
     if (partyDeleteData.statusCode !== 201 && partyDeleteData.statusCode !== 202) { return alert(partyDeleteData.message) };
     console.log('API 호출 성공 :', partyDeleteData);
 
@@ -572,24 +567,24 @@ const MyPartyDetail = ({ location }) => {
     setDeletePopupStatus(false);
     setFinishPopupStatus(true);
 
-    //소비분석 리로드
+
     dispatch(AnalyPageReloadTrueAction);
     dispatch(SubscribeReloadTrueAction);
   };
 
-  // 정산계좌 변경하기
+
   const changeBankAccount = ({partyIdx}) => {
     setPageTrans("trans toRight");
     history.push(`/party/${partyIdx}/detail/change/account`);
   };
 
-  // 결제수단 변경하기
+
   const changePaymentCard = ({ partyIdx }) => {
     setPageTrans("trans toRight");
     history.push(`/party/${partyIdx}/detail/change/card`);
   };
 
-  //신고하기 팝업
+
   const handleClickReport = async () => {
     dispatch(MemberBottomDialogCloseAction);
     dispatch(
@@ -599,7 +594,7 @@ const MyPartyDetail = ({ location }) => {
     );
   };
 
-  // 계정정보 등록하기
+
   const onClickEnrollAccount = () => {
     setPageTrans("trans toRight");
     history.push({
@@ -651,7 +646,7 @@ const MyPartyDetail = ({ location }) => {
         </div>
       </HeaderWrap>
       <MainWrap>
-        {/* 파티 제목 컴포넌트 */}
+
         <TopContentWrap>
           <PartyTitleDiv
             title={partyTitle}
@@ -663,9 +658,9 @@ const MyPartyDetail = ({ location }) => {
           />
         </TopContentWrap>
 
-        {/* 파티 정보 */}
+
         <PartyDetailSubWrap style={{ borderBottom: "0.5rem #f7f7f7 solid" }}>
-          {/* 서브 타이틀 & 인원 수 */}
+
           <PartyDataTitleDiv>
             <PartyDetailSubtitleSpan>파티 정보</PartyDetailSubtitleSpan>
             <div className="memberCountBox">
@@ -679,8 +674,7 @@ const MyPartyDetail = ({ location }) => {
               </div>
             </div>
           </PartyDataTitleDiv>
-          {/* 참여인원 내용 */}
-          {/* 수정필요!!!! */}
+
           <PartyDataContentWrap personnel={partyInfoObj.personnel}>
             {partyInfoObj.partyUsers &&
               partyInfoObj.partyUsers.map((item, idx) => {
@@ -708,7 +702,7 @@ const MyPartyDetail = ({ location }) => {
           </PartyDataContentWrap>
         </PartyDetailSubWrap>
 
-        {/* 멤버십 정보 */}
+
         {membershipInfoObj.paymentCycleDate && (
           <PartyDetailSubWrap
             style={{
@@ -717,11 +711,11 @@ const MyPartyDetail = ({ location }) => {
               borderBottom: "0.5rem #f7f7f7 solid",
             }}
           >
-            {/* 서브타이틀 */}
+
             <div style={{ marginBottom: "0.625rem" }}>
               <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
             </div>
-            {/* 아낀금액 알려주기 */}
+
             <NoticeWrap style={{ marginBottom: "0.5313rem" }}>
               <div className="notice_sub_wrap align_center">
                 <img className="notice_img" src={icon_notice_duck}></img>
@@ -739,7 +733,7 @@ const MyPartyDetail = ({ location }) => {
                 </div>
               </div>
             </NoticeWrap>
-            {/* 파티 멤버십 정보 컴포넌트 */}
+
             <PartyMembershipDiv
               membershipInfo={membershipInfoObj}
               platformInfo={platformInfoObj}
@@ -748,7 +742,7 @@ const MyPartyDetail = ({ location }) => {
           </PartyDetailSubWrap>
         )}
 
-        {/* 계정 정보 */}
+
         {
           (isHostUser === 'Y' || (accountInfoObj.accountId && accountInfoObj.accountPw)) &&
           <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem', borderBottom: '0.5rem #f7f7f7 solid' }} >
@@ -773,11 +767,11 @@ const MyPartyDetail = ({ location }) => {
           </PartyDetailSubWrap>
         }
 
-        {/* 파티장은 정산정보, 파티원은 결제수단 */}
+
         <PartyDetailSubWrap
           style={{ paddingLeft: "1.25rem", paddingRight: "1.25rem" }}
         >
-          {/* 서브타이틀 */}
+
           <div style={{ position: "relative", marginBottom: '0.625rem' }}>
             <PartyDetailSubtitleSpan>{isHostUser === 'Y' ? '정산정보' : '결제수단'}</PartyDetailSubtitleSpan>
             {
@@ -790,7 +784,7 @@ const MyPartyDetail = ({ location }) => {
               </div>
             }
           </div>
-          {/* 정산정보or결제수단 Notice Wrap */}
+
           <NoticeWrap style={{ marginBottom: "0.5rem" }}>
             <div className="notice_sub_wrap">
               <div>
@@ -825,7 +819,7 @@ const MyPartyDetail = ({ location }) => {
               </div>
             </div>
           </NoticeWrap>
-          {/* 정산정보or결제수단 Contents */}
+
           <PaymentContentsWrap>
             <div className="contents_div">
               <span className="contents_name">
@@ -862,7 +856,7 @@ const MyPartyDetail = ({ location }) => {
           </PaymentContentsWrap>
         </PartyDetailSubWrap>
 
-        {/* 최하단 Yellow 버튼 */}
+
         <div style={{ margin: "1.25rem" }}>
           <BottomButton
             clickFunc={onClickChatLink}
@@ -873,7 +867,7 @@ const MyPartyDetail = ({ location }) => {
         </div>
       </MainWrap>
 
-      {/* 파티장 정산정보 디테일 팝업*/}
+
       <PartyCalculateDetail
         openStatus={calculateDetailStatus}
         closeFunc={handleClickCalculateDetail}
@@ -893,9 +887,7 @@ const MyPartyDetail = ({ location }) => {
         paymentCycleDate={membershipInfoObj.paymentCycleDate}
       />
 
-      {/* 선택 다이얼로그 시작*/}
 
-      {/* 파티원 정기결제 실패로직 처리 */}
       <ChoiceDialog
         openStatus={regularFailPopupStatus}
         imgUrl={PayDuck}
@@ -911,7 +903,7 @@ const MyPartyDetail = ({ location }) => {
         onClickRight={handleClickRePay}
       />
 
-      {/* 파티원 정기결제 실패 -> 해지하기 처리 */}
+
       <ChoiceDialog
         openStatus={regularFailConfirmPopupStatus}
         imgUrl={DeleteDuck}
@@ -925,7 +917,7 @@ const MyPartyDetail = ({ location }) => {
         onClickRight={handleClickDeleteConfirm}
       />
 
-      {/* 기존 파티장 정보 등록로직 처리 */}
+
       <ChoiceDialog
         openStatus={hostInfoPopupStatus}
         imgUrl={InfoDuck}
@@ -939,7 +931,7 @@ const MyPartyDetail = ({ location }) => {
         onClickRight={handleClickHostInfo}
       />
 
-      {/* 기존 파티원 로직 처리 (파티장이 정보 등록 전) */}
+
       <ChoiceDialog
         openStatus={userInfoBeforePopupStatus}
         imgUrl={WaitingDuck}
@@ -953,7 +945,7 @@ const MyPartyDetail = ({ location }) => {
         onClickRight={handleClickDelete}
       />
 
-      {/* 기존 파티원 로직 처리 (파티장이 정보 등록 후) */}
+
       <ChoiceDialog
         openStatus={userInfoPopupStatus}
         imgUrl={InfoDuck}
@@ -967,7 +959,7 @@ const MyPartyDetail = ({ location }) => {
         onClickRight={handleClickUserInfo}
       />
 
-      {/* 탈퇴 컨펌 창 */}
+
       <DangerDialog
         openStatus={deletePopupStatus}
         title={result.isHostUser === "Y" ? "정말 삭제하시겠어요?" : "정말 해지하시겠어요?"}
@@ -978,7 +970,7 @@ const MyPartyDetail = ({ location }) => {
         onClickRight={handleClickDeleteConfirm}
       />
 
-      {/* 최종 확인 버튼 */}
+
       <OneButtonDialog
         openStatus={finishPopupStatus}
         title={finishPopupTitle}
@@ -992,10 +984,9 @@ const MyPartyDetail = ({ location }) => {
 
 export default MyPartyDetail;
 
-// Styled Components
+
 const MainWrap = styled.div`
-  /* 임시 border */
-  /* border:1px solid red; */
+
   position: absolute;
   top: 3.0625rem;
   left: 0;
