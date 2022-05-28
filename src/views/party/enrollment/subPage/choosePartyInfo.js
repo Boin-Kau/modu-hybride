@@ -30,7 +30,7 @@ const ChoosePartyInfo = ({ updatePage }) => {
 
   useEffect(() => {
 
-    //카카오 오픈채팅 링크 벨리데이션
+
     if (partyLink.length > 0 && !partyLink.includes('https://open.kakao.com')) {
 
       setPartyLinkValid(true);
@@ -50,15 +50,15 @@ const ChoosePartyInfo = ({ updatePage }) => {
   }, [partyTitle, partyMembership, partyLink])
 
   const handleChangePartyTitle = (e) => {
-    // if (e.target.value.length == 5) return false;
+    
     setPartyTitle(e.target.value);
   };
   const handleChangePartyMembership = (e) => {
-    // if (e.target.value.length == 5) return false;
+    
     setPartyMembership(e.target.value);
   };
   const handleChangePartyLink = (e) => {
-    // if (e.target.value.length == 5) return false;
+    
     setPartyLink(e.target.value);
   };
   const nextPage = () => {
@@ -87,7 +87,7 @@ const ChoosePartyInfo = ({ updatePage }) => {
           입력해주세요.
         </MainText>
 
-        {/* Notice Div */}
+
         <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
           <div className="notice_sub_wrap">
             <div>
@@ -150,7 +150,7 @@ const ChoosePartyInfo = ({ updatePage }) => {
       </div>
       <BottomButton clickFunc={nextPage} text={'다음'} activeStatus={nextBtnStatus} isBottomStatus={false} />
 
-      {/* 오픈카톡 팝업 */}
+
       <PartyLinkPopup
         openStatus={partyLinkPopupStatus}
         closeFunc={handleClickPartyLink}

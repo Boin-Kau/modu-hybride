@@ -8,7 +8,7 @@ const ReportBottomDialog = ({ partyIdx }) => {
   const { reportBottomDialogStatus } = useSelector(state => state.party.popup);
 
   const openReportDialog = () => {
-    // 신고하기 API
+    
     dispatch(ReportBottomDialogCloseAction);
     dispatch(ReportPopupOpenAction({
       reportPartyIdx: partyIdx
@@ -22,7 +22,7 @@ const ReportBottomDialog = ({ partyIdx }) => {
   return (
     <BottomDialogWrap openStatus={reportBottomDialogStatus}>
       <BottomDialogDiv>
-        {/* 삭제하기 or 삭제 취소하기 */}
+        
         <div onClick={openReportDialog} className="btn_style one_btn margin_bottom">신고하기</div>
         <div onClick={closeDialog} className="btn_style one_btn">취소</div>
       </BottomDialogDiv>

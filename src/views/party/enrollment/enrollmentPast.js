@@ -21,14 +21,13 @@ import { UpdateCurrentPageAction } from "../../../reducers/party/enrollment/setP
 import { checkMobile } from "../../../App";
 
 const PartyEnrollmentPast = () => {
-  // Module
+
   const dispatch = useDispatch();
   const history = useHistory();
 
-  //Context
   const { setPageTrans } = useContext(PageTransContext);
 
-  //store
+
   const {
     selectedPlatformName,
     isAccount: isAccountStatus
@@ -40,16 +39,15 @@ const PartyEnrollmentPast = () => {
 
   const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
 
-  // Local State
+
   const [progress, setProgress] = useState(20);
 
-  //기존 파티 인덱스
+
   const { idx } = useParams();
 
-  // useEffect
+
   useEffect(() => {
 
-    //리덕스 값 없으면 뒤로가기
     if (!idx || !selectedPlatformName || !title) {
       setPageTrans('trans toLeft');
       history.goBack();
@@ -61,7 +59,7 @@ const PartyEnrollmentPast = () => {
 
     const userPlatform = checkMobile();
     if (userPlatform == 'ios') {
-      //IOS 배경색 설정
+
       try {
         window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
       }
@@ -98,7 +96,6 @@ const PartyEnrollmentPast = () => {
 
   const closePage = () => {
 
-    // 뒤로 가기
     if (currentPage === 2) {
       setPageTrans('trans toLeft');
       history.goBack();
@@ -116,7 +113,7 @@ const PartyEnrollmentPast = () => {
   };
 
   const jumpPage = () => {
-    // 건너뛰기
+
     if (currentPage === 2 && isAccountStatus === 'N') {
       dispatch(UpdateCurrentPageAction({
         page: 4
@@ -137,7 +134,7 @@ const PartyEnrollmentPast = () => {
       </HeaderWrap>
 
       <MainWrap style={{ padding: '0' }}>
-        {/* Progress Bar */}
+
         <ProgressDiv progress={`${progress}%`} />
 
         {currentPage === 2 && <ChooseAccount />}

@@ -20,18 +20,14 @@ import BottomButton from "../../../components/party/BottomButton";
 import { ReportBottomDialogOpenAction, ReportBottomDialogCloseAction, ReportPopupCloseAction } from "../../../reducers/party/popup";
 import ReportBottomDialog from "./reportBottomDialog";
 
-// Page Root Component
 const PartyDetail = () => {
 
   let list = [];
   const [typeList, setTypeList] = useState([]);
 
-  // Module
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // Store
-  // 파티 상세 데이터 스토어에서 가져오기
   const {
     selectedPartyIdx,
     selectedPartyTitle,
@@ -43,12 +39,8 @@ const PartyDetail = () => {
     selectedPartyMembershipInfo,
   } = useSelector(state => state.party.detail);
 
-  //Context
   const { setPageTrans } = useContext(PageTransContext);
 
-  // Global State
-
-  // Local State
   const [partyId, setPartyId] = useState(0);
   const [partyTitle, setPartyTitle] = useState('');
   const [partyIsEnrolled, setPartyIsEnrolled] = useState('');
@@ -56,9 +48,8 @@ const PartyDetail = () => {
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
 
-  // Lifecycle - Initial Logic
   useEffect(() => {
-    // Bottom Nav
+
     dispatch(BottomNavCloseAction);
 
     if (selectedPartyIdx &&
@@ -81,10 +72,10 @@ const PartyDetail = () => {
       closePage();
     }
 
-    // 배경색 LOGIC
+
     const userPlatform = checkMobile();
     if (userPlatform == 'ios') {
-      //IOS 배경색 설정
+
       try {
         window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
       }
@@ -107,19 +98,16 @@ const PartyDetail = () => {
     }
   }, [partyInfoObj])
 
-  // Function
+
   const closePage = () => {
 
-    //팝업 닫기
     dispatch(ReportBottomDialogCloseAction);
     dispatch(ReportPopupCloseAction());
 
-    // 리덕스 설정 (ResetParty)
     dispatch({
       type: ResetParty
     });
 
-    // 페이지 뒤로가기
     setPageTrans('trans toLeft');
     history.goBack();
   };
@@ -128,7 +116,6 @@ const PartyDetail = () => {
     dispatch(ReportBottomDialogOpenAction);
   }
 
-  // 파티 미가입 상태일 때, 결제하기 화면으로 이동
   const openPaymentPage = () => {
     const isAuth = localStorage.getItem("isAuth");
 
@@ -142,7 +129,7 @@ const PartyDetail = () => {
     setPageTrans('trans toRight');
     history.push('/payment');
   }
-  // 파티 가입 상태일 때, 파티 상세페이지 화면으로 이동
+
   const openPartyDetail = (partyIdx) => {
     setPageTrans('trans toRight');
     history.push(`/party/my/${partyIdx}`);
@@ -151,7 +138,6 @@ const PartyDetail = () => {
   return (
     <div className="page">
       <PageWrap>
-        {/* 상단바 */}
         <HeaderWrap className="spoqaBold">
           <div id="back_link" onClick={closePage} style={{ zIndex: "10", position: "absolute", top: "55%", left: "1.25rem", transform: "translate(0,-55%)" }}>
             <img src={icon_back} alt="뒤로가기"></img>
@@ -163,16 +149,15 @@ const PartyDetail = () => {
         </HeaderWrap>
 
         <MainWrap>
-          {/* 메인 컨텐츠 */}
+          
           <div style={{ flexGrow: '1' }}>
-            {/* 파티 제목  */}
+            
             <TopContentWrap>
               <PartyTitleDiv title={partyTitle} info={platformInfoObj} isDetail={true} />
             </TopContentWrap>
 
-            {/* 파티 정보 */}
             <PartyDetailSubWrap style={{ borderBottom: '0.5rem #f7f7f7 solid' }}>
-              {/* 서브 타이틀 & 인원 수 */}
+              
               <PartyDataTitleDiv>
                 <PartyDetailSubtitleSpan>파티 정보</PartyDetailSubtitleSpan>
                 <div className="memberCountBox">
@@ -180,7 +165,7 @@ const PartyDetail = () => {
                   <div className="memberCountSpan spoqaBold">{partyInfoObj.personnel}명</div>
                 </div>
               </PartyDataTitleDiv>
-              {/* 참여인원 내용 */}
+              
               <PartyDataContentWrap personnel={partyInfoObj.personnel}>
                 {
                   typeList.map((item, idx) => {
@@ -197,12 +182,12 @@ const PartyDetail = () => {
               </PartyDataContentWrap>
             </PartyDetailSubWrap>
 
-            {/* 멤버십 정보 */}
+            
             <PartyDetailSubWrap style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem' }}>
               <div style={{ marginBottom: '1.0938rem' }}>
                 <PartyDetailSubtitleSpan>멤버십 정보</PartyDetailSubtitleSpan>
               </div>
-              {/* 파티 멤버십 정보 컴포넌트 */}
+              
               <PartyMembershipDiv
                 membershipInfo={membershipInfoObj}
                 platformInfo={platformInfoObj}
@@ -211,7 +196,6 @@ const PartyDetail = () => {
 
           </div>
 
-          {/* 최하단 Yellow 버튼 */}
           <div style={{ margin: '0 1.25rem' }}>
             <BottomButton
               clickFunc={partyIsEnrolled === 'Y' ? () => openPartyDetail(partyId) : openPaymentPage}
@@ -228,13 +212,11 @@ const PartyDetail = () => {
 
 export default PartyDetail;
 
-// Child Component(Top Data, 파티정보, 멤버십정보) - 내 파티 상세보기에서 Recycle
 const PartyDetailContent = ({ result }) => {
 
-  // Local Value
+  
   let list = [];
 
-  // Local State
   const [partyCustomColor, setPartyCustomColor] = useState('');
   const [partyCustomInitial, setPartyCustomInitial] = useState('');
   const [partyTitle, setPartyTitle] = useState('');
@@ -252,7 +234,6 @@ const PartyDetailContent = ({ result }) => {
   const [paymentCycle, setPaymentCycle] = useState('?????');
 
 
-  // Lifecycle - When result is changed
   useEffect(() => {
     if (!result) return;
 
@@ -270,7 +251,6 @@ const PartyDetailContent = ({ result }) => {
 
   }, [result]);
 
-  // Function
 
   return (
     <div style={{ flexGrow: '1' }}>
@@ -279,10 +259,9 @@ const PartyDetailContent = ({ result }) => {
   );
 };
 
-// Root Styled Component
+
 const PageWrap = styled.div`
-  /* 임시 border */
-  /* border:1px solid blue; */
+
 `;
 const HeaderWrap = styled.div`
   position: relative;
@@ -302,8 +281,6 @@ const HeaderWrap = styled.div`
 
 `;
 const MainWrap = styled.div`
-  /* 임시 border */
-  /* border:1px solid red; */
 
   display: flex;
   flex-direction: column;
@@ -375,8 +352,6 @@ const PartyDataContentWrap = styled.div`
 `;
 
 const MembershipDataWrap = styled.div`
-  /* 임시 border */
-  /* border: 0.0625rem red dotted; */
 
   padding: 1.3438rem 1.25rem 0;
 

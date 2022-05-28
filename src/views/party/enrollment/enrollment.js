@@ -21,30 +21,30 @@ import { UpdateCurrentPageAction } from "../../../reducers/party/enrollment/setP
 import { checkMobile } from "../../../App";
 
 const PartyEnrollment = () => {
-  // Module
+
   const dispatch = useDispatch();
   const history = useHistory();
-  //Context
+
   const { setPageTrans } = useContext(PageTransContext);
 
-  //store
+
   const {
     selectedPlatformIdx,
     selectedPlatformImgUrl,
   } = useSelector(state => state.party.enrollment.platform);
 
-  // Local State
+
   const [progress, setProgress] = useState(20);
-  // Global State
+
   const { page: currentPage } = useSelector(state => state.party.enrollment.setPage);
   const { isAccount: isAccountStatus } = useSelector(state => state.party.enrollment.platform);
-  // useEffect
+
   useEffect(() => {
     dispatch(BottomNavCloseAction);
 
     const userPlatform = checkMobile();
     if (userPlatform == 'ios') {
-      //IOS 배경색 설정
+
       try {
         window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
       }
@@ -82,14 +82,14 @@ const PartyEnrollment = () => {
   const closePage = () => {
     setPageTrans('trans toLeft');
 
-    // 뒤로 가기
+
     if (currentPage === 1) {
-      //구독 리덕스 초기화
+
       dispatch({ type: ResetPlatform });
       history.push('/party');
     }
     else if (currentPage === 2) {
-      //직접입력하기 혹은 이미지가 없는 플랫폼 클릭시 detail 설정 페이지로 이동시키기
+
       if (selectedPlatformIdx === 0 | !selectedPlatformImgUrl) {
         history.push('/party/enroll/platform/detail');
       }
@@ -108,7 +108,7 @@ const PartyEnrollment = () => {
   };
 
   const jumpPage = () => {
-    // 건너뛰기
+
     if (currentPage === 2 && isAccountStatus === 'N') {
       dispatch(UpdateCurrentPageAction({
         page: 3
@@ -126,7 +126,7 @@ const PartyEnrollment = () => {
         <JumpWrap onClick={jumpPage} isJump={currentPage === 2 && isAccountStatus === 'N' ? true : false}>
           <div className="jumpWrapItem">건너뛰기</div>
         </JumpWrap>
-        {/* Progress Bar */}
+
         <div style={{position:'absolute', bottom:'0',left:'0', right:'0'}}>
           <ProgressDiv progress={`${progress}%`} />
         </div>

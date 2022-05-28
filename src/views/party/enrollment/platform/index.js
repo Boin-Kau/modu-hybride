@@ -31,11 +31,9 @@ import { UpdatePlatformAction } from '../../../../reducers/party/enrollment/plat
 
 const PartyPlatform = () => {
 
-    //import
     const dispatch = useDispatch();
     const history = useHistory();
 
-    //store
     const {
         serverPlatformList,
         categoryPlatformList,
@@ -51,10 +49,8 @@ const PartyPlatform = () => {
         categoryReloadStatus
     } = useSelector(state => state.main.subscribe);
 
-    //context
     const { setPageTrans } = useContext(PageTransContext);
 
-    //state
     const [totalMenuStatus, setTotalMenuStatus] = useState(true);
     const [categoryMenuStatus, setcategoryMenuStatus] = useState(false);
 
@@ -73,21 +69,16 @@ const PartyPlatform = () => {
 
     useEffect(async () => {
 
-        //플랫폼 리스트 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (serverPlatformList.length < 1) {
 
-            //구독 플랫폼 리스트 조회
             const data = await customApiClient('get', '/subscribe/platform?type=REP')
 
-            //서버에러
             if (!data) return
 
-            //벨리데이션
             if (data.statusCode != 200) {
                 return
             }
 
-            //리덕스에 넣어주기
             dispatch({
                 type: GetServerPlatformList,
                 data: data.result
@@ -99,8 +90,6 @@ const PartyPlatform = () => {
 
 
     const openSearchPage = () => {
-
-        //redux에 selectedPlatformIdx 초기화 시켜주기 ??
 
         setPageTrans('trans toRight');
         history.push('/party/enroll/platform/search');
@@ -114,11 +103,8 @@ const PartyPlatform = () => {
 
     const onClickMenu = useCallback(async (type) => {
 
-        //똑같은 탭 누르면 리턴 처리
         if (totalMenuStatus && type == 'total') return
         if (categoryMenuStatus && type == 'category') return
-
-        //전체 조회와 카테고리를 동기화 해줘야함! 구독 값이 바뀌면 각 탭 리스트를 다시한번 조회해줘야함
 
         if (type == 'total') {
             setTotalMenuStatus(true);
@@ -133,7 +119,6 @@ const PartyPlatform = () => {
             setTotalMenuStatus(false);
             setcategoryMenuStatus(true);
 
-            //최초 클릭시 api 호출
             if (categoryPlatformList.length < 1) {
                 reloadCategoryPlatform();
                 return
@@ -152,7 +137,6 @@ const PartyPlatform = () => {
         categoryReloadStatus
     ]);
 
-    //직접 선택
     const onClickCustomEnroll = () => {
         dispatch(UpdatePlatformAction({
             selectedPlatformIdx: 0,
@@ -164,18 +148,15 @@ const PartyPlatform = () => {
         }))
     }
 
-    //구독 서비스 선택 후 확인 버튼 
     const onClickConfrim = () => {
 
-        //selectedIdx가 없으면 종료처리
         if (selectedPlatformIdx === null) return
 
-        //직접입력하기 혹은 이미지가 없는 플랫폼 클릭시 detail 설정 페이지로 이동시키기
         if (!selectedPlatformImgUrl) {
             setPageTrans('trans toRight');
             history.push('/party/enroll/platform/detail');
         }
-        //그게 아니라면 뒤로 이동
+
         else {
             setPageTrans('trans toLeft');
             history.goBack();
@@ -184,18 +165,14 @@ const PartyPlatform = () => {
 
     const reloadTotalPlatform = async () => {
 
-        //구독 플랫폼 리스트 조회
         const data = await customApiClient('get', '/subscribe/platform?type=REP');
 
-        //서버에러
         if (!data) return
 
-        //벨리데이션
         if (data.statusCode != 200) {
             return
         }
 
-        //리덕스에 넣어주기
         dispatch({
             type: GetServerPlatformList,
             data: data.result
@@ -205,18 +182,15 @@ const PartyPlatform = () => {
     }
 
     const reloadCategoryPlatform = async () => {
-        //구독 플랫폼 리스트 조회
+
         const data = await customApiClient('get', '/subscribe/platform?type=CATEGORY');
 
-        //서버에러
         if (!data) return
 
-        //벨리데이션
         if (data.statusCode != 200) {
             return
         }
 
-        //리덕스에 넣어주기
         dispatch({
             type: GetCategoryPlatformList,
             data: data.result
@@ -246,10 +220,8 @@ const PartyPlatform = () => {
                     </CategoryTapWrap>
                     <ItemListWrap className="notoMedium">
 
-                        {/* 전체 구독 리스트 */}
                         <ItemListView selectedStatus={totalMenuStatus}>
 
-                            {/* 직접입력 */}
                             <ItemWrap onClick={onClickCustomEnroll} style={{ border: "none" }}>
                                 <ItemImgWrap>
                                     <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
@@ -264,7 +236,6 @@ const PartyPlatform = () => {
                                 </ItemIconWrap>
                             </ItemWrap>
 
-                            {/* 그외 리스트 */}
                             {
                                 serverPlatformList.length < 1 ? <LoadingIcon src={loading_gif} alt="loading" /> :
                                     serverPlatformList.map((list, index) => {
@@ -274,10 +245,8 @@ const PartyPlatform = () => {
 
                         </ItemListView>
 
-                        {/* 카테고리 구독 리스트 */}
                         <ItemListView selectedStatus={categoryMenuStatus}>
 
-                            {/* 직접입력 */}
                             <ItemWrap onClick={onClickCustomEnroll} style={{ border: "none", paddingBottom: '0' }}>
                                 <ItemImgWrap>
                                     <img src={icon_sub_ect} style={{ width: "2.3125rem", height: "2.3125rem", borderRadius: "0.3125rem" }} />
@@ -292,7 +261,6 @@ const PartyPlatform = () => {
                                 </ItemIconWrap>
                             </ItemWrap>
 
-                            {/* 그외 리스트 */}
                             {
                                 categoryPlatformList.length < 1 ? <LoadingIcon src={loading_gif} alt="loading" /> :
                                     categoryPlatformList.map((list, index) => {
@@ -380,7 +348,7 @@ const CategoryItemComponent = ({ props, isLast }) => {
 }
 
 const PageWrap = styled.div`
-    /* border:1px solid red; */
+
 `;
 const HeaderWrap = styled.div`
     position: relative;
@@ -397,7 +365,6 @@ const HeaderWrap = styled.div`
     color:#313131;
 `;
 const MainWrap = styled.div`
-    /* border:1px solid red; */
     position:absolute;
     top:3.0625rem;
     left:0;
@@ -431,7 +398,6 @@ const CategoryTapItem = styled.div`
 
     font-size:0.875rem;
 
-    /* 애니메이션 적용 */
     transition: top 100ms ease-in-out;
 
     top : ${props => props.selectedStatus ? '0' : '0.625rem'};
@@ -444,7 +410,6 @@ const ItemListWrap = styled.div`
     z-index:100;
     background-color :  #f7f7f7;
 
-    /* padding:0 0.6875rem; */
 
     border-radius:0.4375rem;
     border-top-left-radius:0;

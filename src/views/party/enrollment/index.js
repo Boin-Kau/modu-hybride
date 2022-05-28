@@ -25,7 +25,6 @@ const OldPartyEnrollment = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    //store
     const {
         selectedPlatformIdx,
         selectedPlatformName,
@@ -39,7 +38,6 @@ const OldPartyEnrollment = () => {
         platformCategoryList: categoryList
     } = useSelector(state => state.main.platform);
 
-    //context
     const { setPageTrans } = useContext(PageTransContext);
 
     //state

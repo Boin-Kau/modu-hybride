@@ -22,7 +22,6 @@ const PartyPlatformSearch = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    //store
     const {
         popularPlatformList,
         searchPlatformList,
@@ -33,10 +32,8 @@ const PartyPlatformSearch = () => {
         selectedPlatformImgUrl
     } = useSelector(state => state.party.enrollment.platform);
 
-    //context
     const { setPageTrans } = useContext(PageTransContext);
 
-    //state
     const [searchSatus, setSearchSatus] = useState(false);
     const [keyword, setKeyword] = useState('');
     const [searchPlatform, setSearchPlatform] = useState([]);
@@ -44,21 +41,16 @@ const PartyPlatformSearch = () => {
     useEffect(async () => {
         dispatch(BottomNavCloseAction);
 
-        //인기 리스트, 전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
         if (popularPlatformList.length < 1) {
 
-            //인기 구독 플랫폼 리스트 조회
             const data = await customApiClient('get', '/subscribe/platform?type=POPULAR');
 
-            //서버에러
             if (!data) return
 
-            //벨리데이션
             if (data.statusCode != 200) {
                 return
             }
 
-            //리덕스에 넣어주기
             dispatch({
                 type: GetPopularPlatformList,
                 data: data.result
@@ -67,18 +59,15 @@ const PartyPlatformSearch = () => {
         }
 
         if (searchPlatformList.length < 1) {
-            //전체 구독 플랫폼 리스트 조회
+
             const search = await customApiClient('get', '/subscribe/platform?type=ALL');
 
-            //서버에러
             if (!search) return
 
-            //벨리데이션
             if (search.statusCode != 200) {
                 return
             }
 
-            //리덕스에 넣어주기
             dispatch({
                 type: GetSearchPlatformList,
                 data: search.result
@@ -119,17 +108,15 @@ const PartyPlatformSearch = () => {
         setSearchSatus(false);
     };
 
-    //구독 서비스 선택 후 확인 버튼 
     const onClickConfrim = () => {
 
-        //selectedIdx가 없으면 종료처리
         if (selectedPlatformIdx === null) return
 
         if (!selectedPlatformImgUrl) {
             setPageTrans('trans toRight');
             history.push('/party/enroll/platform/detail');
         }
-        //그게 아니라면 등록 페이지로 이동
+
         else {
             setPageTrans('trans toLeft');
             history.push('/party/enroll');
@@ -161,7 +148,6 @@ const PartyPlatformSearch = () => {
                     </SearchCancelWrap>
                 </HeaderWrap>
 
-                {/* 인기 플랫폼 화면 */}
                 <PopularSearchWrap className="spoqaBold" searchSatus={searchSatus}>
 
                     <div style={{ margin: "1.1875rem 0 0.5188rem 0" }}>실시간 인기 구독 서비스</div>
@@ -179,7 +165,6 @@ const PartyPlatformSearch = () => {
 
                 </PopularSearchWrap>
 
-                {/* 검색 플랫폼 화면 */}
                 <SearchResultWrap searchSatus={searchSatus}>
 
 
@@ -336,7 +321,7 @@ const SearchIconWrap = styled.div`
     position:relative;
     max-width:2.25rem;
     min-width:2.25rem;
-    /* border:1px solid red; */
+
 `;
 const SearchIcon = styled.img`
     position:absolute;
