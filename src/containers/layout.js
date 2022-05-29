@@ -1,60 +1,48 @@
 import React, { useEffect } from 'react';
-import { Route, useLocation, useHistory } from 'react-router-dom'
-
-import Splash from '../views/login/splash';
-import Login from '../views/login/login';
-
-import Main from '../views/main';
+import ReactGA from 'react-ga';
+import { Route, useLocation } from 'react-router-dom';
+import BankAccountEnrollment from '../views/card/bankAccountEnrollment';
+import BankAccountManagement from '../views/card/bankAccountManagement';
+import CardManagement from '../views/card/cardManagement';
+import CardRegister from '../views/card/cardRegister';
 import MyInfo from '../views/info';
-import SubscribePage from '../views/main/subscribe';
-import EnrollmentRevisePage from '../views/main/subscribe/enrollment/revise';
-import AnalysisPage from '../views/main/analysis';
-import EnrollmentPage from '../views/main/subscribe/enrollment';
+import AgreePage from '../views/info/agree';
 import DetailPage from '../views/info/detail';
-import SearchPage from '../views/main/subscribe/search';
-import NoticePage from '../views/info/notice';
-import QuestionPage from '../views/info/question';
-import SettingPage from '../views/info/setting';
 import NamePage from '../views/info/detail/name';
 import PhonePage from '../views/info/detail/phone';
-
-import ReactGA from 'react-ga';
-import AgreePage from '../views/info/agree';
+import NoticePage from '../views/info/notice';
+import NoticeDetailPage from '../views/info/notice/detail';
+import QuestionPage from '../views/info/question';
+import SettingPage from '../views/info/setting';
+import Inspection from '../views/login/inspection';
+import Login from '../views/login/login';
+import RealNameAuth from '../views/login/realNameAuth';
+import SignUp from '../views/login/signUp';
+import Splash from '../views/login/splash';
+import Main from '../views/main';
+import AlertPage from '../views/main/alert';
+import AnalysisPage from '../views/main/analysis';
+import SubscribePage from '../views/main/subscribe';
+import EnrollmentPage from '../views/main/subscribe/enrollment';
+import EnrollmentRevisePage from '../views/main/subscribe/enrollment/revise';
+import SearchPage from '../views/main/subscribe/search';
+import Party from '../views/party';
+import PartyDetail from '../views/party/detail';
+import AccountIdxChange from '../views/party/detail/accountIdxChange';
+import CardIdxChange from '../views/party/detail/cardIdxChange';
+import PartyEnrollment from '../views/party/enrollment/enrollment';
+import PartyEnrollmentPast from '../views/party/enrollment/enrollmentPast';
+import PartyEnrollFinish from '../views/party/enrollment/finish';
+import PartyPlatform from '../views/party/enrollment/platform';
+import PartyPlatformDetail from '../views/party/enrollment/platform/detail';
+import PartyPlatformSearch from '../views/party/enrollment/platform/search';
+import PartyRevise from '../views/party/enrollment/revise';
+import EditAccount from '../views/party/my/editAccount';
 import MyParty from '../views/party/my/myParty';
 import MyPartyDetail from '../views/party/my/myPartyDetail';
-
-import Party from '../views/party';
-import PartyPlatform from '../views/party/enrollment/platform';
-import PartyPlatformSearch from '../views/party/enrollment/platform/search';
-import PartyPlatformDetail from '../views/party/enrollment/platform/detail';
-import PartyEnrollFinish from '../views/party/enrollment/finish';
-import AlertPage from '../views/main/alert';
-import Inspection from '../views/login/inspection';
-import NoticeDetailPage from '../views/info/notice/detail';
-import PartyRevise from '../views/party/enrollment/revise';
-import Name from '../views/login/findName/name';
-import PhoneForName from '../views/login/findName/phonePage';
-import PartyDetail from '../views/party/detail';
-import Payment from '../views/payment/payment';
-import CardRegister from '../views/card/cardRegister';
-import Finish from '../views/payment/finish';
-import CardManagement from '../views/card/cardManagement';
-import CardIdxChange from '../views/party/detail/cardIdxChange';
-import BankAccountManagement from '../views/card/bankAccountManagement';
-import BankAccountEnrollment from '../views/card/bankAccountEnrollment';
-import EditAccount from '../views/party/my/editAccount';
-import PartyEnrollment from '../views/party/enrollment/enrollment';
 import MyPartyRevise from '../views/party/my/myPartyRevise';
-
-//회원가입,로그인 테스트
-import SignUpName from '../views/login/loginStep/signUpName';
-import RealNameAuth from '../views/login/realNameAuth';
-import AuthFinish from '../views/login/loginStep/authFinish';
-import AccountIdxChange from '../views/party/detail/accountIdxChange';
-import SignUpTerm from '../views/login/loginStep/signUpTerm';
-import SignUpAuth from '../views/login/loginStep/signUpAuth';
-import SignUp from '../views/login/signUp';
-import PartyEnrollmentPast from '../views/party/enrollment/enrollmentPast';
+import Finish from '../views/payment/finish';
+import Payment from '../views/payment/payment';
 
 
 const AppLayout = () => {
@@ -102,8 +90,6 @@ const AppLayout = () => {
             <Route path='/faq' exact component={QuestionPage} />
             <Route path='/setting' exact component={SettingPage} />
             <Route path='/agree' exact component={AgreePage} />
-            <Route path='/phone' exact component={PhoneForName} />
-            <Route path='/findName' exact component={Name} />
             <Route path='/payment' exact component={Payment} />
             <Route path='/payment/finish' exact component={Finish} />
             <Route path='/card' exact component={CardRegister} />
@@ -115,12 +101,6 @@ const AppLayout = () => {
 
             {/* 본인인증 */}
             <Route path='/realName/auth' exact component={RealNameAuth} />
-
-            {/* 회원가입/로그인절차 컴포넌트 테스트 */}
-            <Route path='/signup/name' exact component={SignUpName} />
-            <Route path='/signup/term' exact component={SignUpTerm} />
-            <Route path='/signin/auth/finish' exact component={AuthFinish} />
-            <Route path='/signup/auth' exact component={SignUpAuth} />
         </>
     );
 };
