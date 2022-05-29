@@ -1,45 +1,34 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Fade from 'react-reveal/Fade';
-
-import { onClickTerminate, checkMobile } from '../../App';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+import { checkMobile, onClickTerminate } from '../../App';
 import backgroundImg from '../../assets/background-sub-party.svg';
-import partyPlusIcon from '../../assets/party_plus_icon.svg';
-import ReportIcon from '../../assets/icon-report.svg';
-import MyPartyIcon from '../../assets/my_party_icon.svg';
-import ActiveDuckIcon from '../../assets/icon-activate-people.svg';
-import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
 import PartyEmprtyImg from '../../assets/banner-main-new-party.svg';
 import PartyEnrollDuckImg from '../../assets/character-main-party-paticipate.svg';
-import PartyEnrollIcon from '../../assets/party/ic-main-plus.png';
-import PartyTutorialIcon from '../../assets/party/ic-main-book.png';
-
+import ActiveDuckIcon from '../../assets/icon-activate-people.svg';
+import DeActiveDuckIcon from '../../assets/icon-non-activate-people.svg';
+import MyPartyIcon from '../../assets/my_party_icon.svg';
 import partyLoading from '../../assets/party-loading.gif';
-
-import { useHistory } from 'react-router-dom';
+import PartyTutorialIcon from '../../assets/party/ic-main-book.png';
+import PartyEnrollIcon from '../../assets/party/ic-main-plus.png';
+import { ContentDetailWrap, ContentWrap, priceToString } from '../../components/main/bottomCard';
 import { PageTransContext } from '../../containers/pageTransContext';
-import { ContentWrap, ContentDetailWrap, priceToString } from '../../components/main/bottomCard';
-import { DetailRowWrap, DetailItemTitle, DetailItemContent, DetailItemWrap, DetailItemFillContent } from '../../styled/main';
 import { BottomNavOpenAction } from '../../reducers/container/bottomNav';
-import { useDispatch, useSelector } from 'react-redux';
-import { customApiClient } from '../../shared/apiClient';
 import { GetPlatformCategoryList } from '../../reducers/main/platform';
-import { DangerWrapPopup, DangerPopup } from '../../styled/shared';
-import ReportPopUp from './popup/reportPopup';
-import { ReportPopupOpenAction, SetReportCategoryListAction } from '../../reducers/party/popup';
-import { GA_CATEOGRY, GA_PARTY_ACTION, GAEventSubmit } from '../../shared/gaSetting';
 import { UpdatePartyAction } from '../../reducers/party/detail';
-import { UpdateCurrentPageAction } from '../../reducers/party/enrollment/setPage';
-import ChoiceDialog from '../../components/party/ChoiceDialog';
-import duck_popup from "../../assets/ic_selfcertification_duck@3x.png";
-import { UpdatePlatformAction } from '../../reducers/party/enrollment/platform';
 import { ResetAccount } from '../../reducers/party/enrollment/account';
+import { ResetBankAccount } from '../../reducers/party/enrollment/bankAccount';
 import { ResetPartyInfo } from '../../reducers/party/enrollment/partyInfo';
 import { ResetPayment } from '../../reducers/party/enrollment/payment';
-import { ResetBankAccount } from '../../reducers/party/enrollment/bankAccount';
-
-import BootPay from "bootpay-js"
-
+import { UpdatePlatformAction } from '../../reducers/party/enrollment/platform';
+import { UpdateCurrentPageAction } from '../../reducers/party/enrollment/setPage';
+import { customApiClient } from '../../shared/apiClient';
+import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from '../../shared/gaSetting';
+import { DetailItemContent, DetailItemFillContent, DetailItemTitle, DetailItemWrap, DetailRowWrap } from '../../styled/main';
+import { DangerPopup, DangerWrapPopup } from '../../styled/shared';
+import ReportPopUp from './popup/reportPopup';
 
 const Party = () => {
 

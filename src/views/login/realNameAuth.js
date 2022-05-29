@@ -1,24 +1,21 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import BootPay from "bootpay-js";
+import React, { useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { ContentWrap, HeaderWrap, PageWrap } from "../../styled/shared/wrap";
-import { TextMiddle } from "../../styled/shared";
 import { useHistory, useLocation } from "react-router-dom";
-
-import { PageTransContext } from "../../containers/pageTransContext";
-import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
-
+import styled from "styled-components";
+import { checkMobile } from "../../App";
 import icon_back from "../../assets/icon-back-arrow.svg";
 import auth_duck from "../../assets/ic_signup_duck@2x.png";
 import yellow_duck from "../../assets/ic_signup_little_duck (non-optimized)@4x.png";
-import { MainText } from "../../styled/shared/text";
-import styled from "styled-components";
 import BottomButton from "../../components/party/BottomButton";
-
-import BootPay from "bootpay-js";
+import { PageTransContext } from "../../containers/pageTransContext";
+import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
+import { LoadingCloseAction, LoadingOpenAction } from "../../reducers/container/loading";
+import { MessageClose, MessageOpen, MessageWrapClose, MessageWrapOpen } from "../../reducers/container/message";
 import { customApiClient } from "../../shared/apiClient";
-import { LoadingOpenAction, LoadingCloseAction } from "../../reducers/container/loading";
-import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from "../../reducers/container/message";
-import { checkMobile } from "../../App";
+import { TextMiddle } from "../../styled/shared";
+import { MainText } from "../../styled/shared/text";
+import { ContentWrap, HeaderWrap, PageWrap } from "../../styled/shared/wrap";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);

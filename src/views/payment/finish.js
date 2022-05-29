@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
-import styled from "styled-components";
-import { PageTransContext } from "../../containers/pageTransContext";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
-
-
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 import ic_check from '../../assets/ic_paysuccess_check.svg';
+import { PageTransContext } from "../../containers/pageTransContext";
+import { BottomNavCloseAction } from "../../reducers/container/bottomNav";
 
 const Finish = ({ location }) => {
   const dispatch = useDispatch();

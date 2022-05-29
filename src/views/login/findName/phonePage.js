@@ -1,27 +1,15 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
-import styled from "styled-components";
-
-import { useDispatch, useSelector } from "react-redux";
-
-import icon_back from "../../../assets/icon-back-arrow.svg";
-
-import { TextMiddle } from '../../../styled/shared';
-
-import { TitleWrap, ItemWrap, InputWrap, Input } from '../../../styled/main/enrollment';
-import { customApiClient } from '../../../shared/apiClient';
-import { PhoneUpdate, UserInfoUpdate } from '../../../reducers/info/user';
-import { MessageWrapOpen, MessageOpen, MessageClose, MessageWrapClose } from '../../../reducers/container/message';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from "styled-components";
+import icon_back from "../../../assets/icon-back-arrow.svg";
 import { PageTransContext } from '../../../containers/pageTransContext';
-import { BottomNavCloseAction } from '../../../reducers/container/bottomNav';
-import Name from './name';
-
+import { customApiClient } from '../../../shared/apiClient';
+import { Input, InputWrap, ItemWrap, TitleWrap } from '../../../styled/main/enrollment';
+import { TextMiddle } from '../../../styled/shared';
 
 const PhoneForName = () => {
 
-    const dispatch = useDispatch();
     const history = useHistory();
-
 
     //context
     const { setPageTrans } = useContext(PageTransContext);

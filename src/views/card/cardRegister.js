@@ -230,7 +230,7 @@ const CardRegister = () => {
 
     //벨리데이션
     if (data.statusCode !== 200) {
-      console.log(data.statusCode);
+
       //리덕스에 넣어주기
       if (data.statusCode === 4001) {
         dispatch({
