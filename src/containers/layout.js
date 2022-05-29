@@ -37,7 +37,7 @@ import PartyPlatform from '../views/party/enrollment/platform';
 import PartyPlatformDetail from '../views/party/enrollment/platform/detail';
 import PartyPlatformSearch from '../views/party/enrollment/platform/search';
 import PartyRevise from '../views/party/enrollment/revise';
-import EditAccount from '../views/party/my/editAccount';
+import EditAccount from '../views/party/my/EditAccount';
 import MyParty from '../views/party/my/myParty';
 import MyPartyDetail from '../views/party/my/myPartyDetail';
 import MyPartyRevise from '../views/party/my/myPartyRevise';

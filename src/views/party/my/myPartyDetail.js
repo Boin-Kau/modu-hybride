@@ -44,9 +44,9 @@ import {
   PartyDetailSubWrap
 } from "../../../styled/shared/wrap";
 import AccountInfoComponent from "./accountInfoComponent";
-import HostBottomDialog from "./dialog/hostBottomDialog";
-import MemberBottomDialog from "./dialog/memberBottomDialog";
-import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
+import HostBottomDialog from "./dialog/HostBottomDialog";
+import MemberBottomDialog from "./dialog/MemberBottomDialog";
+import PartyDeleteConfirmDialog from "./dialog/PartyDeleteConfirmDialog";
 
 
 const MyPartyDetail = ({ location }) => {
