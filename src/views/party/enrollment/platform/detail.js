@@ -27,7 +27,6 @@ const PartyPlatformDetail = () => {
 
     const { setPageTrans } = useContext(PageTransContext);
 
-    //store
     const {
         platformCategoryList: categoryList
     } = useSelector(state => state.main.platform);
@@ -55,7 +54,6 @@ const PartyPlatformDetail = () => {
 
     const [pageConfirmStatus, setPageConfirmStatus] = useState(false);
 
-    //inital logic
     useEffect(() => {
         dispatch(BottomNavCloseAction);
         setPlatformName(selectedPlatformName || '');
@@ -122,10 +120,8 @@ const PartyPlatformDetail = () => {
         }
     }, [imgColor, imgInitial]);
 
-    //페이지 벨리데이션
     useEffect(() => {
 
-        //서버 플랫폼이라면 img color, initial만 체크
         if (selectedPlatformIdx) {
             if (imgColor && imgInitial) {
                 setPageConfirmStatus(true);
@@ -149,10 +145,8 @@ const PartyPlatformDetail = () => {
         imgColor, imgInitial
     ])
 
-    //구독 서비스 디테일 후 확인 버튼 
     const onClickConfrim = () => {
 
-        //모두 만적하지 않으면 종료처리
         if (!pageConfirmStatus) return
 
         let data = {};
@@ -210,8 +204,6 @@ const PartyPlatformDetail = () => {
 
                 <SectionWrap className="notoMedium">
 
-
-                    {/* 플랫폼 썸네일 */}
                     <div style={{ display: 'flex', margin: "1.125rem 0 0.9375rem 0" }}>
                         <div style={{ flexGrow: '1' }}></div>
                         <ImgColorWrap backgroundColor={imgColor} onClick={openImgEnrollPopup}>
@@ -223,7 +215,6 @@ const PartyPlatformDetail = () => {
                         <div style={{ flexGrow: '1' }}></div>
                     </div>
 
-                    {/* 플랫폼 이름 */}
                     <TitleWrap>구독 서비스명</TitleWrap>
                     <ItemWrap>
                         <InputWrap>
@@ -234,7 +225,6 @@ const PartyPlatformDetail = () => {
                         </InputWrap>
                     </ItemWrap>
 
-                    {/* 모집 인원 */}
                     <TitleWrap>
                         <div>구독 카테고리</div>
                     </TitleWrap>
@@ -290,7 +280,6 @@ const PartyPlatformDetail = () => {
                 </ButtonWrap>
 
 
-                {/* 썸네일 이미지 등록 페이지 */}
                 <div style={{ display: imgEnrollOpen ? 'block' : 'none' }}>
                     <ImgEnrollWrap>
                         <div style={{ flexGrow: '1' }} onClick={closeImgEnrollPopup}></div>

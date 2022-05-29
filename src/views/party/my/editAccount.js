@@ -33,7 +33,7 @@ const EditAccount = ({ location }) => {
     dispatch(BottomNavCloseAction);
 
     location.state.idx ? setPartyIdx(location.state.idx) : closePage();
-    // location.state.id ? setAccountId(location.state.id) : closePage();
+
   }, []);
 
   useEffect(() => {
@@ -45,16 +45,16 @@ const EditAccount = ({ location }) => {
   }, [accountId, accountPw])
 
   const closePage = () => {
-    // 뒤로 가기
+
     setPageTrans('trans toLeft');
     history.goBack();
   };
   const handleChangeAccountId = (e) => {
-    // if (e.target.value.length == 5) return false;
+
     setAccountId(e.target.value);
   };
   const handleChangeAccountPw = (e) => {
-    // if (e.target.value.length == 5) return false;
+
     setAccountPw(e.target.value);
   };
   const onClickEdit = useCallback(async () => {
@@ -65,10 +65,10 @@ const EditAccount = ({ location }) => {
       accountPw: accountPw
     });
 
-    //서버에러
+
     if (!data) return;
 
-    //벨리데이션
+
     if (data.statusCode != 200) {
       setError(true);
       setErrorMsg(data.message);
@@ -91,14 +91,14 @@ const EditAccount = ({ location }) => {
 
       <MainWrap>
         <div style={{ flexGrow: '1' }}>
-          {/* Title */}
+
           <MainText style={{ margin: '1rem 0 0.9063rem 0' }}>
             <span>변경할 </span>
             <span className="yellowText">구독 계정 정보</span>
             <span>를</span><br />
             <span>입력해주세요.</span>
           </MainText>
-          {/* Notice Div */}
+
           <NoticeWrap style={{ backgroundColor: '#fff8e8' }}>
             <div className="notice_sub_wrap">
               <div>
@@ -113,7 +113,7 @@ const EditAccount = ({ location }) => {
               </div>
             </div>
           </NoticeWrap>
-          {/* Account Div */}
+
           <TitleWrap>아이디</TitleWrap>
           <InputComponent
             id={"accountId"}
@@ -135,7 +135,7 @@ const EditAccount = ({ location }) => {
 
         </div>
 
-        {/* 최하단 Yellow 버튼 */}
+
         <BottomButton
           clickFunc={onClickEdit}
           text={'확인'}

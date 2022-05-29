@@ -15,11 +15,11 @@ import { UpdateCurrentPageAction } from "../../../../reducers/party/enrollment/s
 
 const ChooseService = () => {
 
-  //import
+
   const dispatch = useDispatch();
   const history = useHistory();
 
-  //store
+
   const {
     selectedPlatformIdx,
     selectedPlatformName,
@@ -38,36 +38,33 @@ const ChooseService = () => {
     searchPlatformList,
   } = useSelector(state => state.main.platform);
 
-  //context
+
   const { setPageTrans } = useContext(PageTransContext);
 
-  //페이지에 보여주는 뷰 로직
+
   const [viewPlatformList, setViewPlatformList] = useState([]);
 
-  //해당 페이지 확인 status 값
   const [confirmStatus, setConfirmStatus] = useState(false);
-
-  //검색 state
   const [searchSatus, setSearchSatus] = useState(false);
   const [keyword, setKeyword] = useState('');
 
   useEffect(async () => {
 
-    //전체 플랫폼 조회 -> 리덕스에서 없으면 호출, 있으면 호출 X => 최초 1회만 불러오기
+
     if (serverPlatformList.length < 1) {
 
-      //전체 플랫폼 리스트 조회
+
       const data = await customApiClient('get', '/subscribe/platform?type=REP');
 
-      //서버에러
+
       if (!data) return
 
-      //벨리데이션
+
       if (data.statusCode != 200) {
         return
       }
 
-      //리덕스에 넣어주기
+
       dispatch({
         type: GetServerPlatformList,
         data: data.result
@@ -76,18 +73,18 @@ const ChooseService = () => {
     }
 
     if (searchPlatformList.length < 1) {
-      //전체 구독 플랫폼 리스트 조회
+
       const search = await customApiClient('get', '/subscribe/platform?type=ALL');
 
-      //서버에러
+
       if (!search) return
 
-      //벨리데이션
+
       if (search.statusCode != 200) {
         return
       }
 
-      //리덕스에 넣어주기
+
       dispatch({
         type: GetSearchPlatformList,
         data: search.result
@@ -101,22 +98,19 @@ const ChooseService = () => {
     setViewPlatformList([...serverPlatformList]);
   }, [serverPlatformList])
 
-  //다음버튼 벨리데이션
+
   useEffect(() => {
 
-    //서버 플랫폼 등록
     if (selectedPlatformIdx && selectedPlatformName && selectedPlatformCategoryIdx) {
       setConfirmStatus(true);
       return
     }
 
-    //커스텀 플랫폼 등록
     if (selectedPlatformIdx === 0) {
       setConfirmStatus(true);
       return
     }
 
-    //아니라면 막기
     setConfirmStatus(false);
 
   }, [
@@ -133,14 +127,14 @@ const ChooseService = () => {
 
     if (!confirmStatus) return;
 
-    //직접입력하기 혹은 이미지가 없는 플랫폼 클릭시 detail 설정 페이지로 이동시키기
+
     if (selectedPlatformIdx === 0 | !selectedPlatformImgUrl) {
       setPageTrans('trans toRight');
       history.push('/party/enroll/platform/detail');
       return
     }
 
-    //정상적일 경우 다음 페이지로 넘기기
+
     dispatch(UpdateCurrentPageAction({
       page: 2
     }));
@@ -160,7 +154,6 @@ const ChooseService = () => {
     }))
   }
 
-  //직접 선택
   const handleClickCustomService = () => {
     dispatch(UpdatePlatformAction({
       selectedPlatformIdx: 0,
@@ -175,7 +168,7 @@ const ChooseService = () => {
     }))
   }
 
-  //검색어 입력
+
   const handleChangeSearch = (e) => {
     setKeyword(e.target.value);
 
@@ -197,7 +190,7 @@ const ChooseService = () => {
 
   };
 
-  //검색어 삭제
+
   const handleClickCancel = () => {
     setKeyword('');
     setSearchSatus(false);
@@ -228,7 +221,7 @@ const ChooseService = () => {
           </SearchCancelWrap>
         </div>
 
-        {/* 구독서비스 선택 - 택 작업*/}
+
         <div className="serviceListWrap">
           {!searchSatus &&
 

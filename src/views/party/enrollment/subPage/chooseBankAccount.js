@@ -50,7 +50,6 @@ const ChooseBankAccount = () => {
   const [isBankAccountStatus, setIsBankAccountStatus] = useState(false);
   const [bankAccountList, setBankAccountList] = useState([]);
 
-  //로딩 스테이트
   const [cardListLoading, setCardListLoading] = useState(true);
 
   useEffect(() => {
@@ -85,18 +84,15 @@ const ChooseBankAccount = () => {
     const bankAccountUri = '/party/user/bankAccount';
     const data = await customApiClient('get', bankAccountUri);
 
-    // Server Error
     if (!data) {
       setCardListLoading(false);
       return
     };
-    // Validation 
     if (data.statusCode !== 200) {
       setCardListLoading(false);
       return
     }
 
-    // 등록된 정산계좌 유무 확인
     if (data.result.length === 0) {
       setIsBankAccountStatus(false);
     } else {
@@ -125,13 +121,13 @@ const ChooseBankAccount = () => {
     }
   }, [agreeStatus])
 
-  //서버통신 로딩 state
+
   const [loading, setLoading] = useState(false);
 
   const nextPage = async () => {
 
     if (isBankAccountStatus) {
-      // 정산계좌가 존재할 때 
+
       nextBtnStatus && bankAccountList.map((account, index) => {
         if (account.idx === bankAccountIdx) {
           dispatch(UpdateBankAccountAction({
@@ -149,7 +145,6 @@ const ChooseBankAccount = () => {
       if (loading) return
       setLoading(true);
 
-      // 정산계좌가 없을 땐 정산계좌 등록 후 페이지 전환
       const body = {
         bankAccountUserName: accountOwnerName,
         bankIdx: bankIdx,
@@ -158,12 +153,12 @@ const ChooseBankAccount = () => {
       const postBankAccountUri = 'party/user/bankAccount'
       const data = await customApiClient('post', postBankAccountUri, body);
 
-      // Server Error
+
       if (!data) {
         setLoading(false);
         return
       };
-      // Validation 
+
       if (data.statusCode !== 200) {
         setLoading(false);
         alert(data.message);
@@ -201,9 +196,9 @@ const ChooseBankAccount = () => {
         {cardListLoading === true ?
           <LoadingBox /> :
           <div>
-            {/* 등록 계좌가 없을 때 */}
+
             <AddBankAccountWrap openStatus={isBankAccountStatus}>
-              {/* Notice Div */}
+
               <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
                 <div className="notice_sub_wrap align_center">
                   <div>
@@ -217,7 +212,6 @@ const ChooseBankAccount = () => {
                 </div>
               </NoticeWrap>
 
-              {/* 계좌 소유자 */}
               <TitleWrap style={{ marginTop: '0.9688rem' }}>계좌 소유자</TitleWrap>
               <InputComponent
                 id={"accountOwnerName"}
@@ -228,7 +222,7 @@ const ChooseBankAccount = () => {
                 onChange={handleChangeAccountOwnerName}
               />
 
-              {/* 계좌번호 */}
+
               <TitleWrap >계좌 번호</TitleWrap>
               <InputWrap openStatus={isFocus}>
                 <ChooseBankBtn onClick={onClickChooseBank}>
@@ -249,7 +243,7 @@ const ChooseBankAccount = () => {
                 ></Input>
               </InputWrap>
 
-              {/* 개인정보 동의 체크박스 */}
+
               <div
                 style={{
                   display: "flex",
@@ -267,7 +261,7 @@ const ChooseBankAccount = () => {
                 </PartyText>
               </div>
 
-              {/* 은행 선택 다이얼로그 */}
+
               <ChooseBankDialog
                 openStatus={isChooseBankClicked}
                 deleteFunc={setIsChooseBankClicked}
@@ -276,7 +270,7 @@ const ChooseBankAccount = () => {
 
             </AddBankAccountWrap>
 
-            {/* 등록 계좌가 있을 때 */}
+
             <AccountSlideWrap openStatus={isBankAccountStatus}>
               <AccountSlide
                 setAccountIdx={setBankAccountIdx}
@@ -365,9 +359,9 @@ export const ChooseBankDialog = ({ openStatus, deleteFunc, selectBankFunc, selec
     const bankUri = '/party/bankInfo';
     const data = await customApiClient('get', bankUri);
 
-    // Server Error
+
     if (!data) { return };
-    // Validation 
+
     if (data.statusCode !== 200) { return };
 
     setNormalBankList(data.result.normalBank);

@@ -42,7 +42,7 @@ const ChoosePayment = () => {
 
   const [nextBtnStatus, setNextBtnStatus] = useState(false);
 
-  //벨리데이션
+
   const [membershipPriceValid, setMembershipPriceValid] = useState(false);
   const [pricePerMemberValid, setPricePerMemberValid] = useState(false);
 
@@ -52,7 +52,7 @@ const ChoosePayment = () => {
   let today = new Date()
 
   useEffect(() => {
-    //1인당 금액 벨리데이션
+
     if (pricePerMember.length < 1) {
       setPricePerMemberValid(false);
       setNextBtnStatus(false);
@@ -68,7 +68,7 @@ const ChoosePayment = () => {
       setPricePerMemberValid(false);
     }
 
-    //멤버십 금액 벨리데이션
+
     if (membershipPrice.length > 0 && pricePerMember.length > 0) {
       if (Number(membershipPrice) <= Number(pricePerMember)) {
         setMembershipPriceValid(true);
@@ -144,10 +144,10 @@ const ChoosePayment = () => {
     setPersonelOpen(false);
   }
 
-  // 멤버십 금액 Info Dialog를 Open / Close 하는 함수입니다. 
+
   const onClickMembershipPriceInfo = () => setMembershipPriceInfoStatus(!membershipPriceInfoStatus);
 
-  // 총 금액 Info Dialog를 Open / Close 하는 함수입니다. 
+
   const onClickTotalPersonnelInfo = () => setTotalPersonnelInfoStatus(!totalPersonnelInfoStatus);
 
   const nextPage = () => {
@@ -171,7 +171,7 @@ const ChoosePayment = () => {
           입력해주세요.
         </MainText>
 
-        {/* Notice Div */}
+
         <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', margin: '1.1563rem 0 1.2813rem' }}>
           <div className="notice_sub_wrap">
             <div>
@@ -187,10 +187,10 @@ const ChoosePayment = () => {
           </div>
         </NoticeWrap>
 
-        {/* Subtitle */}
+
         <PartyDetailSubtitleSpan>결제 정보</PartyDetailSubtitleSpan>
 
-        {/* 멤버십 금액 */}
+
         <TitleWrap style={{ marginTop: '0.5rem', position: 'relative' }}>
           <div>멤버십 금액</div>
           <InfoWrap>
@@ -213,7 +213,7 @@ const ChoosePayment = () => {
           </InputWrap>
         </ItemWrap>
 
-        {/* 다음 결제일 */}
+
         <TitleWrap style={{ marginTop: '0.5rem' }}>다음 결제일</TitleWrap>
         <InputWrap openStatus={paymentDayOpen} isBlocked={!paymentDay} onClick={onClickPaymentDayOpen}>
           <div>
@@ -247,13 +247,13 @@ const ChoosePayment = () => {
           </Fade>
         </div>
 
-        {/* 첫 정산일 */}
+
         <FirstPaymentWrap openStatus={firstPaymentWrapOpenStatus}>
           <span style={{ color: '#505050' }}>첫 정산일</span>
           <span style={{ color: '#000' }}>{today.getDate() >= paymentDay && today.getMonth() === 11 ? today.getFullYear() + 1 : today.getFullYear()}년 {today.getDate() >= paymentDay ? today.getMonth() + 2 : today.getMonth() + 1}월 {paymentDay}일</span>
         </FirstPaymentWrap>
 
-        {/* 1인당 결제 금액 */}
+
         <TitleWrap style={{ marginTop: '0.5rem' }}>
           <div>1인당 결제 금액</div>
           {pricePerMemberValid && <div style={{
@@ -270,7 +270,7 @@ const ChoosePayment = () => {
           </InputWrap>
         </ItemWrap>
 
-        {/* 모집 인원 */}
+
         <TitleWrap style={{ marginTop: '0.5rem' }}>
           <div>파티 인원</div>
           <div style={{
@@ -318,7 +318,7 @@ const ChoosePayment = () => {
           </div>
         </div>
 
-        {/*  Bottom Notice Div*/}
+
         <BottomNoticeWrap openStatus={nextBtnStatus}>
           <div className="notice_wrap">
             <img className="notice_img" src={icon_notice_white_duck}></img>

@@ -24,14 +24,14 @@ import { SelectContent, SelectWrap } from "../enrollment/subPage/choosePayment";
 
 const MyPartyRevise = ({ location }) => {
 
-  // Module
+
   const history = useHistory();
   const dispatch = useDispatch();
 
-  //Context
+
   const { setPageTrans } = useContext(PageTransContext);
 
-  // State
+
   const [serverImgUrl, setServerImgUrl] = useState('');
   const [initial, setInitial] = useState('');
   const [color, setColor] = useState('');
@@ -75,7 +75,7 @@ const MyPartyRevise = ({ location }) => {
 
   useEffect(() => {
 
-    //카카오 오픈채팅 링크 벨리데이션
+
     if (partyLink.length > 0 && !partyLink.includes('https://open.kakao.com')) {
 
       setPartyLinkValid(true);
@@ -111,7 +111,7 @@ const MyPartyRevise = ({ location }) => {
   const onClickConfirmButton = async () => {
     if (!confirmBtnStatus) return
 
-    // 파티 수정하기
+
     const body = {
       title: partyTitle,
       personnel: partyPersonnel,
@@ -121,16 +121,16 @@ const MyPartyRevise = ({ location }) => {
 
     const data = await customApiClient('put', `/party/${partyIdx}`, body);
 
-    //서버에러
+
     if (!data) return
 
-    //벨리데이션
+
     if (data.statusCode != 200) {
       alert(data.message);
       return
     }
 
-    //수정완료 팝업 띄우기
+
     dispatch({
       type: MessageWrapOpen
     })
@@ -157,9 +157,9 @@ const MyPartyRevise = ({ location }) => {
 
   const onClickPersonnelOpen = () => setPersonnelOpenStatus(!personnelOpenStatus);
 
-  // 페이지 뒤로 이동
+
   const closePage = () => {
-    // 뒤로 가기
+
     setPageTrans('trans toLeft');
     history.goBack();
   };
@@ -179,7 +179,7 @@ const MyPartyRevise = ({ location }) => {
 
       <ContentWrap style={{ position: 'absolute', padding: '1.25rem 1.25rem 0 1.25rem', display: 'flex', flexDirection: 'column', top: '3.0625rem' }}>
         <SectionWrap>
-          {/* 플랫폼 정보 */}
+
           <PlatformWrap>
             {
               serverImgUrl ?
@@ -206,10 +206,10 @@ const MyPartyRevise = ({ location }) => {
             </div>
           </PlatformWrap>
 
-          {/* Subtitle : 파티 정보 */}
+
           <PartyDetailSubtitleSpan style={{ marginTop: '1.8125rem', display: 'block' }}>파티 정보</PartyDetailSubtitleSpan>
 
-          {/* 파티 개설 제목 */}
+
           <TitleWrap style={{ marginTop: '0.75rem' }}>파티 개설 제목</TitleWrap>
           <InputComponent
             id={"partyTitle"}
@@ -220,7 +220,7 @@ const MyPartyRevise = ({ location }) => {
             onChange={handleChangePartyTitle}
           />
 
-          {/* 멤버십 종류 */}
+
           <TitleWrap style={{ marginTop: '0.5625rem' }}>멤버십 종류</TitleWrap>
           <InputComponent
             id={"partyMembership"}
@@ -231,7 +231,7 @@ const MyPartyRevise = ({ location }) => {
             onChange={handleChangePartyMembership}
           />
 
-          {/* 오픈카톡방 링크 */}
+
           <TitleWrap style={{ marginTop: '0.5625rem' }}>
             <div>오픈카톡방 링크</div>
             {partyLinkValid && <div style={{
@@ -254,7 +254,7 @@ const MyPartyRevise = ({ location }) => {
             <div onClick={handleClickPartyLink} style={{ zIndex: "10", position: "absolute", top: "0", left: "0", bottom: "0", right: "0" }} />
           </div>
 
-          {/* 필요한 인원 */}
+
           <TitleWrap style={{ marginTop: '0.5625rem', position: 'relative' }}>
             <div>파티 인원</div>
             <div style={{
@@ -305,7 +305,7 @@ const MyPartyRevise = ({ location }) => {
 
         <BottomButton clickFunc={onClickConfirmButton} text={'확인'} activeStatus={confirmBtnStatus} isBottomStatus={false} />
 
-        {/* 오픈카톡 팝업 */}
+
         <PartyLinkPopup
           openStatus={partyLinkPopupStatus}
           closeFunc={handleClickPartyLink}

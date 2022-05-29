@@ -29,12 +29,10 @@ const PartyRevise = ({ location }) => {
         platformCategoryList: categoryList
     } = useSelector(state => state.main.platform);
 
-    //context
     const { setPageTrans } = useContext(PageTransContext);
 
-    //state
     const [partyIdx] = useState(location.data.idx);
-    // const [selectedPlatformIdx] = useState(location.data.platformIdx);
+
     const [selectedPlatformName] = useState(location.data.customName ?? location.data.serverName);
     const [selectedPlatformCategoryIdx] = useState(location.data.customCategoryIdx ?? location.data.serverCategoryIdx);
     const [selectedPlatformImgUrl] = useState(location.data.serverImgUrl);
@@ -49,21 +47,19 @@ const PartyRevise = ({ location }) => {
     const [partyPersonel, setPartyPersonel] = useState(location.data.personnel);
     const [personelOpen, setPersonelOpen] = useState(false);
 
-    // const [partyPrice, setPartyPrice] = useState(location.data.price);
     const [partyMembership, setPartyMembership] = useState(location.data.membership);
     const [partyOpenChat, setPartyOpenChat] = useState(location.data.openChatLink);
 
     const [dangerPopupWrap, setDangerPopupWrap] = useState(false);
     const [dangerPopup, setDangerPopup] = useState(false);
 
-    //inital logic
     useEffect(() => {
         dispatch(BottomNavCloseAction);
 
         const userPlatform = checkMobile();
 
         if (userPlatform == 'ios') {
-            //IOS 배경색 설정
+
             try {
                 window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
             }
@@ -71,7 +67,7 @@ const PartyRevise = ({ location }) => {
             }
         }
 
-        //에러 처리
+
         if (!location.data) {
             dispatch(BottomNavOpenAction);
             history.push('/party');
@@ -79,7 +75,7 @@ const PartyRevise = ({ location }) => {
 
     }, [])
 
-    //뒤로가기
+
     const closeEnrollmentPage = () => {
         setPageTrans('trans toLeft');
         history.goBack();
@@ -108,13 +104,13 @@ const PartyRevise = ({ location }) => {
         setPartyOpenChat(e.target.value);
     }
 
-    //벨리데이션
+
     useEffect(() => {
 
         if (partyTitle && partyPersonel && partyOpenChat) {
 
 
-            //카카오 오픈채팅 링크 벨리데이션
+
             if (partyOpenChat.includes('https://open.kakao.com')) {
                 setPageConfirmStatus(true);
                 return
@@ -126,12 +122,11 @@ const PartyRevise = ({ location }) => {
 
     }, [partyTitle, partyPersonel, partyMembership, partyOpenChat])
 
-    //파티 최종 수정
+
     const onClickSubmit = async () => {
-        //필수사항 만족하지 않으면 return 처리
+
         if (!pageConfirmStatus) return
 
-        //서버 통신 후 성공하면 성공 페이지 이동
 
         const body = {
             title: partyTitle,
@@ -142,16 +137,15 @@ const PartyRevise = ({ location }) => {
 
         const data = await customApiClient('put', `/party/${partyIdx}`, body);
 
-        //서버에러
+
         if (!data) return
 
-        //벨리데이션
+
         if (data.statusCode != 200) {
             alert(data.message);
             return
         }
 
-        //수정완료 팝업 띄우기
         dispatch({
             type: MessageWrapOpen
         })
@@ -177,7 +171,7 @@ const PartyRevise = ({ location }) => {
         history.goBack();
     }
 
-    //파티 삭제하기
+
     const onClickDelete = () => {
         setDangerPopupWrap(true);
         setDangerPopup(true);
@@ -188,22 +182,21 @@ const PartyRevise = ({ location }) => {
         setDangerPopup(false);
     }
 
-    //피타 삭제 컨펌하기
+
     const onClickDeleteConfirm = async () => {
 
-        //구독 플랫폼 삭제
         const data = await customApiClient('delete', `/party/${partyIdx}?userRole=HOST`);
 
-        //서버에러
+
         if (!data) return
 
-        //벨리데이션
+
         if (data.statusCode != 200) {
             alert(data.message);
             return
         }
 
-        //삭제완료 팝업창 띄우기
+
         dispatch({
             type: MessageWrapOpen
         })
@@ -226,7 +219,7 @@ const PartyRevise = ({ location }) => {
         GAEventSubmit(GA_CATEOGRY.PARTY, GA_PARTY_ACTION.DELETE);
 
 
-        //뒤로가기
+
         setPageTrans('trans toLeft');
         history.goBack();
 
@@ -280,7 +273,7 @@ const PartyRevise = ({ location }) => {
                         </div>
                     </div>
 
-                    {/* 플랫폼 이름 */}
+
                     <TitleWrap>파티 개설 제목</TitleWrap>
                     <ItemWrap>
                         <InputWrap>
@@ -288,7 +281,7 @@ const PartyRevise = ({ location }) => {
                         </InputWrap>
                     </ItemWrap>
 
-                    {/* 모집 인원 */}
+
                     <TitleWrap>
                         <div>파티 인원</div>
                         <div style={{ marginLeft: '0.3125rem', fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 자신을 포함한 인원으로 선택해주세요.</div>
@@ -332,11 +325,10 @@ const PartyRevise = ({ location }) => {
                         </div>
                     </div>
 
-                    {/* 결제금액 */}
+
                     <TitleWrap>
                         <div>1인당 결제 금액</div>
                         <div style={{ marginLeft: '0.3125rem', fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>(수정불가)</div>
-                        {/* <div style={{ fontSize: "0.7188rem", color: "#313131", opacity: "0.3" }}>* 1인당 결제금액으로 입력해주세요.</div> */}
                     </TitleWrap>
                     <ItemWrap>
                         <InputWrap style={{ flexGrow: "1", flexBasis: "0" }}>
@@ -345,7 +337,6 @@ const PartyRevise = ({ location }) => {
                         </InputWrap>
                     </ItemWrap>
 
-                    {/* 맴버십 종류 */}
                     <TitleWrap>
                         <div>멤버십 종류</div>
                     </TitleWrap>
@@ -355,7 +346,6 @@ const PartyRevise = ({ location }) => {
                         </InputWrap>
                     </ItemWrap>
 
-                    {/* 오픈 카카오톡 링크 */}
                     <TitleWrap>
                         <div>오픈 카카오톡 링크</div>
                     </TitleWrap>
@@ -370,8 +360,6 @@ const PartyRevise = ({ location }) => {
                 </ButtonWrap>
             </div>
 
-
-            {/* 삭제 알림창 */}
             <DangerWrapPopup openStatus={dangerPopupWrap}>
                 <DangerPopup className="spoqaBold" openStatus={dangerPopup}>
                     <div style={{ position: 'relative', height: '3.125rem' }}>

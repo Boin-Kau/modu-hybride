@@ -26,14 +26,11 @@ import { checkMobile } from '../../../App';
 
 const MyParty = () => {
 
-    //import
     const dispatch = useDispatch();
     const history = useHistory();
 
-    //context
     const { setPageTrans } = useContext(PageTransContext);
 
-    //state
     const [progressMenuStatus, setProgressMenuStatus] = useState(true);
     const [terminateMenuStatus, setTerminateMenuStatus] = useState(false);
 
@@ -43,14 +40,13 @@ const MyParty = () => {
     useEffect(() => {
         dispatch(BottomNavCloseAction);
 
-        //게시물 조회
         getMyPartyList("PROGRESS");
         getMyPartyList("TERMINATE");
 
         const userPlatform = checkMobile();
 
         if (userPlatform === 'ios') {
-            //IOS 배경색 설정
+
             try {
                 window.webkit.messageHandlers.setColorWhite.postMessage("hihi");
             }
@@ -64,10 +60,8 @@ const MyParty = () => {
 
         const data = await customApiClient('get', `/party/my?type=${type}`);
 
-        //서버에러
         if (!data) return
 
-        //벨리데이션
         if (data.statusCode !== 200) {
             return
         }
@@ -90,11 +84,9 @@ const MyParty = () => {
 
     const onClickMenu = useCallback(async (type) => {
 
-        //똑같은 탭 누르면 리턴 처리
         if (progressMenuStatus && type === 'progress') return
         if (terminateMenuStatus && type === 'terminate') return
 
-        //전체 조회와 카테고리를 동기화 해줘야함! 구독 값이 바뀌면 각 탭 리스트를 다시한번 조회해줘야함
 
         if (type === 'progress') {
             setProgressMenuStatus(true);
@@ -110,7 +102,6 @@ const MyParty = () => {
         terminateMenuStatus,
     ]);
 
-    // 내 파티 상세보기 버튼 클릭 
     const onClickDetailButton = (partyIdx) => {
         if (partyIdx === 0) return;
 
@@ -136,7 +127,6 @@ const MyParty = () => {
                     </CategoryTapWrap>
                     <ItemListWrap className="notoMedium">
 
-                        {/* 참여중 리스트 */}
                         <ItemListView selectedStatus={progressMenuStatus}>
                             {
                                 progressData.length !== 0 ?
@@ -161,7 +151,6 @@ const MyParty = () => {
                             }
                         </ItemListView>
 
-                        {/* 종료됨 리스트 */}
                         <ItemListView selectedStatus={terminateMenuStatus}>
                             {
                                 finishData.length !== 0 ?
@@ -339,7 +328,7 @@ const BottomContent = ({ data, room, enrolledAt, endedAt, isProgress, onClickDet
 
 
 const PageWrap = styled.div`
-    /* border:1px solid red; */
+
 `;
 const HeaderWrap = styled.div`
     position: relative;
@@ -356,7 +345,7 @@ const HeaderWrap = styled.div`
     color:#313131;
 `;
 const MainWrap = styled.div`
-    /* border:1px solid red; */
+
     position:absolute;
     top:3.0625rem;
     left:0;
@@ -390,7 +379,7 @@ const CategoryTapItem = styled.div`
 
     font-size:0.875rem;
 
-    /* 애니메이션 적용 */
+
     transition: top 100ms ease-in-out;
 
     top : ${props => props.selectedStatus ? '0' : '0.625rem'};

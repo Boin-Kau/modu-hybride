@@ -32,16 +32,13 @@ const CheckPartyData = () => {
     selectedBankNameState
   } = useSelector(state => state.party.enrollment.bankAccount);
 
-  //Context
   const { setPageTrans } = useContext(PageTransContext);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
-  //서버통신 로딩 state
   const [loading, setLoading] = useState(false);
 
-  //기존 파티장 등록 로직
   const { idx } = useParams();
 
   const enrollBtn = async () => {
@@ -54,7 +51,6 @@ const CheckPartyData = () => {
     let body = {};
     let url = "";
 
-    //신규 파티 등록 로직
     if (!idx) {
       body = {
         title: title,
@@ -79,7 +75,7 @@ const CheckPartyData = () => {
 
       url = "/party";
     }
-    //기존 파티장 등록 로직
+
     else {
       body = {
         partyIdx: Number(idx),
@@ -102,12 +98,11 @@ const CheckPartyData = () => {
 
     const data = await customApiClient('post', url, body);
 
-    // Server Error
     if (!data) {
       setLoading(false);
       return
     };
-    // Validation 
+
     if (data.statusCode !== 200) {
       setLoading(false);
       return
@@ -130,7 +125,6 @@ const CheckPartyData = () => {
     dispatch({ type: ResetPayment });
     dispatch({ type: ResetBankAccount });
 
-    //소비분석 리로드
     dispatch(AnalyPageReloadTrueAction);
     dispatch(SubscribeReloadTrueAction);
 
@@ -167,7 +161,6 @@ const CheckPartyData = () => {
         해주세요.
       </MainText>
 
-      {/* Subtitle */}
       <PartyDetailSubtitleSpan style={{ marginBottom: '1rem', display: 'block' }}>멤버십 정보</PartyDetailSubtitleSpan>
 
       <GrayWrap style={{ borderBottom: 'dashed #eaeaea 1.5px', padding: '0.875rem 0.75rem' }}>
@@ -191,7 +184,7 @@ const CheckPartyData = () => {
         </div>
       </GrayWrap>
       <GrayWrap style={{ padding: '0.8125rem 1rem 2.1875rem', marginBottom: '2.0313rem' }}>
-        {/* 파티정보 */}
+
         <TitleWrap style={{ margin: '0 0 0.625rem' }}>파티 정보</TitleWrap>
         <PartyPersonnelWrap personnel={personnel}>
           {
@@ -208,7 +201,6 @@ const CheckPartyData = () => {
           }
         </PartyPersonnelWrap>
 
-        {/* 멤버십 정보 */}
         <TitleWrap style={{ marginBottom: '0.625rem' }}>멤버십 정보</TitleWrap>
         <PartyMembershipDiv
           membershipInfo={{
@@ -222,7 +214,6 @@ const CheckPartyData = () => {
           }}
         />
 
-        {/* 정산 정보 */}
         <TitleWrap style={{ marginBottom: '0.625rem' }}>정산 정보</TitleWrap>
         <BankAccountWrap>
           <div className="contents_div margin_bottom">

@@ -20,11 +20,8 @@ const CardIdxChange = () => {
   const history = useHistory();
   const { idx } = useParams();
 
-
-  //context
   const { setPageTrans } = useContext(PageTransContext);
 
-  //state
   const [cardIdx, setCardIdx] = useState(-1);
   const [partyRoomIdx, setPartyRoomIdx] = useState(0);
 
@@ -38,15 +35,13 @@ const CardIdxChange = () => {
       const data = await customApiClient('patch', `party/${partyRoomIdx}/card/${cardIdx}`);
 
       console.log(data.message);
-      // Server Error
+
       if (!data) { return };
-      // Validation 
+
       if (data.statusCode !== 200) { return };
 
       console.log('API 호출 성공 :', data);
 
-      //토스트 메시지
-      //수정완료 팝업 띄우기
       dispatch({
         type: MessageWrapOpen
       })
@@ -80,8 +75,6 @@ const CardIdxChange = () => {
       closePage();
     }
   }, []);
-
-  //결제수단 바꾸는 api -> 파티 아이디랑 그런것도 필요할것같은디..요건 찰스랑 협의
 
   return (
     <div className="page">

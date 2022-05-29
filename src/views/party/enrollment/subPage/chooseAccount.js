@@ -29,7 +29,7 @@ const ChooseAccount = () => {
 
   useEffect(() => {
 
-    if (isAccountStatus === 'N') { // 건너뛰기 있을 때
+    if (isAccountStatus === 'N') {
       if (id && pw) {
         setNextBtnStatus(true);
         return
@@ -38,7 +38,7 @@ const ChooseAccount = () => {
         return
       }
       setNextBtnStatus(false);
-    } else { // 건너뛰기 없을 때
+    } else { 
       if (id && pw) {
         setNextBtnStatus(true);
         return
@@ -53,7 +53,7 @@ const ChooseAccount = () => {
   const handleChangeAccountPw = (e) => {
     setPw(e.target.value);
   };
-  //구독계정 비밀번호 내 개인정보를 포함하지 말라는 안내 아이콘 클릭
+
   const onClickMiniInfo = () => {
     setMiniInfoStatus(!miniInfoStatus);
   };
@@ -76,7 +76,7 @@ const ChooseAccount = () => {
           입력해주세요.
         </MainText>
 
-        {/* Notice Div */}
+
         <NoticeWrap style={{ boxShadow: 'none', backgroundColor: '#fff8e8', marginTop: '0.9063rem' }}>
           <div className="notice_sub_wrap">
             <div>
@@ -92,7 +92,7 @@ const ChooseAccount = () => {
           </div>
         </NoticeWrap>
 
-        {/* Account Div */}
+
         <TitleWrap>아이디</TitleWrap>
         <InputComponent
           id={"id"}
