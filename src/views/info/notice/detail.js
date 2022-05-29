@@ -1,18 +1,12 @@
-import React, { useCallback, useState, useEffect, useContext } from 'react';
-import styled from "styled-components";
-
-import { useDispatch } from "react-redux";
-
-import icon_back from "../../../assets/icon-back-arrow.svg";
-
-import { TextMiddle } from '../../../styled/shared';
-
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from "styled-components";
+import icon_back from "../../../assets/icon-back-arrow.svg";
 import { PageTransContext } from '../../../containers/pageTransContext';
 import { customApiClient } from '../../../shared/apiClient';
-
-import '../../../styled/css/textEditer.css';
 import { GAEventSubmit, GA_CATEOGRY, GA_SYSTEM_ACTION } from '../../../shared/gaSetting';
+import '../../../styled/css/textEditer.css';
+import { TextMiddle } from '../../../styled/shared';
 
 const NoticeDetailPage = ({ location }) => {
 

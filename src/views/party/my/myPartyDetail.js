@@ -1,60 +1,53 @@
+import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import styled from "styled-components";
+import { checkMobile } from "../../../App";
+import icon_back from "../../../assets/icon-back-arrow.svg";
+import icon_notice_duck from "../../../assets/icon-notice-duck.svg";
+import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
+import icon_more from "../../../assets/icon-partydetail-more.svg";
+import ic_partydetail_more from "../../../assets/party/detail/ic-partydetail-more.png";
+import DeleteDuck from "../../../assets/party/ic-popup-delete-duck.png";
+import InfoDuck from "../../../assets/party/ic-popup-info-duck.png";
+import PayDuck from "../../../assets/party/ic-popup-pay-duck.png";
+import WaitingDuck from "../../../assets/party/ic-popup-waiting-duck.png";
+import { priceToString } from "../../../components/main/bottomCard";
+import BottomButton from "../../../components/party/BottomButton";
+import ChoiceDialog from "../../../components/party/ChoiceDialog";
+import DangerDialog from "../../../components/party/DangerDialog";
+import OneButtonDialog from "../../../components/party/OneButtonDialog";
+import PartyCalculateDetail from "../../../components/party/PartyCalculateDetail";
+import PartyDataListItem, { CustomPartyListItem } from "../../../components/party/PartyList";
+import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
+import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
+import { PageTransContext } from "../../../containers/pageTransContext";
+import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
+import { AnalyPageReloadTrueAction } from "../../../reducers/main/analysis";
+import { SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
+import { ResetParty, UpdatePartyAction } from "../../../reducers/party/detail";
+import { UpdatePartyInfoAction } from "../../../reducers/party/enrollment/partyInfo";
+import { UpdatePaymentAction } from "../../../reducers/party/enrollment/payment";
+import { UpdatePlatformAction } from "../../../reducers/party/enrollment/platform";
+import {
+  HostBottomDialogCloseAction, HostBottomDialogOpenAction,
+  MemberBottomDialogCloseAction, MemberBottomDialogOpenAction,
+  PartyDeleteConfirmDialogCloseAction,
+  ReportPopupOpenAction
+} from "../../../reducers/party/popup";
+import { customApiClient } from "../../../shared/apiClient";
 import { TextMiddle } from "../../../styled/shared";
+import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
 import {
   HeaderWrap,
   NoticeWrap,
-  PartyDetailSubWrap,
+  PartyDetailSubWrap
 } from "../../../styled/shared/wrap";
-import { PageTransContext } from "../../../containers/pageTransContext";
-
-import icon_back from "../../../assets/icon-back-arrow.svg";
-import icon_more from "../../../assets/icon-partydetail-more.svg";
-import icon_small_duck from "../../../assets/icon-partydetail-ducknumber.svg";
-import icon_notice_duck from "../../../assets/icon-notice-duck.svg";
-import ic_partydetail_more from "../../../assets/party/detail/ic-partydetail-more.png";
-
-import { useHistory, useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { BottomNavCloseAction } from "../../../reducers/container/bottomNav";
-import styled from "styled-components";
-import { checkMobile } from "../../../App";
-import { customApiClient } from "../../../shared/apiClient";
-import PartyTitleDiv from "../../../components/party/PartyTitleDiv";
-import { PartyDetailSubtitleSpan } from "../../../styled/shared/text";
-import PartyDataListItem, {
-  CustomPartyListItem,
-} from "../../../components/party/PartyList";
-import PartyMembershipDiv from "../../../components/party/PartyMembershipDiv";
 import AccountInfoComponent from "./accountInfoComponent";
-import BottomButton from "../../../components/party/BottomButton";
-import {
-  HostBottomDialogOpenAction,
-  MemberBottomDialogOpenAction,
-  PartyDeleteConfirmDialogCloseAction,
-  SetReportCategoryListAction,
-  ReportPopupOpenAction,
-  MemberBottomDialogCloseAction,
-  HostBottomDialogCloseAction,
-} from "../../../reducers/party/popup";
 import HostBottomDialog from "./dialog/hostBottomDialog";
 import MemberBottomDialog from "./dialog/memberBottomDialog";
 import PartyDeleteConfirmDialog from "./dialog/partyDeleteConfirmDialog";
-import ChoiceDialog from "../../../components/party/ChoiceDialog";
 
-import PayDuck from "../../../assets/party/ic-popup-pay-duck.png";
-import DeleteDuck from "../../../assets/party/ic-popup-delete-duck.png";
-import InfoDuck from "../../../assets/party/ic-popup-info-duck.png";
-import WaitingDuck from "../../../assets/party/ic-popup-waiting-duck.png";
-import { priceToString } from "../../../components/main/bottomCard";
-import DangerDialog from "../../../components/party/DangerDialog";
-import OneButtonDialog from "../../../components/party/OneButtonDialog";
-import { UpdatePartyAction, ResetParty } from "../../../reducers/party/detail";
-import { AnalyPageReloadTrueAction } from "../../../reducers/main/analysis";
-import { SubscribeReloadTrueAction } from "../../../reducers/main/subscribe";
-import { UpdatePlatformAction } from "../../../reducers/party/enrollment/platform";
-import { UpdatePartyInfoAction } from "../../../reducers/party/enrollment/partyInfo";
-import { UpdatePaymentAction } from "../../../reducers/party/enrollment/payment";
-import PartyCalculateDetail from "../../../components/party/PartyCalculateDetail";
 
 const MyPartyDetail = ({ location }) => {
 
@@ -75,33 +68,33 @@ const MyPartyDetail = ({ location }) => {
   const [isHostUser, setIsHostUser] = useState("");
   const [openChatLink, setOpenChatLink] = useState("");
   const [roomStatus, setRoomStatus] = useState("");
-  const [userStatus, setUserStatus] = useState(""); 
+  const [userStatus, setUserStatus] = useState("");
   const [partyInfoObj, setPartyInfoObj] = useState({});
   const [platformInfoObj, setPlatformInfoObj] = useState({});
   const [membershipInfoObj, setMembershipInfoObj] = useState({});
   const [accountInfoObj, setAccountInfoObj] = useState({});
   const [bankAccountInfoObj, setBankAccountInfoObj] = useState({});
   const [userCardInfoObj, setUserCardInfoObj] = useState({});
-  const [result, setResult] = useState({}); 
+  const [result, setResult] = useState({});
 
-  const [leftDay, setLeftDay] = useState(0); 
+  const [leftDay, setLeftDay] = useState(0);
 
-  const [regularFailPopupStatus, setRegularFailPopupStatus] = useState(false); 
+  const [regularFailPopupStatus, setRegularFailPopupStatus] = useState(false);
   const [regularFailConfirmPopupStatus, setRegularFailConfirmPopupStatus] =
-    useState(false); 
+    useState(false);
   const [regularFailConfirmPopupTitle, setRegularFailConfirmPopupTitle] =
-    useState(""); 
-  const [hostInfoPopupStatus, setHostInfoPopupStatus] = useState(false); 
+    useState("");
+  const [hostInfoPopupStatus, setHostInfoPopupStatus] = useState(false);
   const [userInfoBeforePopupStatus, setUserInfoBeforePopupStatus] =
-    useState(false); 
-  const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false); 
-  const [deletePopupStatus, setDeletePopupStatus] = useState(false); 
+    useState(false);
+  const [userInfoPopupStatus, setUserInfoPopupStatus] = useState(false);
+  const [deletePopupStatus, setDeletePopupStatus] = useState(false);
 
   const [finishPopupStatus, setFinishPopupStatus] = useState(false);
-  const [finishPopupTitle, setFinishPopupTitle] = useState(false); 
-  const [finishPopupSubTitle, setFinishPopupSubTitle] = useState(false); 
+  const [finishPopupTitle, setFinishPopupTitle] = useState(false);
+  const [finishPopupSubTitle, setFinishPopupSubTitle] = useState(false);
 
-  const [calculateDetail, setCalculateDetail] = useState({}); 
+  const [calculateDetail, setCalculateDetail] = useState({});
   const [calculateDetailStatus, setCalculateDetailStatus] = useState(false);
 
 
@@ -340,7 +333,6 @@ const MyPartyDetail = ({ location }) => {
       alert(partyDeleteData.message);
       return;
     }
-    console.log("API 호출 성공 :", partyDeleteData);
 
     dispatch(PartyDeleteConfirmDialogCloseAction);
     setFinishPopupStatus(true);
@@ -370,7 +362,6 @@ const MyPartyDetail = ({ location }) => {
       alert(partyDeleteCancelData.message);
       return;
     }
-    console.log("API 호출 성공 :", partyDeleteCancelData);
 
     dispatch(PartyDeleteConfirmDialogCloseAction);
 
@@ -559,7 +550,6 @@ const MyPartyDetail = ({ location }) => {
 
 
     if (partyDeleteData.statusCode !== 201 && partyDeleteData.statusCode !== 202) { return alert(partyDeleteData.message) };
-    console.log('API 호출 성공 :', partyDeleteData);
 
     setFinishPopupTitle(`${message}가 완료되었습니다.`);
     setFinishPopupSubTitle(`${message}가 모두 완료되었습니다.\n${message}된 데이터는 다시 조회할 수 없습니다.`);
@@ -573,7 +563,7 @@ const MyPartyDetail = ({ location }) => {
   };
 
 
-  const changeBankAccount = ({partyIdx}) => {
+  const changeBankAccount = ({ partyIdx }) => {
     setPageTrans("trans toRight");
     history.push(`/party/${partyIdx}/detail/change/account`);
   };
@@ -845,7 +835,7 @@ const MyPartyDetail = ({ location }) => {
             </div>
             <div
               onClick={
-                isHostUser === "Y" ? ()=>changeBankAccount({partyIdx}) : ()=>changePaymentCard({partyIdx})
+                isHostUser === "Y" ? () => changeBankAccount({ partyIdx }) : () => changePaymentCard({ partyIdx })
               }
               className="change_contents_btn"
             >

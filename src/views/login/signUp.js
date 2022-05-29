@@ -49,7 +49,7 @@ const SignUp = () => {
     const [namePageStatus, setNamePageStatus] = useState(false);
     const [phoneNumberPageStatus, setPhoneNumberPageStatus] = useState(false);
     const [phoneAuthPageStatus, setphoneAuthPageStatus] = useState(false);
-    const [etcPageStatus, setEtcPageStatus] = useState(true);
+    const [etcPageStatus] = useState(true);
     const [agreePageStatus, setAgreePageStatus] = useState(false);
 
 

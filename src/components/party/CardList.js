@@ -10,8 +10,6 @@ import { TitleWrap, InputWrap, ItemWrap, Input } from '../../styled/main/enrollm
 
 const CardList = () => {
 
-    //props 를 2가지 받아야함. 1개는 카드 등록 리스트, 나머지 1개는 파티가입하는 상황인지, 파티 관리인지. 파티 관리에서는 등록하는 card가 나타나서는 안됨 !
-
     return (
         <ComponentWrap>
 

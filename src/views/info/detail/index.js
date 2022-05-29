@@ -116,11 +116,6 @@ const DetailPage = () => {
             type: 'RESET'
         });
 
-        // ReactGA.event({
-        //     category: 'User',
-        //     action: 'Logout an Account'
-        // });
-
         GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.LOGOUT);
 
         histroy.push('/');
@@ -172,11 +167,6 @@ const DetailPage = () => {
         dispatch({
             type: 'RESET'
         })
-
-        // ReactGA.event({
-        //     category: 'User',
-        //     action: 'Delete an Account'
-        // });
 
         GAEventSubmit(GA_CATEOGRY.USER, GA_USER_ACTION.SIGNOUT);
 

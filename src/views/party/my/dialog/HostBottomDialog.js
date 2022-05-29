@@ -11,7 +11,7 @@ const HostBottomDialog = ({ dataForRevise, roomStatus, partyIdx }) => {
   const { hostBottomDialogStatus } = useSelector(state => state.party.popup);
   const history = useHistory();
 
-  //context
+
   const { setPageTrans } = useContext(PageTransContext);
 
   const openPartyRevisePage = () => {
@@ -39,7 +39,7 @@ const HostBottomDialog = ({ dataForRevise, roomStatus, partyIdx }) => {
   return (
     <BottomDialogWrap openStatus={hostBottomDialogStatus}>
       <BottomDialogDiv>
-        {/* 삭제하기 or 삭제 취소하기 */}
+
         <div className="btn_style margin_bottom">
           <div onClick={openPartyRevisePage} className="one_btn gray_border_bottom">수정하기</div>
           <div onClick={openDeleteConfirmDialog} className="one_btn gray_border_bottom">{roomStatus === 'RESERVED' ? '삭제 취소하기' : '삭제하기'}</div>
