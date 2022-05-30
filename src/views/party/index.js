@@ -29,6 +29,9 @@ import { GAEventSubmit, GA_CATEOGRY, GA_PARTY_ACTION } from '../../shared/gaSett
 import { DetailItemContent, DetailItemFillContent, DetailItemTitle, DetailItemWrap, DetailRowWrap } from '../../styled/main';
 import { DangerPopup, DangerWrapPopup } from '../../styled/shared';
 import ReportPopUp from './popup/reportPopup';
+import InfoDuck from "../../assets/party/ic-popup-info-duck.png";
+import ChoiceDialog from '../../components/party/ChoiceDialog';
+
 
 const Party = () => {
 
@@ -63,6 +66,9 @@ const Party = () => {
     const [contentHeight, setContentHeight] = useState(0);
 
     const [isLoading, setIsLoading] = useState(true);
+
+    //튜토리얼 팝업
+    const [tutorialPopupStatus, setTutorialPopupStatus] = useState(false);
 
     //페이지 열기
     const openPage = (path) => {
@@ -130,6 +136,12 @@ const Party = () => {
             }
             catch (err) {
             }
+        }
+
+        //튜토리얼 팝업 로직
+        const isFirstParty = localStorage.getItem("isFirstParty");
+        if (!isFirstParty) {
+            setTutorialPopupStatus(true);
         }
 
     }, []);
@@ -238,6 +250,10 @@ const Party = () => {
     const handleClickTutorial = () => {
         window.open("https://bit.ly/modu-party-tutorial", '_blank');
     }
+    const handleClickTutorialClose = () => {
+        localStorage.setItem("isFirstParty", "TRUE");
+        setTutorialPopupStatus(false);
+    }
 
     return (
         <>
@@ -344,7 +360,20 @@ const Party = () => {
 
             {/* 신고 하기 팝업 */}
             <ReportPopUp
-                openStatus={reportPopupStatus}
+                openStatus={reportPopupStatus} />
+
+            {/* 튜토리얼 팝업 */}
+            <ChoiceDialog
+                openStatus={tutorialPopupStatus}
+                imgUrl={InfoDuck}
+                imgWidth={"4.6375"}
+                imgHeight={"7.1875"}
+                title={"파티가 처음이신가요?"}
+                subTitle={"파티 가이드를 보고 파티의\n핵심 기능을 꼭 숙지해주세요!"}
+                leftButtonText={"닫기"}
+                rightButtonText={"가이드 보기"}
+                onClickLeft={handleClickTutorialClose}
+                onClickRight={handleClickTutorial}
             />
         </>
     )
