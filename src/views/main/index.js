@@ -337,7 +337,7 @@ const Main = () => {
         //앱 버전 체크
         const verson = localStorage.getItem('versonName');
 
-        if (!verson || verson < '2.0.0') {
+        if (!verson || (verson !== '2.1.0' && verson !== '2.1.1')) {
             if (process.env.NODE_ENV !== 'development') {
                 setUpdatePopupStatus(true);
             }

@@ -487,6 +487,15 @@ const MyPartyDetail = ({ location }) => {
       })
     );
 
+    const isAuth = localStorage.getItem("isAuth");
+
+    if (isAuth !== "Y") {
+      sessionStorage.setItem("pastPath", "/party/my");
+      setPageTrans('trans toRight');
+      history.push(`/realName/auth?path=/payment`);
+      return
+    }
+
 
     setPageTrans("trans toRight");
     history.push("/payment");
