@@ -7,6 +7,8 @@ import { customApiClient } from '../../../shared/apiClient';
 import { GAEventSubmit, GA_CATEOGRY, GA_SYSTEM_ACTION } from '../../../shared/gaSetting';
 import '../../../styled/css/textEditer.css';
 import { TextMiddle } from '../../../styled/shared';
+import purify from "dompurify";
+
 
 const NoticeDetailPage = ({ location }) => {
 
@@ -69,10 +71,9 @@ const NoticeDetailPage = ({ location }) => {
                             {noticeDetail.createdAt.substr(0, 10)}
                         </div>
                     </div>
-                    <div className="notoRegular ql-editor" dangerouslySetInnerHTML={{ __html: noticeDetail.content }} style={{ marginTop: '0.9688rem', fontSize: '0.8125rem', lineHeight: '1.3125rem', wordBreak: 'keep-all' }} />
+                    <div className="notoRegular ql-editor" dangerouslySetInnerHTML={{ __html: purify.sanitize(noticeDetail.content) }} style={{ marginTop: '0.9688rem', fontSize: '0.8125rem', lineHeight: '1.3125rem', wordBreak: 'keep-all' }} />
                 </div>
             </PageWrap>
-
         </div >
     )
 };

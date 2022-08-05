@@ -5,9 +5,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bootpay-js": "^3.3.3",
+    "dompurify": "^2.3.8",
     "history": "^4.10.1",
     "lodash-es": "^4.17.21",
-    "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-copy-to-clipboard": "^5.1.0",
@@ -23,6 +23,7 @@
     "react-with-gesture": "^4.0.8",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
+    "sass": "^1.54.3",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.2.1"
   },
